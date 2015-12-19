@@ -114,12 +114,12 @@ begin
 		15: oUop = { `inc, `jcb, `null };
 	//BIT
 		16: oUop = { `eof, `bit, `null };
-	//
-		17: oUop = { `inc, `sma, `pc   };  //If not z return
-		18: oUop = { `eof_z,  `nop, `null };
-		19: oUop = { `inc, `srm, `x8   };  //x8 = MEM[pc]
-		20: oUop = { `op,  `sx16r, `pc };  //x16 = pc
-		21: oUop = { `op,`addx16, `x8  };      //x16 = x16 + sign_extend{8'b0,x8}
+	//JRNZ
+		17: oUop = { `inc, `sma, `pc   };
+		18: oUop = { `op,  `nop, `null };
+		19: oUop = { `inc_eof_z,  `srm, `x8 }; 	//If not z return else x8 = MEM[pc]
+		20: oUop = { `op,  `sx16r, `pc };  		//x16 = pc
+		21: oUop = { `op,`addx16, `x8  };       //x16 = x16 + sign_extend{8'b0,x8}
 		22: oUop = { `eof, `spc, `x16  };  		//pc = x16
 
 

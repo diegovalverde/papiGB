@@ -683,6 +683,7 @@
 `define op      4'b0000
 `define inc_eof 4'b1100
 `define inc     4'b1000
+`define inc_eof_z 4'b1101
 `define eof     4'b0100
 `define pred_z  4'b0001
 `define eof_z   4'b0101
