@@ -88,19 +88,25 @@ module tb_simple_dzcpu;
 	begin
 		wait(iReset != 1);
 
-
-
-		if ($time == 1638695)
+		if ($time == 1638805)
 			$finish();
 
 		if (uut.DZCPU.rFlowEnable)
 		begin
-			$fwrite(log,"%05dns %d .",$time, uut.DZCPU.wuPc);
+			$fwrite(log,"%05dns [DZCPU] %d  .",$time, uut.DZCPU.wuPc);
 			case (uut.DZCPU.wuCmd)
 				`nop: $fwrite(log,"nop \n");
 				`sma: $fwrite(log,"sma %h\n", uut.DZCPU.oMCUAddr);
 				`srm: $fwrite(log,"srm %h %h\n", uut.DZCPU.wUopSrc, uut.DZCPU.iMCUData);
 				`smw: $fwrite(log,"smw %h %h\n", uut.DZCPU.oMCUAddr, uut.DZCPU.oMCUData);
+				`bit: $fwrite(log,"bit %h & %b\n", uut.DZCPU.wRegData, uut.DZCPU.wBitMask);
+				`addx16:$fwrite(log,"addx16 %h += %h\n", uut.DZCPU.wX16, uut.DZCPU.wRegData);
+				`spc: $fwrite(log,"spc %h\n", uut.DZCPU.wRegData);
+				`sx16r: $fwrite(log,"sx16r %h\n", uut.DZCPU.wRegData);
+				`sx8r: $fwrite(log,"sx8r %h\n", uut.DZCPU.wRegData);
+				`inc16:$fwrite(log,"inc16 %h\n", uut.DZCPU.wRegData);
+				`dec16: $fwrite(log,"dec16 %h\n", uut.DZCPU.wRegData);
+
 				`z801bop:
 				begin
 					case (uut.DZCPU.iMCUData[7:3])
@@ -113,10 +119,16 @@ module tb_simple_dzcpu;
 			endcase
 		end
 
+		if (uut.MMU.iWe)
+		begin
+			$fwrite(log,"%05dns [MMU] Writting %h @ %h\n",$time, uut.MMU.iData,uut.MMU.iAddr);
+		end
+
+
 		if (uut.DZCPU.wEof )
 		begin
-			$fwrite(log,"%04s %04s %02s %02s %02s %02s %02s %02s %02s\n", "PC", "SP", "B", "C", "D" ,"E", "H", "L", "A");
-			$fwrite(log,"%04x %04x %02x %02x %02x %02x %02x %02x %02x\n", uut.DZCPU.wPc, {uut.DZCPU.wSpH,uut.DZCPU.wSpL}, uut.DZCPU.wB, uut.DZCPU.wC, uut.DZCPU.wD, uut.DZCPU.wE ,uut.DZCPU.wH, uut.DZCPU.wL, uut.DZCPU.wA);
+			$fwrite(log,"\n%04s %04s %02s %02s %02s %02s %02s %02s %02s %02s\n", "PC", "SP", "B", "C", "D" ,"E", "H", "L", "A", "Flags");
+			$fwrite(log,"%04x %04x %02x %02x %02x %02x %02x %02x %02x %b\n", uut.DZCPU.wPc, {uut.DZCPU.wSpH,uut.DZCPU.wSpL}, uut.DZCPU.wB, uut.DZCPU.wC, uut.DZCPU.wD, uut.DZCPU.wE ,uut.DZCPU.wH, uut.DZCPU.wL, uut.DZCPU.wA, uut.DZCPU.wFlags);
 			$fwrite(log,"\n\n\n");
 		end
 	end

@@ -47,7 +47,6 @@ module mmu
 
 		if (iWe)
 		begin
-			$display("%dns Writting %h @ %h",$time, iData,iAddr);
 			if (iAddr[15:13] == 3'b100)		//8000 - 9FFFF
 				rvMem[iAddr[12:0]] = iData;
 		end
