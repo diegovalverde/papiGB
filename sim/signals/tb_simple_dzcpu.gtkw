@@ -1,0 +1,105 @@
+[*]
+[*] GTKWave Analyzer v3.3.58 (w)1999-2014 BSI
+[*] Wed Dec 16 06:39:10 2015
+[*]
+[dumpfile] "/opt/hdd2/google_drive/UCR/GameBoy/sim/tb_simple_dzcpu.vcd"
+[dumpfile_mtime] "Wed Dec 16 06:32:41 2015"
+[dumpfile_size] 51786064
+[savefile] "/opt/hdd2/google_drive/UCR/GameBoy/sim/signals/tb_simple_dzcpu.gtkw"
+[timestart] 1638304300
+[size] 1366 744
+[pos] -1 -1
+*-14.813875 1638369500 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_simple_dzcpu.
+[treeopen] tb_simple_dzcpu.uut.
+[treeopen] tb_simple_dzcpu.uut.DZCPU.
+[sst_width] 223
+[signals_width] 267
+[sst_expanded] 1
+[sst_vpaned_height] 211
+@28
+tb_simple_dzcpu.uut.iClock
+tb_simple_dzcpu.uut.iReset
+@200
+-dzCPU
+@800200
+-dzCPU
+@24
+tb_simple_dzcpu.uut.DZCPU.rCurrentState[7:0]
+@22
+tb_simple_dzcpu.uut.DZCPU.iMCUData[7:0]
+tb_simple_dzcpu.uut.DZCPU.oMCUData[7:0]
+@28
+tb_simple_dzcpu.uut.DZCPU.oMCUwe
+@22
+tb_simple_dzcpu.uut.DZCPU.oMCUAddr[15:0]
+tb_simple_dzcpu.uut.DZCPU.wMcuAdrrSel[3:0]
+tb_simple_dzcpu.uut.DZCPU.wPc[15:0]
+tb_simple_dzcpu.uut.DZCPU.wuPc[7:0]
+@28
+tb_simple_dzcpu.uut.DZCPU.wJcbDetected
+@22
+tb_simple_dzcpu.uut.DZCPU.wUop[11:0]
+@2024
+^1 /opt/hdd2/google_drive/UCR/GameBoy/sim/signals/flow_ids
+tb_simple_dzcpu.uut.DZCPU.wuOpFlowIdx[7:0]
+^2 /opt/hdd2/google_drive/UCR/GameBoy/sim/signals/uop_cmd
+tb_simple_dzcpu.uut.DZCPU.wuCmd[3:0]
+@28
+tb_simple_dzcpu.uut.DZCPU.wIPC
+[color] 6
+tb_simple_dzcpu.uut.DZCPU.wEof
+[color] 3
+tb_simple_dzcpu.uut.DZCPU.rFlowEnable
+tb_simple_dzcpu.uut.DZCPU.rFlagsWe
+@22
+tb_simple_dzcpu.uut.DZCPU.rFlags[7:0]
+@28
+tb_simple_dzcpu.uut.DZCPU.wZ
+tb_simple_dzcpu.uut.DZCPU.wRegData[15:0]
+@c00028
+tb_simple_dzcpu.uut.DZCPU.wBitMask[7:0]
+@28
+(0)tb_simple_dzcpu.uut.DZCPU.wBitMask[7:0]
+(1)tb_simple_dzcpu.uut.DZCPU.wBitMask[7:0]
+(2)tb_simple_dzcpu.uut.DZCPU.wBitMask[7:0]
+(3)tb_simple_dzcpu.uut.DZCPU.wBitMask[7:0]
+(4)tb_simple_dzcpu.uut.DZCPU.wBitMask[7:0]
+(5)tb_simple_dzcpu.uut.DZCPU.wBitMask[7:0]
+(6)tb_simple_dzcpu.uut.DZCPU.wBitMask[7:0]
+(7)tb_simple_dzcpu.uut.DZCPU.wBitMask[7:0]
+@1401200
+-group_end
+@29
+tb_simple_dzcpu.uut.DZCPU.rUopDstRegData[15:0]
+@200
+-Registers
+@22
+tb_simple_dzcpu.uut.DZCPU.wFlags[7:0]
+tb_simple_dzcpu.uut.DZCPU.wSpH[7:0]
+tb_simple_dzcpu.uut.DZCPU.wSpL[7:0]
+tb_simple_dzcpu.uut.DZCPU.wB[7:0]
+tb_simple_dzcpu.uut.DZCPU.wC[7:0]
+tb_simple_dzcpu.uut.DZCPU.wD[7:0]
+@c00022
+tb_simple_dzcpu.uut.DZCPU.wH[7:0]
+@28
+(0)tb_simple_dzcpu.uut.DZCPU.wH[7:0]
+(1)tb_simple_dzcpu.uut.DZCPU.wH[7:0]
+(2)tb_simple_dzcpu.uut.DZCPU.wH[7:0]
+(3)tb_simple_dzcpu.uut.DZCPU.wH[7:0]
+(4)tb_simple_dzcpu.uut.DZCPU.wH[7:0]
+(5)tb_simple_dzcpu.uut.DZCPU.wH[7:0]
+(6)tb_simple_dzcpu.uut.DZCPU.wH[7:0]
+(7)tb_simple_dzcpu.uut.DZCPU.wH[7:0]
+@1401200
+-group_end
+@22
+tb_simple_dzcpu.uut.DZCPU.wL[7:0]
+tb_simple_dzcpu.uut.DZCPU.wA[7:0]
+tb_simple_dzcpu.uut.DZCPU.wX8[7:0]
+tb_simple_dzcpu.uut.DZCPU.wX16[15:0]
+@1000200
+-dzCPU
+[pattern_trace] 1
+[pattern_trace] 0

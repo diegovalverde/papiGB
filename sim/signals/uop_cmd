@@ -1,0 +1,13 @@
+0 nop
+1 sma
+2 srm
+3 jcb
+4 z801bop
+5 smw
+6 dec16
+7 bit
+8 addx16
+9 spc
+10 sx16r
+11 sx8r
+12 inc16

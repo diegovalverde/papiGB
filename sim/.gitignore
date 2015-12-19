@@ -1,0 +1,3 @@
+*.log
+*.vcd
+tb_simple_dzcpu
