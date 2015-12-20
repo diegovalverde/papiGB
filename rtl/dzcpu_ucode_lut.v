@@ -50,6 +50,7 @@ begin
 	`LDHLmr_a: oUopFlowIdx = 8'd33;
 	`LDIOnA: oUopFlowIdx = 8'd36;
 	`LDDEnn: oUopFlowIdx = 8'd43;
+	`LDADEm: oUopFlowIdx = 8'd47;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -158,7 +159,11 @@ begin
 		43: oUop = { `inc, `sma, `pc   };
 		44: oUop = { `inc, `nop, `null };
 		45: oUop = { `op , `srm, `e    };
-		46: oUop = { `inc_eof , `srm, `d    };
+		46: oUop = { `inc_eof , `srm, `d };
+	//LDADEm
+		47: oUop = {`inc, `sma, `de  };
+		48: oUop = {`op, `srm, `a    };
+		49: oUop = {`eof, `sma, `pc  };
 
 	/*
 	//RETI

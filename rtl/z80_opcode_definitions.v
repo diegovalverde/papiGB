@@ -33,7 +33,7 @@
 //  `define
 //  `define  JRn;
 //  `define  ADDHLDE;
-//  `define  LDADEm;
+  `define  LDADEm 8'h1A
 //  `define  DECDE;
 //  `define
 //  `define  INCr_e;
@@ -723,6 +723,7 @@
 `define x8    4'hc
 `define x16   4'hd
 `define io_c  4'he
+`define de    4'hf
 
 
 `define DZCPU_AFTER_RESET 0
