@@ -51,6 +51,7 @@ begin
 	`LDIOnA: oUopFlowIdx = 8'd36;
 	`LDDEnn: oUopFlowIdx = 8'd43;
 	`LDADEm: oUopFlowIdx = 8'd47;
+	`CALLnn: oUopFlowIdx = 8'd50;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -164,7 +165,17 @@ begin
 		47: oUop = {`inc, `sma, `de  };
 		48: oUop = {`op, `srm, `a    };
 		49: oUop = {`eof, `sma, `pc  };
-
+	//CALLnn
+		50: oUop = { `inc, `dec16, `sp  };
+		51: oUop = { `op, `dec16,  `sp  }; //sp -= 2
+		52: oUop = { `op ,`srm,    `x8  }; //x8 = MEM[pc] = literal
+		53: oUop = { `op ,`sx16r,  `pc  };
+		54: oUop = { `op ,`inc16,  `x16 };
+		55: oUop = { `op ,`inc16,  `x16 }; //x16 = pc + 2
+		56: oUop = { `op ,`sma,    `sp  };
+		57: oUop = { `op ,`smw,    `x16 };	//MEM[sp] = pc + 2
+		58: oUop = { `op ,`spc,    `x8 };
+		59: oUop = { `eof ,`sma,   `pc };
 	/*
 	//RETI
 

@@ -268,7 +268,7 @@
   `define  MAPcb  8'hCB
 
 //  //  `define  CALLZnn;
-//  //  `define  CALLnn;
+  `define  CALLnn 8'hCD
 //  //  `define  ADCn;
 //  //  `define  RST08;
 //  //  `define

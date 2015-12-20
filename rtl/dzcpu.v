@@ -175,7 +175,7 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFH ( iClock, iReset, rFlowEnable & rRegWe 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFL ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[5], rUopDstRegData[7:0], wL );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFA ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[6], rUopDstRegData[7:0], wA );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFSPL( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[7], rUopDstRegData[7:0], wSpL );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFSPH( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[8], rUopDstRegData[7:0], wSpH );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFSPH( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[8], (( rRegWriteSelect[7] &  rRegWriteSelect[8])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wSpH );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX8 ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[9], rUopDstRegData[7:0], wX8 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFX16 ( iClock, iReset, rFlowEnable & rX16We, rUopDstRegData[15:0], wX16 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFFLAGS( iClock, iReset, rFlowEnable & rFlagsWe, rFlags, wFlags );
@@ -207,7 +207,7 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MCUDATA_OUT
 	.I0(wB), .I1(wC), .I2(wD), .I3(wE),
 	.I4(wH), .I5(wL), .I6(wL), .I7(wA),
 	.I8(wH), .I9(wL), .I10(wL), .I11(wA),
-	.I12(wH), .I13(wL), .I14(wL), .I15(wA),
+	.I12(wH), .I13(wX16), .I14(wL), .I15(wA),
 	.O( oMCUData )
 );
 
@@ -225,6 +225,7 @@ begin
 		`a:    rRegWriteSelect = 11'b00001000000;
 		`spl:  rRegWriteSelect = 11'b00010000000;
 		`sph:  rRegWriteSelect = 11'b00100000000;
+		`sp:   rRegWriteSelect = 11'b00110000000;
 		`x8:   rRegWriteSelect = 11'b01000000000;
 		`x16:  rRegWriteSelect = 11'b10000000000;
 		default: rRegWriteSelect = 11'b0;

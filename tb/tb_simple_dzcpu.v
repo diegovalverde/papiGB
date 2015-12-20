@@ -128,6 +128,7 @@ module tb_simple_dzcpu;
 			36: $fwrite(log,"=== LDIOnA  === \n");
 			43: $fwrite(log,"=== LDDEnn  === \n");
 			47: $fwrite(log,"=== LDADEm  === \n");
+			50: $fwrite(log,"=== CALLnn ===\n");
 			default:
 				$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
 			endcase
