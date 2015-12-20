@@ -43,6 +43,11 @@ begin
 	`LDHLDA: oUopFlowIdx = 8'd9;
 	`MAPcb:  oUopFlowIdx = 8'd13;
 	`JRNZn:  oUopFlowIdx = 8'd17;
+	`LDrn_c: oUopFlowIdx = 8'd23;
+	`LDrn_a: oUopFlowIdx = 8'd26;
+	`LDIOCA: oUopFlowIdx = 8'd29;
+	`INCr_c: oUopFlowIdx = 8'd32;
+	`LDHLmr_a: oUopFlowIdx = 8'd33;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -121,8 +126,23 @@ begin
 		20: oUop = { `op,  `sx16r, `pc };  		//x16 = pc
 		21: oUop = { `op,`addx16, `x8  };       //x16 = x16 + sign_extend{8'b0,x8}
 		22: oUop = { `eof, `spc, `x16  };  		//pc = x16
-
-
+	//LDrn_c
+		23: oUop = {`inc, `sma, `pc};
+		24: oUop = { `inc,  `nop, `null };
+		25: oUop = {`eof, `srm,  `c };
+	//LDrn_a
+		26: oUop = {`inc, `sma, `pc};
+		27: oUop = { `inc,  `nop, `null };
+		28: oUop = {`eof, `srm,  `a };
+	//LDIOCA
+		29: oUop = {`op, `sma, `io_c };
+		30: oUop = {`op, `smw, `a };
+		31: oUop = {`inc_eof, `sma, `pc };
+	//INCR_C
+		32: oUop = {`inc_eof, `inc16, `c };
+	//LDHLmr_a
+		33: oUop = {`inc, `sma, `hl};
+		34: oUop = {`eof,  `smw, `a};
 
 
 	/*

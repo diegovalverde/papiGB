@@ -15,9 +15,9 @@
 //  `define  LDABCm;
 //  `define  DECBC;
 
-//  `define  INCr_c;
+`define  INCr_c 8'hc
 //  `define  DECr_c;
-//  `define  LDrn_c;
+`define  LDrn_c 8'he
 //  `define  RRCA;
 
 //  10
@@ -67,22 +67,22 @@
   `define  LDSPnn  8'h31
   `define  LDHLDA  8'h32
 //  `define  INCSP;
-//  `define
+
 //  `define  INCHLm;
 //  `define  DECHLm;
 //  `define  LDHLmn;
 //  `define  SCF;
-//  `define
+
 //  `define  JRCn;
 //  `define  ADDHLSP;
 //  `define  LDAHLD;
 //  `define  DECSP;
-//  `define
+
 //  `define  INCr_a;
 //  `define  DECr_a;
-//  `define  LDrn_a;
+    `define  LDrn_a 8'h3e
 //  `define  CCF;
-//  `define
+
 //  40
 //  `define  LDrr_bb;
 //  `define  LDrr_bc;
@@ -155,7 +155,7 @@
 //  `define  LDHLmr_h;
 //  `define  LDHLmr_l;
 //  `define  HALT;
-//  `define  LDHLmr_a;
+  `define  LDHLmr_a 8'h77
 //  `define
 //  `define  LDrr_ab;
 //  `define  LDrr_ac;
@@ -296,7 +296,7 @@
 //  E0
 //  //  `define  LDIOnA;
 //  //  `define  POPHL;
-//  //  `define  LDIOCA;
+  `define  LDIOCA 8'hE2
 //  //  `define  XX;
 //  //  `define
 //  //  `define  XX;
@@ -722,6 +722,7 @@
 `define sph   4'hb
 `define x8    4'hc
 `define x16   4'hd
+`define io_c  4'he
 
 
 `define DZCPU_AFTER_RESET 0

@@ -191,6 +191,7 @@ MUXFULLPARALELL_4SEL_GENERIC # (16) MUX_MCUADR
 	.I0({8'b0,wB}), .I1({8'b0,wC}), .I2({8'b0,wD}), .I3({8'b0,wE}),
 	.I4({8'b0,wH}), .I5({8'b0,wL}), .I6({wH,wL}), 	.I7({8'b0,wA}),
 	.I8(wPc), .I9({wSpH,wSpL}), .I10({8'b0,wX8}),
+	.I14( {8'hff,wC}), //Special case for LDIOCA
 	.O( oMCUAddr )
 );
 
@@ -200,6 +201,7 @@ MUXFULLPARALELL_4SEL_GENERIC # (16) MUX_REGDATA
 	.I0({8'b0,wB}), .I1({8'b0,wC}), .I2({8'b0,wD}), .I3({8'b0,wE}),
 	.I4({8'b0,wH}), .I5({8'b0,wL}), .I6({wH,wL}),	.I7({8'b0,wA}),
 	.I8(wPc), .I9({wSpH,wSpL}), .I12({8'b0,wX8}), .I13( wX16 ),
+	.I14( {8'hff,wC}), //Special case for LDIOCA
 	.O( wRegData )
 );
 
@@ -302,6 +304,20 @@ begin
 			rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
+
+		`inc16:
+		begin
+			oMCUwe              = 1'b0;
+			rRegSelect          = wUop[3:0];
+			rSetMCOAddr         = 1'b0;
+			rRegWe              = 1'b1;
+			rFlagsWe            = 1'b1;
+			rFlags              = {wZ,7'b0};
+			rUopDstRegData      = wRegData  + 1'b1;
+			rX16We              = 1'b1;
+			rOverWritePc        = 1'b0;
+		end
+
 
 		`addx16:
 		begin
