@@ -30,6 +30,7 @@ module mmu
 
 );
 	wire [7:0] wBiosData;
+	wire wInBios, wInCartridgeBank0;
 
 	bios BIOS
 	(
@@ -38,7 +39,8 @@ module mmu
 		.oData( wBiosData  )
 	);
 
-	reg [7:0] rvMem[8192:0];		//TODO: This has to go into SRAM!!!
+	reg [7:0] rCartridgeBank0[511:0]; 	//TODO: This has to go into SRAM!!!
+	reg [7:0] rvMem[8192:0];			//TODO: This has to go into SRAM!!!
 
 
 	always @ (posedge iClock)
@@ -52,9 +54,10 @@ module mmu
 		end
 	end
 
-	assign oData = wBiosData;
+	assign oData = (wInBios) ? wBiosData : rCartridgeBank0[iAddr];
 
 
-
+	assign wInBios           = (iAddr & 16'hff00) ? 1'b0 : 1'b1; //0x000 - 0x0100, also remember to use 0xff50, this unmaps bios ROM
+	assign wInCartridgeBank0 = (iAddr & 16'hc000) ? 1'b0 : 1'b1; //0x100 - 0x3fff
 
 endmodule

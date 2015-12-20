@@ -1,18 +1,17 @@
 [*]
 [*] GTKWave Analyzer v3.3.58 (w)1999-2014 BSI
-[*] Wed Dec 16 06:39:10 2015
+[*] Sun Dec 20 20:43:44 2015
 [*]
-[dumpfile] "/opt/hdd2/google_drive/UCR/GameBoy/sim/tb_simple_dzcpu.vcd"
-[dumpfile_mtime] "Wed Dec 16 06:32:41 2015"
-[dumpfile_size] 51786064
-[savefile] "/opt/hdd2/google_drive/UCR/GameBoy/sim/signals/tb_simple_dzcpu.gtkw"
-[timestart] 1638304300
+[dumpfile] "/opt/hdd2/workspace/projects/papiGB/sim/tb_simple_dzcpu.vcd"
+[dumpfile_mtime] "Sun Dec 20 20:28:37 2015"
+[dumpfile_size] 53479033
+[savefile] "/opt/hdd2/workspace/projects/papiGB/sim/signals/tb_simple_dzcpu.gtkw"
+[timestart] 1639844300
 [size] 1366 744
 [pos] -1 -1
-*-14.813875 1638369500 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-14.813875 1639905000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb_simple_dzcpu.
 [treeopen] tb_simple_dzcpu.uut.
-[treeopen] tb_simple_dzcpu.uut.DZCPU.
 [sst_width] 223
 [signals_width] 267
 [sst_expanded] 1
@@ -41,9 +40,10 @@ tb_simple_dzcpu.uut.DZCPU.wJcbDetected
 @22
 tb_simple_dzcpu.uut.DZCPU.wUop[11:0]
 @2024
-^1 /opt/hdd2/google_drive/UCR/GameBoy/sim/signals/flow_ids
+^1 /opt/hdd2/workspace/projects/papiGB/sim/signals/flow_ids
 tb_simple_dzcpu.uut.DZCPU.wuOpFlowIdx[7:0]
-^2 /opt/hdd2/google_drive/UCR/GameBoy/sim/signals/uop_cmd
+@2025
+^2 /opt/hdd2/workspace/projects/papiGB/sim/signals/uop_cmd
 tb_simple_dzcpu.uut.DZCPU.wuCmd[3:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.wIPC
@@ -70,7 +70,7 @@ tb_simple_dzcpu.uut.DZCPU.wBitMask[7:0]
 (7)tb_simple_dzcpu.uut.DZCPU.wBitMask[7:0]
 @1401200
 -group_end
-@29
+@28
 tb_simple_dzcpu.uut.DZCPU.rUopDstRegData[15:0]
 @200
 -Registers
@@ -101,5 +101,16 @@ tb_simple_dzcpu.uut.DZCPU.wX8[7:0]
 tb_simple_dzcpu.uut.DZCPU.wX16[15:0]
 @1000200
 -dzCPU
+@800200
+-MMU
+@22
+tb_simple_dzcpu.uut.MMU.iAddr[15:0]
+@28
+tb_simple_dzcpu.uut.MMU.wInBios
+tb_simple_dzcpu.uut.MMU.wInCartridgeBank0
+@22
+tb_simple_dzcpu.uut.MMU.oData[7:0]
+@1000200
+-MMU
 [pattern_trace] 1
 [pattern_trace] 0

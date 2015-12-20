@@ -60,6 +60,26 @@ module tb_simple_dzcpu;
 		iClock = 0;
 		iReset = 0;
 
+		//Add dummy game cartrige header
+		uut.MMU.rCartridgeBank0[16'h100] = 8'h00;
+		uut.MMU.rCartridgeBank0[16'h101] = 8'hc3;
+		uut.MMU.rCartridgeBank0[16'h102] = 8'h50;
+		uut.MMU.rCartridgeBank0[16'h103] = 8'h01;
+		uut.MMU.rCartridgeBank0[16'h104] = 8'hce;
+		uut.MMU.rCartridgeBank0[16'h105] = 8'hed;
+		uut.MMU.rCartridgeBank0[16'h106] = 8'h66;
+		uut.MMU.rCartridgeBank0[16'h108] = 8'h66;
+		uut.MMU.rCartridgeBank0[16'h109] = 8'h00;
+		uut.MMU.rCartridgeBank0[16'h10a] = 8'h0C;
+		uut.MMU.rCartridgeBank0[16'h10b] = 8'h00;
+		uut.MMU.rCartridgeBank0[16'h10c] = 8'h0D;
+		uut.MMU.rCartridgeBank0[16'h10d] = 8'h00;
+		uut.MMU.rCartridgeBank0[16'h10e] = 8'h08;
+		uut.MMU.rCartridgeBank0[16'h10f] = 8'h00;
+		uut.MMU.rCartridgeBank0[16'h110] = 8'h11;
+		uut.MMU.rCartridgeBank0[16'h111] = 8'h00;
+		uut.MMU.rCartridgeBank0[16'h112] = 8'h1f;
+
 		// Wait 100 ns for global reset to finish
 		#100;
 		iReset = 1;
@@ -107,6 +127,7 @@ module tb_simple_dzcpu;
 			33: $fwrite(log,"=== LDHLmr_a === \n");
 			36: $fwrite(log,"=== LDIOnA  === \n");
 			43: $fwrite(log,"=== LDDEnn  === \n");
+			47: $fwrite(log,"=== LDADEm  === \n");
 			default:
 				$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
 			endcase
