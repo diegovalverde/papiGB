@@ -88,8 +88,26 @@ module tb_simple_dzcpu;
 	begin
 		wait(iReset != 1);
 
-		if ($time == 1638805)
+		if ($time == 1639905)
 			$finish();
+
+		if (uut.DZCPU.rCurrentState == `DZCPU_START_FLOW)
+		begin
+			case (uut.DZCPU.wuOpFlowIdx)
+			1: $fwrite(log,"=== LDSPnn === \n");
+			5: $fwrite(log,"=== LDHLnn === \n");
+			9: $fwrite(log,"=== LDHLDA === \n");
+			13:  $fwrite(log,"=== MAPcb === \n");
+			17:  $fwrite(log,"=== JRNZn === \n");
+			23: $fwrite(log,"=== LDrn_c === \n");
+			26: $fwrite(log,"=== LDrn_a === \n");
+			29: $fwrite(log,"=== LDIOCA === \n");
+			32: $fwrite(log,"=== INCr_c === \n");
+			33: $fwrite(log,"=== LDHLmr_a === \n");
+			default:
+				$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
+			endcase
+		end
 
 		if (uut.DZCPU.rFlowEnable)
 		begin
