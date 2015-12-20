@@ -141,11 +141,17 @@ begin
 	//INCR_C
 		32: oUop = {`inc_eof, `inc16, `c };
 	//LDHLmr_a
-		33: oUop = {`inc, `sma, `hl};
-		34: oUop = {`op, `smw, `a};
-		35: oUop = {`eof, `sma, `pc};
-
-
+		33: oUop = {`inc, `sma, `hl  };
+		34: oUop = {`op, `smw, `a    };
+		35: oUop = {`eof, `sma, `pc  };
+	//LDIOnA
+		36: oUop = { `inc, `sma, `pc  };
+		37: oUop = { `op ,`sx8r, `c   };
+		38: oUop = { `op ,`srm, `c    };
+		39: oUop = { `op, `sma, `io_c };
+		40: oUop = { `op, `smw, `a    };
+		41: oUop = { `inc, `srx8, `c  };
+		42: oUop = { `eof, `sma, `pc  };
 	/*
 	//RETI
 

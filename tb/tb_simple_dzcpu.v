@@ -47,7 +47,7 @@ module tb_simple_dzcpu;
 	end
 	//---------------------------------------------
 
-	integer log,i;
+	integer log,i,Pc;
 
 	initial begin
 		// Initialize Inputs
@@ -88,11 +88,12 @@ module tb_simple_dzcpu;
 	begin
 		wait(iReset != 1);
 
-		if ($time == 1639905)
+		if ($time == 1649905)
 			$finish();
 
 		if (uut.DZCPU.rCurrentState == `DZCPU_START_FLOW)
 		begin
+			Pc = uut.DZCPU.wPc;
 			case (uut.DZCPU.wuOpFlowIdx)
 			1: $fwrite(log,"=== LDSPnn === \n");
 			5: $fwrite(log,"=== LDHLnn === \n");
@@ -145,8 +146,8 @@ module tb_simple_dzcpu;
 
 		if (uut.DZCPU.wEof )
 		begin
-			$fwrite(log,"\n%04s %04s %02s %02s %02s %02s %02s %02s %02s %02s\n", "PC", "SP", "B", "C", "D" ,"E", "H", "L", "A", "Flags");
-			$fwrite(log,"%04x %04x %02x %02x %02x %02x %02x %02x %02x %b\n", uut.DZCPU.wPc, {uut.DZCPU.wSpH,uut.DZCPU.wSpL}, uut.DZCPU.wB, uut.DZCPU.wC, uut.DZCPU.wD, uut.DZCPU.wE ,uut.DZCPU.wH, uut.DZCPU.wL, uut.DZCPU.wA, uut.DZCPU.wFlags);
+			$fwrite(log,"\n       %04s %04s %02s %02s %02s %02s %02s %02s %02s %02s\n", "PC", "SP", "B", "C", "D" ,"E", "H", "L", "A", "Flags");
+			$fwrite(log,"[regs] %04x %04x %02x %02x %02x %02x %02x %02x %02x %b\n", Pc, {uut.DZCPU.wSpH,uut.DZCPU.wSpL}, uut.DZCPU.wB, uut.DZCPU.wC, uut.DZCPU.wD, uut.DZCPU.wE ,uut.DZCPU.wH, uut.DZCPU.wL, uut.DZCPU.wA, uut.DZCPU.wFlags);
 			$fwrite(log,"\n\n\n");
 		end
 	end

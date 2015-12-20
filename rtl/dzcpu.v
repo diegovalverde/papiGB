@@ -49,7 +49,6 @@ assign wInsnR2 = iMCUData[2:0];
 assign wInsnR1 = iMCUData[5:3];
 assign wInsnOp = {iMCUData[7:0],iMCUData[2:0]};
 assign wUopSrc = wUop[3:0];
-
 assign wIPC    = wUop[11];		//Increment Macro Insn program counter
 assign wPred   = wUop[9:8];
 assign wuCmd   = wUop[7:4];
@@ -105,8 +104,6 @@ UPCOUNTER_POSEDGE # (16) PC
 	.Q(       wPc                   )
 );
 
-
-
 //--------------------------------------------------------
 // Current State Logic //
 reg [7:0]    rCurrentState,rNextState;
@@ -121,7 +118,6 @@ end
 
 always @( * )
  begin
-
   case (rCurrentState)
   //----------------------------------------
   `DZCPU_AFTER_RESET:

@@ -293,8 +293,8 @@
 //  //  `define  SBCn;
 //  //  `define  RST18;
 //  //  `define
-//  E0
-//  //  `define  LDIOnA;
+
+  `define  LDIOnA 8'hE0
 //  //  `define  POPHL;
   `define  LDIOCA 8'hE2
 //  //  `define  XX;
@@ -702,7 +702,7 @@
 `define sx16r    4'ha
 `define sx8r     4'hb
 `define inc16    4'hc
-
+`define srx8     4'hd
 `define null 4'h0
 
 
