@@ -105,6 +105,8 @@ module tb_simple_dzcpu;
 			29: $fwrite(log,"=== LDIOCA === \n");
 			32: $fwrite(log,"=== INCr_c === \n");
 			33: $fwrite(log,"=== LDHLmr_a === \n");
+			36: $fwrite(log,"=== LDIOnA  === \n");
+			43: $fwrite(log,"=== LDDEnn  === \n");
 			default:
 				$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
 			endcase
@@ -125,6 +127,7 @@ module tb_simple_dzcpu;
 				`sx8r: $fwrite(log,"sx8r %h\n", uut.DZCPU.wRegData);
 				`inc16:$fwrite(log,"inc16 %h\n", uut.DZCPU.wRegData);
 				`dec16: $fwrite(log,"dec16 %h\n", uut.DZCPU.wRegData);
+				`srx8:$fwrite(log,"srx8 %h\n", uut.DZCPU.wRegData);
 
 				`z801bop:
 				begin

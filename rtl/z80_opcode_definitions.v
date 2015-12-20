@@ -22,7 +22,7 @@
 
 //  10
 //  `define  DJNZn;
-//  `define  LDDEnn;
+`define  LDDEnn 8'h11
 //  `define  LDDEmA;
 //  `define  INCDE;
 //  `define
