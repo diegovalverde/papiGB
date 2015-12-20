@@ -142,7 +142,8 @@ begin
 		32: oUop = {`inc_eof, `inc16, `c };
 	//LDHLmr_a
 		33: oUop = {`inc, `sma, `hl};
-		34: oUop = {`eof,  `smw, `a};
+		34: oUop = {`op, `smw, `a};
+		35: oUop = {`eof, `sma, `pc};
 
 
 	/*
