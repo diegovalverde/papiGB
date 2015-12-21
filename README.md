@@ -28,6 +28,7 @@ Simulations automatically generate a VCD dump file. To suppress the dump file (f
 
 `make view`
 
-##Cleaning up simulation files. This also erases the vcd and the log files!
+##Cleaning up simulation files.
+This also erases the vcd and the log files!
 
 `make clean`
