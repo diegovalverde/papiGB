@@ -54,8 +54,21 @@ module mmu
 	);
 
 	reg [7:0] rCartridgeBank0[511:0]; 	//TODO: This has to go into SRAM!!!
-	reg [7:0] rvMem[8192:0];			//TODO: This has to go into SRAM!!!
+	//reg [7:0] rvMem[8192:0];			//TODO: This has to go into SRAM!!!
 	wire [3:0] wMemSel_H, wMemSel_L;
+	wire [7:0] wReadCartridgeBank0, wReadVmem, wReadData_L;
+
+
+//TODO: This has to go into SRAM!!!
+RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(8192) ) VMEM
+(
+ .Clock( iClock ),
+ .iWriteEnable( wWeVRam       ),
+ .iReadAddress0( iAddr[12:0]  ),
+ .iWriteAddress( iAddr[12:0]  ),
+ .iDataIn(       iData        ),
+ .oDataOut0( wReadVmem        )
+);
 
 //A high-speed area of 128 bytes of RAM.
 //Will use FPGA internal mem since most of the interaction between
@@ -113,6 +126,48 @@ MUXFULLPARALELL_4SEL_GENERIC # (4) MUX_MEMSEL_L
 	.O( wMemSel_L )
 );
 
+
+MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_L
+(
+	.Sel( iAddr[11:8] ),
+	//ECHO
+	/*.I0(ADDR_ECHO), .I1(ADDR_ECHO),
+	.I2(ADDR_ECHO), .I3(ADDR_ECHO),
+	.I4(ADDR_ECHO), .I5(ADDR_ECHO),
+	.I6(ADDR_ECHO), .I7(ADDR_ECHO),
+	.I8(ADDR_ECHO), .I9(ADDR_ECHO),
+	.I10(ADDR_ECHO), .I11(ADDR_ECHO),
+	.I12(ADDR_ECHO), .I13(ADDR_ECHO),*/
+	//OAM
+	//.I14(ADDR_OAM),
+	//Zeropage RAM, I/O, interrupts
+	.I15(wZeroPageDataOut),
+
+	.O( wReadData_L )
+);
+
+MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_H
+(
+	.Sel( iAddr[15:12] ),
+	//ROM Bank 0
+	.I0(wReadCartridgeBank0), .I1(wReadCartridgeBank0),
+	.I2(wReadCartridgeBank0), .I3(wReadCartridgeBank0),
+	.I4(wReadCartridgeBank0), .I5(wReadCartridgeBank0),
+	.I6(wReadCartridgeBank0), .I7(wReadCartridgeBank0),
+
+	//VIDEO RAM
+	.I8(wReadVmem), .I9(wReadVmem),
+
+	//External RAM
+	//.I10(ADDR_EXT_RAM), .I11(ADDR_EXT_RAM),
+	// Work RAM and Echo
+	//.I12( ADDR_WORK_ECHO), .I13(ADDR_WORK_ECHO), .I14(ADDR_WORK_ECHO),
+	//Extended Regions
+	.I15( wReadData_L ),
+
+	.O( oData )
+);
+
 //ZeroPage FF80 - FFFF
 assign wWeZeroPage = ( iWe & wMemSel_H[addr_high_pages] & wMemSel_L[2] & iAddr[7] ) ? 1'b1 : 1'b0;
 assign wWeVRam     = ( iWe & wMemSel_H[addr_vram] ) ? 1'b1 : 1'b0;
@@ -120,12 +175,13 @@ assign wWeVRam     = ( iWe & wMemSel_H[addr_vram] ) ? 1'b1 : 1'b0;
 	always @ (posedge iClock)
 	begin
 
-	if (wWeVRam)//iAddr[15:13] == 3'b100)		//8000 - 9FFFF
-		rvMem[iAddr[12:0]] = iData;
+	//if (wWeVRam)//iAddr[15:13] == 3'b100)		//8000 - 9FFFF
+	//	rvMem[iAddr[12:0]] = iData;
 
 	end
 
-	assign oData = (wInBios) ? wBiosData : rCartridgeBank0[iAddr];
+	assign wReadCartridgeBank0 = (wInBios) ? wBiosData : rCartridgeBank0[iAddr];
+
 
 
 	assign wInBios           = (iAddr & 16'hff00) ? 1'b0 : 1'b1; //0x000 - 0x0100, also remember to use 0xff50, this unmaps bios ROM

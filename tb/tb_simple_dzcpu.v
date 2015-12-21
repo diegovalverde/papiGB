@@ -90,13 +90,25 @@ module tb_simple_dzcpu;
 		//#500
 		#5000000
 
+
+		$fwrite(log,"\n\n=== PAGEZERO MEMORY ===\n\n");
+		for (i = 16'hff80; i <= 16'hffff; i = i + 1)
+		begin
+			if (i % 16 == 0)
+				$fwrite(log,"\n %h : ", i );
+
+			$fwrite(log,"%02h ",uut.MMU.ZERO_PAGE.Ram[i-16'hff80]);
+		end
+
+		//Dump the VMEM
+		$fwrite(log,"\n\n=== VIDEO MEMORY ===\n\n");
 		for (i = 0; i <= (16'h9fff-16'h8000); i = i + 1)
 		begin
 
 			if (i % 16 == 0)
 				$fwrite(log,"\n %h : ", (16'h8000 + i ));
 
-			$fwrite(log,"%02h ",uut.MMU.rvMem[i]);
+			$fwrite(log,"%02h ",uut.MMU.VMEM.Ram[i]);
 		end
 		$fwrite(log,"Simulation ended at time %dns\n", $time);
 		$fclose( log );
@@ -167,7 +179,17 @@ module tb_simple_dzcpu;
 
 		if (uut.MMU.iWe)
 		begin
-			$fwrite(log,"%05dns [MMU] Writting %h @ %h\n",$time, uut.MMU.iData,uut.MMU.iAddr);
+			$fwrite(log,"%05dns [MMU] ", $time);
+
+			if (uut.MMU.iAddr >= 16'hff00 && uut.MMU.iAddr <= 16'hff7f )
+				$fwrite(log," [IO] ");
+
+			if (uut.MMU.iAddr >= 16'hff80 && uut.MMU.iAddr <= 16'hffff )
+				$fwrite(log," [PAGEZERO] ");
+
+
+
+			 $fwrite(log,"Writting %h @ %h\n", uut.MMU.iData,uut.MMU.iAddr);
 		end
 
 
