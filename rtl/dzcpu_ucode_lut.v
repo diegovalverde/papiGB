@@ -60,6 +60,7 @@ begin
 	`LDHLIA: oUopFlowIdx = 8'd78;
 	`INCHL:  oUopFlowIdx = 8'd82;
 	`RET:    oUopFlowIdx = 8'd83;
+	`INCDE:  oUopFlowIdx = 8'd89;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -223,6 +224,8 @@ begin
 		86: oUop = { `nop , `spc, `x8   };
 		87: oUop = { `nop, `inc16, `sp };
 		88: oUop = { `eof ,`sma,  `pc };
+	//INCDE
+		89: oUop = { `inc_eof, `inc16, `de };
 	/*
 	//RETI
 

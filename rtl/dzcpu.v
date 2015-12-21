@@ -169,7 +169,7 @@ reg [10:0] rRegWriteSelect;
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFB ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[0], rUopDstRegData[7:0], wB );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFC ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[1], rUopDstRegData[7:0], wC );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFD ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[2], rUopDstRegData[7:0], wD );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFD ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[2], (( rRegWriteSelect[2] &  rRegWriteSelect[3])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wD );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFE ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[3], rUopDstRegData[7:0], wE );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFH ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[4], (( rRegWriteSelect[4] &  rRegWriteSelect[5])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wH );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFL ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[5], rUopDstRegData[7:0], wL );
@@ -221,6 +221,7 @@ begin
 		`c:    rRegWriteSelect = 11'b00000000010;
 		`d:    rRegWriteSelect = 11'b00000000100;
 		`e:    rRegWriteSelect = 11'b00000001000;
+		`de:   rRegWriteSelect = 11'b00000001100;
 		`h:    rRegWriteSelect = 11'b00000010000;
 		`l:    rRegWriteSelect = 11'b00000100000;
 		`hl:   rRegWriteSelect = 11'b00000110000;
