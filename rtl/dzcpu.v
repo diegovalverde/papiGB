@@ -33,7 +33,7 @@ module dzcpu
 );
 wire[15:0]  wPc, wRegData, wUopSrc, wX16, wInitialPc ;
 wire [7:0]  wuPc, wuOpBasicFlowIdx,wuOpExtendedFlowIdx, wuOpFlowIdx, wBitMask, wX8;
-wire        wIPC,wEof, wZ, wCarry;
+wire        wIPC,wEof, wZ, wN, wCarry;
 wire [2:0]  wInsnR1, wInsnR2, wInsnOp;
 wire [11:0] wUop;
 wire [1:0]  wPred;
@@ -236,6 +236,7 @@ begin
 end
 
 assign wZ = (rUopDstRegData == 16'b0) ? 1'b1 : 1'b0;
+assign wN = (rUopDstRegData[15] == 1'b1) ? 1'b1 : 1'b0;
 
 
 always @ ( * )
@@ -304,7 +305,7 @@ begin
 			rRegWe              = 1'b1;
 			rFlagsWe            = 1'b1;
 			rWriteSelect        = wUopSrc;
-			rFlags              = {wZ,7'b0};
+			rFlags              = {wZ,wN,6'b0};
 			rUopDstRegData      = wRegData - 16'd1;
 			rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
@@ -324,6 +325,19 @@ begin
 			rOverWritePc        = 1'b0;
 		end
 
+		`subx16:
+		begin
+			oMCUwe              = 1'b0;
+			rRegSelect          = wUop[3:0];
+			rSetMCOAddr         = 1'b0;
+			rRegWe              = 1'b0;
+			rWriteSelect        = wUopSrc;
+			rFlagsWe            = 1'b1;
+			rFlags              = {wZ,wN,6'b0};
+			rUopDstRegData      = wX16 - {{8{wRegData[7]}},wRegData[7:0]};	//sign extended 2'complement
+			rX16We              = 1'b1;
+			rOverWritePc        = 1'b0;
+		end
 
 		`addx16:
 		begin

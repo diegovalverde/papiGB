@@ -150,6 +150,7 @@ module tb_simple_dzcpu;
 			82: $fwrite(log,"=== INCHL ===\n");
 			83: $fwrite(log,"=== RET ===\n");
 			89: $fwrite(log,"=== INCDE ===\n");
+			90: $fwrite(log,"=== CPn ===\n");
 			default:
 				$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
 			endcase
@@ -173,6 +174,7 @@ module tb_simple_dzcpu;
 				`dec16: $fwrite(log,"dec16 %h\n", uut.DZCPU.wRegData);
 				`srx8:$fwrite(log,"srx8 %h\n", uut.DZCPU.wRegData);
 				`shl: $fwrite(log,"shl %h << 1\n", uut.DZCPU.wRegData );
+				`subx16: $fwrite(log,"subx16 %h -= %h\n", uut.DZCPU.wX16, uut.DZCPU.wRegData);
 
 				`z801bop:
 				begin

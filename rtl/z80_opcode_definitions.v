@@ -329,14 +329,9 @@
 //  //  `define  XX;
 //  //  `define  LDAmm;
 //  //  `define  EI;
-//  //  `define
-//  //  `define  XX;
-//  //  `define  XX;
-//  //  `define  CPn;
+ `define  CPn 8'hFE
 //  //  `define  RST38
-//  //  `define  ];
-//  //  `define
-//  //  `define  Z80._cbmap  =  [
+
 //  CB00
 //  //  `define  RLCr_b;
 //  //  `define  RLCr_c;
@@ -704,6 +699,7 @@
 `define inc16    4'hc
 `define srx8     4'hd
 `define shl      4'he
+`define subx16   4'hf
 
 `define null 4'h0
 

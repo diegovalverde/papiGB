@@ -61,6 +61,7 @@ begin
 	`INCHL:  oUopFlowIdx = 8'd82;
 	`RET:    oUopFlowIdx = 8'd83;
 	`INCDE:  oUopFlowIdx = 8'd89;
+	`CPn:    oUopFlowIdx = 8'd90;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -226,6 +227,12 @@ begin
 		88: oUop = { `eof ,`sma,  `pc };
 	//INCDE
 		89: oUop = { `inc_eof, `inc16, `de };
+	//CPn
+		90: oUop = { `inc, `sx16r, `a };
+		91: oUop = { `op, `nop, `null };
+		92: oUop = { `op, `srm, `x8   };
+		93: oUop = { `inc_eof, `subx16, `x8   };	//x16 = x16 - x8 -> a = a - lit
+
 	/*
 	//RETI
 
