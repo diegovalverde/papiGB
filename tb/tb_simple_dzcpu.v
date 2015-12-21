@@ -148,6 +148,7 @@ module tb_simple_dzcpu;
 			77:$fwrite(log,"=== DECr_b ===\n");
 			78: $fwrite(log,"=== LDHLIA ===\n");
 			82: $fwrite(log,"=== INCHL ===\n");
+			83: $fwrite(log,"=== RET ===\n");
 			default:
 				$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
 			endcase

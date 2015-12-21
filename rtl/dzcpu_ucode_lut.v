@@ -59,6 +59,7 @@ begin
 	`DECr_b: oUopFlowIdx = 8'd77;
 	`LDHLIA: oUopFlowIdx = 8'd78;
 	`INCHL:  oUopFlowIdx = 8'd82;
+	`RET:    oUopFlowIdx = 8'd83;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -215,6 +216,13 @@ begin
 		81: oUop = {`eof, `sma, `pc  };
 	//INCHL
 		82: oUop = { `inc_eof ,`inc16,  `hl };
+	//RET
+		83: oUop = { `nop ,`sma,  `sp };
+		84: oUop = { `nop, `inc16, `sp };
+		85: oUop = { `nop , `srm, `x8   };
+		86: oUop = { `nop , `spc, `x8   };
+		87: oUop = { `nop, `inc16, `sp };
+		88: oUop = { `eof ,`sma,  `pc };
 	/*
 	//RETI
 
