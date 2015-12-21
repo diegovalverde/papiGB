@@ -31,7 +31,7 @@ module dzcpu
 	output wire [15:0] oMCUAddr,
 	output reg         oMCUwe
 );
-wire[15:0]  wPc, wRegData, wUopSrc, wX16, wInitialPc ;
+wire[15:0]  wPc, wRegData, wUopSrc, wX16, wInitialPc,  wWriteSelect ;
 wire [7:0]  wuPc, wuOpBasicFlowIdx,wuOpExtendedFlowIdx, wuOpFlowIdx, wBitMask, wX8;
 wire        wIPC,wEof,wZ;
 wire [2:0]  wInsnR1, wInsnR2, wInsnOp;
@@ -211,10 +211,11 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MCUDATA_OUT
 	.O( oMCUData )
 );
 
-
+//Consider the special case of ldrr
+assign wWriteSelect = (wuCmd == `z801bop && iMCUData[7:6] == 2'b01) ? iMCUData[5:3] : wUopSrc;
 always @ ( * )
 begin
-	case (wUopSrc)
+	case (wWriteSelect)
 		`b:    rRegWriteSelect = 11'b00000000001;
 		`c:    rRegWriteSelect = 11'b00000000010;
 		`d:    rRegWriteSelect = 11'b00000000100;
@@ -430,6 +431,7 @@ begin
 	case (iMCUData[7:3])
 		5'b10100:	rZ80Result = wA & wRegData; //AND
 		5'b10101:	rZ80Result = wA ^ wRegData; //XOR
+		5'b01000, 5'b01001, 5'b01010, 5'b01011, 5'b01100, 5'b01101, 5'b01110, 5'b01111: 	rZ80Result = wRegData;      //ldrr
 		default:	rZ80Result = 8'hcc;
 	endcase
 end

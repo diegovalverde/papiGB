@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.58 (w)1999-2014 BSI
-[*] Sun Dec 20 22:48:36 2015
+[*] Sun Dec 20 23:54:42 2015
 [*]
 [dumpfile] "/opt/hdd2/workspace/projects/papiGB/sim/tb_simple_dzcpu.vcd"
-[dumpfile_mtime] "Sun Dec 20 22:36:35 2015"
-[dumpfile_size] 53423470
+[dumpfile_mtime] "Sun Dec 20 23:41:25 2015"
+[dumpfile_size] 55082610
 [savefile] "/opt/hdd2/workspace/projects/papiGB/sim/signals/tb_simple_dzcpu.gtkw"
-[timestart] 1639534300
+[timestart] 94300
 [size] 1366 744
 [pos] -1 -1
-*-14.813875 1639588400 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-14.813875 148300 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb_simple_dzcpu.
 [treeopen] tb_simple_dzcpu.uut.
 [sst_width] 223
@@ -34,7 +34,7 @@ tb_simple_dzcpu.uut.DZCPU.oMCUwe
 tb_simple_dzcpu.uut.DZCPU.oMCUAddr[15:0]
 tb_simple_dzcpu.uut.DZCPU.wMcuAdrrSel[3:0]
 tb_simple_dzcpu.uut.DZCPU.wPc[15:0]
-@25
+@24
 tb_simple_dzcpu.uut.DZCPU.wuPc[7:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.wJcbDetected
@@ -75,7 +75,12 @@ tb_simple_dzcpu.uut.DZCPU.wBitMask[7:0]
 tb_simple_dzcpu.uut.DZCPU.rUopDstRegData[15:0]
 @200
 -Registers
+@2025
+^3 /opt/hdd2/workspace/projects/papiGB/sim/signals/dzcpu_reg_select
+tb_simple_dzcpu.uut.DZCPU.wUopSrc[15:0]
 @2024
+^3 /opt/hdd2/workspace/projects/papiGB/sim/signals/dzcpu_reg_select
+tb_simple_dzcpu.uut.DZCPU.wWriteSelect[2:0]
 ^3 /opt/hdd2/workspace/projects/papiGB/sim/signals/dzcpu_reg_select
 tb_simple_dzcpu.uut.DZCPU.rRegSelect[3:0]
 @28
@@ -87,6 +92,7 @@ tb_simple_dzcpu.uut.DZCPU.wSpL[7:0]
 tb_simple_dzcpu.uut.DZCPU.wB[7:0]
 tb_simple_dzcpu.uut.DZCPU.wC[7:0]
 tb_simple_dzcpu.uut.DZCPU.wD[7:0]
+tb_simple_dzcpu.uut.DZCPU.wE[7:0]
 @c00022
 tb_simple_dzcpu.uut.DZCPU.wH[7:0]
 @28
