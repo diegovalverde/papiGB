@@ -11,3 +11,5 @@
 10 sx16r
 11 sx8r
 12 inc16
+13 srx8
+14 shl

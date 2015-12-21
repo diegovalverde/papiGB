@@ -29,7 +29,7 @@
 //  `define  INCr_d;
 //  `define  DECr_d;
 //  `define  LDrn_d;
-//  `define  RLA;
+  `define  RLA 8'h17
 //  `define
 //  `define  JRn;
 //  `define  ADDHLDE;
@@ -703,6 +703,8 @@
 `define sx8r     4'hb
 `define inc16    4'hc
 `define srx8     4'hd
+`define shl      4'he
+
 `define null 4'h0
 
 

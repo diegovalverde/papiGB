@@ -120,8 +120,8 @@ module tb_simple_dzcpu;
 	begin
 		wait(iReset != 1);
 
-		//if ($time == 1649905)
-		//	$finish();
+		if ($time == 1649905)
+			$finish();
 
 		if (uut.DZCPU.rCurrentState == `DZCPU_START_FLOW)
 		begin
@@ -143,6 +143,7 @@ module tb_simple_dzcpu;
 			50: $fwrite(log,"=== CALLnn ===\n");
 			60: $fwrite(log,"=== LDrn_b ===\n");
 			63: $fwrite(log,"=== PUSHBC ===\n");
+			70: $fwrite(log,"=== RLA ===\n");
 			default:
 				$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
 			endcase
@@ -164,12 +165,14 @@ module tb_simple_dzcpu;
 				`inc16:$fwrite(log,"inc16 %h\n", uut.DZCPU.wRegData);
 				`dec16: $fwrite(log,"dec16 %h\n", uut.DZCPU.wRegData);
 				`srx8:$fwrite(log,"srx8 %h\n", uut.DZCPU.wRegData);
+				`shl: $fwrite(log,"shl %h << 1\n", uut.DZCPU.wRegData );
 
 				`z801bop:
 				begin
 					case (uut.DZCPU.iMCUData[7:3])
 						5'b10100:	$fwrite(log,"%05dns a &= %h = %h\n", $time, uut.DZCPU.wRegData, uut.DZCPU.rZ80Result );
 						5'b10101:	$fwrite(log,"%05dns a ^= %h = %h\n", $time, uut.DZCPU.wRegData, uut.DZCPU.rZ80Result );
+
 					endcase
 				end
 				default:
@@ -183,6 +186,12 @@ module tb_simple_dzcpu;
 
 			if (uut.MMU.iAddr >= 16'hff00 && uut.MMU.iAddr <= 16'hff7f )
 				$fwrite(log," [IO] ");
+
+			if (uut.MMU.iAddr >= 16'hff10 && uut.MMU.iAddr <= 16'hff23 )
+				$fwrite(log," [SOUND] ");
+
+			if (uut.MMU.iAddr >= 16'hff40 && uut.MMU.iAddr <= 16'hff4B )
+				$fwrite(log," [LCD] ");
 
 			if (uut.MMU.iAddr >= 16'hff80 && uut.MMU.iAddr <= 16'hffff )
 				$fwrite(log," [PAGEZERO] ");

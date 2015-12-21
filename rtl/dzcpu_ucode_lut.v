@@ -54,6 +54,7 @@ begin
 	`CALLnn: oUopFlowIdx = 8'd50;
 	`LDrn_b: oUopFlowIdx = 8'd60;
 	`PUSHBC: oUopFlowIdx = 8'd63;
+	`RLA:    oUopFlowIdx = 8'd70;	//TODO: Make sure this is OK!
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -82,6 +83,7 @@ always @ ( iMop )
 begin
 	case ( iMop )
 		8'h7C: oUopFlowIdx = 8'd16;		//BIT7
+		8'h11: oUopFlowIdx = 8'd69;		//RLr_b
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -189,6 +191,10 @@ begin
 		66: oUop = { `op, `dec16,  `sp  };
 		67: oUop = { `op ,`smw,     `b  };
 		68: oUop = { `inc_eof ,`sma,`pc };
+	//RLr_r
+		69: oUop = { `eof, `shl,  `null  };
+	//RLA
+		70: oUop = { `inc_eof, `shl,  `null  };
 	/*
 	//RETI
 
