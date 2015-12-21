@@ -7,7 +7,7 @@
 
 //  `define  INCr_b;
 //  `define  DECr_b;
-//  `define  LDrn_b;
+  `define  LDrn_b 8'h6
 //  `define  RLCA;
 
 //  `define  LDmmSP;
