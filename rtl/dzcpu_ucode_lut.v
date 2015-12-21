@@ -53,6 +53,7 @@ begin
 	`LDADEm: oUopFlowIdx = 8'd47;
 	`CALLnn: oUopFlowIdx = 8'd50;
 	`LDrn_b: oUopFlowIdx = 8'd60;
+	`PUSHBC: oUopFlowIdx = 8'd63;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -181,6 +182,13 @@ begin
 		60: oUop = { `inc, `sma, `pc   };
 		61: oUop = { `inc, `nop, `null };
 		62: oUop = { `eof , `srm, `b   };
+	//PUSHBC
+		63: oUop = { `op, `dec16,  `sp  };
+		64: oUop = { `op, `sma,    `sp  };
+		65: oUop = { `op ,`smw,    `c   };
+		66: oUop = { `op, `dec16,  `sp  };
+		67: oUop = { `op ,`smw,     `b  };
+		68: oUop = { `inc_eof ,`sma,`pc };
 	/*
 	//RETI
 
