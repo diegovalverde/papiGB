@@ -6,7 +6,7 @@
 //  `define  INCBC;
 
 //  `define  INCr_b;
-//  `define  DECr_b;
+  `define  DECr_b 8'h5
   `define  LDrn_b 8'h6
 //  `define  RLCA;
 
@@ -44,8 +44,8 @@
 //  20
     `define  JRNZn  8'h20
     `define  LDHLnn 8'h21
-//  `define  LDHLIA;
-//  `define  INCHL;
+    `define  LDHLIA 8'h22
+    `define  INCHL  8'h23
 //  `define
 //  `define  INCr_h;
 //  `define  DECr_h;

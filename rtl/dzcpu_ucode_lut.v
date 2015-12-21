@@ -56,6 +56,9 @@ begin
 	`PUSHBC: oUopFlowIdx = 8'd63;
 	`RLA:    oUopFlowIdx = 8'd70;	//TODO: Make sure this is OK!
 	`POPBC:  oUopFlowIdx = 8'd71;
+	`DECr_b: oUopFlowIdx = 8'd77;
+	`LDHLIA: oUopFlowIdx = 8'd78;
+	`INCHL:  oUopFlowIdx = 8'd82;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -203,6 +206,15 @@ begin
 		74: oUop = { `op ,`srm,    `b  };
 		75: oUop = { `inc ,`inc16,  `sp };
 		76: oUop = { `eof, `sma,    `pc  };
+	//DECr_b
+		77:	oUop = { `inc_eof, `dec16,    `b  };
+	//LDHLIA
+		78: oUop = {`op, `sma, `hl  };
+		79: oUop = {`op, `smw, `a    };
+		80: oUop = { `inc ,`inc16,  `hl };
+		81: oUop = {`eof, `sma, `pc  };
+	//INCHL
+		82: oUop = { `inc_eof ,`inc16,  `hl };
 	/*
 	//RETI
 

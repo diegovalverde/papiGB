@@ -145,6 +145,9 @@ module tb_simple_dzcpu;
 			63: $fwrite(log,"=== PUSHBC ===\n");
 			70: $fwrite(log,"=== RLA ===\n");
 			71: $fwrite(log,"=== POPBC ===\n");
+			77:$fwrite(log,"=== DECr_b ===\n");
+			78: $fwrite(log,"=== LDHLIA ===\n");
+			82: $fwrite(log,"=== INCHL ===\n");
 			default:
 				$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
 			endcase
@@ -157,6 +160,7 @@ module tb_simple_dzcpu;
 				`nop: $fwrite(log,"nop \n");
 				`sma: $fwrite(log,"sma %h\n", uut.DZCPU.oMCUAddr);
 				`srm: $fwrite(log,"srm %h %h\n", uut.DZCPU.wUopSrc, uut.DZCPU.iMCUData);
+				`jcb: $fwrite(log,"jcb %h \n", uut.DZCPU.iMCUData);
 				`smw: $fwrite(log,"smw %h %h\n", uut.DZCPU.oMCUAddr, uut.DZCPU.oMCUData);
 				`bit: $fwrite(log,"bit %h & %b\n", uut.DZCPU.wRegData, uut.DZCPU.wBitMask);
 				`addx16:$fwrite(log,"addx16 %h += %h\n", uut.DZCPU.wX16, uut.DZCPU.wRegData);
@@ -177,7 +181,10 @@ module tb_simple_dzcpu;
 					endcase
 				end
 				default:
+				begin
 					$fwrite(log,"unknow uop %d\n", uut.DZCPU.wuCmd);
+					$finish();
+				end
 			endcase
 		end
 
@@ -197,6 +204,11 @@ module tb_simple_dzcpu;
 			if (uut.MMU.iAddr >= 16'hff80 && uut.MMU.iAddr <= 16'hffff )
 				$fwrite(log," [PAGEZERO] ");
 
+			if (uut.MMU.iAddr >= 16'h8000 && uut.MMU.iAddr <= 16'h87ff )
+				$fwrite(log," [VMEM Tiles 0] ");
+
+			if (uut.MMU.iAddr >= 16'h8800 && uut.MMU.iAddr <= 16'h8fff )
+				$fwrite(log," [VMEM Tiles 1] ");
 
 
 			 $fwrite(log,"Writting %h @ %h\n", uut.MMU.iData,uut.MMU.iAddr);
@@ -205,7 +217,7 @@ module tb_simple_dzcpu;
 
 		if (uut.DZCPU.wEof )
 		begin
-			$fwrite(log,"\n       %04s %04s %02s %02s %02s %02s %02s %02s %02s %02s\n", "PC", "SP", "B", "C", "D" ,"E", "H", "L", "A", "Flags");
+			$fwrite(log,"\n          %04s %04s %02s %02s %02s %02s %02s %02s %02s %02s\n", "PC", "SP", "B", "C", "D" ,"E", "H", "L", "A", "Flags");
 			$fwrite(log,"[regs] %04x %04x %02x %02x %02x %02x %02x %02x %02x %b\n", Pc, {uut.DZCPU.wSpH,uut.DZCPU.wSpL}, uut.DZCPU.wB, uut.DZCPU.wC, uut.DZCPU.wD, uut.DZCPU.wE ,uut.DZCPU.wH, uut.DZCPU.wL, uut.DZCPU.wA, uut.DZCPU.wFlags);
 			$fwrite(log,"\n\n\n");
 		end

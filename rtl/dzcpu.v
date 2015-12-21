@@ -301,9 +301,9 @@ begin
 			rRegSelect          = wUop[3:0];
 			rSetMCOAddr         = 1'b0;
 			rRegWe              = 1'b1;
-			rFlagsWe            = 1'b0;
+			rFlagsWe            = 1'b1;
 			rWriteSelect        = wUopSrc;
-			rFlags              = 8'b0;
+			rFlags              = {wZ,7'b0};
 			rUopDstRegData      = wRegData - 16'd1;
 			rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
