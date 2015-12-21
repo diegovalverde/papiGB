@@ -38,7 +38,6 @@ module tb_simple_dzcpu;
 	);
 
 
-
 	//---------------------------------------------
 	//generate the clock signal here
 	always begin
@@ -48,7 +47,43 @@ module tb_simple_dzcpu;
 	//---------------------------------------------
 
 	integer log,i,Pc;
+	reg rSimulationDone;
 
+
+//-----------------------------------------------------------------
+	always @ (posedge iClock)
+	begin
+		wait(iReset != 1);
+
+		if (rSimulationDone == 1'b1)
+		begin
+			$display("Stopping Simulation and dumping memory");
+			$fwrite(log,"\n\n=== PAGEZERO MEMORY ===\n\n");
+			for (i = 16'hff80; i <= 16'hffff; i = i + 1)
+			begin
+				if (i % 16 == 0)
+					$fwrite(log,"\n %h : ", i );
+
+				$fwrite(log,"%02h ",uut.MMU.ZERO_PAGE.Ram[i-16'hff80]);
+			end
+
+			//Dump the VMEM
+			$fwrite(log,"\n\n=== VIDEO MEMORY ===\n\n");
+			for (i = 0; i <= (16'h9fff-16'h8000); i = i + 1)
+			begin
+
+				if (i % 16 == 0)
+					$fwrite(log,"\n %h : ", (16'h8000 + i ));
+
+				$fwrite(log,"%02h ",uut.MMU.VMEM.Ram[i]);
+			end
+			$fwrite(log,"Simulation ended at time %dns\n", $time);
+			$fclose( log );
+			$finish();
+		end
+
+	end
+//-----------------------------------------------------------------
 	initial begin
 		// Initialize Inputs
 		log = $fopen("pgb.log");
@@ -56,7 +91,7 @@ module tb_simple_dzcpu;
 		$dumpvars(0,tb_simple_dzcpu);
 		$fwrite(log,"Simulation started at time %dns\n", $time);
 
-
+		rSimulationDone = 0;
 		iClock = 0;
 		iReset = 0;
 
@@ -89,39 +124,18 @@ module tb_simple_dzcpu;
 		// Add stimulus here
 		//#500
 		#5000000
-
-
-		$fwrite(log,"\n\n=== PAGEZERO MEMORY ===\n\n");
-		for (i = 16'hff80; i <= 16'hffff; i = i + 1)
-		begin
-			if (i % 16 == 0)
-				$fwrite(log,"\n %h : ", i );
-
-			$fwrite(log,"%02h ",uut.MMU.ZERO_PAGE.Ram[i-16'hff80]);
-		end
-
-		//Dump the VMEM
-		$fwrite(log,"\n\n=== VIDEO MEMORY ===\n\n");
-		for (i = 0; i <= (16'h9fff-16'h8000); i = i + 1)
-		begin
-
-			if (i % 16 == 0)
-				$fwrite(log,"\n %h : ", (16'h8000 + i ));
-
-			$fwrite(log,"%02h ",uut.MMU.VMEM.Ram[i]);
-		end
-		$fwrite(log,"Simulation ended at time %dns\n", $time);
-		$fclose( log );
-
-		$finish();
+		rSimulationDone = 1;
 	end
 
 	always @ ( posedge iClock )
 	begin
 		wait(iReset != 1);
 
+		if (uut.DZCPU.wPc == 16'h03E)
+			rSimulationDone = 1;
+
 		if ($time == 1649905)
-			$finish();
+			rSimulationDone = 1;
 
 		if (uut.DZCPU.rCurrentState == `DZCPU_START_FLOW)
 		begin
@@ -187,7 +201,7 @@ module tb_simple_dzcpu;
 				default:
 				begin
 					$fwrite(log,"unknow uop %d\n", uut.DZCPU.wuCmd);
-					$finish();
+					rSimulationDone = 1;
 				end
 			endcase
 		end
