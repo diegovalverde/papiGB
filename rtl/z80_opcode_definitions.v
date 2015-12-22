@@ -675,14 +675,15 @@
 `define flag_c 4  //carry
 
 //Prefixed
-`define op      4'b0000
-`define inc_eof 4'b1100
-`define inc     4'b1000
-`define inc_eof_z 4'b1101
-`define eof     4'b0100
-`define pred_z  4'b0001
-`define eof_z   4'b0101
-`define eof_nz  4'b0110
+`define op              4'b0000
+`define pred_z          4'b0001
+`define update_flags    4'b0010
+`define inc             4'b1000
+`define inc_eof         4'b1100
+`define inc_eof_z       4'b1101
+`define eof             4'b0100
+`define eof_z           4'b0101
+`define eof_nz          4'b0110
 
 `define nop      4'h0
 `define sma      4'h1

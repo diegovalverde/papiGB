@@ -131,7 +131,7 @@ module tb_simple_dzcpu;
 	begin
 		wait(iReset != 1);
 
-		if (uut.DZCPU.wPc == 16'h03E)
+		if (uut.DZCPU.wPc == 16'h03e)
 			rSimulationDone = 1;
 
 		if ($time == 1649905)
@@ -187,7 +187,7 @@ module tb_simple_dzcpu;
 				`inc16:$fwrite(log,"inc16 %h\n", uut.DZCPU.wRegData);
 				`dec16: $fwrite(log,"dec16 %h\n", uut.DZCPU.wRegData);
 				`srx8:$fwrite(log,"srx8 %h\n", uut.DZCPU.wRegData);
-				`shl: $fwrite(log,"shl %h << 1\n", uut.DZCPU.wRegData );
+				`shl: $fwrite(log,"shl %h << 1 + %h\n", uut.DZCPU.wRegData, uut.DZCPU.wFlags[`flag_c] );
 				`subx16: $fwrite(log,"subx16 %h -= %h\n", uut.DZCPU.wX16, uut.DZCPU.wRegData);
 
 				`z801bop:
