@@ -52,11 +52,25 @@ assign wUopSrc = wUop[3:0];
 assign wIPC    = wUop[11];		//Increment Macro Insn program counter
 assign wPred   = wUop[9:8];
 assign wuCmd   = wUop[7:4];
+/*
+
+//Prefixed
+`define op              4'b000
+`define pred_z          4'b001
+`define update_flags    4'b010
+`define inc             4'b000
+`define inc_eof         4'b100  4 a
+`define inc_eof_z       4'b101  5 z
+`define inc_eof_fu      4'b110  6 a
+`define eof             4'b100  4 a
+`define eof_z           4'b101  5 z
+`define eof_fu          4'b110  6 a
+*/
 
 MUXFULLPARALELL_3SEL_GENERIC # ( 1'b1 ) MUX_EOF
  (
  .Sel( wUop[10:8] ),
- .I0( 1'b0 ),.I4( 1'b1 ), .I5( wFlags[`flag_z] ), .I6( ~wFlags[`flag_z] ),
+ .I0( 1'b0 ),.I4( 1'b1 ), .I5( wFlags[`flag_z] ), .I6( 1'b1 ),
  .O( wEof )
  );
 

@@ -13,3 +13,4 @@
 12 inc16
 13 srx8
 14 shl
+15 subx16
