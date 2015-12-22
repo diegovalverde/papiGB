@@ -133,7 +133,7 @@ begin
 		14: oUop = { `op,  `nop, `null };
 		15: oUop = { `inc, `jcb, `null };
 	//BIT
-		16: oUop = { `eof, `bit, `null };
+		16: oUop = { `eof_fu, `bit, `null };
 	//JRNZ
 		17: oUop = { `inc, `sma, `pc   };
 		18: oUop = { `op,  `nop, `null };
@@ -199,9 +199,9 @@ begin
 		67: oUop = { `op ,`smw,     `c  };
 		68: oUop = { `inc_eof ,`sma,`pc };
 	//RLr_r
-		69: oUop = { `eof, `shl,  `null  };
+		69: oUop = { `eof_fu, `shl,  `null  };
 	//RLA
-		70: oUop = { `inc_eof, `shl,  `null  };
+		70: oUop = { `inc_eof_fu, `shl,  `null  };
 	//POPBC
 		71: oUop = { `op, `sma,    `sp  };
 		72: oUop = { `op ,`inc16,  `sp };
@@ -210,7 +210,7 @@ begin
 		75: oUop = { `inc ,`inc16,  `sp };
 		76: oUop = { `eof, `sma,    `pc  };
 	//DECr_b
-		77:	oUop = { `inc_eof, `dec16,    `b  };
+		77:	oUop = { `inc_eof_fu, `dec16,    `b  };
 	//LDHLIA
 		78: oUop = {`op, `sma, `hl  };
 		79: oUop = {`op, `smw, `a    };
@@ -231,7 +231,7 @@ begin
 		90: oUop = { `inc, `sx16r, `a };
 		91: oUop = { `op, `nop, `null };
 		92: oUop = { `op, `srm, `x8   };
-		93: oUop = { `inc_eof, `subx16, `x8   };	//x16 = x16 - x8 -> a = a - lit
+		93: oUop = { `inc_eof_fu, `subx16, `x8   };	//x16 = x16 - x8 -> a = a - lit
 
 	/*
 	//RETI

@@ -681,9 +681,12 @@
 `define inc             4'b1000
 `define inc_eof         4'b1100
 `define inc_eof_z       4'b1101
+`define inc_eof_fu      4'b1110
 `define eof             4'b0100
 `define eof_z           4'b0101
-`define eof_nz          4'b0110
+`define eof_fu          4'b0110
+
+`define uop_flags_update_enable 1
 
 `define nop      4'h0
 `define sma      4'h1

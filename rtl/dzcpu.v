@@ -178,7 +178,7 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFSPL( iClock, iReset, rFlowEnable & rRegWe 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFSPH( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[8], (( rRegWriteSelect[7] &  rRegWriteSelect[8])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wSpH );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX8 ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[9], rUopDstRegData[7:0], wX8 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFX16 ( iClock, iReset, rFlowEnable & rX16We, rUopDstRegData[15:0], wX16 );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFFLAGS( iClock, iReset, rFlowEnable & rFlagsWe, rFlags, wFlags );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFFLAGS( iClock, iReset, rFlowEnable & rFlagsWe & wuCmd[ `uop_flags_update_enable ], rFlags, wFlags );
 FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 4 )FFMCUADR( iClock, iReset, rFlowEnable & rSetMCOAddr, `pc , wUop[3:0], wMcuAdrrSel );
 
 MUXFULLPARALELL_4SEL_GENERIC # (16) MUX_MCUADR
@@ -211,8 +211,6 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MCUDATA_OUT
 	.O( oMCUData )
 );
 
-//Consider the special case of ldrr
-//assign wWriteSelect = (wuCmd == `z801bop && iMCUData[7:6] == 2'b01  ) ? iMCUData[5:3] : wUopSrc;
 
 always @ ( * )
 begin
