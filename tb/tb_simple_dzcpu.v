@@ -103,17 +103,24 @@ module tb_simple_dzcpu;
 		uut.MMU.rCartridgeBank0[16'h104] = 8'hce;
 		uut.MMU.rCartridgeBank0[16'h105] = 8'hed;
 		uut.MMU.rCartridgeBank0[16'h106] = 8'h66;
-		uut.MMU.rCartridgeBank0[16'h108] = 8'h66;
-		uut.MMU.rCartridgeBank0[16'h109] = 8'h00;
-		uut.MMU.rCartridgeBank0[16'h10a] = 8'h0C;
-		uut.MMU.rCartridgeBank0[16'h10b] = 8'h00;
-		uut.MMU.rCartridgeBank0[16'h10c] = 8'h0D;
-		uut.MMU.rCartridgeBank0[16'h10d] = 8'h00;
-		uut.MMU.rCartridgeBank0[16'h10e] = 8'h08;
-		uut.MMU.rCartridgeBank0[16'h10f] = 8'h00;
-		uut.MMU.rCartridgeBank0[16'h110] = 8'h11;
-		uut.MMU.rCartridgeBank0[16'h111] = 8'h00;
-		uut.MMU.rCartridgeBank0[16'h112] = 8'h1f;
+		uut.MMU.rCartridgeBank0[16'h107] = 8'h66;
+		uut.MMU.rCartridgeBank0[16'h108] = 8'hcc;
+		uut.MMU.rCartridgeBank0[16'h109] = 8'h0d;
+		uut.MMU.rCartridgeBank0[16'h10a] = 8'h00;
+		uut.MMU.rCartridgeBank0[16'h10b] = 8'h0b;
+		uut.MMU.rCartridgeBank0[16'h10c] = 8'h03;
+		uut.MMU.rCartridgeBank0[16'h10d] = 8'h73;
+		uut.MMU.rCartridgeBank0[16'h10e] = 8'h00;
+		uut.MMU.rCartridgeBank0[16'h10f] = 8'h83;
+
+		uut.MMU.rCartridgeBank0[16'h110] = 8'h00;
+		uut.MMU.rCartridgeBank0[16'h111] = 8'h1c;
+		uut.MMU.rCartridgeBank0[16'h112] = 8'h00;
+		uut.MMU.rCartridgeBank0[16'h113] = 8'h0d;
+		uut.MMU.rCartridgeBank0[16'h114] = 8'h00;
+		uut.MMU.rCartridgeBank0[16'h115] = 8'h08;
+		uut.MMU.rCartridgeBank0[16'h116] = 8'h11;
+		uut.MMU.rCartridgeBank0[16'h117] = 8'h1f;
 
 		// Wait 100 ns for global reset to finish
 		#100;
@@ -124,6 +131,7 @@ module tb_simple_dzcpu;
 		// Add stimulus here
 		//#500
 		#5000000
+		$fwrite(log, "Simulation reached MAX time %hns",$time);
 		rSimulationDone = 1;
 	end
 
@@ -131,10 +139,10 @@ module tb_simple_dzcpu;
 	begin
 		wait(iReset != 1);
 
-		if (uut.DZCPU.wPc == 16'h03e)
-			rSimulationDone = 1;
+//		if (uut.DZCPU.wPc == 16'h03e)
+//			rSimulationDone = 1;
 
-		if ($time == 1649905)
+		if ($time == 1659905)
 			rSimulationDone = 1;
 
 		if (uut.DZCPU.rCurrentState == `DZCPU_START_FLOW)
