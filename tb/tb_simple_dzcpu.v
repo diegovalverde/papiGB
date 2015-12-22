@@ -100,7 +100,7 @@ module tb_simple_dzcpu;
 		uut.MMU.rCartridgeBank0[16'h101] = 8'hc3;
 		uut.MMU.rCartridgeBank0[16'h102] = 8'h50;
 		uut.MMU.rCartridgeBank0[16'h103] = 8'h01;
-		uut.MMU.rCartridgeBank0[16'h104] = 8'hce;
+		uut.MMU.rCartridgeBank0[16'h104] = 8'hce;	//Start of LOGO
 		uut.MMU.rCartridgeBank0[16'h105] = 8'hed;
 		uut.MMU.rCartridgeBank0[16'h106] = 8'h66;
 		uut.MMU.rCartridgeBank0[16'h107] = 8'h66;
@@ -114,13 +114,49 @@ module tb_simple_dzcpu;
 		uut.MMU.rCartridgeBank0[16'h10f] = 8'h83;
 
 		uut.MMU.rCartridgeBank0[16'h110] = 8'h00;
-		uut.MMU.rCartridgeBank0[16'h111] = 8'h1c;
+		uut.MMU.rCartridgeBank0[16'h111] = 8'h0c;
 		uut.MMU.rCartridgeBank0[16'h112] = 8'h00;
 		uut.MMU.rCartridgeBank0[16'h113] = 8'h0d;
 		uut.MMU.rCartridgeBank0[16'h114] = 8'h00;
 		uut.MMU.rCartridgeBank0[16'h115] = 8'h08;
 		uut.MMU.rCartridgeBank0[16'h116] = 8'h11;
 		uut.MMU.rCartridgeBank0[16'h117] = 8'h1f;
+		uut.MMU.rCartridgeBank0[16'h118] = 8'h88;
+		uut.MMU.rCartridgeBank0[16'h119] = 8'h89;
+		uut.MMU.rCartridgeBank0[16'h11A] = 8'h00;
+		uut.MMU.rCartridgeBank0[16'h11B] = 8'h0E;
+		uut.MMU.rCartridgeBank0[16'h11C] = 8'hDC;
+		uut.MMU.rCartridgeBank0[16'h11D] = 8'hCC;
+		uut.MMU.rCartridgeBank0[16'h11E] = 8'h6E;
+		uut.MMU.rCartridgeBank0[16'h11F] = 8'hE6;
+
+		uut.MMU.rCartridgeBank0[16'h120] = 8'hdd;
+		uut.MMU.rCartridgeBank0[16'h121] = 8'hdd;
+		uut.MMU.rCartridgeBank0[16'h122] = 8'hd9;
+		uut.MMU.rCartridgeBank0[16'h123] = 8'h99;
+		uut.MMU.rCartridgeBank0[16'h124] = 8'hbb;
+		uut.MMU.rCartridgeBank0[16'h125] = 8'hbb;
+		uut.MMU.rCartridgeBank0[16'h126] = 8'h67;
+		uut.MMU.rCartridgeBank0[16'h127] = 8'h63;
+
+		uut.MMU.rCartridgeBank0[16'h128] = 8'h6e;
+		uut.MMU.rCartridgeBank0[16'h129] = 8'h0e;
+		uut.MMU.rCartridgeBank0[16'h12A] = 8'hec;
+		uut.MMU.rCartridgeBank0[16'h12B] = 8'hcc;
+		uut.MMU.rCartridgeBank0[16'h12C] = 8'hdd;
+		uut.MMU.rCartridgeBank0[16'h12D] = 8'hdc;
+		uut.MMU.rCartridgeBank0[16'h12E] = 8'h99;
+		uut.MMU.rCartridgeBank0[16'h12F] = 8'h9f;
+
+		uut.MMU.rCartridgeBank0[16'h130] = 8'hbb;
+		uut.MMU.rCartridgeBank0[16'h131] = 8'hb9;
+		uut.MMU.rCartridgeBank0[16'h132] = 8'h33;
+		uut.MMU.rCartridgeBank0[16'h133] = 8'h3e;
+		uut.MMU.rCartridgeBank0[16'h134] = 8'h54;
+		uut.MMU.rCartridgeBank0[16'h135] = 8'h45;
+		uut.MMU.rCartridgeBank0[16'h136] = 8'h54;
+		uut.MMU.rCartridgeBank0[16'h137] = 8'h52;
+
 
 		// Wait 100 ns for global reset to finish
 		#100;
@@ -139,11 +175,15 @@ module tb_simple_dzcpu;
 	begin
 		wait(iReset != 1);
 
-//		if (uut.DZCPU.wPc == 16'h03e)
-//			rSimulationDone = 1;
-
-		if ($time == 1659905)
+		if (uut.DZCPU.wPc == 16'h03e)	//This instructrion finishes copying the little (R)
 			rSimulationDone = 1;
+
+
+//	  if ($time == 1699905)
+//	  begin
+//	  	$display("reached MAX stable time!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//			rSimulationDone = 1;
+//      end
 
 		if (uut.DZCPU.rCurrentState == `DZCPU_START_FLOW)
 		begin
