@@ -439,6 +439,20 @@ begin
 			rOverWritePc        = 1'b0;
 		end
 
+		`sx8r:
+		begin
+			oMCUwe              = 1'b0;
+			rRegSelect          = wUop[3:0];
+			rSetMCOAddr         = 1'b0;
+			rRegWe              = 1'b1;
+			rWriteSelect        = `x8;
+			rFlagsWe            = 1'b0;
+			rFlags              = 8'b0;
+			rUopDstRegData      = wRegData;
+			rX16We              = 1'b0;
+			rOverWritePc        = 1'b0;
+		end
+
 		`sx16r:
 		begin
 			oMCUwe              = 1'b0;
