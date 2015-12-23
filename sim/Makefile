@@ -55,4 +55,4 @@ view :
 
 clean :
 	rm -f $(SIMDIR)/$(TESTBENCH)
-	rm -f *.{vcd,log}
+	rm -f *.{vcd,log,dump}
