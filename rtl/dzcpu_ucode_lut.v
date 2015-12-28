@@ -245,7 +245,8 @@ begin
 		101: oUop = {`op,   `srm,   `h  };
 		102: oUop = {`op,   `sma,   `hl };
 		103: oUop = {`op,   `smw,   `a  };
-		104: oUop = {`inc_eof,  `srx16, `hl };
+		104: oUop = {`inc,  `sma,   `pc };
+		105: oUop = {`eof,  `srx16, `hl };
 
 
 	/*
