@@ -62,6 +62,7 @@ begin
 	`RET:    oUopFlowIdx = 8'd83;
 	`INCDE:  oUopFlowIdx = 8'd89;
 	`CPn:    oUopFlowIdx = 8'd90;
+	`LDmmA: oUopFlowIdx = 8'd98;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -203,11 +204,11 @@ begin
 	//RLA
 		70: oUop = { `inc_eof_fu, `shl,  `null  };
 	//POPBC
-		71: oUop = { `op, `sma,    `sp  };
-		72: oUop = { `op ,`inc16,  `sp };
-		73: oUop = { `op ,`srm,    `c  };
-		74: oUop = { `op ,`srm,    `b  };
-		75: oUop = { `inc ,`inc16,  `sp };
+		71: oUop = { `op, `sma,    `sp   };
+		72: oUop = { `op ,`inc16,  `sp   };
+		73: oUop = { `op ,`srm,    `c    };
+		74: oUop = { `op ,`srm,    `b    };
+		75: oUop = { `inc ,`inc16,  `sp  };
 		76: oUop = { `eof, `sma,    `pc  };
 	//DECr_b
 		77:	oUop = { `inc_eof_fu, `dec16,    `b  };
@@ -219,12 +220,12 @@ begin
 	//INCHL
 		82: oUop = { `inc_eof ,`inc16,  `hl };
 	//RET
-		83: oUop = { `nop ,`sma,  `sp };
-		84: oUop = { `nop, `inc16, `sp };
+		83: oUop = { `nop ,`sma,  `sp   };
+		84: oUop = { `nop, `inc16, `sp  };
 		85: oUop = { `nop , `srm, `x8   };
 		86: oUop = { `nop , `spc, `x8   };
-		87: oUop = { `nop, `inc16, `sp };
-		88: oUop = { `eof ,`sma,  `pc };
+		87: oUop = { `nop, `inc16, `sp  };
+		88: oUop = { `eof ,`sma,  `pc   };
 	//INCDE
 		89: oUop = { `inc_eof, `inc16, `de };
 	//CPn
@@ -237,7 +238,15 @@ begin
 		95: oUop = {`op, `nop, `null };
 		96: oUop = {`op, `srm, `a    };
 		97: oUop = {`eof, `sma, `pc  };
-//LDADEm
+//LDmmA
+		98: oUop = {`inc, `sx16r,  `hl };
+		99: oUop = {`inc,  `sma,   `pc };
+		100: oUop = {`op,   `srm,   `l  };
+		101: oUop = {`op,   `srm,   `h  };
+		102: oUop = {`op,   `sma,   `hl };
+		103: oUop = {`op,   `smw,   `a  };
+		104: oUop = {`inc_eof,  `srx16, `hl };
+
 
 	/*
 	//RETI

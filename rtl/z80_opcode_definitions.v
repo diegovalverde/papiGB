@@ -704,6 +704,8 @@
 `define srx8     5'hd
 `define shl      5'he
 `define subx16   5'hf
+`define srx16    5'h10
+
 
 `define null 4'h0
 

@@ -188,12 +188,6 @@ module tb_simple_dzcpu;
 			rSimulationDone = 1;
 
 
-//	  if ($time == 1699905)
-//	  begin
-//	  	$display("reached MAX stable time!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//			rSimulationDone = 1;
-//      end
-
 		if (uut.DZCPU.rCurrentState == `DZCPU_START_FLOW)
 		begin
 			Pc = uut.DZCPU.wPc;
@@ -222,6 +216,7 @@ module tb_simple_dzcpu;
 			83: $fwrite(log,"=== RET ===\n");
 			89: $fwrite(log,"=== INCDE ===\n");
 			90: $fwrite(log,"=== CPn ===\n");
+			98: $fwrite(log,"=== LDmmA ===\n");
 			default:
 				$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
 			endcase
@@ -246,7 +241,7 @@ module tb_simple_dzcpu;
 				`srx8:$fwrite(log,"srx8 %h\n", uut.DZCPU.wRegData);
 				`shl: $fwrite(log,"shl %h << 1 + %h\n", uut.DZCPU.wRegData, uut.DZCPU.wFlags[`flag_c] );
 				`subx16: $fwrite(log,"subx16 %h -= %h\n", uut.DZCPU.wX16, uut.DZCPU.wRegData);
-
+				`srx16: $fwrite(log,"srx16 %h\n", uut.DZCPU.wRegData);
 				`z801bop:
 				begin
 					case (uut.DZCPU.iMCUData[7:3])
@@ -257,7 +252,7 @@ module tb_simple_dzcpu;
 				end
 				default:
 				begin
-					$fwrite(log,"unknow uop %d\n", uut.DZCPU.wuCmd);
+					$fwrite(log,"unknow uop %d Stopping Simulation\n", uut.DZCPU.wuCmd);
 					rSimulationDone = 1;
 				end
 			endcase
@@ -284,6 +279,12 @@ module tb_simple_dzcpu;
 
 			if (uut.MMU.iAddr >= 16'h8800 && uut.MMU.iAddr <= 16'h8fff )
 				$fwrite(log," [VMEM Tiles 1] ");
+
+			if (uut.MMU.iAddr >= 16'h9800 && uut.MMU.iAddr <= 16'h9BFF)
+				$fwrite(log," [VMEM TileMap 0] ");
+
+			if (uut.MMU.iAddr >= 16'h9C00 && uut.MMU.iAddr <= 16'h9FFF)
+				$fwrite(log," [VMEM TileMap 1] ");
 
 
 			 $fwrite(log,"Writting %h @ %h\n", uut.MMU.iData,uut.MMU.iAddr);

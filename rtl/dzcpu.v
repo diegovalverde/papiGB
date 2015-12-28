@@ -35,7 +35,8 @@ wire[15:0]  wPc, wRegData, wUopSrc, wX16, wInitialPc ;
 wire [7:0]  wuPc, wuOpBasicFlowIdx,wuOpExtendedFlowIdx, wuOpFlowIdx, wBitMask, wX8;
 wire        wIPC,wEof, wZ, wN, wCarry;
 wire [12:0] wUop;
-wire [3:0]  wuCmd, wMcuAdrrSel;
+wire [4:0 ] wuCmd;
+wire [3:0]  wMcuAdrrSel;
 wire [2:0]  wUopRegReadAddr0, wUopRegReadAddr1, rUopRegWriteAddr;
 wire [7:0]  wB,wC,wD, wE, wH,wL,wA, wSpL, wSpH, wFlags, wUopSrcRegData0,wUopSrcRegData1, wNextUopFlowIdx;
 reg         rResetFlow,rFlowEnable, rRegWe, rSetMCOAddr, rFlagsWe,  rOverWritePc, rCarry;
@@ -376,7 +377,18 @@ begin
 			rOverWritePc        = 1'b0;
 		end
 
-
+		`srx16:
+		begin
+			oMCUwe              = 1'b0;
+			rRegSelect          = wUop[3:0];
+			rSetMCOAddr         = 1'b0;
+			rRegWe              = 1'b1;
+			rWriteSelect        = wUopSrc;
+			rFlagsWe            = 1'b0;
+			rFlags              = 8'b0;
+			rUopDstRegData      = wX16;
+			rOverWritePc        = 1'b0;
+		end
 		`z801bop:
 		begin
 			oMCUwe              = 1'b0;
