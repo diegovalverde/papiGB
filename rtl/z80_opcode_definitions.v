@@ -298,15 +298,15 @@
 //  //  `define  POPHL;
   `define  LDIOCA 8'hE2
 //  //  `define  XX;
-//  //  `define
+
 //  //  `define  XX;
 //  //  `define  PUSHHL;
 //  //  `define  ANDn;
 //  //  `define  RST20;
-//  //  `define
+
 //  //  `define  ADDSPn;
 //  //  `define  JPHL;
-//  //  `define  LDmmA;
+`define  LDmmA  8'hEA
 //  //  `define  XX;
 //  //  `define
 //  //  `define  XX;
@@ -722,6 +722,8 @@
 `define flags 4'h9
 `define spl   4'ha
 `define sph   4'hb
+`define x16l  4'ha
+`define x16h  4'hb
 `define x8    4'hc
 `define x16   4'hd
 `define io_c  4'he

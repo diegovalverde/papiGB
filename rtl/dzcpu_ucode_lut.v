@@ -50,7 +50,7 @@ begin
 	`LDHLmr_a: oUopFlowIdx = 8'd33;
 	`LDIOnA: oUopFlowIdx = 8'd36;
 	`LDDEnn: oUopFlowIdx = 8'd43;
-	`LDADEm: oUopFlowIdx = 8'd47;
+	`LDADEm: oUopFlowIdx = 8'd94;
 	`CALLnn: oUopFlowIdx = 8'd50;
 	`LDrn_b: oUopFlowIdx = 8'd60;
 	`PUSHBC: oUopFlowIdx = 8'd63;
@@ -232,7 +232,11 @@ begin
 		91: oUop = { `op, `nop, `null };
 		92: oUop = { `op, `srm, `x8   };
 		93: oUop = { `inc_eof_fu, `subx16, `x8   };	//x16 = x16 - x8 -> a = a - lit
-
+//LDADEm
+		94: oUop = {`inc, `sma, `de  };
+		95: oUop = {`op, `nop, `null };
+		96: oUop = {`op, `srm, `a    };
+		97: oUop = {`eof, `sma, `pc  };
 	/*
 	//RETI
 

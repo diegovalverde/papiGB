@@ -184,7 +184,7 @@ module tb_simple_dzcpu;
 	begin
 		wait(iReset != 1);
 
-		if (uut.DZCPU.wPc == 16'h03e)	//This instructrion finishes copying the little (R)
+		if (uut.DZCPU.wPc == 16'h04a)	//This instructrion finishes copying the little (R)
 			rSimulationDone = 1;
 
 

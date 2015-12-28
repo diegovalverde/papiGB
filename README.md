@@ -5,8 +5,8 @@ Game Boy Classic fully functional FPGA implementation from scratch
 
 `sudo apt-get install iverilog gtkwave`
 
-##Compiling code
 
+##Compiling code
 `cd sim/`
 
 `make compile`

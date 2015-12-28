@@ -40,7 +40,7 @@ wire [1:0]  wPred;
 wire [3:0]  wuCmd, wMcuAdrrSel;
 wire [2:0]  wUopRegReadAddr0, wUopRegReadAddr1, rUopRegWriteAddr;
 wire [7:0]  wB,wC,wD, wE, wH,wL,wA, wSpL, wSpH, wFlags, wUopSrcRegData0,wUopSrcRegData1, wNextUopFlowIdx;
-reg         rResetFlow,rFlowEnable, rRegWe, rSetMCOAddr, rFlagsWe, rX16We, rOverWritePc, rCarry;
+reg         rResetFlow,rFlowEnable, rRegWe, rSetMCOAddr, rFlagsWe,  rOverWritePc, rCarry;
 reg [3:0]   rRegSelect;
 reg [7:0]   rZ80Result, rFlags, rWriteSelect;
 reg [15:0]  rUopDstRegData;
@@ -52,20 +52,6 @@ assign wUopSrc = wUop[3:0];
 assign wIPC    = wUop[11];		//Increment Macro Insn program counter
 assign wPred   = wUop[9:8];
 assign wuCmd   = wUop[7:4];
-/*
-
-//Prefixed
-`define op              4'b000
-`define pred_z          4'b001
-`define update_flags    4'b010
-`define inc             4'b000
-`define inc_eof         4'b100  4 a
-`define inc_eof_z       4'b101  5 z
-`define inc_eof_fu      4'b110  6 a
-`define eof             4'b100  4 a
-`define eof_z           4'b101  5 z
-`define eof_fu          4'b110  6 a
-*/
 
 MUXFULLPARALELL_3SEL_GENERIC # ( 1'b1 ) MUX_EOF
  (
@@ -181,17 +167,17 @@ end
 
 reg [10:0] rRegWriteSelect;
 
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFB ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[0], rUopDstRegData[7:0], wB );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFC ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[1], rUopDstRegData[7:0], wC );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFD ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[2], (( rRegWriteSelect[2] &  rRegWriteSelect[3])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wD );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFE ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[3], rUopDstRegData[7:0], wE );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFH ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[4], (( rRegWriteSelect[4] &  rRegWriteSelect[5])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wH );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFL ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[5], rUopDstRegData[7:0], wL );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFA ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[6], rUopDstRegData[7:0], wA );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFSPL( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[7], rUopDstRegData[7:0], wSpL );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFSPH( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[8], (( rRegWriteSelect[7] &  rRegWriteSelect[8])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wSpH );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX8 ( iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[9], rUopDstRegData[7:0], wX8 );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFX16 ( iClock, iReset, rFlowEnable & rX16We, rUopDstRegData[15:0], wX16 );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFB (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[0], rUopDstRegData[7:0], wB );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFC (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[1], rUopDstRegData[7:0], wC );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFD (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[2], (( rRegWriteSelect[2] &  rRegWriteSelect[3])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wD );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFE (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[3], rUopDstRegData[7:0], wE );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFH (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[4], (( rRegWriteSelect[4] &  rRegWriteSelect[5])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wH );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFL (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[5], rUopDstRegData[7:0], wL );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFA (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[6], rUopDstRegData[7:0], wA );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFSPL(   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[7], rUopDstRegData[7:0], wSpL );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFSPH(   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[8], (( rRegWriteSelect[7] &  rRegWriteSelect[8])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wSpH );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX8 (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[9], rUopDstRegData[7:0], wX8 );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFX16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[10], rUopDstRegData[15:0], wX16 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFFLAGS( iClock, iReset, rFlowEnable & rFlagsWe & wuCmd[ `uop_flags_update_enable ], rFlags, wFlags );
 FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 4 )FFMCUADR( iClock, iReset, rFlowEnable & rSetMCOAddr, `pc , wUop[3:0], wMcuAdrrSel );
 
@@ -264,7 +250,7 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = 0;
-			rX16We              = 1'b0;
+			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 		`sma:
@@ -277,7 +263,7 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = 16'b0;
-			rX16We              = 1'b0;
+			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -291,7 +277,7 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = iMCUData;
-			rX16We              = 1'b0;
+			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -305,7 +291,7 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = 16'b0;
-			rX16We              = 1'b0;
+			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -319,7 +305,7 @@ begin
 			rWriteSelect        = wUopSrc;
 			rFlags              = {wZ,wN,6'b0};
 			rUopDstRegData      = wRegData - 16'd1;
-			rX16We              = 1'b0;
+			//rX16We              = 1'b0; //NO need here
 			rOverWritePc        = 1'b0;
 		end
 
@@ -333,7 +319,7 @@ begin
 			rFlagsWe            = 1'b1;
 			rFlags              = {wZ,7'b0};
 			rUopDstRegData      = wRegData  + 1'b1;
-			rX16We              = 1'b1;
+			//rX16We              = 1'b1;	//NO need here
 			rOverWritePc        = 1'b0;
 		end
 
@@ -342,12 +328,12 @@ begin
 			oMCUwe              = 1'b0;
 			rRegSelect          = wUop[3:0];
 			rSetMCOAddr         = 1'b0;
-			rRegWe              = 1'b0;
-			rWriteSelect        = wUopSrc;
+			rRegWe              = 1'b1;
+			rWriteSelect        = `x16;
 			rFlagsWe            = 1'b1;
 			rFlags              = {wZ,wN,6'b0};
 			rUopDstRegData      = wX16 - {{8{wRegData[7]}},wRegData[7:0]};	//sign extended 2'complement
-			rX16We              = 1'b1;
+			//rX16We              = 1'b1;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -356,12 +342,12 @@ begin
 			oMCUwe              = 1'b0;
 			rRegSelect          = wUop[3:0];
 			rSetMCOAddr         = 1'b0;
-			rRegWe              = 1'b0;
-			rWriteSelect        = wUopSrc;
+			rRegWe              = 1'b1;
+			rWriteSelect        = `x16;
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = wX16 + {{8{wRegData[7]}},wRegData[7:0]};	//sign extended 2'complement
-			rX16We              = 1'b1;
+			//rX16We              = 1'b1;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -375,7 +361,7 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = wRegData;
-			rX16We              = 1'b0;
+			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b1;
 		end
 
@@ -389,7 +375,7 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = 16'b0;
-			rX16We              = 1'b0;
+			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -403,7 +389,7 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = wX8;
-			rX16We              = 1'b0;
+			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -418,7 +404,7 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = rZ80Result;
-			rX16We              = 1'b0;
+			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -432,7 +418,7 @@ begin
 			rFlagsWe            = 1'b1;
 			rFlags              = {wZ, 1'b0, 1'b0, wRegData[7], 4'b0};
 			rUopDstRegData      = (wRegData << 1) + wFlags[`flag_c];
-			rX16We              = 1'b0;
+			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -447,7 +433,7 @@ begin
 			rFlagsWe            = 1'b1;
 			rFlags              = {wZ,7'b0};
 			rUopDstRegData      = wRegData & wBitMask;
-			rX16We              = 1'b0;
+			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -461,7 +447,7 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = wRegData;
-			rX16We              = 1'b0;
+			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -470,12 +456,12 @@ begin
 			oMCUwe              = 1'b0;
 			rRegSelect          = wUop[3:0];
 			rSetMCOAddr         = 1'b0;
-			rRegWe              = 1'b0;
-			rWriteSelect        = wUopSrc;
+			rRegWe              = 1'b1;
+			rWriteSelect        = `x16;
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = wRegData;
-			rX16We              = 1'b1;
+			//rX16We              = 1'b1;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -489,7 +475,7 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = 16'b0;
-			rX16We              = 1'b0;
+			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 	endcase
