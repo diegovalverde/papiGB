@@ -184,7 +184,7 @@ module tb_simple_dzcpu;
 	begin
 		wait(iReset != 1);
 
-		if (uut.DZCPU.wPc == 16'h04a)	//This instructrion finishes copying the little (R)
+		if (uut.DZCPU.wPc == 16'h055)	//This instructrion finishes copying the little (R)
 			rSimulationDone = 1;
 
 
@@ -217,6 +217,10 @@ module tb_simple_dzcpu;
 			89: $fwrite(log,"=== INCDE ===\n");
 			90: $fwrite(log,"=== CPn ===\n");
 			98: $fwrite(log,"=== LDmmA ===\n");
+			47: $fwrite(log,"=== DECr_a ===\n");
+			48: $fwrite(log,"=== DECr_c ===\n");
+
+
 			default:
 				$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
 			endcase

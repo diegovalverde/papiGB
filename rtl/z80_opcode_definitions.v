@@ -16,7 +16,7 @@
 //  `define  DECBC;
 
 `define  INCr_c 8'hc
-//  `define  DECr_c;
+`define  DECr_c 8'hd
 `define  LDrn_c 8'he
 //  `define  RRCA;
 
@@ -79,7 +79,7 @@
 //  `define  DECSP;
 
 //  `define  INCr_a;
-//  `define  DECr_a;
+    `define  DECr_a 8'h3d
     `define  LDrn_a 8'h3e
 //  `define  CCF;
 
