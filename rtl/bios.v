@@ -254,7 +254,7 @@ begin
 		8'd220 : oData =  8'hB9;
 		8'd221 : oData =  8'hA5;
 		8'd222 : oData =  8'h42;
-		8'd223 : oData =  8'h4C;
+		8'd223 : oData =  8'h3C;
 		8'd224 : oData =  8'h21;
 		8'd225 : oData =  8'h04;
 		8'd226 : oData =  8'h01;
