@@ -106,7 +106,7 @@ endmodule
 module dzcpu_ucode_rom
 (
 	input  wire[7:0]  iAddr,
-	output reg [11:0]  oUop
+	output reg [12:0]  oUop
 );
 always @ ( iAddr )
 begin
@@ -237,6 +237,8 @@ begin
 		95: oUop = {`op, `nop, `null };
 		96: oUop = {`op, `srm, `a    };
 		97: oUop = {`eof, `sma, `pc  };
+//LDADEm
+
 	/*
 	//RETI
 

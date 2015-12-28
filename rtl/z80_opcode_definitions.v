@@ -688,22 +688,22 @@
 
 `define uop_flags_update_enable 1
 
-`define nop      4'h0
-`define sma      4'h1
-`define srm      4'h2
-`define jcb      4'h3
-`define z801bop  4'h4
-`define smw      4'h5
-`define dec16    4'h6
-`define bit      4'h7
-`define addx16   4'h8
-`define spc      4'h9
-`define sx16r    4'ha
-`define sx8r     4'hb
-`define inc16    4'hc
-`define srx8     4'hd
-`define shl      4'he
-`define subx16   4'hf
+`define nop      5'h0
+`define sma      5'h1
+`define srm      5'h2
+`define jcb      5'h3
+`define z801bop  5'h4
+`define smw      5'h5
+`define dec16    5'h6
+`define bit      5'h7
+`define addx16   5'h8
+`define spc      5'h9
+`define sx16r    5'ha
+`define sx8r     5'hb
+`define inc16    5'hc
+`define srx8     5'hd
+`define shl      5'he
+`define subx16   5'hf
 
 `define null 4'h0
 

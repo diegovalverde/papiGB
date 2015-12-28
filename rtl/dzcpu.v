@@ -34,9 +34,7 @@ module dzcpu
 wire[15:0]  wPc, wRegData, wUopSrc, wX16, wInitialPc ;
 wire [7:0]  wuPc, wuOpBasicFlowIdx,wuOpExtendedFlowIdx, wuOpFlowIdx, wBitMask, wX8;
 wire        wIPC,wEof, wZ, wN, wCarry;
-wire [2:0]  wInsnR1, wInsnR2, wInsnOp;
-wire [11:0] wUop;
-wire [1:0]  wPred;
+wire [12:0] wUop;
 wire [3:0]  wuCmd, wMcuAdrrSel;
 wire [2:0]  wUopRegReadAddr0, wUopRegReadAddr1, rUopRegWriteAddr;
 wire [7:0]  wB,wC,wD, wE, wH,wL,wA, wSpL, wSpH, wFlags, wUopSrcRegData0,wUopSrcRegData1, wNextUopFlowIdx;
@@ -45,17 +43,13 @@ reg [3:0]   rRegSelect;
 reg [7:0]   rZ80Result, rFlags, rWriteSelect;
 reg [15:0]  rUopDstRegData;
 
-assign wInsnR2 = iMCUData[2:0];
-assign wInsnR1 = iMCUData[5:3];
-assign wInsnOp = {iMCUData[7:0],iMCUData[2:0]};
 assign wUopSrc = wUop[3:0];
-assign wIPC    = wUop[11];		//Increment Macro Insn program counter
-assign wPred   = wUop[9:8];
-assign wuCmd   = wUop[7:4];
+assign wIPC    = wUop[12];		//Increment Macro Insn program counter
+assign wuCmd   = wUop[8:4];
 
 MUXFULLPARALELL_3SEL_GENERIC # ( 1'b1 ) MUX_EOF
  (
- .Sel( wUop[10:8] ),
+ .Sel( wUop[11:9] ),
  .I0( 1'b0 ),.I4( 1'b1 ), .I5( wFlags[`flag_z] ), .I6( 1'b1 ),
  .O( wEof )
  );
@@ -250,7 +244,6 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = 0;
-			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 		`sma:
@@ -263,7 +256,6 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = 16'b0;
-			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -277,7 +269,6 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = iMCUData;
-			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -291,7 +282,6 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = 16'b0;
-			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -305,7 +295,6 @@ begin
 			rWriteSelect        = wUopSrc;
 			rFlags              = {wZ,wN,6'b0};
 			rUopDstRegData      = wRegData - 16'd1;
-			//rX16We              = 1'b0; //NO need here
 			rOverWritePc        = 1'b0;
 		end
 
@@ -319,7 +308,6 @@ begin
 			rFlagsWe            = 1'b1;
 			rFlags              = {wZ,7'b0};
 			rUopDstRegData      = wRegData  + 1'b1;
-			//rX16We              = 1'b1;	//NO need here
 			rOverWritePc        = 1'b0;
 		end
 
@@ -333,7 +321,6 @@ begin
 			rFlagsWe            = 1'b1;
 			rFlags              = {wZ,wN,6'b0};
 			rUopDstRegData      = wX16 - {{8{wRegData[7]}},wRegData[7:0]};	//sign extended 2'complement
-			//rX16We              = 1'b1;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -347,7 +334,6 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = wX16 + {{8{wRegData[7]}},wRegData[7:0]};	//sign extended 2'complement
-			//rX16We              = 1'b1;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -361,7 +347,6 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = wRegData;
-			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b1;
 		end
 
@@ -375,7 +360,6 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = 16'b0;
-			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -389,7 +373,6 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = wX8;
-			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -404,7 +387,6 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = rZ80Result;
-			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -418,7 +400,6 @@ begin
 			rFlagsWe            = 1'b1;
 			rFlags              = {wZ, 1'b0, 1'b0, wRegData[7], 4'b0};
 			rUopDstRegData      = (wRegData << 1) + wFlags[`flag_c];
-			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -433,7 +414,6 @@ begin
 			rFlagsWe            = 1'b1;
 			rFlags              = {wZ,7'b0};
 			rUopDstRegData      = wRegData & wBitMask;
-			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -447,7 +427,6 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = wRegData;
-			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -461,7 +440,6 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = wRegData;
-			//rX16We              = 1'b1;
 			rOverWritePc        = 1'b0;
 		end
 
@@ -475,7 +453,6 @@ begin
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = 16'b0;
-			//rX16We              = 1'b0;
 			rOverWritePc        = 1'b0;
 		end
 	endcase
