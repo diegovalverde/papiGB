@@ -1,3 +1,4 @@
 *.log
 *.vcd
+*.dump
 tb_simple_dzcpu
