@@ -46,7 +46,7 @@ module tb_simple_dzcpu;
 	end
 	//---------------------------------------------
 
-	integer log,i,Pc, vram_log;
+	integer log,i,Pc, vram_log_8000_8fff, vram_log_9800_9bff;
 	reg rSimulationDone;
 
 
@@ -58,7 +58,9 @@ module tb_simple_dzcpu;
 
 		if (rSimulationDone == 1'b1)
 		begin
-			vram_log = $fopen("papi_vram_8000_8fff.dump");
+			vram_log_8000_8fff = $fopen("papi_vram_8000_8fff.dump");
+			vram_log_9800_9bff = $fopen("papi_vram_9800_9bff.dump");
+
 			$display("Stopping Simulation and dumping memory");
 			$fwrite(log,"\n\n=== PAGEZERO MEMORY ===\n\n");
 			for (i = 16'hff80; i <= 16'hffff; i = i + 1)
@@ -78,16 +80,23 @@ module tb_simple_dzcpu;
 				begin
 					$fwrite(log,"\n %h : ", i );
 					if ( i <= 16'h8fff)
-						$fwrite(vram_log,"\n %h : ", i );
+						$fwrite(vram_log_8000_8fff,"\n %h : ", i );
+
+					if ( i >= 16'h9800 && i <= 16'h9bff)
+						$fwrite(vram_log_9800_9bff,"\n %h : ", i );
 				end
 
 				$fwrite(log,"%02h ",uut.MMU.VMEM.Ram[i- 16'h8000]);
 				if ( i <= 16'h8fff)
-					$fwrite(vram_log,"%02h ",uut.MMU.VMEM.Ram[i- 16'h8000]);
+					$fwrite(vram_log_8000_8fff,"%02h ",uut.MMU.VMEM.Ram[i- 16'h8000]);
+
+				if ( i >= 16'h9800 && i <= 16'h9bff)
+					$fwrite(vram_log_9800_9bff,"%02h ",uut.MMU.VMEM.Ram[i- 16'h8000]);
 			end
 			$fwrite(log,"Simulation ended at time %dns\n", $time);
 			$fclose( log );
-			$fclose( vram_log );
+			$fclose( vram_log_8000_8fff );
+			$fclose( vram_log_9800_9bff );
 			$finish();
 		end
 
