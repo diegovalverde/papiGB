@@ -219,6 +219,7 @@ module tb_simple_dzcpu;
 			98: $fwrite(log,"=== LDmmA ===\n");
 			47: $fwrite(log,"=== DECr_a ===\n");
 			48: $fwrite(log,"=== DECr_c ===\n");
+			106: $fwrite(log,"=== JRZn ===\n");
 
 
 			default:

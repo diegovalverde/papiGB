@@ -51,7 +51,8 @@ assign wuCmd   = wUop[8:4];
 MUXFULLPARALELL_3SEL_GENERIC # ( 1'b1 ) MUX_EOF
  (
  .Sel( wUop[11:9] ),
- .I0( 1'b0 ),.I4( 1'b1 ), .I5( wFlags[`flag_z] ), .I6( 1'b1 ),
+ .I0( 1'b0 ),.I1( 1'b0 ),.I2( 1'b0 ),.I3( 1'b0 ),
+ .I4( 1'b1 ), .I5( wFlags[`flag_z] ), .I6( 1'b1 ), .I7( ~wFlags[`flag_z] ),
  .O( wEof )
  );
 

@@ -52,7 +52,7 @@
 //  `define  LDrn_h;
 //  `define  DAA;
 //  `define
-//  `define  JRZn;
+  `define  JRZn 8'h28
 //  `define  ADDHLHL;
 //  `define  LDAHLI;
 //  `define  DECHL;
@@ -682,6 +682,7 @@
 `define inc_eof         4'b1100
 `define inc_eof_z       4'b1101
 `define inc_eof_fu      4'b1110
+`define inc_eof_nz      4'b1111
 `define eof             4'b0100
 `define eof_z           4'b0101
 `define eof_fu          4'b0110

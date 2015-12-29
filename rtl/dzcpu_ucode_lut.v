@@ -65,6 +65,7 @@ begin
 	`LDmmA: oUopFlowIdx = 8'd98;
 	`DECr_a: oUopFlowIdx = 8'd47;
 	`DECr_c: oUopFlowIdx = 8'd48;
+	`JRZn:   oUopFlowIdx = 8'd106;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -140,7 +141,7 @@ begin
 	//JRNZ
 		17: oUop = { `inc, `sma, `pc   };
 		18: oUop = { `op,  `nop, `null };
-		19: oUop = { `inc_eof_z,  `srm, `x8 }; 	//If not z return else x8 = MEM[pc]
+		19: oUop = { `inc_eof_z,  `srm, `x8 }; 	//If z return else x8 = MEM[pc]
 		20: oUop = { `op,  `sx16r, `pc };  		//x16 = pc
 		21: oUop = { `op,`addx16, `x8  };       //x16 = x16 + sign_extend{8'b0,x8}
 		22: oUop = { `eof, `spc, `x16  };  		//pc = x16
@@ -251,8 +252,13 @@ begin
 		103: oUop = {`op,   `smw,   `a  };
 		104: oUop = {`inc,  `sma,   `pc };
 		105: oUop = {`eof,  `srx16, `hl };
-
-
+//JRZn
+		106: oUop = { `inc, `sma, `pc   };
+		107: oUop = { `op,  `nop, `null };
+		108: oUop = { `inc_eof_nz, `srm, `x8 }; 	//If not z return else x8 = MEM[pc]
+		109: oUop = { `op,  `sx16r, `pc };  		//x16 = pc
+		110: oUop = { `op,`addx16, `x8  };       //x16 = x16 + sign_extend{8'b0,x8}
+		111: oUop = { `eof, `spc, `x16  };  		//pc = x16
 	/*
 	//RETI
 
