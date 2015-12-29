@@ -67,6 +67,7 @@ begin
 	`DECr_c: oUopFlowIdx = 8'd48;
 	`JRZn:   oUopFlowIdx = 8'd106;
 	`LDrn_l: oUopFlowIdx = 8'd112;
+	`JRn:    oUopFlowIdx = 8'd115;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -261,9 +262,16 @@ begin
 		110: oUop = { `op,`addx16, `x8  };       //x16 = x16 + sign_extend{8'b0,x8}
 		111: oUop = { `eof, `spc, `x16  };  		//pc = x16
 //LDrn_l
-		112: oUop = {`inc, `sma, `pc};
+		112: oUop = {`inc, `sma, `pc    };
 		113: oUop = { `inc,  `nop, `null };
-		114: oUop = {`eof, `srm,  `l };
+		114: oUop = {`eof, `srm,  `l     };
+//JRn
+		115: oUop = { `inc, `sma, `pc   };
+		116: oUop = { `op,  `nop, `null };
+		117: oUop = { `inc, `srm, `x8   };
+		118: oUop = { `op,  `sx16r, `pc };       //x16 = pc
+		119: oUop = { `op,`addx16, `x8  };       //x16 = x16 + sign_extend{8'b0,x8}
+		120: oUop = { `eof, `spc, `x16  };       //pc = x16
 
 	/*
 	//RETI

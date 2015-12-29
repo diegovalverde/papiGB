@@ -30,8 +30,7 @@
 //  `define  DECr_d;
 //  `define  LDrn_d;
   `define  RLA 8'h17
-//  `define
-//  `define  JRn;
+  `define  JRn 8'h18
 //  `define  ADDHLDE;
   `define  LDADEm 8'h1A
 //  `define  DECDE;
