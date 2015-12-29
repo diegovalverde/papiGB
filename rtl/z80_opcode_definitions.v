@@ -59,7 +59,7 @@
 //  `define
 //  `define  INCr_l;
 //  `define  DECr_l;
-//  `define  LDrn_l;
+  `define  LDrn_l 8'h2e
 //  `define  CPL;
 //  `define
 //  30
