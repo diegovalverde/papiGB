@@ -34,10 +34,10 @@
 //  `define  ADDHLDE;
   `define  LDADEm 8'h1A
 //  `define  DECDE;
-//  `define
+
 //  `define  INCr_e;
 //  `define  DECr_e;
-//  `define  LDrn_e;
+  `define  LDrn_e 8'h1e
 //  `define  RRA;
 //  `define
 //  20
