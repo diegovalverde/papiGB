@@ -201,11 +201,11 @@ module tb_simple_dzcpu;
 		begin
 			Pc = uut.DZCPU.wPc;
 			case (uut.DZCPU.wuOpFlowIdx)
-			1: $fwrite(log,"=== LDSPnn === %h \n", uut.DZCPU.iMCUData );
-			5: $fwrite(log,"=== LDHLnn === %h \n", uut.DZCPU.iMCUData );
-			9: $fwrite(log,"=== LDHLDA === %h \n", uut.DZCPU.iMCUData );
-			13:  $fwrite(log,"=== MAPcb === %h \n", uut.DZCPU.iMCUData );
-			17:  $fwrite(log,"=== JRNZn === %h \n", uut.DZCPU.iMCUData );
+			1:  $fwrite(log,"=== LDSPnn === %h \n", uut.DZCPU.iMCUData );
+			5:  $fwrite(log,"=== LDHLnn === %h \n", uut.DZCPU.iMCUData );
+			9:  $fwrite(log,"=== LDHLDA === %h \n", uut.DZCPU.iMCUData );
+			13: $fwrite(log,"=== MAPcb === %h \n", uut.DZCPU.iMCUData );
+			17: $fwrite(log,"=== JRNZn === %h \n", uut.DZCPU.iMCUData );
 			23: $fwrite(log,"=== LDrn_c === %h \n", uut.DZCPU.iMCUData );
 			26: $fwrite(log,"=== LDrn_a === %h \n", uut.DZCPU.iMCUData );
 			29: $fwrite(log,"=== LDIOCA === %h \n", uut.DZCPU.iMCUData );
@@ -219,7 +219,7 @@ module tb_simple_dzcpu;
 			63: $fwrite(log,"=== PUSHBC === %h \n", uut.DZCPU.iMCUData );
 			70: $fwrite(log,"=== RLA === %h \n", uut.DZCPU.iMCUData );
 			71: $fwrite(log,"=== POPBC === %h \n", uut.DZCPU.iMCUData );
-			77:$fwrite(log,"=== DECr_b === %h \n", uut.DZCPU.iMCUData );
+			77: $fwrite(log,"=== DECr_b === %h \n", uut.DZCPU.iMCUData );
 			78: $fwrite(log,"=== LDHLIA === %h \n", uut.DZCPU.iMCUData );
 			82: $fwrite(log,"=== INCHL === %h \n", uut.DZCPU.iMCUData );
 			83: $fwrite(log,"=== RET === %h \n", uut.DZCPU.iMCUData );
@@ -246,7 +246,11 @@ module tb_simple_dzcpu;
 			case (uut.DZCPU.wuCmd)
 				`nop: $fwrite(log,"nop \n");
 				`sma: $fwrite(log,"sma %h\n", uut.DZCPU.oMCUAddr);
-				`srm: $fwrite(log,"srm %h %h\n", uut.DZCPU.wUopSrc, uut.DZCPU.iMCUData);
+				`srm:
+				begin
+					$fwrite(log,"srm %h %h\n", uut.DZCPU.wUopSrc, uut.DZCPU.iMCUData);
+					$fwrite(log,"[MMU] reading %h @ %h\n", uut.MMU.iData,uut.MMU.iAddr);
+				end
 				`jcb: $fwrite(log,"jcb %h \n", uut.DZCPU.iMCUData);
 				`smw: $fwrite(log,"smw %h %h\n", uut.DZCPU.oMCUAddr, uut.DZCPU.oMCUData);
 				`bit: $fwrite(log,"bit %h & %b\n", uut.DZCPU.wRegData, uut.DZCPU.wBitMask);
