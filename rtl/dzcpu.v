@@ -183,6 +183,7 @@ MUXFULLPARALELL_4SEL_GENERIC # (16) MUX_MCUADR
 	.I0({8'b0,wB}), .I1({8'b0,wC}), .I2({8'b0,wD}), .I3({8'b0,wE}),
 	.I4({8'b0,wH}), .I5({8'b0,wL}), .I6({wH,wL}), 	.I7({8'b0,wA}),
 	.I8(wPc), .I9({wSpH,wSpL}), .I10({8'b0,wX8}), .I15({wD,wE}),
+	.I11( 16'b0 ), .I12( 16'b0 ), .I13( 16'b0 ),
 	.I14( {8'hff,wC}), //Special case for LDIOCA
 	.O( oMCUAddr )
 );
