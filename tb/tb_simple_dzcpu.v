@@ -233,6 +233,7 @@ module tb_simple_dzcpu;
 			115: $fwrite(log,"=== JRn  === %h \n", uut.DZCPU.iMCUData );
 			49: $fwrite(log,"=== INCr_b  === %h \n", uut.DZCPU.iMCUData );
 			121: $fwrite(log,"=== LDrn_e  === %h \n", uut.DZCPU.iMCUData );
+			124: $fwrite(log,"=== LDAIOn  === %h \n", uut.DZCPU.iMCUData );
 
 			default:
 				$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);

@@ -70,6 +70,7 @@ begin
 	`JRn:    oUopFlowIdx = 8'd115;
 	`INCr_b: oUopFlowIdx = 8'd49;
 	`LDrn_e: oUopFlowIdx = 8'd121;
+	`LDAIOn: oUopFlowIdx = 8'd124;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -278,7 +279,14 @@ begin
 		121: oUop = {`inc, `sma, `pc     };
 		122: oUop = { `inc,  `nop, `null };
 		123: oUop = {`eof, `srm,  `e     };
-
+//LDAIOn
+		124: oUop = { `inc, `sx8r, `c    };
+		125: oUop = { `op,  `nop,  `null };
+		126: oUop = { `op,  `srm,  `c    };
+		127: oUop = { `op,   `sma, `io_c };
+		128: oUop = { `op,   `srm,  `a   };
+		129: oUop = { `op,   `srx8, `c   };
+		130: oUop = { `inc_eof, `sma, `pc };
 	/*
 	//RETI
 

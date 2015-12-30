@@ -314,7 +314,7 @@
 //  //  `define  RST28;
 //  //  `define
 //  F0
-//  //  `define  LDAIOn;
+ `define  LDAIOn 8'hf0
 //  //  `define  POPAF;
 //  //  `define  LDAIOC;
 //  //  `define  DI;
