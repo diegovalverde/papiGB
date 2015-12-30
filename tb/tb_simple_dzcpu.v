@@ -193,7 +193,7 @@ module tb_simple_dzcpu;
 	begin
 		wait(iReset != 1);
 
-		if (uut.DZCPU.wPc == 16'h056)	//This instructrion finishes copying the little (R)
+		if (uut.DZCPU.wPc == 16'h06A)	//This instructrion finishes copying the little (R)
 			rSimulationDone = 1;
 
 
@@ -201,36 +201,37 @@ module tb_simple_dzcpu;
 		begin
 			Pc = uut.DZCPU.wPc;
 			case (uut.DZCPU.wuOpFlowIdx)
-			1: $fwrite(log,"=== LDSPnn === \n");
-			5: $fwrite(log,"=== LDHLnn === \n");
-			9: $fwrite(log,"=== LDHLDA === \n");
-			13:  $fwrite(log,"=== MAPcb === \n");
-			17:  $fwrite(log,"=== JRNZn === \n");
-			23: $fwrite(log,"=== LDrn_c === \n");
-			26: $fwrite(log,"=== LDrn_a === \n");
-			29: $fwrite(log,"=== LDIOCA === \n");
-			32: $fwrite(log,"=== INCr_c === \n");
-			33: $fwrite(log,"=== LDHLmr_a === \n");
-			36: $fwrite(log,"=== LDIOnA  === \n");
-			43: $fwrite(log,"=== LDDEnn  === \n");
-			94: $fwrite(log,"=== LDADEm  === \n");
-			50: $fwrite(log,"=== CALLnn ===\n");
-			60: $fwrite(log,"=== LDrn_b ===\n");
-			63: $fwrite(log,"=== PUSHBC ===\n");
-			70: $fwrite(log,"=== RLA ===\n");
-			71: $fwrite(log,"=== POPBC ===\n");
-			77:$fwrite(log,"=== DECr_b ===\n");
-			78: $fwrite(log,"=== LDHLIA ===\n");
-			82: $fwrite(log,"=== INCHL ===\n");
-			83: $fwrite(log,"=== RET ===\n");
-			89: $fwrite(log,"=== INCDE ===\n");
-			90: $fwrite(log,"=== CPn ===\n");
-			98: $fwrite(log,"=== LDmmA ===\n");
-			47: $fwrite(log,"=== DECr_a ===\n");
-			48: $fwrite(log,"=== DECr_c ===\n");
-			106: $fwrite(log,"=== JRZn ===\n");
-			112: $fwrite(log,"=== LDrn_l  ===\n");
-			115: $fwrite(log,"=== JRn  ===\n");
+			1: $fwrite(log,"=== LDSPnn === %h \n", uut.DZCPU.iMCUData );
+			5: $fwrite(log,"=== LDHLnn === %h \n", uut.DZCPU.iMCUData );
+			9: $fwrite(log,"=== LDHLDA === %h \n", uut.DZCPU.iMCUData );
+			13:  $fwrite(log,"=== MAPcb === %h \n", uut.DZCPU.iMCUData );
+			17:  $fwrite(log,"=== JRNZn === %h \n", uut.DZCPU.iMCUData );
+			23: $fwrite(log,"=== LDrn_c === %h \n", uut.DZCPU.iMCUData );
+			26: $fwrite(log,"=== LDrn_a === %h \n", uut.DZCPU.iMCUData );
+			29: $fwrite(log,"=== LDIOCA === %h \n", uut.DZCPU.iMCUData );
+			32: $fwrite(log,"=== INCr_c === %h \n", uut.DZCPU.iMCUData );
+			33: $fwrite(log,"=== LDHLmr_a === %h \n", uut.DZCPU.iMCUData );
+			36: $fwrite(log,"=== LDIOnA  === %h \n", uut.DZCPU.iMCUData );
+			43: $fwrite(log,"=== LDDEnn  === %h \n", uut.DZCPU.iMCUData );
+			94: $fwrite(log,"=== LDADEm  === %h \n", uut.DZCPU.iMCUData );
+			50: $fwrite(log,"=== CALLnn === %h \n", uut.DZCPU.iMCUData );
+			60: $fwrite(log,"=== LDrn_b === %h \n", uut.DZCPU.iMCUData );
+			63: $fwrite(log,"=== PUSHBC === %h \n", uut.DZCPU.iMCUData );
+			70: $fwrite(log,"=== RLA === %h \n", uut.DZCPU.iMCUData );
+			71: $fwrite(log,"=== POPBC === %h \n", uut.DZCPU.iMCUData );
+			77:$fwrite(log,"=== DECr_b === %h \n", uut.DZCPU.iMCUData );
+			78: $fwrite(log,"=== LDHLIA === %h \n", uut.DZCPU.iMCUData );
+			82: $fwrite(log,"=== INCHL === %h \n", uut.DZCPU.iMCUData );
+			83: $fwrite(log,"=== RET === %h \n", uut.DZCPU.iMCUData );
+			89: $fwrite(log,"=== INCDE === %h \n", uut.DZCPU.iMCUData );
+			90: $fwrite(log,"=== CPn === %h \n", uut.DZCPU.iMCUData );
+			98: $fwrite(log,"=== LDmmA === %h \n", uut.DZCPU.iMCUData );
+			47: $fwrite(log,"=== DECr_a === %h \n", uut.DZCPU.iMCUData );
+			48: $fwrite(log,"=== DECr_c === %h \n", uut.DZCPU.iMCUData );
+			106: $fwrite(log,"=== JRZn === %h \n", uut.DZCPU.iMCUData );
+			112: $fwrite(log,"=== LDrn_l  === %h \n", uut.DZCPU.iMCUData );
+			115: $fwrite(log,"=== JRn  === %h \n", uut.DZCPU.iMCUData );
+			49: $fwrite(log,"=== INCr_b  === %h \n", uut.DZCPU.iMCUData );
 
 			default:
 				$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);

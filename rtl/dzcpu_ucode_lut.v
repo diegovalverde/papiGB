@@ -68,6 +68,7 @@ begin
 	`JRZn:   oUopFlowIdx = 8'd106;
 	`LDrn_l: oUopFlowIdx = 8'd112;
 	`JRn:    oUopFlowIdx = 8'd115;
+	`INCr_b: oUopFlowIdx = 8'd49;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -182,8 +183,8 @@ begin
 		47:	oUop = { `inc_eof_fu, `dec16,    `a  };
 	//DECr_c
 		48:	oUop = { `inc_eof_fu, `dec16,    `c  };
-	//Dead
-		49: oUop = {`eof, `sma, `pc  };
+	//INCR_b
+		49: oUop = {`inc_eof, `inc16, `b };
 	//CALLnn
 		50: oUop = { `inc, `dec16, `sp  };
 		51: oUop = { `op, `dec16,  `sp  }; //sp -= 2
@@ -272,6 +273,7 @@ begin
 		118: oUop = { `op,  `sx16r, `pc };       //x16 = pc
 		119: oUop = { `op,`addx16, `x8  };       //x16 = x16 + sign_extend{8'b0,x8}
 		120: oUop = { `eof, `spc, `x16  };       //pc = x16
+//LDrr_ha
 
 	/*
 	//RETI

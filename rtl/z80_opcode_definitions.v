@@ -5,7 +5,7 @@
 `define  LDBCmA  8'h2
 //  `define  INCBC;
 
-//  `define  INCr_b;
+  `define  INCr_b 8'h4
   `define  DECr_b 8'h5
   `define  LDrn_b 8'h6
 //  `define  RLCA;
@@ -133,7 +133,7 @@
 //  `define  LDrr_hh;
 //  `define  LDrr_hl;
 //  `define  LDrHLm_h;
-//  `define  LDrr_ha;
+`define  LDrr_ha 8'h67
 
 //  `define  LDrr_lb;
 //  `define  LDrr_lc;
