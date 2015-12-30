@@ -26,25 +26,30 @@ module mmu
 	input wire [15:0] iAddr,
 	input wire        iWe,
 	input wire [7:0]  iData,
-	output wire [7:0] oData
+	output wire [7:0] oData,
+
+
+
+	//IO Registers
+	input wire [7:0]  iGPU_LCDC,
+	input wire [7:0]  iGPU_STAT,
+	input wire [7:0]  iGPU_SCY,
+	input wire [7:0]  iGPU_SCX,
+	input wire [7:0]  iGPU_LY,
+	input wire [7:0]  iGPU_LYC,
+	input wire [7:0]  iGPU_DMA,
+	input wire [7:0]  iGPU_BGP,
+	input wire [7:0]  iGPU_OBP0,
+	input wire [7:0]  iGPU_OBP1,
+	input wire [7:0]  iGPU_WY,
+	input wire [7:0]  iGPU_WX
+
 
 );
-	wire [7:0] wBiosData, wZeroPageDataOut;
+	wire [7:0] wBiosData, wZeroPageDataOut, wZIOData, wIORegisters,wLCDRegisters,wSoundRegisters_Group0,wSoundRegisters_Group1;
+	wire [7:0] wSoundRegisters_WavePattern, wJoyPadAndTimers;
 	wire wInBios, wInCartridgeBank0, wWeZeroPage, wWeVRam;
 
-	parameter ADDR_NULL       = 4'b0000;
-	parameter ADDR_VRAM       = 4'b0001;
-	parameter ADDR_EXT_RAM    = 4'b0010;
-	parameter ADDR_WORK_ECHO  = 4'b0100;
-	parameter ADDR_HIGH_PAGES = 4'b1000;
-	parameter ADDR_ECHO       = 4'b0001;
-	parameter ADDR_OAM        = 4'b0010;
-	parameter ADDR_ZERO_PAGE  = 4'b0100;
-
-	parameter addr_vram       = 0;
-	parameter addr_ext_ram    = 1;
-	parameter addr_work_echo  = 2;
-	parameter addr_high_pages = 3;
 
 	bios BIOS
 	(
@@ -85,63 +90,72 @@ RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(7), .MEM_SIZE(128) ) ZERO_P
 
 
 
-MUXFULLPARALELL_4SEL_GENERIC # (4) MUX_MEMSEL_H
+///  READ .///
+MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_LCD_REGISTERS
 (
-	.Sel( iAddr[15:12] ),
-	//ROM Bank 0
-	.I0(ADDR_NULL), .I1(ADDR_NULL),
-	.I2(ADDR_NULL), .I3(ADDR_NULL),
-	.I4(ADDR_NULL), .I5(ADDR_NULL),
-	.I6(ADDR_NULL), .I7(ADDR_NULL),
-
-	//VIDEO RAM
-	.I8(ADDR_VRAM), .I9(ADDR_VRAM),
-
-	//External RAM
-	.I10(ADDR_EXT_RAM), .I11(ADDR_EXT_RAM),
-	// Work RAM and Echo
-	.I12( ADDR_WORK_ECHO), .I13(ADDR_WORK_ECHO), .I14(ADDR_WORK_ECHO),
-	//Extended Regions
-	.I15(ADDR_HIGH_PAGES),
-
-	.O( wMemSel_H )
+	.Sel( iAddr[3:0]),
+	.I0( iGPU_LCDC            ),
+	.I1( iGPU_STAT            ),
+	.I2( iGPU_SCY             ),
+	.I3( iGPU_SCX             ),
+	.I4( iGPU_LY              ),
+	.I5( iGPU_LYC             ),
+	.I6( iGPU_DMA             ),
+	.I7( iGPU_BGP             ),
+	.I8( iGPU_OBP0            ),
+	.I9( iGPU_OBP1            ),
+	.I10( iGPU_WY             ),
+	.I11( iGPU_WX             ),
+	.I12( 8'b0                ),
+	.I13( 8'b0                ),
+	.I14( 8'b0                ),
+	.I15( 8'b0                ),
+	.O( wLCDRegisters )
 );
 
-MUXFULLPARALELL_4SEL_GENERIC # (4) MUX_MEMSEL_L
+MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_REGISTERS
 (
-	.Sel( iAddr[11:8] ),
-	//ECHO
-	.I0(ADDR_ECHO), .I1(ADDR_ECHO),
-	.I2(ADDR_ECHO), .I3(ADDR_ECHO),
-	.I4(ADDR_ECHO), .I5(ADDR_ECHO),
-	.I6(ADDR_ECHO), .I7(ADDR_ECHO),
-	.I8(ADDR_ECHO), .I9(ADDR_ECHO),
-	.I10(ADDR_ECHO), .I11(ADDR_ECHO),
-	.I12(ADDR_ECHO), .I13(ADDR_ECHO),
-	//OAM
-	.I14(ADDR_OAM),
-	//Zeropage RAM, I/O, interrupts
-	.I15(ADDR_ZERO_PAGE),
-
-	.O( wMemSel_L )
+	.Sel( iAddr[6:4]),                    //FF00-FF7F
+	.I0( wJoyPadAndTimers            ),   //F-0     iAddr[6:4] = 000
+	.I1( wSoundRegisters_Group0      ),   //1F-F    iAddr[6:4] = 001
+	.I2( wSoundRegisters_Group1      ),   //2F-20   iAddr[6:4] = 010
+	.I3( wSoundRegisters_WavePattern ),   //3F-30   iAddr[6:4] = 011
+	.I4( wLCDRegisters               ),   //4F-40   iAddr[6:4] = 100
+	.I5( 8'b0                        ),
+	.I6( 8'b0                        ),
+	.I7( 8'b0                        ),
+	.O( wIORegisters )
 );
 
+
+
+MUXFULLPARALELL_2SEL_GENERIC # (8) MUX_MEMREAD_IO_ZERPAGE_INTERRUPTS
+(
+	.Sel( iAddr[7:6]),
+	.I0( wIORegisters     ),    //FF00-FF7F     iAddr[7:6] = 00
+	.I1( wIORegisters     ),    //FF00-FF7F     iAddr[7:6] = 01
+	.I2( wZeroPageDataOut ),	//FF80-FFFF     iAddr[7:6] = 10
+	.I3( wZeroPageDataOut ),	//FF80-FFFF     iAddr[7:6] = 11
+	.O(  wZIOData )
+
+);
 
 MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_L
 (
 	.Sel( iAddr[11:8] ),
 	//ECHO
-	/*.I0(ADDR_ECHO), .I1(ADDR_ECHO),
-	.I2(ADDR_ECHO), .I3(ADDR_ECHO),
-	.I4(ADDR_ECHO), .I5(ADDR_ECHO),
-	.I6(ADDR_ECHO), .I7(ADDR_ECHO),
-	.I8(ADDR_ECHO), .I9(ADDR_ECHO),
-	.I10(ADDR_ECHO), .I11(ADDR_ECHO),
-	.I12(ADDR_ECHO), .I13(ADDR_ECHO),*/
+	.I0(8'b0), .I1(8'b0),
+	.I2(8'b0), .I3(8'b0),
+	.I4(8'b0), .I5(8'b0),
+	.I6(8'b0), .I7(8'b0),
+	.I8(8'b0), .I9(8'b0),
+	.I10(8'b0), .I11(8'b0),
+	.I12(8'b0), .I13(8'b0),
+	.I14(8'b0),
 	//OAM
 	//.I14(ADDR_OAM),
 	//Zeropage RAM, I/O, interrupts
-	.I15(wZeroPageDataOut),
+	.I15( wZIOData ), //wZeroPageDataOut),
 
 	.O( wReadData_L )
 );
@@ -159,9 +173,9 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_H
 	.I8(wReadVmem), .I9(wReadVmem),
 
 	//External RAM
-	//.I10(ADDR_EXT_RAM), .I11(ADDR_EXT_RAM),
+	.I10(8'b0), .I11(8'b0),
 	// Work RAM and Echo
-	//.I12( ADDR_WORK_ECHO), .I13(ADDR_WORK_ECHO), .I14(ADDR_WORK_ECHO),
+	.I12( 8'b0), .I13(8'b0), .I14(8'b0),
 	//Extended Regions
 	.I15( wReadData_L ),
 
@@ -169,22 +183,15 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_H
 );
 
 //ZeroPage FF80 - FFFF
-assign wWeZeroPage = ( iWe & wMemSel_H[addr_high_pages] & wMemSel_L[2] & iAddr[7] ) ? 1'b1 : 1'b0;
-assign wWeVRam     = ( iWe & wMemSel_H[addr_vram] ) ? 1'b1 : 1'b0;
+assign wWeZeroPage = ( iWe && iAddr[15:12] == 4'hf && iAddr[11:8] == 4'hf && (iAddr[7:6] == 2'h2 || iAddr[7:6] == 2'h3) ) ? 1'b1 : 1'b0 ;
+assign wWeVRam = ( iWe && (iAddr[15:12] == 4'h8 || iAddr[15:12] == 4'h9 ) ) ? 1'b1 : 1'b0;
 
-	always @ (posedge iClock)
-	begin
 
-	//if (wWeVRam)//iAddr[15:13] == 3'b100)		//8000 - 9FFFF
-	//	rvMem[iAddr[12:0]] = iData;
-
-	end
-
-	assign wReadCartridgeBank0 = (wInBios) ? wBiosData : rCartridgeBank0[iAddr];
+assign wReadCartridgeBank0 = (wInBios) ? wBiosData : rCartridgeBank0[iAddr];
 
 
 
-	assign wInBios           = (iAddr & 16'hff00) ? 1'b0 : 1'b1; //0x000 - 0x0100, also remember to use 0xff50, this unmaps bios ROM
-	assign wInCartridgeBank0 = (iAddr & 16'hc000) ? 1'b0 : 1'b1; //0x100 - 0x3fff
+assign wInBios           = (iAddr & 16'hff00) ? 1'b0 : 1'b1; //0x000 - 0x0100, also remember to use 0xff50, this unmaps bios ROM
+assign wInCartridgeBank0 = (iAddr & 16'hc000) ? 1'b0 : 1'b1; //0x100 - 0x3fff
 
 endmodule
