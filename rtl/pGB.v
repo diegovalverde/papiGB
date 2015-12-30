@@ -38,7 +38,7 @@ mmu MMU
 (
 	.iClock( iClock ),
 	.iReset( iReset ),
-	.iAddr(  wdZCPU_2_MMU_Addr ),
+	.iCpuAddr(  wdZCPU_2_MMU_Addr ),
 	.iWe(    wdZCPU_2_MMU_We   ),
 	.iData(  wdZCPU_2_MMU_WriteData ),
 	.oData(  wMMU_2_dzCPU_ReadData )

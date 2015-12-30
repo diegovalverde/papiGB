@@ -249,7 +249,7 @@ module tb_simple_dzcpu;
 				`srm:
 				begin
 					$fwrite(log,"srm %h %h\n", uut.DZCPU.wUopSrc, uut.DZCPU.iMCUData);
-					$fwrite(log,"[MMU] reading %h @ %h\n", uut.MMU.iData,uut.MMU.iAddr);
+					$fwrite(log,"[MMU] reading %h @ %h\n", uut.MMU.iData,uut.MMU.iCpuAddr);
 				end
 				`jcb: $fwrite(log,"jcb %h \n", uut.DZCPU.iMCUData);
 				`smw: $fwrite(log,"smw %h %h\n", uut.DZCPU.oMCUAddr, uut.DZCPU.oMCUData);
@@ -284,32 +284,32 @@ module tb_simple_dzcpu;
 		begin
 			$fwrite(log,"%05dns [MMU] ", $time);
 
-			if (uut.MMU.iAddr >= 16'hff00 && uut.MMU.iAddr <= 16'hff7f )
+			if (uut.MMU.iCpuAddr >= 16'hff00 && uut.MMU.iCpuAddr <= 16'hff7f )
 				$fwrite(log," [IO] ");
 
-			if (uut.MMU.iAddr >= 16'hff10 && uut.MMU.iAddr <= 16'hff23 )
+			if (uut.MMU.iCpuAddr >= 16'hff10 && uut.MMU.iCpuAddr <= 16'hff23 )
 				$fwrite(log," [SOUND] ");
 
-			if (uut.MMU.iAddr >= 16'hff40 && uut.MMU.iAddr <= 16'hff4B )
+			if (uut.MMU.iCpuAddr >= 16'hff40 && uut.MMU.iCpuAddr <= 16'hff4B )
 				$fwrite(log," [LCD] ");
 
-			if (uut.MMU.iAddr >= 16'hff80 && uut.MMU.iAddr <= 16'hffff )
+			if (uut.MMU.iCpuAddr >= 16'hff80 && uut.MMU.iCpuAddr <= 16'hffff )
 				$fwrite(log," [PAGEZERO] ");
 
-			if (uut.MMU.iAddr >= 16'h8000 && uut.MMU.iAddr <= 16'h87ff )
+			if (uut.MMU.iCpuAddr >= 16'h8000 && uut.MMU.iCpuAddr <= 16'h87ff )
 				$fwrite(log," [VMEM Tiles 0] ");
 
-			if (uut.MMU.iAddr >= 16'h8800 && uut.MMU.iAddr <= 16'h8fff )
+			if (uut.MMU.iCpuAddr >= 16'h8800 && uut.MMU.iCpuAddr <= 16'h8fff )
 				$fwrite(log," [VMEM Tiles 1] ");
 
-			if (uut.MMU.iAddr >= 16'h9800 && uut.MMU.iAddr <= 16'h9BFF)
+			if (uut.MMU.iCpuAddr >= 16'h9800 && uut.MMU.iCpuAddr <= 16'h9BFF)
 				$fwrite(log," [VMEM TileMap 0] ");
 
-			if (uut.MMU.iAddr >= 16'h9C00 && uut.MMU.iAddr <= 16'h9FFF)
+			if (uut.MMU.iCpuAddr >= 16'h9C00 && uut.MMU.iCpuAddr <= 16'h9FFF)
 				$fwrite(log," [VMEM TileMap 1] ");
 
 
-			 $fwrite(log,"Writting %h @ %h\n", uut.MMU.iData,uut.MMU.iAddr);
+			 $fwrite(log,"Writting %h @ %h\n", uut.MMU.iData,uut.MMU.iCpuAddr);
 		end
 
 

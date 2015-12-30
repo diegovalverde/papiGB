@@ -23,7 +23,7 @@ module mmu
 (
 	input wire iClock,
 	input wire iReset,
-	input wire [15:0] iAddr,
+	input wire [15:0] iCpuAddr,
 	input wire        iWe,
 	input wire [7:0]  iData,
 	output wire [7:0] oData,
@@ -54,7 +54,7 @@ module mmu
 	bios BIOS
 	(
 		.iClock( iClock ),
-		.iAddr( iAddr[7:0] ),
+		.iAddr( iCpuAddr[7:0] ),
 		.oData( wBiosData  )
 	);
 
@@ -69,8 +69,8 @@ RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(8192) ) VMEM
 (
  .Clock( iClock ),
  .iWriteEnable( wWeVRam       ),
- .iReadAddress0( iAddr[12:0]  ),
- .iWriteAddress( iAddr[12:0]  ),
+ .iReadAddress0( iCpuAddr[12:0]  ),
+ .iWriteAddress( iCpuAddr[12:0]  ),
  .iDataIn(       iData        ),
  .oDataOut0( wReadVmem        )
 );
@@ -82,8 +82,8 @@ RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(7), .MEM_SIZE(128) ) ZERO_P
 (
  .Clock( iClock ),
  .iWriteEnable( wWeZeroPage   ),
- .iReadAddress0( iAddr[6:0]   ),
- .iWriteAddress( iAddr[6:0]   ),
+ .iReadAddress0( iCpuAddr[6:0]   ),
+ .iWriteAddress( iCpuAddr[6:0]   ),
  .iDataIn(       iData        ),
  .oDataOut0( wZeroPageDataOut )
 );
@@ -93,7 +93,7 @@ RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(7), .MEM_SIZE(128) ) ZERO_P
 ///  READ .///
 MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_LCD_REGISTERS
 (
-	.Sel( iAddr[3:0]),
+	.Sel( iCpuAddr[3:0]),
 	.I0( iGPU_LCDC            ),
 	.I1( iGPU_STAT            ),
 	.I2( iGPU_SCY             ),
@@ -115,12 +115,12 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_LCD_REGISTERS
 
 MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_REGISTERS
 (
-	.Sel( iAddr[6:4]),                    //FF00-FF7F
-	.I0( wJoyPadAndTimers            ),   //F-0     iAddr[6:4] = 000
-	.I1( wSoundRegisters_Group0      ),   //1F-F    iAddr[6:4] = 001
-	.I2( wSoundRegisters_Group1      ),   //2F-20   iAddr[6:4] = 010
-	.I3( wSoundRegisters_WavePattern ),   //3F-30   iAddr[6:4] = 011
-	.I4( wLCDRegisters               ),   //4F-40   iAddr[6:4] = 100
+	.Sel( iCpuAddr[6:4]),                    //FF00-FF7F
+	.I0( wJoyPadAndTimers            ),   //F-0     iCpuAddr[6:4] = 000
+	.I1( wSoundRegisters_Group0      ),   //1F-F    iCpuAddr[6:4] = 001
+	.I2( wSoundRegisters_Group1      ),   //2F-20   iCpuAddr[6:4] = 010
+	.I3( wSoundRegisters_WavePattern ),   //3F-30   iCpuAddr[6:4] = 011
+	.I4( wLCDRegisters               ),   //4F-40   iCpuAddr[6:4] = 100
 	.I5( 8'b0                        ),
 	.I6( 8'b0                        ),
 	.I7( 8'b0                        ),
@@ -131,18 +131,18 @@ MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_REGISTERS
 
 MUXFULLPARALELL_2SEL_GENERIC # (8) MUX_MEMREAD_IO_ZERPAGE_INTERRUPTS
 (
-	.Sel( iAddr[7:6]),
-	.I0( wIORegisters     ),    //FF00-FF7F     iAddr[7:6] = 00
-	.I1( wIORegisters     ),    //FF00-FF7F     iAddr[7:6] = 01
-	.I2( wZeroPageDataOut ),	//FF80-FFFF     iAddr[7:6] = 10
-	.I3( wZeroPageDataOut ),	//FF80-FFFF     iAddr[7:6] = 11
+	.Sel( iCpuAddr[7:6]),
+	.I0( wIORegisters     ),    //FF00-FF7F     iCpuAddr[7:6] = 00
+	.I1( wIORegisters     ),    //FF00-FF7F     iCpuAddr[7:6] = 01
+	.I2( wZeroPageDataOut ),	//FF80-FFFF     iCpuAddr[7:6] = 10
+	.I3( wZeroPageDataOut ),	//FF80-FFFF     iCpuAddr[7:6] = 11
 	.O(  wZIOData )
 
 );
 
 MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_L
 (
-	.Sel( iAddr[11:8] ),
+	.Sel( iCpuAddr[11:8] ),
 	//ECHO
 	.I0(8'b0), .I1(8'b0),
 	.I2(8'b0), .I3(8'b0),
@@ -162,7 +162,7 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_L
 
 MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_H
 (
-	.Sel( iAddr[15:12] ),
+	.Sel( iCpuAddr[15:12] ),
 	//ROM Bank 0
 	.I0(wReadCartridgeBank0), .I1(wReadCartridgeBank0),
 	.I2(wReadCartridgeBank0), .I3(wReadCartridgeBank0),
@@ -183,15 +183,15 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_H
 );
 
 //ZeroPage FF80 - FFFF
-assign wWeZeroPage = ( iWe && iAddr[15:12] == 4'hf && iAddr[11:8] == 4'hf && (iAddr[7:6] == 2'h2 || iAddr[7:6] == 2'h3) ) ? 1'b1 : 1'b0 ;
-assign wWeVRam = ( iWe && (iAddr[15:12] == 4'h8 || iAddr[15:12] == 4'h9 ) ) ? 1'b1 : 1'b0;
+assign wWeZeroPage = ( iWe && iCpuAddr[15:12] == 4'hf && iCpuAddr[11:8] == 4'hf && (iCpuAddr[7:6] == 2'h2 || iCpuAddr[7:6] == 2'h3) ) ? 1'b1 : 1'b0 ;
+assign wWeVRam = ( iWe && (iCpuAddr[15:12] == 4'h8 || iCpuAddr[15:12] == 4'h9 ) ) ? 1'b1 : 1'b0;
 
 
-assign wReadCartridgeBank0 = (wInBios) ? wBiosData : rCartridgeBank0[iAddr];
+assign wReadCartridgeBank0 = (wInBios) ? wBiosData : rCartridgeBank0[iCpuAddr];
 
 
 
-assign wInBios           = (iAddr & 16'hff00) ? 1'b0 : 1'b1; //0x000 - 0x0100, also remember to use 0xff50, this unmaps bios ROM
-assign wInCartridgeBank0 = (iAddr & 16'hc000) ? 1'b0 : 1'b1; //0x100 - 0x3fff
+assign wInBios           = (iCpuAddr & 16'hff00) ? 1'b0 : 1'b1; //0x000 - 0x0100, also remember to use 0xff50, this unmaps bios ROM
+assign wInCartridgeBank0 = (iCpuAddr & 16'hc000) ? 1'b0 : 1'b1; //0x100 - 0x3fff
 
 endmodule
