@@ -216,7 +216,7 @@ endmodule
 //----------------------------------------------------------------------
 module MUXFULLPARALELL_5SEL_GENERIC # ( parameter SIZE=`WIDTH )
  (
- input wire [3:0] Sel,
+ input wire [4:0] Sel,
  input wire [SIZE-1:0] I0, I1, I2, I3,I4, I5, I6, I7, I8, I9, I10, I11, I12, I13, I14, I15,
  input wire [SIZE-1:0] I16, I17, I18, I19,I20, I21, I22, I23, I24, I25, I26, I27, I28, I29, I30, I31,
  output reg [SIZE-1:0] O
