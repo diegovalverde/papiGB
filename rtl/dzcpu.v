@@ -29,6 +29,7 @@ module dzcpu
 	input wire         iReset,
 	input wire [7:0]   iMCUData,oMCUData,
 	output wire [15:0] oMCUAddr,
+	output wire         oMcuReadRequest,
 	output reg         oMCUwe
 );
 wire[15:0]  wPc, wRegData, wUopSrc, wX16, wInitialPc ;
@@ -39,7 +40,7 @@ wire [4:0 ] wuCmd;
 wire [3:0]  wMcuAdrrSel;
 wire [2:0]  wUopRegReadAddr0, wUopRegReadAddr1, rUopRegWriteAddr;
 wire [7:0]  wB,wC,wD, wE, wH,wL,wA, wSpL, wSpH, wFlags, wUopSrcRegData0,wUopSrcRegData1, wNextUopFlowIdx;
-reg         rResetFlow,rFlowEnable, rRegWe, rSetMCOAddr, rFlagsWe,  rOverWritePc, rCarry;
+reg         rResetFlow,rFlowEnable, rRegWe, rSetMCOAddr, rFlagsWe,  rOverWritePc, rCarry, rMcuReadRequest;
 reg [3:0]   rRegSelect;
 reg [7:0]   rZ80Result, rFlags, rWriteSelect;
 reg [15:0]  rUopDstRegData;
@@ -176,6 +177,8 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX8 (   iClock, iReset, rFlowEnable & rRegW
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFX16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[10], rUopDstRegData[15:0], wX16 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFFLAGS( iClock, iReset, rFlowEnable & rFlagsWe & wuCmd[ `uop_flags_update_enable ], rFlags, wFlags );
 FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 4 )FFMCUADR( iClock, iReset, rFlowEnable & rSetMCOAddr, `pc , wUop[3:0], wMcuAdrrSel );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FF_RREQ( iClock, iReset, rFlowEnable & ~oMCUwe, rMcuReadRequest, oMcuReadRequest );
+
 
 MUXFULLPARALELL_4SEL_GENERIC # (16) MUX_MCUADR
 (
@@ -248,6 +251,7 @@ begin
 			rFlags              = 8'b0;
 			rUopDstRegData      = 0;
 			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b0;
 		end
 		`sma:
 		begin
@@ -260,6 +264,7 @@ begin
 			rFlags              = 8'b0;
 			rUopDstRegData      = 16'b0;
 			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b1;
 		end
 
 		`srm:
@@ -273,6 +278,7 @@ begin
 			rFlags              = 8'b0;
 			rUopDstRegData      = iMCUData;
 			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b0;
 		end
 
 		`smw:
@@ -286,6 +292,7 @@ begin
 			rFlags              = 8'b0;
 			rUopDstRegData      = 16'b0;
 			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b0;
 		end
 
 		`dec16:
@@ -299,6 +306,7 @@ begin
 			rFlags              = {wZ,wN,6'b0};
 			rUopDstRegData      = wRegData - 16'd1;
 			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b0;
 		end
 
 		`inc16:
@@ -312,6 +320,7 @@ begin
 			rFlags              = {wZ,7'b0};
 			rUopDstRegData      = wRegData  + 1'b1;
 			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b0;
 		end
 
 		`subx16:
@@ -325,6 +334,7 @@ begin
 			rFlags              = {wZ,wN,6'b0};
 			rUopDstRegData      = wX16 - {{8{wRegData[7]}},wRegData[7:0]};	//sign extended 2'complement
 			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b0;
 		end
 
 		`addx16:
@@ -338,6 +348,7 @@ begin
 			rFlags              = 8'b0;
 			rUopDstRegData      = wX16 + {{8{wRegData[7]}},wRegData[7:0]};	//sign extended 2'complement
 			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b0;
 		end
 
 		`spc:
@@ -351,6 +362,7 @@ begin
 			rFlags              = 8'b0;
 			rUopDstRegData      = wRegData;
 			rOverWritePc        = 1'b1;
+			rMcuReadRequest     = 1'b0;
 		end
 
 		`jcb:
@@ -364,6 +376,7 @@ begin
 			rFlags              = 8'b0;
 			rUopDstRegData      = 16'b0;
 			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b0;
 		end
 
 		`srx8:
@@ -377,6 +390,7 @@ begin
 			rFlags              = 8'b0;
 			rUopDstRegData      = wX8;
 			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b0;
 		end
 
 		`srx16:
@@ -390,6 +404,7 @@ begin
 			rFlags              = 8'b0;
 			rUopDstRegData      = wX16;
 			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b0;
 		end
 		`z801bop:
 		begin
@@ -402,6 +417,7 @@ begin
 			rFlags              = 8'b0;
 			rUopDstRegData      = rZ80Result;
 			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b0;
 		end
 
 		`shl:
@@ -415,6 +431,7 @@ begin
 			rFlags              = {wZ, 1'b0, 1'b0, wRegData[7], 4'b0};
 			rUopDstRegData      = (wRegData << 1) + wFlags[`flag_c];
 			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b0;
 		end
 
 
@@ -429,6 +446,7 @@ begin
 			rFlags              = {wZ,7'b0};
 			rUopDstRegData      = wRegData & wBitMask;
 			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b0;
 		end
 
 		`sx8r:
@@ -442,6 +460,7 @@ begin
 			rFlags              = 8'b0;
 			rUopDstRegData      = wRegData;
 			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b0;
 		end
 
 		`sx16r:
@@ -455,6 +474,7 @@ begin
 			rFlags              = 8'b0;
 			rUopDstRegData      = wRegData;
 			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b0;
 		end
 
 		default:
@@ -468,6 +488,7 @@ begin
 			rFlags              = 8'b0;
 			rUopDstRegData      = 16'b0;
 			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b0;
 		end
 	endcase
 end
