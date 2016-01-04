@@ -101,8 +101,8 @@
 //  `define  LDrr_ch;
 //  `define  LDrr_cl;
 //  `define  LDrHLm_c;
-//  `define  LDrr_ca;
-//  `define
+    `define  LDrr_ca 8'h4f
+
 //  50
 //  `define  LDrr_db;
 //  `define  LDrr_dc;
@@ -112,27 +112,26 @@
 //  `define  LDrr_dh;
 //  `define  LDrr_dl;
 //  `define  LDrHLm_d;
-//  `define  LDrr_da;
-//  `define
-//  `define  LDrr_eb;
-//  `define  LDrr_ec;
-//  `define  LDrr_ed;
-//  `define  LDrr_ee;
-//  `define
-//  `define  LDrr_eh;
-//  `define  LDrr_el;
+    `define  LDrr_da 8'h57
+    `define  LDrr_eb 8'h58
+    `define  LDrr_ec 8'h59
+    `define  LDrr_ed 8'h5a
+    `define  LDrr_ee 8'h5b
+
+    `define  LDrr_eh 8'h5c
+    `define  LDrr_el 8'h5d
 //  `define  LDrHLm_e;
-//  `define  LDrr_ea;
-//  `define
+    `define  LDrr_ea 8'h5f
+
 //  60
-//  `define  LDrr_hb;
-//  `define  LDrr_hc;
-//  `define  LDrr_hd;
-//  `define  LDrr_he;
+  `define  LDrr_hb 8'h60
+  `define  LDrr_hc 8'h61
+  `define  LDrr_hd 8'h62
+  `define  LDrr_he 8'h63
 
 //  `define  LDrr_hh;
-//  `define  LDrr_hl;
-//  `define  LDrHLm_h;
+  `define  LDrr_hl 8'h65
+//  `define  LDrHLm_h
 `define  LDrr_ha 8'h67
 
 //  `define  LDrr_lb;
@@ -155,14 +154,12 @@
 //  `define  LDHLmr_l;
 //  `define  HALT;
   `define  LDHLmr_a 8'h77
-//  `define
-//  `define  LDrr_ab;
-//  `define  LDrr_ac;
-//  `define  LDrr_ad;
-//  `define  LDrr_ae;
-//  `define
-//  `define  LDrr_ah;
-//  `define  LDrr_al;
+  `define  LDrr_ab 8'h78
+  `define  LDrr_ac 8'h79
+  `define  LDrr_ad 8'h7a
+  `define  LDrr_ae 8'h7b
+  `define  LDrr_ah 8'h7c
+  `define  LDrr_al 8'h7d
 //  `define  LDrHLm_a;
 //  `define  LDrr_aa;
 //  `define
@@ -736,5 +733,3 @@
 `define DZCPU_START_FLOW  1
 `define DZCPU_RUN_FLOW    2
 `define DZCPU_END_FLOW    3
-
-

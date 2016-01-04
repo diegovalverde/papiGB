@@ -236,7 +236,18 @@ module tb_simple_dzcpu;
 			124: $fwrite(log,"=== LDAIOn  === %h \n", uut.DZCPU.iMCUData );
 
 			default:
-				$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
+			  case (uut.DZCPU.iMCUData)
+
+							`LDrr_ha: $fwrite(log,"=== LDrr_ha  === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_da: $fwrite(log,"=== LDrr_da  === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ae: $fwrite(log,"=== LDrr_ae  === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ca: $fwrite(log,"=== LDrr_ca  === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ah: $fwrite(log,"=== LDrr_ah  === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_al: $fwrite(log,"=== LDrr_al  === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ab: $fwrite(log,"=== LDrr_ab  === %h \n", uut.DZCPU.iMCUData );
+							default:	$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
+				endcase
+
 			endcase
 		end
 
