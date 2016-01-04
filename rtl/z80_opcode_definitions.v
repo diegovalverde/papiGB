@@ -184,7 +184,7 @@
 //  `define  ADCr_a;
 //  `define
 //  90
-//  `define  SUBr_b;
+  `define  SUBr_b 8'h90
 //  `define  SUBr_c;
 //  `define  SUBr_d;
 //  `define  SUBr_e;

@@ -235,6 +235,7 @@ module tb_simple_dzcpu;
 			121: $fwrite(log,"=== LDrn_e  === %h \n", uut.DZCPU.iMCUData );
 			124: $fwrite(log,"=== LDAIOn  === %h \n", uut.DZCPU.iMCUData );
 			131: $fwrite(log,"=== INCr_h  === %h \n", uut.DZCPU.iMCUData );
+			132: $fwrite(log,"=== SUBr_b  === %h \n", uut.DZCPU.iMCUData );
 
 			default:
 			  case (uut.DZCPU.iMCUData)
