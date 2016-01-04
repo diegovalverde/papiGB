@@ -56,13 +56,14 @@ module mmu
 );
 	wire [7:0] wBiosData, wZeroPageDataOut, wZIOData, wIORegisters,wLCDRegisters,wSoundRegisters_Group0,wSoundRegisters_Group1;
 	wire [7:0] wSoundRegisters_WavePattern, wJoyPadAndTimers;
-	wire [15:0] wAddr;
+	wire [15:0] wAddr, wVmemReadAddr;
 	wire wInBios, wInCartridgeBank0, wWeZeroPage, wWeVRam, wCPU_GPU_Sel;
 
 	//Choose who has Memory access at this point in time: GPU or CPU
 	//Simply check MSb from STAT mode. Also check to see if LCD is ON
 	assign wCPU_GPU_Sel = ( iGPU_LCDC[7] & iGPU_STAT[1]  ) ? 1'b1 : 1'b0 ;
-	assign wAddr = ( wCPU_GPU_Sel ) ? iGpuAddr : iCpuAddr;
+	assign wAddr =  iCpuAddr;
+	assign wVmemReadAddr = ( wCPU_GPU_Sel ) ? iGpuAddr[12:0] : iCpuAddr[12:0];
 	assign oGPU_RegData = iCpuData;
 
 
@@ -85,7 +86,7 @@ RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(8192) ) VMEM
 (
  .Clock( iClock ),
  .iWriteEnable( wWeVRam       ),
- .iReadAddress0( wAddr[12:0]  ),
+ .iReadAddress0( wVmemReadAddr  ),
  .iWriteAddress( wAddr[12:0]  ),
  .iDataIn(       iCpuData        ),
  .oDataOut0( wReadVmem        )
