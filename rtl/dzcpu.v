@@ -332,7 +332,7 @@ begin
 			rWriteSelect        = `x16;
 			rFlagsWe            = 1'b1;
 			rFlags              = {wZ,wN,6'b0};
-			rUopDstRegData      = wX16 - {{8{wRegData[7]}},wRegData[7:0]};	//sign extended 2'complement
+			rUopDstRegData      = wX16 - {8'b0,wRegData[7:0]};	
 			rOverWritePc        = 1'b0;
 			rMcuReadRequest     = 1'b0;
 		end
