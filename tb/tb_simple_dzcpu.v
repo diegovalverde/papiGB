@@ -323,8 +323,8 @@ module tb_simple_dzcpu;
 
 		if (uut.DZCPU.wEof )
 		begin
-			$fwrite(log,"\n          %04s %04s %02s %02s %02s %02s %02s %02s %02s %02s\n", "PC", "SP", "B", "C", "D" ,"E", "H", "L", "A", "Flags");
-			$fwrite(log,"[regs] %04x %04x %02x %02x %02x %02x %02x %02x %02x %b\n", Pc, {uut.DZCPU.wSpH,uut.DZCPU.wSpL}, uut.DZCPU.wB, uut.DZCPU.wC, uut.DZCPU.wD, uut.DZCPU.wE ,uut.DZCPU.wH, uut.DZCPU.wL, uut.DZCPU.wA, uut.DZCPU.wFlags);
+			$fwrite(log,"\n          %04s %04s %02s %02s %02s %02s %02s %02s %02s %02s %02s %02s\n", "PC", "SP", "B", "C", "D" ,"E", "H", "L", "A", "Flags", "x8", "x16");
+			$fwrite(log,"[regs] %04x %04x %02x %02x %02x %02x %02x %02x %02x %b %02x %02x\n", Pc, {uut.DZCPU.wSpH,uut.DZCPU.wSpL}, uut.DZCPU.wB, uut.DZCPU.wC, uut.DZCPU.wD, uut.DZCPU.wE ,uut.DZCPU.wH, uut.DZCPU.wL, uut.DZCPU.wA, uut.DZCPU.wFlags, uut.DZCPU.wX8, uut.DZCPU.wX16);
 			$fwrite(log,"\n\n\n");
 		end
 	end
