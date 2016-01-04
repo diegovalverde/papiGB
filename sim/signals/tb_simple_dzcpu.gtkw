@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.58 (w)1999-2014 BSI
-[*] Mon Jan  4 01:54:00 2016
+[*] Mon Jan  4 16:44:14 2016
 [*]
 [dumpfile] "/opt/hdd2/workspace/projects/papiGB/sim/tb_simple_dzcpu.vcd"
-[dumpfile_mtime] "Mon Jan  4 01:51:52 2016"
-[dumpfile_size] 104583086
+[dumpfile_mtime] "Mon Jan  4 06:41:28 2016"
+[dumpfile_size] 423207875
 [savefile] "/opt/hdd2/workspace/projects/papiGB/sim/signals/tb_simple_dzcpu.gtkw"
-[timestart] 1876314100
+[timestart] 4948372280
 [size] 1366 744
 [pos] -1 -1
-*-14.813875 1876378700 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-13.813875 4948397700 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb_simple_dzcpu.
 [treeopen] tb_simple_dzcpu.uut.
 [sst_width] 260
@@ -21,7 +21,7 @@ tb_simple_dzcpu.uut.iClock
 tb_simple_dzcpu.uut.iReset
 @200
 -dzCPU
-@c00200
+@800200
 -dzCPU
 @24
 tb_simple_dzcpu.uut.DZCPU.rCurrentState[7:0]
@@ -69,7 +69,8 @@ tb_simple_dzcpu.uut.DZCPU.wBitMask[7:0]
 (7)tb_simple_dzcpu.uut.DZCPU.wBitMask[7:0]
 @1401200
 -group_end
-@22
+@23
+[color] 5
 tb_simple_dzcpu.uut.DZCPU.rUopDstRegData[15:0]
 @200
 -Registers
@@ -106,9 +107,9 @@ tb_simple_dzcpu.uut.DZCPU.wL[7:0]
 tb_simple_dzcpu.uut.DZCPU.wA[7:0]
 tb_simple_dzcpu.uut.DZCPU.wX8[7:0]
 tb_simple_dzcpu.uut.DZCPU.wX16[15:0]
-@1401200
+@1000200
 -dzCPU
-@800200
+@c00200
 -MMU
 @2024
 ^4 /opt/hdd2/workspace/projects/papiGB/sim/signals/mmu_cpu_gpu_sel
@@ -127,9 +128,9 @@ tb_simple_dzcpu.uut.MMU.wInBios
 tb_simple_dzcpu.uut.MMU.wInCartridgeBank0
 @22
 tb_simple_dzcpu.uut.MMU.oData[7:0]
-@1000200
+@1401200
 -MMU
-@800200
+@c00200
 -GPU
 @28
 tb_simple_dzcpu.uut.GPU.iClock
@@ -140,7 +141,6 @@ tb_simple_dzcpu.uut.GPU.wGpuActive
 tb_simple_dzcpu.uut.GPU.wIp[7:0]
 @22
 tb_simple_dzcpu.uut.GPU.wOp0[15:0]
-@23
 tb_simple_dzcpu.uut.GPU.wOp1[15:0]
 @800022
 tb_simple_dzcpu.uut.GPU.wUop[19:0]
@@ -258,7 +258,7 @@ tb_simple_dzcpu.uut.GPU.wR3[15:0]
 tb_simple_dzcpu.uut.GPU.wBh[7:0]
 tb_simple_dzcpu.uut.GPU.wBl[7:0]
 tb_simple_dzcpu.uut.GPU.wBGBufferBlockSel[15:0]
-@1000200
+@1401200
 -GPU
 [pattern_trace] 1
 [pattern_trace] 0
