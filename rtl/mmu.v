@@ -23,12 +23,20 @@ module mmu
 (
 	input wire iClock,
 	input wire iReset,
+
+	//CPU
+	input wire        iCpuReadRequest,
 	input wire [15:0] iCpuAddr,
-	input wire        iWe,
-	input wire [7:0]  iData,
+	input wire        iCpuWe,
+	input wire [7:0]  iCpuData,
 	output wire [7:0] oData,
 
-
+	//GPU
+	input wire        iGpuReadRequest,
+	input wire [15:0] iGpuAddr,
+	output wire [3:0] oGpu_RegSelect,
+	output wire       oGpu_RegWe,
+	output wire [7:0] oGPU_RegData,
 
 	//IO Registers
 	input wire [7:0]  iGPU_LCDC,
@@ -48,7 +56,14 @@ module mmu
 );
 	wire [7:0] wBiosData, wZeroPageDataOut, wZIOData, wIORegisters,wLCDRegisters,wSoundRegisters_Group0,wSoundRegisters_Group1;
 	wire [7:0] wSoundRegisters_WavePattern, wJoyPadAndTimers;
-	wire wInBios, wInCartridgeBank0, wWeZeroPage, wWeVRam;
+	wire [15:0] wAddr;
+	wire wInBios, wInCartridgeBank0, wWeZeroPage, wWeVRam, wCPU_GPU_Sel;
+
+	//Choose who has Memory access at this point in time: GPU or CPU
+	//Simply check MSb from STAT mode. Also check to see if LCD is ON
+	assign wCPU_GPU_Sel = ( iGPU_LCDC[7] & iGPU_STAT[1]  ) ? 1'b1 : 1'b0 ;
+	assign wAddr = ( wCPU_GPU_Sel ) ? iGpuAddr : iCpuAddr;
+	assign oGPU_RegData = iCpuData;
 
 
 	bios BIOS
@@ -64,14 +79,15 @@ module mmu
 	wire [7:0] wReadCartridgeBank0, wReadVmem, wReadData_L;
 
 
+
 //TODO: This has to go into SRAM!!!
 RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(8192) ) VMEM
 (
  .Clock( iClock ),
  .iWriteEnable( wWeVRam       ),
- .iReadAddress0( iCpuAddr[12:0]  ),
- .iWriteAddress( iCpuAddr[12:0]  ),
- .iDataIn(       iData        ),
+ .iReadAddress0( wAddr[12:0]  ),
+ .iWriteAddress( wAddr[12:0]  ),
+ .iDataIn(       iCpuData        ),
  .oDataOut0( wReadVmem        )
 );
 
@@ -82,18 +98,18 @@ RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(7), .MEM_SIZE(128) ) ZERO_P
 (
  .Clock( iClock ),
  .iWriteEnable( wWeZeroPage   ),
- .iReadAddress0( iCpuAddr[6:0]   ),
- .iWriteAddress( iCpuAddr[6:0]   ),
- .iDataIn(       iData        ),
+ .iReadAddress0( wAddr[6:0]   ),
+ .iWriteAddress( wAddr[6:0]   ),
+ .iDataIn(       iCpuData        ),
  .oDataOut0( wZeroPageDataOut )
 );
 
-
+assign oGpu_RegSelect = wAddr[3:0];
 
 ///  READ .///
 MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_LCD_REGISTERS
 (
-	.Sel( iCpuAddr[3:0]),
+	.Sel( wAddr[3:0]),
 	.I0( iGPU_LCDC            ),
 	.I1( iGPU_STAT            ),
 	.I2( iGPU_SCY             ),
@@ -115,12 +131,12 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_LCD_REGISTERS
 
 MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_REGISTERS
 (
-	.Sel( iCpuAddr[6:4]),                    //FF00-FF7F
-	.I0( wJoyPadAndTimers            ),   //F-0     iCpuAddr[6:4] = 000
-	.I1( wSoundRegisters_Group0      ),   //1F-F    iCpuAddr[6:4] = 001
-	.I2( wSoundRegisters_Group1      ),   //2F-20   iCpuAddr[6:4] = 010
-	.I3( wSoundRegisters_WavePattern ),   //3F-30   iCpuAddr[6:4] = 011
-	.I4( wLCDRegisters               ),   //4F-40   iCpuAddr[6:4] = 100
+	.Sel( wAddr[6:4]),                    //FF00-FF7F
+	.I0( wJoyPadAndTimers            ),   //F-0     wAddr[6:4] = 000
+	.I1( wSoundRegisters_Group0      ),   //1F-F    wAddr[6:4] = 001
+	.I2( wSoundRegisters_Group1      ),   //2F-20   wAddr[6:4] = 010
+	.I3( wSoundRegisters_WavePattern ),   //3F-30   wAddr[6:4] = 011
+	.I4( wLCDRegisters               ),   //4F-40   wAddr[6:4] = 100
 	.I5( 8'b0                        ),
 	.I6( 8'b0                        ),
 	.I7( 8'b0                        ),
@@ -131,18 +147,18 @@ MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_REGISTERS
 
 MUXFULLPARALELL_2SEL_GENERIC # (8) MUX_MEMREAD_IO_ZERPAGE_INTERRUPTS
 (
-	.Sel( iCpuAddr[7:6]),
-	.I0( wIORegisters     ),    //FF00-FF7F     iCpuAddr[7:6] = 00
-	.I1( wIORegisters     ),    //FF00-FF7F     iCpuAddr[7:6] = 01
-	.I2( wZeroPageDataOut ),	//FF80-FFFF     iCpuAddr[7:6] = 10
-	.I3( wZeroPageDataOut ),	//FF80-FFFF     iCpuAddr[7:6] = 11
+	.Sel( wAddr[7:6]),
+	.I0( wIORegisters     ),    //FF00-FF7F     wAddr[7:6] = 00
+	.I1( wIORegisters     ),    //FF00-FF7F     wAddr[7:6] = 01
+	.I2( wZeroPageDataOut ),	//FF80-FFFF     wAddr[7:6] = 10
+	.I3( wZeroPageDataOut ),	//FF80-FFFF     wAddr[7:6] = 11
 	.O(  wZIOData )
 
 );
 
 MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_L
 (
-	.Sel( iCpuAddr[11:8] ),
+	.Sel( wAddr[11:8] ),
 	//ECHO
 	.I0(8'b0), .I1(8'b0),
 	.I2(8'b0), .I3(8'b0),
@@ -162,7 +178,7 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_L
 
 MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_H
 (
-	.Sel( iCpuAddr[15:12] ),
+	.Sel( wAddr[15:12] ),
 	//ROM Bank 0
 	.I0(wReadCartridgeBank0), .I1(wReadCartridgeBank0),
 	.I2(wReadCartridgeBank0), .I3(wReadCartridgeBank0),
@@ -183,15 +199,15 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_H
 );
 
 //ZeroPage FF80 - FFFF
-assign wWeZeroPage = ( iWe && iCpuAddr[15:12] == 4'hf && iCpuAddr[11:8] == 4'hf && (iCpuAddr[7:6] == 2'h2 || iCpuAddr[7:6] == 2'h3) ) ? 1'b1 : 1'b0 ;
-assign wWeVRam = ( iWe && (iCpuAddr[15:12] == 4'h8 || iCpuAddr[15:12] == 4'h9 ) ) ? 1'b1 : 1'b0;
+assign wWeZeroPage = ( iCpuWe && wAddr[15:12] == 4'hf && wAddr[11:8] == 4'hf && (wAddr[7:6] == 2'h2 || wAddr[7:6] == 2'h3) ) ? 1'b1 : 1'b0 ;
+assign wWeVRam     = ( iCpuWe && (wAddr[15:12] == 4'h8 || wAddr[15:12] == 4'h9 ) ) ? 1'b1 : 1'b0;
+assign oGpu_RegWe  = ( iCpuWe && wAddr[15:4] == 12'hff4 ) ? 1'b1 : 1'b0;
+
+assign wReadCartridgeBank0 = (wInBios) ? wBiosData : rCartridgeBank0[wAddr];
 
 
-assign wReadCartridgeBank0 = (wInBios) ? wBiosData : rCartridgeBank0[iCpuAddr];
 
-
-
-assign wInBios           = (iCpuAddr & 16'hff00) ? 1'b0 : 1'b1; //0x000 - 0x0100, also remember to use 0xff50, this unmaps bios ROM
-assign wInCartridgeBank0 = (iCpuAddr & 16'hc000) ? 1'b0 : 1'b1; //0x100 - 0x3fff
+assign wInBios           = (wAddr & 16'hff00) ? 1'b0 : 1'b1; //0x000 - 0x0100, also remember to use 0xff50, this unmaps bios ROM
+assign wInCartridgeBank0 = (wAddr & 16'hc000) ? 1'b0 : 1'b1; //0x100 - 0x3fff
 
 endmodule

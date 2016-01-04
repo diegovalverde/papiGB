@@ -193,7 +193,7 @@ module tb_simple_dzcpu;
 	begin
 		wait(iReset != 1);
 
-		if (uut.DZCPU.wPc == 16'h06A)	//This instructrion finishes copying the little (R)
+		if (uut.DZCPU.wPc == 16'h0fc)	//This instructrion finishes copying the little (R)
 			rSimulationDone = 1;
 
 
@@ -240,6 +240,14 @@ module tb_simple_dzcpu;
 			endcase
 		end
 
+
+		if (uut.MMU.iGpuReadRequest)
+		begin
+			$fwrite(log,"%dns [MMU] Gpu requesting read @ %h\n ", $time, uut.MMU.iGpuAddr);
+		end
+
+
+
 		if (uut.DZCPU.rFlowEnable)
 		begin
 			$fwrite(log,"%05dns [DZCPU] %d  .",$time, uut.DZCPU.wuPc);
@@ -249,7 +257,7 @@ module tb_simple_dzcpu;
 				`srm:
 				begin
 					$fwrite(log,"srm %h %h\n", uut.DZCPU.wUopSrc, uut.DZCPU.iMCUData);
-					$fwrite(log,"[MMU] reading %h @ %h\n", uut.MMU.iData,uut.MMU.iCpuAddr);
+					$fwrite(log,"[MMU] reading %h @ %h\n", uut.MMU.iCpuData,uut.MMU.iCpuAddr);
 				end
 				`jcb: $fwrite(log,"jcb %h \n", uut.DZCPU.iMCUData);
 				`smw: $fwrite(log,"smw %h %h\n", uut.DZCPU.oMCUAddr, uut.DZCPU.oMCUData);
@@ -280,7 +288,7 @@ module tb_simple_dzcpu;
 			endcase
 		end
 
-		if (uut.MMU.iWe)
+		if (uut.MMU.iCpuWe)
 		begin
 			$fwrite(log,"%05dns [MMU] ", $time);
 
@@ -309,7 +317,7 @@ module tb_simple_dzcpu;
 				$fwrite(log," [VMEM TileMap 1] ");
 
 
-			 $fwrite(log,"Writting %h @ %h\n", uut.MMU.iData,uut.MMU.iCpuAddr);
+			 $fwrite(log,"Writting %h @ %h\n", uut.MMU.iCpuData,uut.MMU.iCpuAddr);
 		end
 
 
@@ -322,4 +330,3 @@ module tb_simple_dzcpu;
 	end
 
 endmodule
-
