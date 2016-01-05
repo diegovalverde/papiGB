@@ -189,6 +189,8 @@ module tb_simple_dzcpu;
 		rSimulationDone = 1;
 	end
 
+
+`ifdef DUMP_CODE
 	always @ ( posedge iClock )
 	begin
 		wait(iReset != 1);
@@ -342,5 +344,6 @@ module tb_simple_dzcpu;
 			$fwrite(log,"\n\n\n");
 		end
 	end
+`endif	//DUMP_CODE
 
 endmodule
