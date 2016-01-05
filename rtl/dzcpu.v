@@ -207,8 +207,8 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MCUDATA_OUT
 	.Sel( rRegSelect),
 	.I0(wB), .I1(wC), .I2(wD), .I3(wE),
 	.I4(wH), .I5(wL), .I6(wL), .I7(wA),
-	.I8(wH), .I9({wSpH,wSpL}), .I10(wL), .I11(wA),
-	.I12(wH), .I13(wX16), .I14(wL), .I15(wA),
+	.I8(wH), .I9(wSpL), .I10(wL), .I11(wA),
+	.I12(wH), .I13(wX16[7:0]), .I14(wL), .I15(wA),
 	.O( oMCUData )
 );
 

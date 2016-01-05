@@ -86,7 +86,7 @@ RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(8192) ) VMEM
 (
  .Clock( iClock ),
  .iWriteEnable( wWeVRam       ),
- .iReadAddress0( wVmemReadAddr  ),
+ .iReadAddress0( wVmemReadAddr[12:0]  ),
  .iWriteAddress( wAddr[12:0]  ),
  .iDataIn(       iCpuData        ),
  .oDataOut0( wReadVmem        )
