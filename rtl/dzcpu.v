@@ -27,7 +27,8 @@ module dzcpu
 (
 	input wire         iClock,
 	input wire         iReset,
-	input wire [7:0]   iMCUData,oMCUData,
+	input wire [7:0]   iMCUData,
+	output wire [7:0]  oMCUData,
 	output wire [15:0] oMCUAddr,
 	output wire         oMcuReadRequest,
 	output reg         oMCUwe
@@ -332,7 +333,7 @@ begin
 			rWriteSelect        = `x16;
 			rFlagsWe            = 1'b1;
 			rFlags              = {wZ,wN,6'b0};
-			rUopDstRegData      = wX16 - {8'b0,wRegData[7:0]};	
+			rUopDstRegData      = wX16 - {8'b0,wRegData[7:0]};
 			rOverWritePc        = 1'b0;
 			rMcuReadRequest     = 1'b0;
 		end

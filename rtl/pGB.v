@@ -44,9 +44,9 @@ wire[7:0] wGPU_2_MCU_BGP;
 wire[7:0] wGPU_2_MCU_OBP0;
 wire[7:0] wGPU_2_MCU_OBP1;
 wire[7:0] wGPU_2_MCU_WY;
-wire[7:0] wGPU_2_MCU_WX;
-wire[15:0] wGpuAddr, wGPU_RegData;
-wire[4:0] wGpu_RegSelect;
+wire[7:0] wGPU_2_MCU_WX, wGPU_RegData;
+wire[15:0] wGpuAddr;
+wire[3:0] wGpu_RegSelect;
 wire wGpu_RegWe, wGPU_2_MCU_ReadRequest;
 
 

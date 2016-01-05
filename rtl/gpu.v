@@ -113,7 +113,7 @@ assign wBGColOffset     =   oLY << 5;
 
 
 
-MUXFULLPARALELL_5SEL_GENERIC # (20) MUX_REG_WE
+MUXFULLPARALELL_5SEL_GENERIC # (21) MUX_REG_WE
 (
   .Sel( wRegSelect[4:0] ),
 
