@@ -25,9 +25,9 @@
 `define  LDDEnn 8'h11
 //  `define  LDDEmA;
   `define  INCDE 8'h13
-//  `define
+
 //  `define  INCr_d;
-//  `define  DECr_d;
+  `define  DECr_d 8'h15
 //  `define  LDrn_d;
   `define  RLA 8'h17
   `define  JRn 8'h18

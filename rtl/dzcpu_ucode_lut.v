@@ -73,6 +73,7 @@ begin
 	`LDAIOn: oUopFlowIdx = 8'd124;
 	`INCr_h: oUopFlowIdx = 8'd131;
 	`SUBr_b: oUopFlowIdx = 8'd132;
+	`DECr_d: oUopFlowIdx = 8'd135;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -295,6 +296,8 @@ begin
 		132: oUop = { `op, `sx16r, `a       };
     133: oUop = { `update_flags, `subx16, `b      };
 		134: oUop = { `inc_eof, `srx16, `a  };
+//DECr_d
+		135:	oUop = { `inc_eof_fu, `dec16,    `d  };
 	/*
 	//RETI
 
