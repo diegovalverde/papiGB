@@ -247,7 +247,7 @@ begin
 			rRegSelect          = `null;
 			rSetMCOAddr         = 1'b0;
 			rRegWe              = 1'b0;
-			rWriteSelect        = wUopSrc;
+			rWriteSelect        = wUopSrc[7:0];
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = 0;
@@ -260,7 +260,7 @@ begin
 			rRegSelect          = wUop[3:0];
 			rSetMCOAddr         = 1'b1;
 			rRegWe              = 1'b0;
-			rWriteSelect        = wUopSrc;
+			rWriteSelect        = wUopSrc[7:0];
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = 16'b0;
@@ -274,7 +274,7 @@ begin
 			rRegSelect          = `null;
 			rSetMCOAddr         = 1'b0;
 			rRegWe              = 1'b1;
-			rWriteSelect        = wUopSrc;
+			rWriteSelect        = wUopSrc[7:0];
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = iMCUData;
@@ -288,7 +288,7 @@ begin
 			rRegSelect          = wUop[3:0];
 			rSetMCOAddr         = 1'b0;
 			rRegWe              = 1'b0;
-			rWriteSelect        = wUopSrc;
+			rWriteSelect        = wUopSrc[7:0];
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = 16'b0;
@@ -303,7 +303,7 @@ begin
 			rSetMCOAddr         = 1'b0;
 			rRegWe              = 1'b1;
 			rFlagsWe            = 1'b1;
-			rWriteSelect        = wUopSrc;
+			rWriteSelect        = wUopSrc[7:0];
 			rFlags              = {wZ,wN,6'b0};
 			rUopDstRegData      = wRegData - 16'd1;
 			rOverWritePc        = 1'b0;
@@ -316,7 +316,7 @@ begin
 			rRegSelect          = wUop[3:0];
 			rSetMCOAddr         = 1'b0;
 			rRegWe              = 1'b1;
-			rWriteSelect        = wUopSrc;
+			rWriteSelect        = wUopSrc[7:0];
 			rFlagsWe            = 1'b1;
 			rFlags              = {wZ,7'b0};
 			rUopDstRegData      = wRegData  + 1'b1;
@@ -358,7 +358,7 @@ begin
 			rRegSelect          = wUop[3:0];
 			rSetMCOAddr         = 1'b0;
 			rRegWe              = 1'b0;
-			rWriteSelect        = wUopSrc;
+			rWriteSelect        = wUopSrc[7:0];
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = wRegData;
@@ -372,7 +372,7 @@ begin
 			rRegSelect          = wUop[3:0];
 			rSetMCOAddr         = 1'b0;
 			rRegWe              = 1'b0;
-			rWriteSelect        = wUopSrc;
+			rWriteSelect        = wUopSrc[7:0];
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = 16'b0;
@@ -386,7 +386,7 @@ begin
 			rRegSelect          = wUop[3:0];
 			rSetMCOAddr         = 1'b0;
 			rRegWe              = 1'b1;
-			rWriteSelect        = wUopSrc;
+			rWriteSelect        = wUopSrc[7:0];
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = wX8;
@@ -400,7 +400,7 @@ begin
 			rRegSelect          = wUop[3:0];
 			rSetMCOAddr         = 1'b0;
 			rRegWe              = 1'b1;
-			rWriteSelect        = wUopSrc;
+			rWriteSelect        = wUopSrc[7:0];
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = wX16;
@@ -413,7 +413,7 @@ begin
 			rRegSelect          = {1'b0,iMCUData[2:0]};
 			rSetMCOAddr         = 1'b0;
 			rRegWe              = 1'b1;
-			rWriteSelect        = ( iMCUData[7:6] == 2'b01  ) ? iMCUData[5:3] : wUopSrc;
+			rWriteSelect        = ( iMCUData[7:6] == 2'b01  ) ? iMCUData[5:3] : wUopSrc[7:0];
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = rZ80Result;
@@ -427,7 +427,7 @@ begin
 			rRegSelect          = {1'b0,iMCUData[2:0]};
 			rSetMCOAddr         = 1'b0;
 			rRegWe              = 1'b1;
-			rWriteSelect        = {1'b0,iMCUData[2:0]};
+			rWriteSelect        = {5'b0,iMCUData[2:0]};
 			rFlagsWe            = 1'b1;
 			rFlags              = {wZ, 1'b0, 1'b0, wRegData[7], 4'b0};
 			rUopDstRegData      = (wRegData << 1) + wFlags[`flag_c];
@@ -442,7 +442,7 @@ begin
 			rRegSelect          = {1'b0,iMCUData[2:0]};
 			rSetMCOAddr         = 1'b0;
 			rRegWe              = 1'b0;
-			rWriteSelect        = wUopSrc;
+			rWriteSelect        = wUopSrc[7:0];
 			rFlagsWe            = 1'b1;
 			rFlags              = {wZ,7'b0};
 			rUopDstRegData      = wRegData & wBitMask;
@@ -484,7 +484,7 @@ begin
 			rRegSelect          = `pc;
 			rSetMCOAddr         = 1'b0;
 			rRegWe              = 1'b0;
-			rWriteSelect        = wUopSrc;
+			rWriteSelect        = wUopSrc[7:0];
 			rFlagsWe            = 1'b0;
 			rFlags              = 8'b0;
 			rUopDstRegData      = 16'b0;

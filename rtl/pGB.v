@@ -25,7 +25,10 @@ module pGB
 (
 
 input wire iClock,
-input wire iReset
+input wire iReset,
+output wire       oFrameBufferWe,
+output wire [7:0] oFrameBufferData,
+output wire [7:0] oFrameBufferAddr
 
 );
 
@@ -99,9 +102,9 @@ gpu GPU
 (
   .iClock( iClock ),
   .iReset( iReset ),
-  //.oFramBufferWe(),
-  //.oFramBufferData(),
-  //.oFramBufferAddr(),
+  .oFramBufferWe(   oFrameBufferWe ),
+  .oFramBufferData( oFrameBufferData ),
+  .oFramBufferAddr( oFrameBufferAddr ),
   .oMcuAddr( wGPU_2_MCU_Addr ),
 	.oMcuReadRequest( wGPU_2_MCU_ReadRequest ),
   .iMcuRegSelect( wGpu_RegSelect),
