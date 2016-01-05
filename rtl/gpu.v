@@ -26,9 +26,9 @@ module gpu
   input wire iClock,
   input wire iReset,
 
-  input wire         oFramBufferWe,
-  input wire [7:0]   oFramBufferData,
-  output wire [15:0] oFramBufferAddr,
+  output wire          oFramBufferWe,
+  output wire [7:0]   oFramBufferData,
+  output wire [15:0]  oFramBufferAddr,
 
   output wire [15:0] oMcuAddr,
   output reg        oMcuReadRequest,
@@ -52,6 +52,10 @@ module gpu
   output wire [7:0]  oWX
 
 );
+//TODO: These assigns are temporary to humor the synthesis tool
+assign oFramBufferData = iMcuReadData;
+assign oFramBufferAddr = oMcuAddr;
+assign oFramBufferWe   = iMcuWe;
 
 wire [20:0] wRegWriteSelect;
 wire [15:0] wOp0, wOp1, wR0, wR1, wR2, wR3;
