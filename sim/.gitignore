@@ -1,4 +1,5 @@
 *.log
 *.vcd
 *.dump
+ise/
 tb_simple_dzcpu
