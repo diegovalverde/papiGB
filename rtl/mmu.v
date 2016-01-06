@@ -29,9 +29,10 @@ module mmu
 	input wire [15:0] iCpuAddr,
 	input wire        iCpuWe,
 	input wire [7:0]  iCpuData,
-	output wire [7:0] oData,
+	output wire [7:0] oCpuData,
 
 	//GPU
+	output wire [7:0] oGpuVmemReadData,
 	input wire        iGpuReadRequest,
 	input wire [15:0] iGpuAddr,
 	output wire [3:0] oGpu_RegSelect,
@@ -65,7 +66,7 @@ module mmu
 	assign wAddr =  iCpuAddr;
 	assign wVmemReadAddr = ( wCPU_GPU_Sel ) ? iGpuAddr[12:0] : iCpuAddr[12:0];
 	assign oGPU_RegData = iCpuData;
-
+  assign oGpuVmemReadData = wReadVmem;
 
 	bios BIOS
 	(
@@ -196,7 +197,7 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_H
 	//Extended Regions
 	.I15( wReadData_L ),
 
-	.O( oData )
+	.O( oCpuData )
 );
 
 //ZeroPage FF80 - FFFF

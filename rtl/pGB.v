@@ -47,7 +47,7 @@ wire[7:0] wGPU_2_MCU_BGP;
 wire[7:0] wGPU_2_MCU_OBP0;
 wire[7:0] wGPU_2_MCU_OBP1;
 wire[7:0] wGPU_2_MCU_WY;
-wire[7:0] wGPU_2_MCU_WX, wGPU_RegData;
+wire[7:0] wGPU_2_MCU_WX, wGPU_RegData, wMMU_2_GPU_VmemReadData;
 wire[15:0] wGpuAddr;
 wire[3:0] wGpu_RegSelect;
 wire wGpu_RegWe, wGPU_2_MCU_ReadRequest;
@@ -77,8 +77,10 @@ mmu MMU
 	.iCpuAddr(  wdZCPU_2_MMU_Addr ),
 	.iCpuWe(    wdZCPU_2_MMU_We   ),
 	.iCpuData(  wdZCPU_2_MMU_WriteData ),
-	.oData(  wMMU_ReadData ),
+	.oCpuData(  wMMU_ReadData ),
 
+  //GPU
+	.oGpuVmemReadData( wMMU_2_GPU_VmemReadData ),
 	.iGpuAddr( wGPU_2_MCU_Addr      ),
 	.oGPU_RegData( wGPU_RegData     ),
 	.oGpu_RegSelect( wGpu_RegSelect ),
@@ -109,7 +111,7 @@ gpu GPU
 	.oMcuReadRequest( wGPU_2_MCU_ReadRequest ),
   .iMcuRegSelect( wGpu_RegSelect),
   .iMcuWriteData( wGPU_RegData ),
-	.iMcuReadData(  wMMU_ReadData ),
+	.iMcuReadData(  wMMU_2_GPU_VmemReadData ),
   .iMcuWe( wGpu_RegWe ),
   .oSTAT( wGPU_2_MCU_STAT ),
   .oLCDC( wGPU_2_MCU_LCDC ),
