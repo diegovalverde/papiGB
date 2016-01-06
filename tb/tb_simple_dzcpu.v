@@ -1,5 +1,6 @@
 `timescale 1ns / 1ps
 `include "../rtl/aDefinitions.v"
+`include "../rtl/gpu_definitions.v"
 `include "../rtl/z80_opcode_definitions.v"
 ////////////////////////////////////////////////////////////////////////////////////
 //
@@ -46,7 +47,7 @@ module tb_simple_dzcpu;
 	end
 	//---------------------------------------------
 
-	integer log,i,Pc, vram_log_8000_8fff, vram_log_9800_9bff;
+	integer log, glog, i,Pc, vram_log_8000_8fff, vram_log_9800_9bff;
 	reg rSimulationDone;
 
 
@@ -95,6 +96,7 @@ module tb_simple_dzcpu;
 			end
 			$fwrite(log,"Simulation ended at time %dns\n", $time);
 			$fclose( log );
+			$fclose( glog );
 			$fclose( vram_log_8000_8fff );
 			$fclose( vram_log_9800_9bff );
 			$finish();
@@ -104,7 +106,8 @@ module tb_simple_dzcpu;
 //-----------------------------------------------------------------
 	initial begin
 		// Initialize Inputs
-		log = $fopen("pgb.log");
+		log = $fopen("pgb_cpu.log");
+		glog = $fopen("pgb_gpu.log");
 		$dumpfile("tb_simple_dzcpu.vcd");
 		$dumpvars(0,tb_simple_dzcpu);
 		$fwrite(log,"Simulation started at time %dns\n", $time);
@@ -188,6 +191,53 @@ module tb_simple_dzcpu;
 		$fwrite(log, "Simulation reached MAX time %hns",$time);
 		rSimulationDone = 1;
 	end
+
+
+always @ ( posedge iClock ) begin
+	if (uut.GPU.rBgBufferWe == 1'b1)
+	begin
+	  $fwrite(glog,"[GPU] [FB] %h ", uut.GPU.wFramBuffer[15:14]);
+	  $fwrite(glog," %h ", uut.GPU.wFramBuffer[13:12]);
+	  $fwrite(glog," %h ", uut.GPU.wFramBuffer[11:10]);
+	  $fwrite(glog," %h ", uut.GPU.wFramBuffer[9:8]);
+	  $fwrite(glog," %h ", uut.GPU.wFramBuffer[7:6]);
+	  $fwrite(glog," %h ", uut.GPU.wFramBuffer[5:4]);
+	  $fwrite(glog," %h ", uut.GPU.wFramBuffer[3:2]);
+	  $fwrite(glog," %h \n", uut.GPU.wFramBuffer[1:0]);
+	end
+
+	 if (uut.GPU.wGpuActive)
+	 begin
+	 			$fwrite(glog,"%05dns [GPU] IP:%d  %h .",$time, uut.GPU.wIp, uut.GPU.wUop[19:15] );
+	 case (uut.GPU.wUop[19:15])
+			 	`gnop: $fwrite(glog, "nop  \n");
+				`gwrl: $fwrite(glog, "gwrl \n",);
+				`gwrr: $fwrite(glog, "gwrr \n",);
+				`gadd: $fwrite(glog, "gadd \n",);
+				`gsub: $fwrite(glog, "gsub \n",);
+				`ginc: $fwrite(glog, "ginc \n",);
+				`gjnz: $fwrite(glog, "gjnz \n",);
+				`gwbg: $fwrite(glog, "gwbg \n",);
+				`gdec: $fwrite(glog, "gdec \n",);
+				`grvmem: $fwrite(glog,"grvmem @ %h\n", uut.GPU.oMcuAddr);
+				`gshl:   $fwrite(glog,"gshl  \n",);
+		endcase
+
+			//Print the Registers
+			$fwrite(glog,"\n     %05s  %05s %05s %05s %05s %05s %05s %05s %05s %05s %05s %05s %05s %05s %05s\n",
+			"Ip",   "oAddr", "iData", "STAT",
+			"LCDC", "SCY",   "SCX" ,  "LY",
+			"LYC",  "DMA",   "BGP",   "BP0",
+			"BP1",  "WY", "WX");
+			$fwrite(glog,"[regs] %04x %04x  %02x     %02x    %02x     %02x    %02x     %02x   %02x    %02x    %02x    %02x    %02x     %02x    %02x\n",
+			uut.GPU.wIp,    uut.GPU.oMcuAddr, uut.GPU.iMcuReadData, uut.GPU.oSTAT,
+			uut.GPU.oLCDC,  uut.GPU.oSCY,     uut.GPU.oSCX,   			uut.GPU.oLY,
+			uut.GPU.oLYC,   uut.GPU.oDMA,     uut.GPU.oBGP,         uut.GPU.oOBP0,
+			uut.GPU.oOBP1, 	uut.GPU.oWY,      uut.GPU.oWX );
+
+			$fwrite(glog,"\n\n\n");
+	 end //if
+end //always
 
 
 `ifdef DUMP_CODE
