@@ -204,6 +204,7 @@ MUXFULLPARALELL_2SEL_GENERIC # (2) MUX_BGP7 (   .Sel( {wBh[7], wBl[7]} ),
   .I0( oBGP[1:0]), .I1( oBGP[3:2]), .I2( oBGP[5:4]), .I3( oBGP[7:6]) , .O( wBgPixel7)  );
 
 
+wire [15:0] wFramBuffer;
 
 RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(16), .ADDR_WIDTH(3), .MEM_SIZE(32) ) BG_BUFFER
 (
@@ -211,8 +212,8 @@ RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(16), .ADDR_WIDTH(3), .MEM_SIZE(32) ) BG_BUF
  .iWriteEnable(  rBgBufferWe    ),
  .iReadAddress0( 3'b0    ),
  .iWriteAddress( wBGBufferBlockSel  ),
- .iDataIn(       {wBgPixel0,wBgPixel1,wBgPixel2,wBgPixel3,wBgPixel4,wBgPixel5,wBgPixel6,wBgPixel7}  )
- //.oDataOut0( wReadVmem        )
+ .iDataIn(       {wBgPixel0,wBgPixel1,wBgPixel2,wBgPixel3,wBgPixel4,wBgPixel5,wBgPixel6,wBgPixel7}  ),
+ .oDataOut0( wFramBuffer        )
 );
 
 
@@ -221,7 +222,7 @@ RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(16), .ADDR_WIDTH(3), .MEM_SIZE(32) ) BG_BUF
 always @ ( * )
 begin
   case (wUop[19:15])
-   `nop:
+   `gnop:
     begin
       rResult     = wUop[7:0];
       rRegWe      = 1'b0;
@@ -230,7 +231,7 @@ begin
       oMcuReadRequest = 1'b0;
     end
 
-    `wbg:
+    `gwbg:
     begin
       rResult     = wUop[7:0];
       rRegWe      = 1'b0;
@@ -239,7 +240,7 @@ begin
       oMcuReadRequest = 1'b0;
     end
 
-    `wrr:
+    `gwrr:
     begin
       rResult     = wOp1;
       rRegWe      = 1'b1;
@@ -248,7 +249,7 @@ begin
       oMcuReadRequest = 1'b0;
     end
 
-    `wrl:
+    `gwrl:
     begin
       rResult     = wUop[7:0];
       rRegWe      = 1'b1;
@@ -257,7 +258,7 @@ begin
       oMcuReadRequest = 1'b0;
     end
 
-    `rvmem:
+    `grvmem:
     begin
       rResult     = wUop[7:0];
       rRegWe      = 1'b0;
@@ -266,7 +267,7 @@ begin
       oMcuReadRequest = 1'b1;
     end
 
-    `add:
+    `gadd:
     begin
       rResult     = wOp1 + wOp0 ;
       rRegWe      = 1'b1;
@@ -276,7 +277,7 @@ begin
     end
 
 
-    `shl:
+    `gshl:
     begin
       rResult     = wOp1 << wUop[5:0]  ;
       rRegWe      = 1'b1;
@@ -285,7 +286,7 @@ begin
       oMcuReadRequest = 1'b0;
     end
 
-    `inc:
+    `ginc:
     begin
       rResult     = wOp1 + 1 ;
       rRegWe      = 1'b1;
@@ -294,7 +295,7 @@ begin
       oMcuReadRequest = 1'b0;
     end
 
-    `dec:
+    `gdec:
     begin
       rResult     = wOp1 - 1 ;
       rRegWe      = 1'b1;
@@ -304,7 +305,7 @@ begin
     end
 
 
-    `sub:
+    `gsub:
     begin
       rResult     = wOp1 - wOp0;
       rRegWe      = 1'b1;
@@ -313,7 +314,7 @@ begin
       oMcuReadRequest = 1'b0;
     end
 
-    `jnz:
+    `gjnz:
     begin
       rResult     = wOp1 ;
       rRegWe      = 1'b0;

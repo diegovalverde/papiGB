@@ -33,28 +33,28 @@ module gpu_ucode_rom
 always @ ( iAddr )
 begin
 	case ( iAddr )
-	  0 : oUop = {  `nop,  `null, `null, `null };
-    1 : oUop = {  `wrl,  `bg_buffer_block_sel, 10'd31 };
-    2 : oUop = {  `wrl,  `r1, 10'hff };                            //r1 : tile_idx
-    3 : oUop = {  `wrl,  `state, `SCANLINE_VRAM_READ };
-    4 : oUop = {  `add,  `r2, `bgmoffset, `bg_col_offset };
-    5 : oUop = {  `add,  `vmem_addr, `r1, `r2 };
-		6 : oUop = { `rvmem, `null, `null, `null };
-		7 : oUop = { `shl, `r3, `vmem_data, 5'd4 };
-    8 : oUop = {  `inc,  `r1 , `r1, `null };
-		9 : oUop = {  `add,  `r3, `vmem_data_shl_4, `ly_mod_8 };
-    10 : oUop = {  `add,  `vmem_addr, `r3, `bgtoffset }; 
-    11 : oUop = { `rvmem, `null, `null, `null };
-    12 : oUop = {  `wrr,  `bh, `vmem_data, `null };
-    13 : oUop = {  `inc,  `vmem_addr, `vmem_addr ,`null  };
-    14 : oUop = { `rvmem, `null, `null, `null };
-    15: oUop = {  `wrr,  `bl, `vmem_data, `null };
-    16: oUop = {  `wbg,  `null,`null, `null};                                   //Write 8 pixels to the background buffer in parallel
-    17: oUop = {  `dec,  `bg_buffer_block_sel, `bg_buffer_block_sel, `null };
-    18: oUop = {  `jnz ,  5'd4, `null, `null };
-		19: oUop = {  `inc ,  `ly, `ly, `null };
-		20: oUop = {  `wrl,  `bg_buffer_block_sel, 10'd31 };
-		21: oUop = {  `jnz ,  5'd4, `null, `null };
+	  0 : oUop = {  `gnop,  `gnull, `gnull, `gnull };
+    1 : oUop = {  `gwrl,  `bg_buffer_block_sel, 10'd31 };
+    2 : oUop = {  `gwrl,  `r1, 10'hff };                            //r1 : tile_idx
+    3 : oUop = {  `gwrl,  `state, `SCANLINE_VRAM_READ };
+    4 : oUop = {  `gadd,  `r2, `bgmoffset, `bg_col_offset };
+    5 : oUop = {  `gadd,  `vmem_addr, `r1, `r2 };
+		6 : oUop = {  `grvmem, `gnull, `gnull, `gnull };
+		7 : oUop = {  `gshl, `r3, `vmem_data, 5'd4 };
+    8 : oUop = {  `ginc,  `r1 , `r1, `gnull };
+		9 : oUop = {  `gadd,  `r3, `vmem_data_shl_4, `ly_mod_8 };
+    10: oUop = {  `gadd,  `vmem_addr, `r3, `bgtoffset };
+    11: oUop = {  `grvmem, `gnull, `gnull, `gnull };
+    12: oUop = {  `gwrr,  `bh, `vmem_data, `gnull };
+    13: oUop = {  `ginc,  `vmem_addr, `vmem_addr ,`gnull  };
+    14: oUop = {  `grvmem, `gnull, `gnull, `gnull };
+    15: oUop = {  `gwrr,  `bl, `vmem_data, `gnull };
+    16: oUop = {  `gwbg,  `gnull,`gnull, `gnull};                                   //Write 8 pixels to the background buffer in parallel
+    17: oUop = {  `gdec,  `bg_buffer_block_sel, `bg_buffer_block_sel, `gnull };
+    18: oUop = {  `gjnz ,  5'd4, `gnull, `gnull };
+		19: oUop = {  `ginc ,  `ly, `ly, `gnull };
+		20: oUop = {  `gwrl,  `bg_buffer_block_sel, 10'd31 };
+		21: oUop = {  `gjnz ,  5'd4, `gnull, `gnull };
 	endcase
 end
 

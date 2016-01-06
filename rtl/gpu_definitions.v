@@ -25,19 +25,19 @@
 `ifndef GPU_DEFINITIONS_V
 `define GPU_DEFINITIONS_V
 
-`define nop 5'd0
-`define wrl 5'd1
-`define wrr 5'd2
-`define add 5'd3
-`define sub 5'd4
-`define inc 5'd5
-`define jnz  5'd6
-`define wbg 5'd7
-`define dec 5'd8
-`define rvmem 5'd9
-`define shl   5'd10
+`define gnop 5'd0
+`define gwrl 5'd1
+`define gwrr 5'd2
+`define gadd 5'd3
+`define gsub 5'd4
+`define ginc 5'd5
+`define gjnz  5'd6
+`define gwbg 5'd7
+`define gdec 5'd8
+`define grvmem 5'd9
+`define gshl   5'd10
 
-`define null                5'd0
+`define gnull               5'd0
 `define ly                  5'd4
 `define vmem_addr           5'd12
 `define bh                  5'd13
