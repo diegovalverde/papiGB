@@ -2,5 +2,6 @@
 *.vcd
 *.dump
 *.ppm
+*.swp
 ise/
 tb_simple_dzcpu
