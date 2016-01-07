@@ -1,5 +1,6 @@
 *.log
 *.vcd
 *.dump
+*.ppm
 ise/
 tb_simple_dzcpu
