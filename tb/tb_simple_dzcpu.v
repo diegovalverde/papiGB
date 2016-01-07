@@ -47,7 +47,7 @@ module tb_simple_dzcpu;
 	end
 	//---------------------------------------------
 
-	integer log, glog, i,Pc, vram_log_8000_8fff, vram_log_9800_9bff;
+	integer log, glog, i,Pc, vram_log_8000_8fff, vram_log_9800_9bff, gbuffer;
 	reg rSimulationDone;
 
 
@@ -97,6 +97,7 @@ module tb_simple_dzcpu;
 			$fwrite(log,"Simulation ended at time %dns\n", $time);
 			$fclose( log );
 			$fclose( glog );
+			$fclose( gbuffer );
 			$fclose( vram_log_8000_8fff );
 			$fclose( vram_log_9800_9bff );
 			$finish();
@@ -108,6 +109,11 @@ module tb_simple_dzcpu;
 		// Initialize Inputs
 		log = $fopen("pgb_cpu.log");
 		glog = $fopen("pgb_gpu.log");
+		gbuffer = $fopen("pbg_video_buffer.ppm");
+		$fwrite(gbuffer,"P2\n");
+		$fwrite(gbuffer,"256 256\n");
+		$fwrite(gbuffer,"4\n");
+
 		$dumpfile("tb_simple_dzcpu.vcd");
 		$dumpvars(0,tb_simple_dzcpu);
 		$fwrite(log,"Simulation started at time %dns\n", $time);
@@ -193,10 +199,25 @@ module tb_simple_dzcpu;
 	end
 
 
-always @ ( posedge iClock ) begin
+integer row_count=0;
+
+always @ ( posedge iClock )
+begin
 	if (uut.GPU.rBgBufferWe == 1'b1)
 	begin
-	  $fwrite(glog,"[GPU] [FB] %h ", uut.GPU.wFramBuffer[15:14]);
+
+
+
+		$fwrite(gbuffer, "%01x %01x %01x %01x %01x %01x %01x %01x  ",
+		uut.GPU.wBgPixel7,uut.GPU.wBgPixel6,uut.GPU.wBgPixel5,uut.GPU.wBgPixel4,uut.GPU.wBgPixel3,uut.GPU.wBgPixel2,uut.GPU.wBgPixel1,uut.GPU.wBgPixel0);
+
+		row_count = row_count + 1;
+
+		if (row_count % 32 == 0)
+				$fwrite(gbuffer,"\n#%d\n",uut.GPU.oLY);
+
+/*
+		$fwrite(glog," %h ", uut.GPU.wFramBuffer[15:14]);
 	  $fwrite(glog," %h ", uut.GPU.wFramBuffer[13:12]);
 	  $fwrite(glog," %h ", uut.GPU.wFramBuffer[11:10]);
 	  $fwrite(glog," %h ", uut.GPU.wFramBuffer[9:8]);
@@ -204,6 +225,7 @@ always @ ( posedge iClock ) begin
 	  $fwrite(glog," %h ", uut.GPU.wFramBuffer[5:4]);
 	  $fwrite(glog," %h ", uut.GPU.wFramBuffer[3:2]);
 	  $fwrite(glog," %h \n", uut.GPU.wFramBuffer[1:0]);
+*/
 	end
 
 	 if (uut.GPU.wGpuActive)
@@ -235,6 +257,13 @@ always @ ( posedge iClock ) begin
 			uut.GPU.oLYC,   uut.GPU.oDMA,     uut.GPU.oBGP,         uut.GPU.oOBP0,
 			uut.GPU.oOBP1, 	uut.GPU.oWY,      uut.GPU.oWX );
 
+			$fwrite(glog, "%02s %02s \n", "Bh", "Bl");
+			$fwrite(glog, "%02x %02x \n", uut.GPU.wBh, uut.GPU.wBl );
+
+			$fwrite(glog, "Tile Pixel Row:\n");
+			$fwrite(glog, "%02x %02x %02x %02x %02x %02x %02x %02x\n",
+			uut.GPU.wBgPixel7,uut.GPU.wBgPixel6,uut.GPU.wBgPixel5,uut.GPU.wBgPixel4,uut.GPU.wBgPixel3,uut.GPU.wBgPixel2,uut.GPU.wBgPixel1,uut.GPU.wBgPixel0);
+
 			$fwrite(glog,"\n\n\n");
 	 end //if
 end //always
@@ -245,7 +274,7 @@ end //always
 	begin
 		wait(iReset != 1);
 
-		if (uut.DZCPU.wPc == 16'h0fc)	//This instructrion finishes copying the little (R)
+		if (uut.DZCPU.wPc == 16'h0fc || uut.GPU.oLY == 8'hff)	//This instructrion finishes copying the little (R)
 			rSimulationDone = 1;
 
 
