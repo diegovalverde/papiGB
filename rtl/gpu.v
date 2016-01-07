@@ -60,10 +60,11 @@ assign oFramBufferWe   = iMcuWe;
 wire [20:0] wRegWriteSelect;
 wire [15:0] wOp0, wOp1, wR0, wR1, wR2, wR3;
 wire [7:0] wBh, wBl, wState, wIp, wInitialPc;
-wire [15:0] wBGTileOffset, wBGTileMapOffset, wBGColOffset, wBGBufferBlockSel;
+wire [15:0] wBGTileOffset, wBGTileMapOffset, wBGRowOffset, wBGBufferBlockSel, wCurrentTileRow;
 wire [7:0] wRegSelect;
 wire [1:0] wBgPixel0,wBgPixel1,wBgPixel2,wBgPixel3,wBgPixel4,wBgPixel5,wBgPixel6,wBgPixel7;
 wire [19:0] wUop;
+wire [4:0] wOp1Sel;
 wire wZ, wRegWe, wGpuActive;
 reg [15:0] rResult;
 reg rRegWe, rBgBufferWe, rJump;
@@ -92,12 +93,13 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_16(   iClock, iReset, wRegWe  & wRegWri
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_17(   iClock, iReset, wRegWe  & wRegWriteSelect[17], rResult, wR1 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_18(   iClock, iReset, wRegWe  & wRegWriteSelect[18], rResult, wR2 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_19(   iClock, iReset, wRegWe  & wRegWriteSelect[19], rResult, wR3 );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_20(   iClock, iReset, wRegWe  & wRegWriteSelect[20], rResult, wCurrentTileRow );
 
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FFX_Z(   iClock, iReset, wRegWe, (rResult == 8'b0) ? 1'b1 : 1'b0, wZ );
 
 
-assign wInitialPc = ( rJump ) ? wUop[14:10]: 8'b0;
+assign wInitialPc = ( rJump ) ? wUop[7:0]: 8'b0;
 
 UPCOUNTER_POSEDGE # (8) PC
 (
@@ -113,7 +115,7 @@ assign wRegSelect       = ( wGpuActive ) ? wUop[14:10] : iMcuRegSelect ;
 assign wRegWe           = ( wGpuActive ) ? rRegWe : iMcuWe ;
 assign wBGTileOffset    = ( oLCDC[4] ) ? 16'h8000 : 16'h8800;
 assign wBGTileMapOffset = ( oLCDC[6] ) ? 16'h9c00 : 16'h9800;
-assign wBGColOffset     =   oLY << 5;
+assign wBGRowOffset     =/* ( oLY << 5 ) +*/ wCurrentTileRow;
 
 
 
@@ -155,25 +157,29 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG0
   .I4( {8'h0,oLY} ),   .I5( {8'h0,oLYC} ),  .I6( {8'h0,oDMA} ), .I7( {8'h0,oBGP} ),
   .I8( {8'h0,oOBP0} ), .I9( {8'h0,oOBP1} ), .I10( {8'h0,oWY} ), .I11( {8'h0,oWX} ),
   .I12( oMcuAddr ),   .I13( wBh ),   .I14( wBl),  .I15( wBGBufferBlockSel ),
-  .I16( wR0 ),   .I17( wR1 ), .I18( wR2 ), .I19( wR3 ),
-  .I20( {8'h0,iMcuReadData} ), .I21( wBGTileMapOffset ), .I22( wBGColOffset ), .I23( wBGTileOffset ),
-  .I24( {8'h0,6'h0,oLY[1:0]} ), .I25( {4'b0,iMcuReadData,4'b0} ), .I26( 16'b0 ), .I27( 16'b0 ),
-  .I28( 16'b0 ), .I29( 16'b0 ), .I30( 16'b0 ), .I31( 16'b0 ),
+  .I16( wR0 ),   .I17( wR1 ), .I18( wR2 ), .I19( wR3 ), .I20( wCurrentTileRow ),
+  .I21( {8'h0,iMcuReadData} ), .I22( wBGTileMapOffset ), .I23( wBGRowOffset ), .I24( wBGTileOffset ),
+  .I25( {8'h0,6'h0,oLY[1:0]} ), .I26( {4'b0,iMcuReadData,4'b0} ), .I27( 16'b0 ), .I28( 16'b0 ),
+  .I29( 16'b0 ), .I30( 16'b0 ), .I31( 16'b0 ),
   .O( wOp0 )
 );
 
+
+
+
+assign wOp1Sel = (wUop[19:15] == `gaddl || wUop[19:15] == `gsubl ) ? wUop[14:10] : wUop[9:5];
 MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG1
 (
-  .Sel( wUop[9:5] ),
+  .Sel( wOp1Sel ),
 
   .I0( {8'h0,oLCDC} ), .I1( {8'h0,oSTAT} ), .I2( {8'h0,oSCY} ), .I3( {8'h0,oSCX} ),
   .I4( {8'h0,oLY} ),   .I5( {8'h0,oLYC} ),  .I6( {8'h0,oDMA} ), .I7( {8'h0,oBGP} ),
   .I8( {8'h0,oOBP0} ), .I9( {8'h0,oOBP1} ), .I10( {8'h0,oWY} ), .I11( {8'h0,oWX} ),
   .I12( oMcuAddr ),   .I13( wBh ),   .I14( wBl),  .I15( wBGBufferBlockSel ),
-  .I16( wR0 ),   .I17( wR1 ), .I18( wR2 ), .I19( wR3 ),
-  .I20( {8'h0,iMcuReadData} ), .I21( wBGTileMapOffset ), .I22( wBGColOffset ), .I23( wBGTileOffset ),
-  .I24( {8'h0,6'h0,oLY[1:0]} ), .I25( {4'b0,iMcuReadData,4'b0} ), .I26( 16'b0 ), .I27( 16'b0 ),
-  .I28( 16'b0 ), .I29( 16'b0 ), .I30( 16'b0 ), .I31( 16'b0 ),
+  .I16( wR0 ),   .I17( wR1 ), .I18( wR2 ), .I19( wR3 ), .I20( wCurrentTileRow ),
+  .I21( {8'h0,iMcuReadData} ), .I22( wBGTileMapOffset ), .I23( wBGRowOffset ), .I24( wBGTileOffset ),
+  .I25( {8'h0,6'h0,oLY[1:0]} ), .I26( {4'b0,iMcuReadData,4'b0} ), .I27( 16'b0 ), .I28( 16'b0 ),
+  .I29( 16'b0 ), .I30( 16'b0 ), .I31( 16'b0 ),
   .O( wOp1 )
 );
 
@@ -286,18 +292,18 @@ begin
       oMcuReadRequest = 1'b0;
     end
 
-    `ginc:
+    `gaddl:
     begin
-      rResult     = wOp1 + 1 ;
+      rResult     = wOp1 + {6'b0,wUop[9:0]} ;
       rRegWe      = 1'b1;
       rBgBufferWe = 1'b0;
       rJump       = 1'b0;
       oMcuReadRequest = 1'b0;
     end
 
-    `gdec:
+    `gsubl:
     begin
-      rResult     = wOp1 - 1 ;
+      rResult     = wOp1 - {6'b0,wUop[9:0]} ;
       rRegWe      = 1'b1;
       rBgBufferWe = 1'b0;
       rJump       = 1'b0;
@@ -320,6 +326,24 @@ begin
       rRegWe      = 1'b0;
       rBgBufferWe = 1'b0;
       rJump       = ~wZ;
+      oMcuReadRequest = 1'b0;
+    end
+
+    `gjz:
+    begin
+      rResult     = wOp1 ;
+      rRegWe      = 1'b0;
+      rBgBufferWe = 1'b0;
+      rJump       = wZ;
+      oMcuReadRequest = 1'b0;
+    end
+
+    `ggoto:
+    begin
+      rResult     = wOp1 ;
+      rRegWe      = 1'b0;
+      rBgBufferWe = 1'b0;
+      rJump       = 1'b1;
       oMcuReadRequest = 1'b0;
     end
 
