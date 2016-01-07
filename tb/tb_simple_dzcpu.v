@@ -109,7 +109,7 @@ module tb_simple_dzcpu;
 		// Initialize Inputs
 		log = $fopen("pgb_cpu.log");
 		glog = $fopen("pgb_gpu.log");
-		gbuffer = $fopen("pbg_video_buffer.ppm");
+		gbuffer = $fopen("pgb_video_buffer.ppm");
 		$fwrite(gbuffer,"P2\n");
 		$fwrite(gbuffer,"256 256\n");
 		$fwrite(gbuffer,"4\n");
@@ -203,6 +203,8 @@ integer row_count=0;
 
 always @ ( posedge iClock )
 begin
+
+
 	if (uut.GPU.rBgBufferWe == 1'b1)
 	begin
 
@@ -233,16 +235,16 @@ begin
 	 			$fwrite(glog,"%05dns [GPU] IP:%d  %h .",$time, uut.GPU.wIp, uut.GPU.wUop[19:15] );
 	 case (uut.GPU.wUop[19:15])
 			 	`gnop: $fwrite(glog, "nop  \n");
-				`gwrl: $fwrite(glog, "gwrl \n",);
-				`gwrr: $fwrite(glog, "gwrr \n",);
-				`gadd: $fwrite(glog, "gadd \n",);
-				`gsub: $fwrite(glog, "gsub \n",);
-				`ginc: $fwrite(glog, "ginc \n",);
-				`gjnz: $fwrite(glog, "gjnz \n",);
-				`gwbg: $fwrite(glog, "gwbg \n",);
-				`gdec: $fwrite(glog, "gdec \n",);
+				`gwrl: $fwrite(glog, "gwrl \n");
+				`gwrr: $fwrite(glog, "gwrr \n");
+				`gadd: $fwrite(glog, "gadd %h + %h = %h\n", uut.GPU.wOp1, uut.GPU.wOp0, uut.GPU.rResult);
+				`gsub: $fwrite(glog, "gsub \n");
+				`gaddl: $fwrite(glog, "gaddl %h += %h = %h\n", uut.GPU.wOp1, uut.GPU.wUop[9:0], uut.GPU.rResult );
+				`gjnz: $fwrite(glog, "gjnz \n");
+				`gwbg: $fwrite(glog, "gwbg \n");
+				`gsubl: $fwrite(glog, "gsubl %h -= %h = %h\n", uut.GPU.wOp1, uut.GPU.wUop[9:0], uut.GPU.rResult);
 				`grvmem: $fwrite(glog,"grvmem @ %h\n", uut.GPU.oMcuAddr);
-				`gshl:   $fwrite(glog,"gshl  \n",);
+				`gshl:   $fwrite(glog,"gshl  \n");
 		endcase
 
 			//Print the Registers
@@ -251,14 +253,15 @@ begin
 			"LCDC", "SCY",   "SCX" ,  "LY",
 			"LYC",  "DMA",   "BGP",   "BP0",
 			"BP1",  "WY", "WX");
-			$fwrite(glog,"[regs] %04x %04x  %02x     %02x    %02x     %02x    %02x     %02x   %02x    %02x    %02x    %02x    %02x     %02x    %02x\n",
+			$fwrite(glog,"[regs] %04d %04x  %02x     %02x    %02x     %02x    %02x     %02x   %02x    %02x    %02x    %02x    %02x     %02x    %02x\n",
 			uut.GPU.wIp,    uut.GPU.oMcuAddr, uut.GPU.iMcuReadData, uut.GPU.oSTAT,
 			uut.GPU.oLCDC,  uut.GPU.oSCY,     uut.GPU.oSCX,   			uut.GPU.oLY,
 			uut.GPU.oLYC,   uut.GPU.oDMA,     uut.GPU.oBGP,         uut.GPU.oOBP0,
 			uut.GPU.oOBP1, 	uut.GPU.oWY,      uut.GPU.oWX );
 
-			$fwrite(glog, "%02s %02s \n", "Bh", "Bl");
-			$fwrite(glog, "%02x %02x \n", uut.GPU.wBh, uut.GPU.wBl );
+			$fwrite(glog, "%02s %02s %04s %08s %08s\n", "Bh", "Bl", "Bsel", "cur_tile", "tile_row");
+			$fwrite(glog, "%02x %02x %04x %08x %08x\n",
+			uut.GPU.wBh, uut.GPU.wBl, uut.GPU.wBGBufferBlockSel, uut.GPU.wR0, uut.GPU.wCurrentTileRow);
 
 			$fwrite(glog, "Tile Pixel Row:\n");
 			$fwrite(glog, "%02x %02x %02x %02x %02x %02x %02x %02x\n",
