@@ -4,7 +4,7 @@
 14 bl
 15 bg_buffer_block_sel
 1  state
-16 r0
+16 cur_tile
 17 r1
 18 r2
 19 r3
