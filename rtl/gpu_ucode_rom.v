@@ -72,7 +72,7 @@ begin
   */
   0 : oUop = {  `gnop,  `gnull, `gnull, `gnull };
   1 : oUop = {  `gwrl,  `state, `SCANLINE_VRAM_READ };
-  2 : oUop = {  `gwrl,  `cur_tile, 10'd0 };
+  2 : oUop = {  `gwrl,  `cur_tile, 10'd0}; //TODO replace by { `gwrr, `cur_tile, `scy_shl_5__plus_scx }
 //1
   3 : oUop = {  `gwrl,  `tile_row, 10'd0 };
 //2
