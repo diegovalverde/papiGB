@@ -386,6 +386,8 @@ end //always
 			endcase
 		end
 
+
+
 		if (uut.MMU.iCpuWe)
 		begin
 			$fwrite(log,"%05dns [MMU] ", $time);
@@ -423,7 +425,22 @@ end //always
 		begin
 			$fwrite(log,"\n          %04s %04s %02s %02s %02s %02s %02s %02s %02s %02s %02s %02s\n", "PC", "SP", "B", "C", "D" ,"E", "H", "L", "A", "Flags", "x8", "x16");
 			$fwrite(log,"[regs] %04x %04x %02x %02x %02x %02x %02x %02x %02x %b %02x %02x\n", Pc, {uut.DZCPU.wSpH,uut.DZCPU.wSpL}, uut.DZCPU.wB, uut.DZCPU.wC, uut.DZCPU.wD, uut.DZCPU.wE ,uut.DZCPU.wH, uut.DZCPU.wL, uut.DZCPU.wA, uut.DZCPU.wFlags, uut.DZCPU.wX8, uut.DZCPU.wX16);
+
+
+			$fwrite(log,"\n\n         %05s %05s %05s %05s %05s %05s %05s %05s %05s %05s %05s %05s\n",
+			"STAT", "LCDC", "SCY",   "SCX" ,  "LY",
+			"LYC",  "DMA",   "BGP",   "BP0",
+			"BP1",  "WY", "WX");
+
+			$fwrite(log,"[regs]      %02x   %02x     %02x    %02x    %02x   %02x    %02x    %02x    %02x    %02x     %02x    %02x\n",
+			uut.GPU.oSTAT,  uut.GPU.oLCDC,  uut.GPU.oSCY,     uut.GPU.oSCX,   			uut.GPU.oLY,
+			uut.GPU.oLYC,   uut.GPU.oDMA,     uut.GPU.oBGP,         uut.GPU.oOBP0,
+			uut.GPU.oOBP1, 	uut.GPU.oWY,      uut.GPU.oWX );
+
+			if (uut.GPU.oLY == 144)
+				$fwrite(log,"[SCREEN_FRAME_COMPLETED]\n");
 			$fwrite(log,"\n\n\n");
+
 		end
 	end
 `endif	//DUMP_CODE
