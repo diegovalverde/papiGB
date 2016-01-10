@@ -57,7 +57,7 @@ assign oFramBufferData = iMcuReadData;
 assign oFramBufferAddr = oMcuAddr;
 assign oFramBufferWe   = iMcuWe;
 
-wire [20:0] wRegWriteSelect;
+wire [20:0] wMcuRegWriteSelect,wGpuRegWriteSelect;
 wire [15:0] wOp0, wOp1, wR0, wR1, wR2, wR3;
 wire [7:0] wBh, wBl, wState, wIp, wInitialPc;
 wire [15:0] wBGTileOffset, wBGTileMapOffset, wBGRowOffset, wBGBufferBlockSel, wCurrentTileRow;
@@ -73,27 +73,28 @@ reg rRegWe, rBgBufferWe, rJump;
 
 assign oSTAT = { 6'b0, wState };
 
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LCDC( iClock, iReset, wRegWe  & wRegWriteSelect[0], iMcuWriteData, oLCDC );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFX_STAT(   iClock, iReset, wRegWe  & wRegWriteSelect[1], rResult[7:0], wState );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_SCY(  iClock, iReset, wRegWe  & wRegWriteSelect[2], iMcuWriteData, oSCY );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_SCX(  iClock, iReset, wRegWe  & wRegWriteSelect[3], iMcuWriteData, oSCX );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LY(   iClock, iReset, wRegWe  & wRegWriteSelect[4], rResult[7:0], oLY );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LYC(  iClock, iReset, wRegWe  & wRegWriteSelect[5], iMcuWriteData, oLYC );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_DMA(  iClock, iReset, wRegWe  & wRegWriteSelect[6], iMcuWriteData, oDMA );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_BGP(  iClock, iReset, wRegWe  & wRegWriteSelect[7], iMcuWriteData, oBGP );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_OBP0( iClock, iReset, wRegWe  & wRegWriteSelect[8], iMcuWriteData, oOBP0 );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_OBP1( iClock, iReset, wRegWe  & wRegWriteSelect[9], iMcuWriteData, oOBP1 );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_WY(   iClock, iReset, wRegWe  & wRegWriteSelect[10], iMcuWriteData, oWY );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_WX(   iClock, iReset, wRegWe  & wRegWriteSelect[11], iMcuWriteData, oWX );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_12(   iClock, iReset, wRegWe  & wRegWriteSelect[12], rResult, oMcuAddr );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_13(   iClock, iReset, wRegWe  & wRegWriteSelect[13], rResult[7:0], wBh );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_14(   iClock, iReset, wRegWe  & wRegWriteSelect[14], rResult[7:0], wBl );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_15(   iClock, iReset, wRegWe  & wRegWriteSelect[15], rResult[7:0], wBGBufferBlockSel );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_16(   iClock, iReset, wRegWe  & wRegWriteSelect[16], rResult, wR0 );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_17(   iClock, iReset, wRegWe  & wRegWriteSelect[17], rResult, wR1 );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_18(   iClock, iReset, wRegWe  & wRegWriteSelect[18], rResult, wR2 );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_19(   iClock, iReset, wRegWe  & wRegWriteSelect[19], rResult, wR3 );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_20(   iClock, iReset, wRegWe  & wRegWriteSelect[20], rResult, wCurrentTileRow );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LCDC( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[0], iMcuWriteData, oLCDC );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFX_STAT(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[1], rResult[7:0], wState );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_SCY(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[2], iMcuWriteData, oSCY );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_SCX(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[3], iMcuWriteData, oSCX );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LY(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[4], rResult[7:0], oLY );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LYC(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[5], iMcuWriteData, oLYC );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_DMA(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[6], iMcuWriteData, oDMA );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_BGP(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[7], iMcuWriteData, oBGP );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_OBP0( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[8], iMcuWriteData, oOBP0 );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_OBP1( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[9], iMcuWriteData, oOBP1 );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_WY(   iClock, iReset, iMcuWe  & wMcuRegWriteSelect[10], iMcuWriteData, oWY );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_WX(   iClock, iReset, iMcuWe  & wMcuRegWriteSelect[11], iMcuWriteData, oWX );
+
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_12(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[12], rResult, oMcuAddr );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_13(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[13], rResult[7:0], wBh );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_14(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[14], rResult[7:0], wBl );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_15(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[15], rResult[7:0], wBGBufferBlockSel );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_16(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[16], rResult, wR0 );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_17(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[17], rResult, wR1 );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_18(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[18], rResult, wR2 );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_19(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[19], rResult, wR3 );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_20(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[20], rResult, wCurrentTileRow );
 
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FFX_Z(   iClock, iReset, wRegWe, (rResult == 8'b0) ? 1'b1 : 1'b0, wZ );
@@ -118,10 +119,34 @@ assign wBGTileMapOffset = ( oLCDC[6] ) ? 16'h9c00 : 16'h9800;
 assign wBGRowOffset     =/* ( oLY << 5 ) +*/ wCurrentTileRow;
 
 
+MUXFULLPARALELL_4SEL_GENERIC # (21) MUX_REG_WE_MCU
+(
+  .Sel( iMcuRegSelect ),
+
+  .I0( 21'b000000000000000000001),
+  .I1( 21'b000000000000000000010),
+  .I2( 21'b000000000000000000100),
+  .I3( 21'b000000000000000001000),
+  .I4( 21'b000000000000000010000),
+  .I5( 21'b000000000000000100000),
+  .I6( 21'b000000000000001000000),
+  .I7( 21'b000000000000010000000),
+  .I8( 21'b000000000000100000000),
+  .I9( 21'b000000000001000000000),
+  .I10(21'b000000000010000000000),
+  .I11(21'b000000000100000000000),
+  .I12( 21'b0 ),
+  .I13( 21'b0 ),
+  .I14( 21'b0 ),
+  .I15( 21'b0 ),
+
+  .O( wMcuRegWriteSelect )
+);
+
 
 MUXFULLPARALELL_5SEL_GENERIC # (21) MUX_REG_WE
 (
-  .Sel( wRegSelect[4:0] ),
+  .Sel( wUop[14:10]  ),
 
   .I0( 21'b000000000000000000001),
   .I1( 21'b000000000000000000010),
@@ -145,7 +170,7 @@ MUXFULLPARALELL_5SEL_GENERIC # (21) MUX_REG_WE
   .I19(21'b010000000000000000000),
   .I20(21'b100000000000000000000),
 
-  .O( wRegWriteSelect )
+  .O( wGpuRegWriteSelect )
 );
 
 //TODO: Split this into a n 8bit MUX and 16bit MUX
