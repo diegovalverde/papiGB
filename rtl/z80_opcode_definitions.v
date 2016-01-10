@@ -28,7 +28,7 @@
 
 //  `define  INCr_d;
   `define  DECr_d 8'h15
-//  `define  LDrn_d;
+  `define  LDrn_d 8'h16
   `define  RLA 8'h17
   `define  JRn 8'h18
 //  `define  ADDHLDE;

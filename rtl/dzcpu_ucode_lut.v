@@ -74,6 +74,7 @@ begin
 	`INCr_h: oUopFlowIdx = 8'd131;
 	`SUBr_b: oUopFlowIdx = 8'd132;
 	`DECr_d: oUopFlowIdx = 8'd135;
+	`LDrn_d: oUopFlowIdx = 8'd136;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -298,6 +299,12 @@ begin
 		134: oUop = { `inc_eof, `srx16, `a  };
 //DECr_d
 		135:	oUop = { `inc_eof_fu, `dec16,    `d  };
+//LDrn_d
+		136: oUop = {`inc, `sma, `pc     };
+		137: oUop = { `inc,  `nop, `null };
+		138: oUop = {`eof, `srm,  `d     };
+
+
 	/*
 	//RETI
 
