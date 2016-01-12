@@ -32,11 +32,27 @@ module tb_simple_dzcpu;
 	reg iClock;
 	reg iReset;
 
+	wire [15:0] wFramBufferData, wFrameBufferAddress;
+	wire wFramBufferWe;
+	reg [15:0] rCurrentTileRow;
+
 	// Instantiate the Unit Under Test (UUT)
 	pGB uut (
 		.iClock(iClock),
-		.iReset(iReset)
+		.iReset(iReset),
+		.oFrameBufferWe( wFramBufferWe ),
+		.oFrameBufferData( wFramBufferData ),
+		.oFrameBufferAddr( wFrameBufferAddress )
+
 	);
+
+
+//Instantiate a dummy frame buffer. In real life this goes in the LCD board
+
+reg [15:0] rFrameBuffer[8160:0];
+integer log, glog, i,Pc, vram_log_8000_8fff, vram_log_9800_9bff;
+integer frame_count = 0, k, frame;
+reg rSimulationDone;
 
 
 	//---------------------------------------------
@@ -47,8 +63,57 @@ module tb_simple_dzcpu;
 	end
 	//---------------------------------------------
 
-	integer log, glog, i,Pc, vram_log_8000_8fff, vram_log_9800_9bff, gbuffer;
-	reg rSimulationDone;
+
+  always @ ( posedge iClock )
+	begin
+  		if ( wFramBufferWe )
+			begin
+				 rFrameBuffer[ wFrameBufferAddress ] = wFramBufferData;
+
+			end
+end //always
+
+  reg [255:1] FrameDumpName;
+	integer FrameDumpCount = 0;
+
+  always @ ( posedge iClock )
+	begin
+			if ( wFrameBufferAddress == 16'd8160)
+			begin
+
+			    $swrite(FrameDumpName,"generated_frames/frame.%01d.ppm",FrameDumpCount);
+					frame = $fopen(FrameDumpName);
+					$fwrite(frame,"P2\n");
+					$fwrite(frame,"256 256\n");
+					$fwrite(frame,"4\n");
+
+
+					for (k = 0; k < 8160; k=k+1)
+					begin
+					  rCurrentTileRow = rFrameBuffer[k];
+
+						$fwrite(frame, "%01x %01x %01x %01x %01x %01x %01x %01x  ",
+						rCurrentTileRow[15:14],
+						rCurrentTileRow[13:12],
+						rCurrentTileRow[11:10],
+						rCurrentTileRow[9:8],
+						rCurrentTileRow[7:6],
+						rCurrentTileRow[5:4],
+						rCurrentTileRow[3:2],
+						rCurrentTileRow[1:0]);
+
+						if ((k+1) % 32 == 0)
+								$fwrite(frame,"\n#%d\n",k/32);
+
+
+					end
+
+					$fclose(frame);
+					FrameDumpCount = FrameDumpCount + 1;
+					//rSimulationDone = 1;
+			end
+  end
+
 
 
 //-----------------------------------------------------------------
@@ -97,7 +162,6 @@ module tb_simple_dzcpu;
 			$fwrite(log,"Simulation ended at time %dns\n", $time);
 			$fclose( log );
 			$fclose( glog );
-			$fclose( gbuffer );
 			$fclose( vram_log_8000_8fff );
 			$fclose( vram_log_9800_9bff );
 			$finish();
@@ -109,10 +173,6 @@ module tb_simple_dzcpu;
 		// Initialize Inputs
 		log = $fopen("pgb_cpu.log");
 		glog = $fopen("pgb_gpu.log");
-		gbuffer = $fopen("pgb_video_buffer.ppm");
-		$fwrite(gbuffer,"P2\n");
-		$fwrite(gbuffer,"256 256\n");
-		$fwrite(gbuffer,"4\n");
 
 		$dumpfile("tb_simple_dzcpu.vcd");
 		$dumpvars(0,tb_simple_dzcpu);
@@ -193,7 +253,8 @@ module tb_simple_dzcpu;
 
 		// Add stimulus here
 		//#500
-		#5000000
+		//#5000000
+		#500000000
 		$fwrite(log, "Simulation reached MAX time %hns",$time);
 		rSimulationDone = 1;
 	end
@@ -204,31 +265,6 @@ integer row_count=0;
 always @ ( posedge iClock )
 begin
 
-
-	if (uut.GPU.rBgBufferWe == 1'b1)
-	begin
-
-
-
-		$fwrite(gbuffer, "%01x %01x %01x %01x %01x %01x %01x %01x  ",
-		uut.GPU.wBgPixel7,uut.GPU.wBgPixel6,uut.GPU.wBgPixel5,uut.GPU.wBgPixel4,uut.GPU.wBgPixel3,uut.GPU.wBgPixel2,uut.GPU.wBgPixel1,uut.GPU.wBgPixel0);
-
-		row_count = row_count + 1;
-
-		if (row_count % 32 == 0)
-				$fwrite(gbuffer,"\n#%d\n",uut.GPU.oLY);
-
-/*
-		$fwrite(glog," %h ", uut.GPU.wFramBuffer[15:14]);
-	  $fwrite(glog," %h ", uut.GPU.wFramBuffer[13:12]);
-	  $fwrite(glog," %h ", uut.GPU.wFramBuffer[11:10]);
-	  $fwrite(glog," %h ", uut.GPU.wFramBuffer[9:8]);
-	  $fwrite(glog," %h ", uut.GPU.wFramBuffer[7:6]);
-	  $fwrite(glog," %h ", uut.GPU.wFramBuffer[5:4]);
-	  $fwrite(glog," %h ", uut.GPU.wFramBuffer[3:2]);
-	  $fwrite(glog," %h \n", uut.GPU.wFramBuffer[1:0]);
-*/
-	end
 
 	 if (uut.GPU.wGpuActive)
 	 begin
@@ -261,7 +297,7 @@ begin
 
 			$fwrite(glog, "%02s %02s %04s %08s %08s\n", "Bh", "Bl", "Bsel", "cur_tile", "tile_row");
 			$fwrite(glog, "%02x %02x %04x %08x %08x\n",
-			uut.GPU.wBh, uut.GPU.wBl, uut.GPU.wBGBufferBlockSel, uut.GPU.wR0, uut.GPU.wCurrentTileRow);
+			uut.GPU.wBh, uut.GPU.wBl, uut.GPU.wR2, uut.GPU.wR0, uut.GPU.wCurrentTileRow);
 
 			$fwrite(glog, "Tile Pixel Row:\n");
 			$fwrite(glog, "%02x %02x %02x %02x %02x %02x %02x %02x\n",
@@ -277,7 +313,7 @@ end //always
 	begin
 		wait(iReset != 1);
 
-		if (uut.DZCPU.wPc == 16'h0fc || uut.GPU.oLY == 8'hff)	//This instructrion finishes copying the little (R)
+		if (uut.DZCPU.wPc == 16'he0)//16'h0fc // || uut.GPU.oLY == 8'hff)	//This instructrion finishes copying the little (R)
 			rSimulationDone = 1;
 
 

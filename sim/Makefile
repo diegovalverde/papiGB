@@ -56,3 +56,4 @@ view :
 clean :
 	rm -f $(SIMDIR)/$(TESTBENCH)
 	rm -f *.{vcd,log,dump,ppm}
+	rm -f generated_frames/*.ppm 
