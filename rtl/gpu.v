@@ -26,8 +26,8 @@ module gpu
   input wire iClock,
   input wire iReset,
 
-  output wire          oFramBufferWe,
-  output wire [7:0]   oFramBufferData,
+  output wire         oFramBufferWe,
+  output wire [15:0]  oFramBufferData,
   output wire [15:0]  oFramBufferAddr,
 
   output wire [15:0] oMcuAddr,
@@ -53,21 +53,24 @@ module gpu
 
 );
 //TODO: These assigns are temporary to humor the synthesis tool
-assign oFramBufferData = iMcuReadData;
-assign oFramBufferAddr = oMcuAddr;
-assign oFramBufferWe   = iMcuWe;
+assign oFramBufferData = {wBgPixel7,wBgPixel6,wBgPixel5,wBgPixel4,wBgPixel3,wBgPixel2,wBgPixel1,wBgPixel0} ;
+assign oFramBufferAddr = {6'b0,wFrameBufferAddress};
+assign oFramBufferWe   = rBgBufferWe;
+
+
+
 
 wire [20:0] wMcuRegWriteSelect,wGpuRegWriteSelect;
 wire [15:0] wOp0, wOp1, wR0, wR1, wR2, wR3;
 wire [7:0] wBh, wBl, wState, wIp, wInitialPc;
-wire [15:0] wBGTileOffset, wBGTileMapOffset, wBGRowOffset, wBGBufferBlockSel, wCurrentTileRow;
+wire [15:0] wBGTileOffset, wBGTileMapOffset, wBGRowOffset, wFrameBufferAddress, wCurrentTileRow;
 wire [7:0] wRegSelect;
 wire [1:0] wBgPixel0,wBgPixel1,wBgPixel2,wBgPixel3,wBgPixel4,wBgPixel5,wBgPixel6,wBgPixel7;
 wire [19:0] wUop;
 wire [4:0] wOp1Sel;
 wire wZ, wRegWe, wGpuActive;
 reg [15:0] rResult;
-reg rRegWe, rBgBufferWe, rJump;
+reg rRegWe, rBgBufferWe, rJump, rIncFBufferAddr;
 
 
 
@@ -89,10 +92,10 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_WX(   iClock, iReset, iMcuWe  & wMcuRegW
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_12(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[12], rResult, oMcuAddr );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_13(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[13], rResult[7:0], wBh );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_14(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[14], rResult[7:0], wBl );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_15(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[15], rResult[7:0], wBGBufferBlockSel );
+UPCOUNTER_POSEDGE            # ( 16 )UP_15(    iClock, iReset,  8'b0, wGpuActive  & rIncFBufferAddr,  wFrameBufferAddress );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_16(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[16], rResult, wR0 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_17(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[17], rResult, wR1 );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_18(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[18], rResult, wR2 );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_18(   iClock, iReset,  wRegWe  & wGpuRegWriteSelect[18], rResult, wR2 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_19(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[19], rResult, wR3 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_20(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[20], rResult, wCurrentTileRow );
 
@@ -181,8 +184,8 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG0
   .I0( {8'h0,oLCDC} ), .I1( {8'h0,oSTAT} ), .I2( {8'h0,oSCY} ), .I3( {8'h0,oSCX} ),
   .I4( {8'h0,oLY} ),   .I5( {8'h0,oLYC} ),  .I6( {8'h0,oDMA} ), .I7( {8'h0,oBGP} ),
   .I8( {8'h0,oOBP0} ), .I9( {8'h0,oOBP1} ), .I10( {8'h0,oWY} ), .I11( {8'h0,oWX} ),
-  .I12( oMcuAddr ),   .I13( wBh ),   .I14( wBl),  .I15( wBGBufferBlockSel ),
-  .I16( wR0 ),   .I17( wR1 ), .I18( wR2 ), .I19( wR3 ), .I20( wCurrentTileRow ),
+  .I12( oMcuAddr ),   .I13( wBh ),   .I14( wBl),  .I15( wFrameBufferAddress ),
+  .I16( wR0 ),   .I17( wR1 ), .I18( {8'b0,wR2} ), .I19( wR3 ), .I20( wCurrentTileRow ),
   .I21( {8'h0,iMcuReadData} ), .I22( wBGTileMapOffset ), .I23( wBGRowOffset ), .I24( wBGTileOffset ),
   .I25( {8'h0,6'h0,oLY[1:0]} ), .I26( {4'b0,iMcuReadData,4'b0} ), .I27( 16'b0 ), .I28( 16'b0 ),
   .I29( 16'b0 ), .I30( 16'b0 ), .I31( 16'b0 ),
@@ -200,8 +203,8 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG1
   .I0( {8'h0,oLCDC} ), .I1( {8'h0,oSTAT} ), .I2( {8'h0,oSCY} ), .I3( {8'h0,oSCX} ),
   .I4( {8'h0,oLY} ),   .I5( {8'h0,oLYC} ),  .I6( {8'h0,oDMA} ), .I7( {8'h0,oBGP} ),
   .I8( {8'h0,oOBP0} ), .I9( {8'h0,oOBP1} ), .I10( {8'h0,oWY} ), .I11( {8'h0,oWX} ),
-  .I12( oMcuAddr ),   .I13( wBh ),   .I14( wBl),  .I15( wBGBufferBlockSel ),
-  .I16( wR0 ),   .I17( wR1 ), .I18( wR2 ), .I19( wR3 ), .I20( wCurrentTileRow ),
+  .I12( oMcuAddr ),   .I13( wBh ),   .I14( wBl),  .I15( wFrameBufferAddress ),
+  .I16( wR0 ),   .I17( wR1 ), .I18( {8'b0,wR2} ), .I19( wR3 ), .I20( wCurrentTileRow ),
   .I21( {8'h0,iMcuReadData} ), .I22( wBGTileMapOffset ), .I23( wBGRowOffset ), .I24( wBGTileOffset ),
   .I25( {8'h0,6'h0,oLY[1:0]} ), .I26( {4'b0,iMcuReadData,4'b0} ), .I27( 16'b0 ), .I28( 16'b0 ),
   .I29( 16'b0 ), .I30( 16'b0 ), .I31( 16'b0 ),
@@ -237,17 +240,6 @@ MUXFULLPARALELL_2SEL_GENERIC # (2) MUX_BGP7 (   .Sel( {wBh[7], wBl[7]} ),
 
 wire [15:0] wFramBuffer;
 
-RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(16), .ADDR_WIDTH(3), .MEM_SIZE(32) ) BG_BUFFER
-(
- .Clock( iClock ),
- .iWriteEnable(  rBgBufferWe    ),
- .iReadAddress0( 3'b0    ),
- .iWriteAddress( wBGBufferBlockSel  ),
- .iDataIn(       {wBgPixel0,wBgPixel1,wBgPixel2,wBgPixel3,wBgPixel4,wBgPixel5,wBgPixel6,wBgPixel7}  ),
- .oDataOut0( wFramBuffer        )
-);
-
-
 
 
 always @ ( * )
@@ -260,6 +252,7 @@ begin
       rBgBufferWe = 1'b0;
       rJump       = 1'b0;
       oMcuReadRequest = 1'b0;
+      rIncFBufferAddr = 1'b0;
     end
 
     `gwbg:
@@ -269,6 +262,7 @@ begin
       rBgBufferWe = 1'b1;
       rJump       = 1'b0;
       oMcuReadRequest = 1'b0;
+      rIncFBufferAddr = 1'b1;
     end
 
     `gwrr:
@@ -278,6 +272,7 @@ begin
       rBgBufferWe = 1'b0;
       rJump       = 1'b0;
       oMcuReadRequest = 1'b0;
+      rIncFBufferAddr = 1'b0;
     end
 
     `gwrl:
@@ -287,6 +282,7 @@ begin
       rBgBufferWe = 1'b0;
       rJump       = 1'b0;
       oMcuReadRequest = 1'b0;
+      rIncFBufferAddr = 1'b0;
     end
 
     `grvmem:
@@ -296,6 +292,7 @@ begin
       rBgBufferWe = 1'b0;
       rJump       = 1'b0;
       oMcuReadRequest = 1'b1;
+      rIncFBufferAddr = 1'b0;
     end
 
     `gadd:
@@ -305,6 +302,7 @@ begin
       rBgBufferWe = 1'b0;
       rJump       = 1'b0;
       oMcuReadRequest = 1'b0;
+      rIncFBufferAddr = 1'b0;
     end
 
 
@@ -315,6 +313,7 @@ begin
       rBgBufferWe = 1'b0;
       rJump       = 1'b0;
       oMcuReadRequest = 1'b0;
+      rIncFBufferAddr = 1'b0;
     end
 
     `gaddl:
@@ -324,6 +323,7 @@ begin
       rBgBufferWe = 1'b0;
       rJump       = 1'b0;
       oMcuReadRequest = 1'b0;
+      rIncFBufferAddr = 1'b0;
     end
 
     `gsubl:
@@ -333,6 +333,7 @@ begin
       rBgBufferWe = 1'b0;
       rJump       = 1'b0;
       oMcuReadRequest = 1'b0;
+      rIncFBufferAddr = 1'b0;
     end
 
 
@@ -343,6 +344,7 @@ begin
       rBgBufferWe = 1'b0;
       rJump       = 1'b0;
       oMcuReadRequest = 1'b0;
+      rIncFBufferAddr = 1'b0;
     end
 
     `gjnz:
@@ -352,6 +354,7 @@ begin
       rBgBufferWe = 1'b0;
       rJump       = ~wZ;
       oMcuReadRequest = 1'b0;
+      rIncFBufferAddr = 1'b0;
     end
 
     `gjz:
@@ -361,6 +364,7 @@ begin
       rBgBufferWe = 1'b0;
       rJump       = wZ;
       oMcuReadRequest = 1'b0;
+      rIncFBufferAddr = 1'b0;
     end
 
     `ggoto:
@@ -370,6 +374,7 @@ begin
       rBgBufferWe = 1'b0;
       rJump       = 1'b1;
       oMcuReadRequest = 1'b0;
+      rIncFBufferAddr = 1'b0;
     end
 
     default:
@@ -379,6 +384,7 @@ begin
       rBgBufferWe = 1'b0;
       rJump       = 1'b0;
       oMcuReadRequest = 1'b0;
+      rIncFBufferAddr = 1'b0;
     end
 
   endcase

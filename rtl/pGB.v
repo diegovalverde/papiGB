@@ -27,8 +27,8 @@ module pGB
 input wire iClock,
 input wire iReset,
 output wire       oFrameBufferWe,
-output wire [7:0] oFrameBufferData,
-output wire [7:0] oFrameBufferAddr
+output wire [15:0] oFrameBufferData,
+output wire [15:0] oFrameBufferAddr
 
 );
 
@@ -99,6 +99,8 @@ mmu MMU
 	.iGPU_WY(   wGPU_2_MCU_WY   ),
 	.iGPU_WX(   wGPU_2_MCU_WX   )
 );
+
+
 
 gpu GPU
 (

@@ -40,7 +40,7 @@ begin
 1:
       tile_row = 0
 2:
-      bg_buffer_block_sel = 32
+      r2 = 32
 3:
 
       vmem_addr = bgmoffset + cur_tile
@@ -55,8 +55,8 @@ begin
       gwbg
 
       cur_tile++
-      bg_buffer_block_sel--
-      if (bg_buffer_block_sel > 0)
+      r2--
+      if (r2 > 0)
           goto 3
 
 
@@ -76,7 +76,7 @@ begin
 //1
   3 : oUop = {  `gwrl,  `tile_row, 10'd0 };
 //2
-  4 : oUop = {  `gwrl,  `bg_buffer_block_sel, 10'd32 };
+  4 : oUop = {  `gwrl,  `r2, 10'd32 };
 //3
   5: oUop = {  `gadd,  `vmem_addr, `bgmoffset, `cur_tile };
   6: oUop = {  `grvmem, `gnull, `gnull, `gnull };
@@ -92,7 +92,7 @@ begin
   14: oUop = {  `gwbg,   `gnull,`gnull, `gnull};
 
   15: oUop = {  `gaddl, `cur_tile, 10'd1  };
-  16: oUop = {  `gsubl, `bg_buffer_block_sel, 10'd1 };
+  16: oUop = {  `gsubl, `r2, 10'd1 };
   17: oUop = {  `gjnz ,  15'd5 };
 
   18: oUop = {  `gaddl,  `tile_row, 10'd2  };

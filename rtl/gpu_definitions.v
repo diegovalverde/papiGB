@@ -44,7 +44,7 @@
 `define vmem_addr           5'd12
 `define bh                  5'd13
 `define bl                  5'd14
-`define bg_buffer_block_sel 5'd15
+`define fbuffer_addr        5'd15
 `define state               5'd1
 `define cur_tile            5'd16
 `define r1                  5'd17
