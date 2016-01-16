@@ -3,5 +3,6 @@
 *.dump
 *.ppm
 *.swp
+*.swap
 ise/
 tb_simple_dzcpu
