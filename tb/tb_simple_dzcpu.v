@@ -62,10 +62,10 @@ reg rSimulationDone;
 
 	end
 	//---------------------------------------------
-
-
+  //Update writes to the framebuffer
   always @ ( posedge iClock )
 	begin
+
   		if ( wFramBufferWe )
 			begin
 				 rFrameBuffer[ wFrameBufferAddress ] = wFramBufferData;
@@ -78,7 +78,9 @@ end //always
 
   always @ ( posedge iClock )
 	begin
-			if ( wFrameBufferAddress == 16'd8160)
+
+
+			if ( wFrameBufferAddress == 16'd8160 && wFramBufferWe == 1'b1)//8191
 			begin
 
 			    $swrite(FrameDumpName,"generated_frames/frame.%01d.ppm",FrameDumpCount);
@@ -87,6 +89,8 @@ end //always
 					$fwrite(frame,"256 256\n");
 					$fwrite(frame,"4\n");
 
+					$fwrite(frame,"#SCY %04x SCX %04x LY %04x wSC_Tile %04x\n",
+					uut.GPU.oSCY,     uut.GPU.oSCX,   			uut.GPU.oLY, uut.GPU.wSC_Tile);
 
 					for (k = 0; k < 8160; k=k+1)
 					begin
@@ -110,7 +114,10 @@ end //always
 
 					$fclose(frame);
 					FrameDumpCount = FrameDumpCount + 1;
-					//rSimulationDone = 1;
+
+					`ifdef STOP_AFTER_FIRST_FRAME
+				  		rSimulationDone = 1;
+					`endif
 			end
   end
 
@@ -160,8 +167,14 @@ end //always
 					$fwrite(vram_log_9800_9bff,"%02h ",uut.MMU.VMEM.Ram[i- 16'h8000]);
 			end
 			$fwrite(log,"Simulation ended at time %dns\n", $time);
+
+`ifdef ENABLE_CPU_LOG
 			$fclose( log );
+`endif
+
+`ifdef ENABLE_GPU_LOG
 			$fclose( glog );
+`endif
 			$fclose( vram_log_8000_8fff );
 			$fclose( vram_log_9800_9bff );
 			$finish();
@@ -171,8 +184,14 @@ end //always
 //-----------------------------------------------------------------
 	initial begin
 		// Initialize Inputs
+
+`ifdef ENABLE_CPU_LOG
 		log = $fopen("pgb_cpu.log");
+`endif
+
+`ifdef ENABLE_GPU_LOG
 		glog = $fopen("pgb_gpu.log");
+`endif
 
 		$dumpfile("tb_simple_dzcpu.vcd");
 		$dumpvars(0,tb_simple_dzcpu);
@@ -262,6 +281,7 @@ end //always
 
 integer row_count=0;
 
+`ifdef ENABLE_GPU_LOG
 always @ ( posedge iClock )
 begin
 
@@ -295,9 +315,9 @@ begin
 			uut.GPU.oLYC,   uut.GPU.oDMA,     uut.GPU.oBGP,         uut.GPU.oOBP0,
 			uut.GPU.oOBP1, 	uut.GPU.oWY,      uut.GPU.oWX );
 
-			$fwrite(glog, "%02s %02s %04s %08s %08s\n", "Bh", "Bl", "Bsel", "cur_tile", "tile_row");
-			$fwrite(glog, "%02x %02x %04x %08x %08x\n",
-			uut.GPU.wBh, uut.GPU.wBl, uut.GPU.wR2, uut.GPU.wR0, uut.GPU.wCurrentTileRow);
+			$fwrite(glog, "%02s %02s %04s %08s %08s %08s\n", "Bh", "Bl", "Bsel", "cur_tile", "tile_row", "fb_addr");
+			$fwrite(glog, "%02x %02x %04x %08x %08x %08d\n",
+			uut.GPU.wBh, uut.GPU.wBl, uut.GPU.wR2, uut.GPU.wR0, uut.GPU.wCurrentTileRow, wFrameBufferAddress);
 
 			$fwrite(glog, "Tile Pixel Row:\n");
 			$fwrite(glog, "%02x %02x %02x %02x %02x %02x %02x %02x\n",
@@ -306,9 +326,9 @@ begin
 			$fwrite(glog,"\n\n\n");
 	 end //if
 end //always
+`endif
 
-
-`ifdef DUMP_CODE
+`ifdef ENABLE_CPU_LOG
 	always @ ( posedge iClock )
 	begin
 		wait(iReset != 1);
@@ -479,6 +499,6 @@ end //always
 
 		end
 	end
-`endif	//DUMP_CODE
+`endif	//ENABLE_CPU_LOG
 
 endmodule
