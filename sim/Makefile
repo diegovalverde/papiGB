@@ -16,7 +16,7 @@ VVP_CMD = vvp
 
 #Simulation Vars
 SIMDIR = .
-DUMPTYPE = vcd
+DUMPTYPE = none
 #Viewer
 WAVEFORM_VIEWER = gtkwave # Waveform viewer executable
 SIMFLAGS = -DSTOP_AFTER_FIRST_FRAME -DLCD_SCXY_DISABLED -DENABLE_CPU_LOG -DENABLE_GPU_LOG
