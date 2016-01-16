@@ -54,16 +54,18 @@ module gpu
 );
 //TODO: These assigns are temporary to humor the synthesis tool
 assign oFramBufferData = {wBgPixel7,wBgPixel6,wBgPixel5,wBgPixel4,wBgPixel3,wBgPixel2,wBgPixel1,wBgPixel0} ;
-assign oFramBufferAddr = {6'b0,wFrameBufferAddress};
+assign oFramBufferAddr = {2'b0,wFrameBufferAddress};
 assign oFramBufferWe   = rBgBufferWe;
 
 
 
 
 wire [20:0] wMcuRegWriteSelect,wGpuRegWriteSelect;
-wire [15:0] wOp0, wOp1, wR0, wR1, wR2, wR3;
-wire [7:0] wBh, wBl, wState, wIp, wInitialPc;
+wire [15:0] wOp0, wOp1, wR1, wR2, wR3;
+wire [9:0]  wR0;  //Only support up to 32*32 = 1024 tiles
+wire [7:0] wBh, wBl, wState, wIp, wInitialPc, wSC_Tile_Row;
 wire [15:0] wBGTileOffset, wBGTileMapOffset, wBGRowOffset, wFrameBufferAddress, wCurrentTileRow;
+wire [15:0] wSC_Tile;
 wire [7:0] wRegSelect;
 wire [1:0] wBgPixel0,wBgPixel1,wBgPixel2,wBgPixel3,wBgPixel4,wBgPixel5,wBgPixel6,wBgPixel7;
 wire [19:0] wUop;
@@ -92,7 +94,7 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_WX(   iClock, iReset, iMcuWe  & wMcuRegW
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_12(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[12], rResult, oMcuAddr );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_13(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[13], rResult[7:0], wBh );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_14(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[14], rResult[7:0], wBl );
-UPCOUNTER_POSEDGE            # ( 16 )UP_15(    iClock, iReset,  8'b0, wGpuActive  & rIncFBufferAddr,  wFrameBufferAddress );
+UPCOUNTER_POSEDGE            # ( 13 )UP_15(    iClock, iReset,  13'b0, wGpuActive  & rIncFBufferAddr,  wFrameBufferAddress );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_16(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[16], rResult, wR0 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_17(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[17], rResult, wR1 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_18(   iClock, iReset,  wRegWe  & wGpuRegWriteSelect[18], rResult, wR2 );
@@ -119,8 +121,14 @@ assign wRegSelect       = ( wGpuActive ) ? wUop[14:10] : iMcuRegSelect ;
 assign wRegWe           = ( wGpuActive ) ? rRegWe : iMcuWe ;
 assign wBGTileOffset    = ( oLCDC[4] ) ? 16'h8000 : 16'h8800;
 assign wBGTileMapOffset = ( oLCDC[6] ) ? 16'h9c00 : 16'h9800;
-assign wBGRowOffset     =/* ( oLY << 5 ) +*/ wCurrentTileRow;
+assign wBGRowOffset     = wCurrentTileRow;
 
+`ifdef LCD_SCXY_DISABLED
+  assign wSC_Tile = 16'b0;
+`else
+  assign wSC_Tile = ((oSCY >> 3) << 5) + oSCX;
+`endif
+assign wSC_Tile_Row = 8'b0;//{4'b0,oSCY[2:0],1'b0};  //(SCY % 8) * 2
 
 MUXFULLPARALELL_4SEL_GENERIC # (21) MUX_REG_WE_MCU
 (
@@ -187,8 +195,8 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG0
   .I12( oMcuAddr ),   .I13( wBh ),   .I14( wBl),  .I15( wFrameBufferAddress ),
   .I16( wR0 ),   .I17( wR1 ), .I18( {8'b0,wR2} ), .I19( wR3 ), .I20( wCurrentTileRow ),
   .I21( {8'h0,iMcuReadData} ), .I22( wBGTileMapOffset ), .I23( wBGRowOffset ), .I24( wBGTileOffset ),
-  .I25( {8'h0,6'h0,oLY[1:0]} ), .I26( {4'b0,iMcuReadData,4'b0} ), .I27( 16'b0 ), .I28( 16'b0 ),
-  .I29( 16'b0 ), .I30( 16'b0 ), .I31( 16'b0 ),
+  .I25( {8'h0,6'h0,oLY[1:0]} ), .I26( {4'b0,iMcuReadData,4'b0} ), .I27( wSC_Tile ), .I28( {8'b0,wSC_Tile_Row} ),
+  .I29( 16'd8191 ), .I30( 16'b0 ), .I31( 16'b0 ),
   .O( wOp0 )
 );
 
@@ -206,8 +214,8 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG1
   .I12( oMcuAddr ),   .I13( wBh ),   .I14( wBl),  .I15( wFrameBufferAddress ),
   .I16( wR0 ),   .I17( wR1 ), .I18( {8'b0,wR2} ), .I19( wR3 ), .I20( wCurrentTileRow ),
   .I21( {8'h0,iMcuReadData} ), .I22( wBGTileMapOffset ), .I23( wBGRowOffset ), .I24( wBGTileOffset ),
-  .I25( {8'h0,6'h0,oLY[1:0]} ), .I26( {4'b0,iMcuReadData,4'b0} ), .I27( 16'b0 ), .I28( 16'b0 ),
-  .I29( 16'b0 ), .I30( 16'b0 ), .I31( 16'b0 ),
+  .I25( {8'h0,6'h0,oLY[1:0]} ), .I26( {4'b0,iMcuReadData,4'b0} ), .I27( wSC_Tile ), .I28( {8'b0,wSC_Tile_Row} ),
+  .I29( 16'd8191 ), .I30( 16'b0 ), .I31( 16'b0 ),
   .O( wOp1 )
 );
 

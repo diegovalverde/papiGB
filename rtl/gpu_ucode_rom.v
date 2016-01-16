@@ -70,40 +70,55 @@ begin
 
 
   */
+
+
   0 : oUop = {  `gnop,  `gnull, `gnull, `gnull };
   1 : oUop = {  `gwrl,  `state, `SCANLINE_VRAM_READ };
-  2 : oUop = {  `gwrl,  `cur_tile, 10'd0}; //TODO replace by { `gwrr, `cur_tile, `scy_shl_5__plus_scx }
+  //2 : oUop = {  `gwrl,  `cur_tile, 10'd0}; //TODO replace by { `gwrr, `cur_tile, `scy_shl_5__plus_scx }
+  2 : oUop =  { `gwrr, `cur_tile, `scy_shl_5__plus_scx, `gnull };
 //1
-  3 : oUop = {  `gwrl,  `tile_row, 10'd0 };
+  //3 : oUop = {  `gwrl,  `tile_row, 10'd0 };
+  3: oUop = { `gwrr, `tile_row, `scy_tile_row_offset, `gnull};
 //2
   4 : oUop = {  `gwrl,  `r2, 10'd32 };
 //3
   5: oUop = {  `gadd,  `vmem_addr, `bgmoffset, `cur_tile };
   6: oUop = {  `grvmem, `gnull, `gnull, `gnull };
+  7: oUop = {  `gwrr, `r3, `vmem_addr, `gnull };
+  8: oUop = {  `gadd,  `r1,        `vmem_data_shl_4, `tile_row };
+  9: oUop = {  `gadd,  `vmem_addr, `r1, `bgtoffset };
+  10: oUop = {  `grvmem, `gnull, `gnull, `gnull };
 
-  7: oUop = {  `gadd,  `r1,        `vmem_data_shl_4, `bg_row_offset };
-  8: oUop = {  `gadd,  `vmem_addr, `r1, `bgtoffset };
-  9: oUop = {  `grvmem, `gnull, `gnull, `gnull };
 
-  10: oUop = {  `gwrr,   `bh, `vmem_data, `gnull };
-  11: oUop = {  `gaddl,  `vmem_addr, 10'd1  };
-  12: oUop = {  `grvmem, `gnull, `gnull, `gnull };
-  13: oUop = {  `gwrr,   `bl, `vmem_data, `gnull };
-  14: oUop = {  `gwbg,   `gnull,`gnull, `gnull};
+  11: oUop = {  `gwrr,   `bh, `vmem_data, `gnull };
+  12: oUop = {  `gaddl,  `vmem_addr, 10'd1  };
+  13: oUop = {  `grvmem, `gnull, `gnull, `gnull };
+  14: oUop = {  `gwrr,   `bl, `vmem_data, `gnull };
+  15: oUop = {  `gwbg,   `gnull,`gnull, `gnull};
 
-  15: oUop = {  `gaddl, `cur_tile, 10'd1  };
-  16: oUop = {  `gsubl, `r2, 10'd1 };
-  17: oUop = {  `gjnz ,  15'd5 };
 
-  18: oUop = {  `gaddl,  `tile_row, 10'd2  };
-  19: oUop = {  `gaddl , `ly, 10'd1 };
+  16: oUop = { `gsubl, `r1, 10'd8191};
+  17: oUop = { `gsub, `r1, `fbuffer_addr, `r8191};
+  18: oUop = { `gjz, 15'h2};
 
-  20: oUop = {  `gwrr,  `r1, `tile_row, `gnull };
-  21: oUop = {  `gsubl,  `r1, 10'h10 };
 
-  22: oUop = {  `gjz , 15'd3  };
-  23: oUop = {  `gsubl,  `cur_tile, 10'd32 };
-  24: oUop = {  `ggoto,  15'd4 };
+  19: oUop = {  `gaddl, `cur_tile, 10'd1  };
+  20: oUop = {  `gsubl, `r2, 10'd1 };
+  21: oUop = {  `gjnz ,  15'd5 };
+
+  22: oUop = {  `gaddl,  `tile_row, 10'd2  };
+  23: oUop = {  `gaddl , `ly, 10'd1 };
+
+
+
+  24: oUop = {  `gwrr,  `r1, `tile_row, `gnull };
+  25: oUop = {  `gsubl,  `r1, 10'h10 };
+
+  26: oUop = {  `gjz , 15'd3  };
+  27: oUop = {  `gsubl,  `cur_tile, 10'd32 };
+
+
+  28: oUop = {  `ggoto,  15'd4 };
 
   endcase
 end
