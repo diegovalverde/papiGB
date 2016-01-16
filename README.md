@@ -42,6 +42,7 @@ To control additional simulation options, use the SIMFLAGS flag. Valid values ar
 Example:
 
 The following line will stop the simulation after the first frame, will generate GPU log, but will not generate CPU log.
+
 `make SIMFLAGS="-DSTOP_AFTER_FIRST_FRAME -DENABLE_GPU_LOG"`
 
 ##Looking at simulation results
