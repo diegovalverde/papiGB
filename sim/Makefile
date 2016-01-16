@@ -19,6 +19,7 @@ SIMDIR = .
 DUMPTYPE = vcd
 #Viewer
 WAVEFORM_VIEWER = gtkwave # Waveform viewer executable
+SIMFLAGS = -DSTOP_AFTER_FIRST_FRAME -DLCD_SCXY_DISABLED -DENABLE_CPU_LOG -DENABLE_GPU_LOG
 
 
 all: compile run
@@ -44,7 +45,7 @@ new :
 compile :
 
 
-	 $(VERILOG_CMD) -DDEBUG=1 -DDUMP_CODE=1  -o  $(SIMDIR)/$(TESTBENCH) $(TESTBENCHPATH) $(SOURCEPATH)/* -I $(SOURCEPATH)/ -Wall
+	 $(VERILOG_CMD) $(SIMFLAGS) -DDUMP_CODE=1  -o  $(SIMDIR)/$(TESTBENCH) $(TESTBENCHPATH) $(SOURCEPATH)/* -I $(SOURCEPATH)/ -Wall
 
 
 run :
@@ -56,4 +57,4 @@ view :
 clean :
 	rm -f $(SIMDIR)/$(TESTBENCH)
 	rm -f *.{vcd,log,dump,ppm}
-	rm -f generated_frames/*.ppm 
+	rm -f generated_frames/*.ppm
