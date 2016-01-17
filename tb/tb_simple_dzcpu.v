@@ -49,7 +49,7 @@ module tb_simple_dzcpu;
 
 //Instantiate a dummy frame buffer. In real life this goes in the LCD board
 
-reg [15:0] rFrameBuffer[8160:0];
+reg [15:0] rFrameBuffer[8191:0];
 integer log, glog, i,Pc, vram_log_8000_8fff, vram_log_9800_9bff;
 integer frame_count = 0, k, frame;
 reg rSimulationDone;
@@ -80,7 +80,7 @@ end //always
 	begin
 
 
-			if ( wFrameBufferAddress == 16'd8160 && wFramBufferWe == 1'b1)//8191
+			if ( wFrameBufferAddress == 16'd8191 && wFramBufferWe == 1'b1)//8191
 			begin
 
 			    $swrite(FrameDumpName,"generated_frames/frame.%01d.ppm",FrameDumpCount);
@@ -92,7 +92,7 @@ end //always
 					$fwrite(frame,"#SCY %04x SCX %04x LY %04x wSC_Tile %04x\n",
 					uut.GPU.oSCY,     uut.GPU.oSCX,   			uut.GPU.oLY, uut.GPU.wSC_Tile);
 
-					for (k = 0; k < 8160; k=k+1)
+					for (k = 0; k < 8191; k=k+1)
 					begin
 					  rCurrentTileRow = rFrameBuffer[k];
 
