@@ -26,10 +26,19 @@ module pGB
 
 input wire iClock,
 input wire iReset,
+
+`ifdef VGA_ENABLED
+output wire [3:0] oVgaRed,
+output wire [3:0] oVgaGreen,
+output wire [3:0] oVgaBlue,
+output wire       oVgaHsync,
+output wire       oVgaVsync,
+`endif
+
+
 output wire       oFrameBufferWe,
 output wire [15:0] oFrameBufferData,
 output wire [15:0] oFrameBufferAddr
-
 );
 
 wire [15:0] wdZCPU_2_MMU_Addr, wGPU_2_MCU_Addr;
@@ -101,6 +110,59 @@ mmu MMU
 );
 
 
+`ifdef VGA_ENABLED
+
+ wire [15:0] wFramBufferData, wVgaFBReadData, wVgaFBReadData_Pre, wFrameBufferAddress;
+ wire [15:0] wVgaRow, wVgaCol;
+ wire [3:0] wVgaR, wVgaG, wVgaB;
+ wire [9:0] wVgaFBReadAddr;
+ wire [1:0] wVgaColor2Bits;
+ wire wFramBufferWe;
+
+	RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(16), .ADDR_WIDTH(10), .MEM_SIZE(8192) ) FBUFFER
+	(
+	 .Clock( iClock ),
+	 .iWriteEnable( wFramBufferWe        ),
+	 .iReadAddress0( wVgaFBReadAddr      ),
+	 .iWriteAddress( {3'b0,wFrameBufferAddress[15:3]} ), //Divide by 8
+	 .iDataIn(       wFramBufferData     ),
+	 .oDataOut0(     wVgaFBReadData_Pre  )
+
+	);
+
+ assign wFrameBufferAddress = wVgaRow * 160 + wVgaCol;
+
+	MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_COLOR (
+		.Sel( wFrameBufferAddress[2:0] ),
+	  .I0( wFramBufferData[1:0]),
+		.I1( wFramBufferData[3:2]),
+		.I2( wFramBufferData[5:4]),
+		.I3( wFramBufferData[7:6]) ,
+		.I4( wFramBufferData[9:8]),
+		.I5( wFramBufferData[11:10]),
+		.I6( wFramBufferData[13:12]),
+		.I7( wFramBufferData[15:14]) ,
+		.O( wVgaColor2Bits  )
+		);
+
+	assign oVgaRed   = ( wVgaRow >= 16'd160 || wVgaCol >= 144 ) ? 4'b0 : {{3{wVgaColor2Bits[1]}},wVgaColor2Bits[0]};
+	assign oVgaGreen = ( wVgaRow >= 16'd160 || wVgaCol >= 144 ) ? 4'b0 : {{3{wVgaColor2Bits[1]}},wVgaColor2Bits[0]};
+	assign oVgaBlue  = ( wVgaRow >= 16'd160 || wVgaCol >= 144 ) ? 4'b0 : {{3{wVgaColor2Bits[1]}},wVgaColor2Bits[0]};
+
+
+	VgaController VGA
+	(
+	.Clock(iClock),
+	.Reset(iReset),
+	.oVgaVsync( oVgaVsync ),
+	.oVgaHsync( oVgaHsync ),
+	.oRow( wVgaRow ),
+	.oCol(  wVgaCol )
+
+	);
+
+
+`endif
 
 gpu GPU
 (
