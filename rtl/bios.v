@@ -287,6 +287,8 @@ begin
 		8'd253 : oData =  8'h01;
 		8'd254 : oData =  8'hE0;
 		8'd255 : oData =  8'h50;
+		default:
+			oData = 8'h0;
 	endcase
 end
 
