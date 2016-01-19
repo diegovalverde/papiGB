@@ -158,6 +158,9 @@ always @( * )
   //----------------------------------------
   default:
   begin
+   rResetFlow = 1'b0;
+  	rFlowEnable = 1'b0;
+
   	rNextState = `DZCPU_AFTER_RESET;
   end
 endcase
