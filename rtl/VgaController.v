@@ -21,7 +21,7 @@ input wire Clock,
 input wire Reset,
 output wire oVgaVsync,	//Polarity of horizontal sync pulse is negative.
 output wire oVgaHsync,	//Polarity of vertical sync pulse is negative.
-input wire [15:0]  oRow,oCol
+output wire [15:0]  oRow,oCol
 
 );
 
