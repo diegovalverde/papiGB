@@ -19,6 +19,7 @@ module VgaController
 (
 input wire Clock,
 input wire Reset,
+output wire [3:0] oVgaRed,oVgaGreen,oVgaBlue,
 output wire oVgaVsync,	//Polarity of horizontal sync pulse is negative.
 output wire oVgaHsync,	//Polarity of vertical sync pulse is negative.
 output wire [15:0]  oRow,oCol
@@ -26,9 +27,6 @@ output wire [15:0]  oRow,oCol
 );
 
 wire wHSync,wVSync,wPolarity_V,wPolarity_H;
-wire wClockVga,wHCountEnd,wVCountEnd;
-wire [15:0] wHCount,wVCount;
-wire wPllLocked,wPsDone;
 
 
 
@@ -112,6 +110,9 @@ assign wPolarity_H  = 1'b0;
 
 `endif
 
+wire wClockVga,wHCountEnd,wVCountEnd;
+wire [15:0] wHCount,wVCount;
+wire wPllLocked,wPsDone;
 
 
 `ifdef XILINX_IP
@@ -133,6 +134,9 @@ ClockVga
 .CLKFX(wClockVga)		//FCLKFX = FCLKIN * CLKFX_MULTIPLY / CLKFX_DIVIDE
 
 );
+`else
+	assign wClockVga = Clock;
+	assign wPllLocked = 1'b1;
 `endif
 assign wHCountEnd = (wHCount == HORIZONTAL_LINE-1)? 1'b1 : 1'b0;
 assign wVCountEnd = (wVCount == VERTICAL_LINE-1)  ? 1'b1 : 1'b0;
@@ -174,12 +178,13 @@ assign oVgaHsync = (wPolarity_H == 1'b1) ? wHSync : ~wHSync ;
 
 
 wire[3:0] wColorR, wColorG, wColorB;
-/*
 assign wColorR = (wHCount < (HSYNC_VISIBLE_AREA/2)) ? 4'b1111 : 4'b0000;
 assign wColorG = (wVCount < (VSYNC_VISIBLE_AREA/2)) ? 4'b1111 : 4'b0000;
 assign wColorB = (wHCount >= (HSYNC_VISIBLE_AREA/2) && wVCount < (VSYNC_VISIBLE_AREA/2)) ?  4'b1111: 4'b0000;
-*/
 
+assign {oVgaRed,oVgaGreen,oVgaBlue} = (wHCount < HSYNC_VISIBLE_AREA && wVCount < VSYNC_VISIBLE_AREA) ?
+ {wColorR,wColorG,wColorB} :	//display color
+ {4'b1111,4'b0,4'b0};			//black
 
 assign oCol = wHCount;
 assign oRow = wVCount;

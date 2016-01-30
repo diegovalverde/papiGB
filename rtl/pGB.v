@@ -25,7 +25,6 @@ module pGB
 (
 
 input wire iClock,
-input wire iReset,
 
 `ifdef VGA_ENABLED
 output wire [3:0] oVgaRed,
@@ -36,9 +35,14 @@ output wire       oVgaVsync,
 `endif
 
 
+`ifndef XILINX_IP
 output wire       oFrameBufferWe,
 output wire [15:0] oFrameBufferData,
-output wire [15:0] oFrameBufferAddr
+output wire [15:0] oFrameBufferAddr,
+
+`endif
+
+input wire iReset
 );
 
 wire [15:0] wdZCPU_2_MMU_Addr, wGPU_2_MCU_Addr;
@@ -112,7 +116,7 @@ mmu MMU
 
 `ifdef VGA_ENABLED
 
- wire [15:0] wFramBufferData, wVgaFBReadData, wVgaFBReadData_Pre, wFrameBufferAddress;
+ wire [15:0] wFramBufferWriteData, wVgaFBReadData, wVgaFBReadData_Pre, wFrameBufferReadAddress, wFramBufferWriteAddress;
  wire [15:0] wVgaRow, wVgaCol;
  wire [3:0] wVgaR, wVgaG, wVgaB;
  wire [9:0] wVgaFBReadAddr;
@@ -121,33 +125,46 @@ mmu MMU
 
 	RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(16), .ADDR_WIDTH(10), .MEM_SIZE(8192) ) FBUFFER
 	(
-	 .Clock( iClock ),
+	 .Clock( iClock ), //TODO: Should we use graphic clock here?
 	 .iWriteEnable( wFramBufferWe        ),
-	 .iReadAddress0( wVgaFBReadAddr      ),
-	 .iWriteAddress( {3'b0,wFrameBufferAddress[15:3]} ), //Divide by 8
-	 .iDataIn(       wFramBufferData     ),
+	 //.iReadAddress0( {3'b0,wFrameBufferReadAddress[15:3]}      ), //Divide by 8
+	 .iReadAddress0( wFrameBufferReadAddress      ), //Divide by 8
+	 .iWriteAddress( wFramBufferWriteAddress  ),
+	 .iDataIn(       wFramBufferWriteData     ),
 	 .oDataOut0(     wVgaFBReadData_Pre  )
 
 	);
 
- assign wFrameBufferAddress = wVgaRow * 160 + wVgaCol;
+ assign wFrameBufferReadAddress = (wVgaRow  << 5) + (wVgaCol >> 3);
 
 	MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_COLOR (
-		.Sel( wFrameBufferAddress[2:0] ),
-	  .I0( wFramBufferData[1:0]),
-		.I1( wFramBufferData[3:2]),
-		.I2( wFramBufferData[5:4]),
-		.I3( wFramBufferData[7:6]) ,
-		.I4( wFramBufferData[9:8]),
-		.I5( wFramBufferData[11:10]),
-		.I6( wFramBufferData[13:12]),
-		.I7( wFramBufferData[15:14]) ,
+		.Sel( wVgaCol[2:0] ),
+	  .I7( wVgaFBReadData_Pre[1:0]),
+		.I6( wVgaFBReadData_Pre[3:2]),
+		.I5( wVgaFBReadData_Pre[5:4]),
+		.I4( wVgaFBReadData_Pre[7:6]) ,
+		.I3( wVgaFBReadData_Pre[9:8]),
+		.I2( wVgaFBReadData_Pre[11:10]),
+		.I1( wVgaFBReadData_Pre[13:12]),
+		.I0( wVgaFBReadData_Pre[15:14]) ,
 		.O( wVgaColor2Bits  )
 		);
 
-	assign oVgaRed   = ( wVgaRow >= 16'd160 || wVgaCol >= 144 ) ? 4'b0 : {{3{wVgaColor2Bits[1]}},wVgaColor2Bits[0]};
-	assign oVgaGreen = ( wVgaRow >= 16'd160 || wVgaCol >= 144 ) ? 4'b0 : {{3{wVgaColor2Bits[1]}},wVgaColor2Bits[0]};
-	assign oVgaBlue  = ( wVgaRow >= 16'd160 || wVgaCol >= 144 ) ? 4'b0 : {{3{wVgaColor2Bits[1]}},wVgaColor2Bits[0]};
+   wire [3:0] wRed,wGreen,wBlue;
+		MUXFULLPARALELL_2SEL_GENERIC # (12) MUX_COLOR_OUT (
+			.Sel( wVgaColor2Bits  ),
+			.I0( {4'b0000, 4'b0000, 4'b0000 } ),
+			.I1( {4'b1111, 4'b0000, 4'b0000 } ),
+			.I2( {4'b0000, 4'b1111, 4'b0000 } ),
+			.I3( {4'b0000, 4'b0000, 4'b1111 }) ,
+			.O( {wRed,wGreen,wBlue}  )
+			);
+
+
+
+	assign oVgaRed   = ( wVgaRow >= 16'd255 || wVgaCol >= 255 ) ? 4'b0111 : wRed;
+	assign oVgaGreen = ( wVgaRow >= 16'd255 || wVgaCol >= 255 ) ? 4'b0111 : wGreen;
+	assign oVgaBlue  = ( wVgaRow >= 16'd255 || wVgaCol >= 255 ) ? 4'b0111 : wBlue;
 
 
 	VgaController VGA
@@ -156,11 +173,19 @@ mmu MMU
 	.Reset(iReset),
 	.oVgaVsync( oVgaVsync ),
 	.oVgaHsync( oVgaHsync ),
+	/*.oVgaRed( oVgaRed ),
+	.oVgaGreen( oVgaGreen ),
+	.oVgaBlue( oVgaBlue ),*/
 	.oRow( wVgaRow ),
 	.oCol(  wVgaCol )
 
 	);
 
+	`ifndef XILINX_IP
+		assign oFrameBufferAddr = wFramBufferWriteAddress;
+		assign oFrameBufferData  = wFramBufferWriteData;
+		assign oFrameBufferWe    = wFramBufferWe;
+	`endif
 
 `endif
 
@@ -168,9 +193,16 @@ gpu GPU
 (
   .iClock( iClock ),
   .iReset( iReset ),
+`ifndef VGA_ENABLED
   .oFramBufferWe(   oFrameBufferWe ),
   .oFramBufferData( oFrameBufferData ),
   .oFramBufferAddr( oFrameBufferAddr ),
+`else
+	.oFramBufferWe(   wFramBufferWe	 ),
+	.oFramBufferData( wFramBufferWriteData ),
+	.oFramBufferAddr( wFramBufferWriteAddress ),
+
+`endif
   .oMcuAddr( wGPU_2_MCU_Addr ),
 	.oMcuReadRequest( wGPU_2_MCU_ReadRequest ),
   .iMcuRegSelect( wGpu_RegSelect),
