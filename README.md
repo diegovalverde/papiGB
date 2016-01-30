@@ -21,7 +21,7 @@ Once the simulation completes, the following ASCII files are generated under the
 
 * pgb_cpu.log : Z80 macro instructions and their corresponding micro-code flows
 * pgb_gpu.log:      GPU micro code dump
-* pgb_video_buffer.ppm : PPM representation of the video buffer at the time the simulation ended. (Open it with gimp)
+* generated_frames/*.ppm   : PPM representation of the video buffer frames at the time the simulation ended. (Open it with gimp)
 * papi_vram_8000_8fff.dump : Memory dump for the Tile set region 0
 * papi_vram_9800_9bff.dump : Memory dump for the Tile map region 0
 * tb_simple_dzcpu : Simulation testbench executable
