@@ -5,7 +5,7 @@ before_install:
 install: true
 
 script:
-  - bundle exec cd sim && make
+  - bundle exec script/ci_script.sh
 
 after_failure: true
 
