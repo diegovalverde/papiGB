@@ -1,4 +1,4 @@
-https://travis-ci.org/diegovalverde/papiGB.svg?branch=master
+![alt text](https://travis-ci.org/diegovalverde/papiGB.svg?branch=master)
 
 # papiGB
 Game Boy Classic fully functional FPGA implementation from scratch
