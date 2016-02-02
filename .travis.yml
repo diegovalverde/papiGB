@@ -1,0 +1,12 @@
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq iverilog
+
+install: true
+
+script:
+  - bundle exec cd sim && make
+
+after_failure: true
+
+after_script: true  
