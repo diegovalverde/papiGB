@@ -126,6 +126,8 @@ assign wBGRowOffset     = wCurrentTileRow;
 `ifdef LCD_SCXY_DISABLED
   assign wSC_Tile = 16'b0;
 `else
+  //To know the current tile we divide by 8 (since each tile is 8x8 pixels)
+  //then we multiply by 32, since each row has 32 tiles
   assign wSC_Tile = ((oSCY >> 3) << 5) + oSCX;
 `endif
 assign wSC_Tile_Row = 8'b0;//{4'b0,oSCY[2:0],1'b0};  //(SCY % 8) * 2
