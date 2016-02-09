@@ -307,10 +307,11 @@ begin
 		//JPnn
 		139: oUop = {`op, `sx16r,  `hl };
 		140: oUop = {`inc,  `sma,   `pc };
-		141: oUop = {`inc,   `srm,   `l  };
-		142: oUop = {`op,   `srm,   `h  };
-		143: oUop = {`inc,   `spc,   `hl  };
-		144: oUop = {`eof,  `srx16, `hl };
+		141: oUop = {`inc,  `nop, `null };
+		142: oUop = {`inc,   `srm,   `l  };
+		143: oUop = {`op,   `srm,   `h  };
+		144: oUop = {`op,   `spc,   `hl  };
+		145: oUop = {`eof,  `srx16, `hl };
 
 
 	/*
