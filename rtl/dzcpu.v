@@ -91,7 +91,12 @@ UPCOUNTER_POSEDGE # (8) UPC
 	.Q(       wuPc                               )
 );
 
-assign wInitialPc = ( rOverWritePc ) ? rUopDstRegData : 16'b0;
+`ifdef SKIP_BIOS
+	assign wInitialPc = ( rOverWritePc ) ? rUopDstRegData : 16'h100;
+`else
+	assign wInitialPc = ( rOverWritePc ) ? rUopDstRegData : 16'b0;
+`endif
+
 
 UPCOUNTER_POSEDGE # (16) PC
 (
