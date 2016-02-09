@@ -75,6 +75,7 @@ begin
 	`SUBr_b: oUopFlowIdx = 8'd132;
 	`DECr_d: oUopFlowIdx = 8'd135;
 	`LDrn_d: oUopFlowIdx = 8'd136;
+	`JPnn:   oUopFlowIdx = 8'd139;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -303,6 +304,13 @@ begin
 		136: oUop = {`inc, `sma, `pc     };
 		137: oUop = { `inc,  `nop, `null };
 		138: oUop = {`eof, `srm,  `d     };
+		//JPnn
+		139: oUop = {`op, `sx16r,  `hl };
+		140: oUop = {`inc,  `sma,   `pc };
+		141: oUop = {`inc,   `srm,   `l  };
+		142: oUop = {`op,   `srm,   `h  };
+		143: oUop = {`inc,   `spc,   `hl  };
+		144: oUop = {`eof,  `srx16, `hl };
 
 
 	/*
