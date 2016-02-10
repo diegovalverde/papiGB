@@ -223,7 +223,7 @@
 //  `define  XORr_h;
 //  `define  XORr_l;
 //  `define  XORHL;
-//  `define  XORr_a;
+  `define  XORr_a 8'hAF
 
 //  B0
 //  `define  ORr_b;
