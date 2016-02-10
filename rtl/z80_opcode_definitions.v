@@ -68,7 +68,7 @@
 
 //  `define  INCHLm;
 //  `define  DECHLm;
-//  `define  LDHLmn;
+  `define  LDHLmn 8'h36
 //  `define  SCF;
 
 //  `define  JRCn;
