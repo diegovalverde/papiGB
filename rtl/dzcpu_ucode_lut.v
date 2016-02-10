@@ -76,6 +76,7 @@ begin
 	`DECr_d: oUopFlowIdx = 8'd135;
 	`LDrn_d: oUopFlowIdx = 8'd136;
 	`JPnn:   oUopFlowIdx = 8'd139;
+	`LDrn_h: oUopFlowIdx = 8'd146;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -304,7 +305,7 @@ begin
 		136: oUop = {`inc, `sma, `pc     };
 		137: oUop = { `inc,  `nop, `null };
 		138: oUop = {`eof, `srm,  `d     };
-		//JPnn
+//JPnn
 		139: oUop = {`op, `sx16r,  `hl };
 		140: oUop = {`inc,  `sma,   `pc };
 		141: oUop = {`inc,  `nop, `null };
@@ -312,7 +313,10 @@ begin
 		143: oUop = {`op,   `srm,   `h  };
 		144: oUop = {`op,   `spc,   `hl  };
 		145: oUop = {`eof,  `srx16, `hl };
-
+//LDrn_h
+		146: oUop = {`inc, `sma, `pc     };
+		147: oUop = { `inc,  `nop, `null };
+		148: oUop = {`eof, `srm,  `h     };
 
 	/*
 	//RETI
