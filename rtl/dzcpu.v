@@ -33,7 +33,7 @@ module dzcpu
 	output wire         oMcuReadRequest,
 	output reg         oMCUwe
 );
-wire[15:0]  wPc, wRegData, wUopSrc, wX16, wInitialPc ;
+wire[15:0]  wPc, wRegData, wUopSrc, wX16, wY16, wZ16, wInitialPc ;
 wire [7:0]  wuPc, wuOpBasicFlowIdx,wuOpExtendedFlowIdx, wuOpFlowIdx, wBitMask, wX8;
 wire        wIPC,wEof, wZ, wN, wCarry;
 wire [12:0] wUop;
@@ -171,7 +171,7 @@ always @( * )
 endcase
 end
 
-reg [10:0] rRegWriteSelect;
+reg [12:0] rRegWriteSelect;
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFB (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[0], rUopDstRegData[7:0], wB );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFC (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[1], rUopDstRegData[7:0], wC );
@@ -184,6 +184,8 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFSPL(   iClock, iReset, rFlowEnable & rRegW
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFSPH(   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[8], (( rRegWriteSelect[7] &  rRegWriteSelect[8])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wSpH );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX8 (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[9], rUopDstRegData[7:0], wX8 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFX16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[10], rUopDstRegData[15:0], wX16 );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFY16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[11], rUopDstRegData[15:0], wY16 );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFZ16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[12], rUopDstRegData[15:0], wZ16 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFFLAGS( iClock, iReset, rFlowEnable & rFlagsWe & wuCmd[ `uop_flags_update_enable ], rFlags, wFlags );
 FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 4 )FFMCUADR( iClock, iReset, rFlowEnable & rSetMCOAddr, `pc , wUop[3:0], wMcuAdrrSel );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FF_RREQ( iClock, iReset, rFlowEnable & ~oMCUwe, rMcuReadRequest, oMcuReadRequest );
@@ -203,9 +205,10 @@ MUXFULLPARALELL_4SEL_GENERIC # (16) MUX_MCUADR
 MUXFULLPARALELL_4SEL_GENERIC # (16) MUX_REGDATA
 (
 	.Sel( rRegSelect),
-	.I0({8'b0,wB}), .I1({8'b0,wC}), .I2({8'b0,wD}), .I3({8'b0,wE}),
-	.I4({8'b0,wH}), .I5({8'b0,wL}), .I6({wH,wL}),	.I7({8'b0,wA}),
-	.I8(wPc), .I9({wSpH,wSpL}), .I12({8'b0,wX8}), .I13( wX16 ), .I15({wD,wE}),
+	.I0({8'b0,wB}), .I1({8'b0,wC}),   .I2({8'b0,wD}), .I3({8'b0,wE}),
+	.I4({8'b0,wH}), .I5({8'b0,wL}),   .I6({wH,wL}),	.I7({8'b0,wA}),
+	.I8(wPc),       .I9({wSpH,wSpL}), .I10(wY16),   .I11(wZ16),
+	.I12({8'b0,wX8}), .I13( wX16 ), .I15({wD,wE}),
 	.I14( {8'hff,wC}), //Special case for LDIOCA
 	.O( wRegData )
 );
@@ -224,21 +227,23 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MCUDATA_OUT
 always @ ( * )
 begin
 	case (rWriteSelect)
-		`b:    rRegWriteSelect = 11'b00000000001;
-		`c:    rRegWriteSelect = 11'b00000000010;
-		`d:    rRegWriteSelect = 11'b00000000100;
-		`e:    rRegWriteSelect = 11'b00000001000;
-		`de:   rRegWriteSelect = 11'b00000001100;
-		`h:    rRegWriteSelect = 11'b00000010000;
-		`l:    rRegWriteSelect = 11'b00000100000;
-		`hl:   rRegWriteSelect = 11'b00000110000;
-		`a:    rRegWriteSelect = 11'b00001000000;
-		`spl:  rRegWriteSelect = 11'b00010000000;
-		`sph:  rRegWriteSelect = 11'b00100000000;
-		`sp:   rRegWriteSelect = 11'b00110000000;
-		`x8:   rRegWriteSelect = 11'b01000000000;
-		`x16:  rRegWriteSelect = 11'b10000000000;
-		default: rRegWriteSelect = 11'b0;
+		`b:    rRegWriteSelect = 13'b0000000000001;
+		`c:    rRegWriteSelect = 13'b0000000000010;
+		`d:    rRegWriteSelect = 13'b0000000000100;
+		`e:    rRegWriteSelect = 13'b0000000001000;
+		`de:   rRegWriteSelect = 13'b0000000001100;
+		`h:    rRegWriteSelect = 13'b0000000010000;
+		`l:    rRegWriteSelect = 13'b0000000100000;
+		`hl:   rRegWriteSelect = 13'b0000000110000;
+		`a:    rRegWriteSelect = 13'b0000001000000;
+		`spl:  rRegWriteSelect = 13'b0000010000000;
+		`sph:  rRegWriteSelect = 13'b0000100000000;
+		`sp:   rRegWriteSelect = 13'b0000110000000;
+		`x8:   rRegWriteSelect = 13'b0001000000000;
+		`x16:  rRegWriteSelect = 13'b0010000000000;
+		`y16:  rRegWriteSelect = 13'b0100000000000;
+		`z16:  rRegWriteSelect = 13'b1000000000000;
+		default: rRegWriteSelect = 13'b0;
 	endcase
 end
 

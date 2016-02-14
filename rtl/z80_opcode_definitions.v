@@ -720,8 +720,8 @@
 `define flags 4'h9
 `define spl   4'ha
 `define sph   4'hb
-`define x16l  4'ha
-`define x16h  4'hb
+`define y16   4'ha
+`define z16   4'hb
 `define x8    4'hc
 `define x16   4'hd
 `define io_c  4'he
