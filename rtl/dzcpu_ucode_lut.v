@@ -51,7 +51,7 @@ begin
 	`LDIOnA: oUopFlowIdx = 8'd36;
 	`LDDEnn: oUopFlowIdx = 8'd43;
 	`LDADEm: oUopFlowIdx = 8'd94;
-	`CALLnn: oUopFlowIdx = 8'd50;
+	`CALLnn: oUopFlowIdx = 8'd49;
 	`LDrn_b: oUopFlowIdx = 8'd60;
 	`PUSHBC: oUopFlowIdx = 8'd63;
 	`RLA:    oUopFlowIdx = 8'd70;	//TODO: Make sure this is OK!
@@ -68,7 +68,7 @@ begin
 	`JRZn:   oUopFlowIdx = 8'd106;
 	`LDrn_l: oUopFlowIdx = 8'd112;
 	`JRn:    oUopFlowIdx = 8'd115;
-	`INCr_b: oUopFlowIdx = 8'd49;
+	`INCr_b: oUopFlowIdx = 8'd161;
 	`LDrn_e: oUopFlowIdx = 8'd121;
 	`LDAIOn: oUopFlowIdx = 8'd124;
 	`INCr_h: oUopFlowIdx = 8'd131;
@@ -193,19 +193,18 @@ begin
 		47:	oUop = { `inc_eof_fu, `dec16,    `a  };
 	//DECr_c
 		48:	oUop = { `inc_eof_fu, `dec16,    `c  };
-	//INCR_b
-		49: oUop = {`inc_eof, `inc16, `b };
 	//CALLnn
-		50: oUop = { `inc, `dec16, `sp  };
-		51: oUop = { `op, `dec16,  `sp  }; //sp -= 2
-		52: oUop = { `op ,`srm,    `x8  }; //x8 = MEM[pc] = literal
-		53: oUop = { `op ,`sx16r,  `pc  };
-		54: oUop = { `op ,`inc16,  `x16 };
-		55: oUop = { `op ,`inc16,  `x16 }; //x16 = pc + 2
-		56: oUop = { `op ,`sma,    `sp  };
-		57: oUop = { `op ,`smw,    `x16 };	//MEM[sp] = pc + 2
-		58: oUop = { `op ,`spc,    `x8 };
-		59: oUop = { `eof ,`sma,   `pc };
+		49: oUop = { `inc, `dec16,  `sp  };
+		50: oUop = { `inc, `sx16r,  `hl  };
+		51: oUop = { `op , `srm,    `l   }; //l = MEM[pc] = literal
+		52: oUop = { `inc, `srm,    `h   }; //l = MEM[pc] = literal
+		53: oUop = { `op,  `sma,    `sp  };
+		54: oUop = { `op,  `smw,    `pch };	//MEM[sp] = pc[7:0]
+		55: oUop = { `op,  `dec16,  `sp  };
+		56: oUop = { `op , `smw,    `pc  };	//MEM[sp+1] = pc[15:8]
+		57: oUop = { `op , `spc,    `hl  };
+		58: oUop = { `op, `srx16,  `hl  };
+		59: oUop = { `eof ,`sma,   `pc   };
 	//LDrn_b
 		60: oUop = { `inc, `sma, `pc   };
 		61: oUop = { `inc, `nop, `null };
@@ -333,6 +332,9 @@ begin
 		158: oUop = {`op,  `nop, `null };
 		159: oUop = {`op,   `smw,   `x8  };
 		160: oUop = {`inc_eof,  `sma,   `pc };
+//INCR_b
+		161: oUop = {`inc_eof, `inc16, `b };
+
 
 	/*
 	//RETI

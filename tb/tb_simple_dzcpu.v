@@ -293,7 +293,7 @@ end //always
 			36: $fwrite(log,"=== LDIOnA  === %h \n", uut.DZCPU.iMCUData );
 			43: $fwrite(log,"=== LDDEnn  === %h \n", uut.DZCPU.iMCUData );
 			94: $fwrite(log,"=== LDADEm  === %h \n", uut.DZCPU.iMCUData );
-			50: $fwrite(log,"=== CALLnn === %h \n", uut.DZCPU.iMCUData );
+			49: $fwrite(log,"=== CALLnn === %h \n", uut.DZCPU.iMCUData );
 			60: $fwrite(log,"=== LDrn_b === %h \n", uut.DZCPU.iMCUData );
 			63: $fwrite(log,"=== PUSHBC === %h \n", uut.DZCPU.iMCUData );
 			70: $fwrite(log,"=== RLA === %h \n", uut.DZCPU.iMCUData );
@@ -310,7 +310,7 @@ end //always
 			106: $fwrite(log,"=== JRZn === %h \n", uut.DZCPU.iMCUData );
 			112: $fwrite(log,"=== LDrn_l  === %h \n", uut.DZCPU.iMCUData );
 			115: $fwrite(log,"=== JRn  === %h \n", uut.DZCPU.iMCUData );
-			49: $fwrite(log,"=== INCr_b  === %h \n", uut.DZCPU.iMCUData );
+			161: $fwrite(log,"=== INCr_b  === %h \n", uut.DZCPU.iMCUData );
 			121: $fwrite(log,"=== LDrn_e  === %h \n", uut.DZCPU.iMCUData );
 			124: $fwrite(log,"=== LDAIOn  === %h \n", uut.DZCPU.iMCUData );
 			131: $fwrite(log,"=== INCr_h  === %h \n", uut.DZCPU.iMCUData );

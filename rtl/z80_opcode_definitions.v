@@ -716,6 +716,7 @@
 `define hl    4'h6
 `define a     4'h7
 `define pc    4'h8
+`define pch   4'he
 `define sp    4'h9
 `define flags 4'h9
 `define spl   4'ha
