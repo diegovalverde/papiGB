@@ -36,9 +36,9 @@ To generate a VCD dump do:
 ##Simulation Options
 To control additional simulation options, use the SIMFLAGS flag. Valid values are:
 
-* -DSTOP_AFTER_FIRST_FRAME : The simulation will stop once the first frame has been generated under the sim/generated_frames/ folder
-* -DENABLE_CPU_LOG : Enables pgb_cpu.log generation (enabled by default)
-* -DENABLE_GPU_LOG : Enables pgb_cpu.log generation (enabled by default)
+* ``-DSTOP_AFTER_FIRST_FRAME`` : The simulation will stop once the first frame has been generated under the sim/generated_frames/ folder
+* ``-DENABLE_CPU_LOG`` : Enables pgb_cpu.log generation (enabled by default)
+* ``-DENABLE_GPU_LOG`` : Enables pgb_cpu.log generation (enabled by default)
 
 
 Example:
