@@ -36,16 +36,21 @@ To generate a VCD dump do:
 ##Simulation Options
 To control additional simulation options, use the SIMFLAGS flag. Valid values are:
 
-* -DSTOP_AFTER_FIRST_FRAME : The simulation will stop once the first frame has been generated under the sim/generated_frames/ folder
-* -DENABLE_CPU_LOG : Enables pgb_cpu.log generation (enabled by default)
-* -DENABLE_GPU_LOG : Enables pgb_cpu.log generation (enabled by default)
-
+* ``-DSTOP_AFTER_FIRST_FRAME`` : The simulation will stop once the first frame has been generated under the sim/generated_frames/ folder
+* ``-DENABLE_CPU_LOG`` : Enables pgb_cpu.log generation (enabled by default)
+* ``-DENABLE_GPU_LOG`` : Enables pgb_cpu.log generation (enabled by default)
+* ``-DLOAD_CARTRIDGE_FROM_FILE`` : Enables Loading a cartridge from a file into the testbench
+* ``-DCARTRIGDE_DUMP_PATH`` : When LOAD_CARTRIDGE_FROM_FILE is set, then this flags specifies the path to the dump file
 
 Example:
 
 The following line will stop the simulation after the first frame, will generate GPU log, but will not generate CPU log.
 
 `make SIMFLAGS="-DSTOP_AFTER_FIRST_FRAME -DENABLE_GPU_LOG"`
+
+The following line will simulate RTL using a cartrigde file:
+
+`make SIMFLAGS="-DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"resources/tetris.dump\"'"`
 
 ##Looking at simulation results
 
