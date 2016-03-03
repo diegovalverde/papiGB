@@ -226,6 +226,30 @@ dummy_cartridge DummyCartridgeBank0
 endmodule
 `ifndef REAL_CARTRIDGE_DATA
 
+`ifdef LOAD_CARTRIDGE_FROM_FILE
+module dummy_cartridge
+(
+  input wire [15:0] iAddr,
+	output reg [7:0] oData
+);
+
+reg [7:0] mem[8191:0];
+
+always @ (iAddr)
+begin
+	 #(2*`CLOCK_CYCLE) oData = mem[iAddr];
+end
+
+initial
+begin
+	$readmemh(
+		`CARTRIGDE_DUMP_PATH, mem);
+		
+end
+
+endmodule
+
+`else
 module dummy_cartridge
 (
   input wire [15:0] iAddr,
@@ -240,7 +264,7 @@ begin
 	16'h101: oData = 8'hc3;
 	16'h102: oData = 8'h50;
 	16'h103: oData = 8'h01;
-	16'h104: oData = 8'hce;	//Start of LOGO
+	16'h104: oData = 8'hce; //Start of LOGO
 	16'h105: oData = 8'hed;
 	16'h106: oData = 8'h66;
 	16'h107: oData = 8'h66;
@@ -304,4 +328,6 @@ end//always
 endmodule
 
 
-`endif
+`endif //LOAD_CARTRIDGE_FROM_FILE
+
+`endif //REAL_CARTRIDGE_DATA
