@@ -320,6 +320,7 @@ end //always
 			146: $fwrite(log,"=== LDrn_h  === %h \n", uut.DZCPU.iMCUData );
 			149: $fwrite(log,"=== LDAHLI  === %h \n", uut.DZCPU.iMCUData );
 			154: $fwrite(log,"=== LDHLmn  === %h \n", uut.DZCPU.iMCUData );
+			162: $fwrite(log,"=== NOP  ===  \n");
 
 
 			default:

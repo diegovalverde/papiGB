@@ -79,6 +79,7 @@ begin
 	`LDrn_h: oUopFlowIdx = 8'd146;
 	`LDAHLI: oUopFlowIdx = 8'd149;
 	`LDHLmn: oUopFlowIdx = 8'd154;
+	`NOP:    oUopFlowIdx = 8'd162;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -334,6 +335,9 @@ begin
 		160: oUop = {`inc_eof,  `sma,   `pc };
 //INCR_b
 		161: oUop = {`inc_eof, `inc16, `b };
+
+//NOP
+		162: oUop = { `inc_eof, `nop, `null };
 
 
 	/*
