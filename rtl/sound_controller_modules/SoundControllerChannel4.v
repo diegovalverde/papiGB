@@ -22,7 +22,7 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 
-module SOUND_CTLR_CH4 //parameters
+module SoundCtrlChannel4 //parameters
   (
     input wire        iClock,
     input wire        iReset,
