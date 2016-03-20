@@ -233,7 +233,7 @@ module dummy_cartridge
 	output reg [7:0] oData
 );
 
-reg [7:0] mem[8191:0];
+reg [7:0] mem[65534:0];
 
 always @ (iAddr)
 begin
@@ -244,7 +244,7 @@ initial
 begin
 	$readmemh(
 		`CARTRIGDE_DUMP_PATH, mem);
-		
+
 end
 
 endmodule

@@ -103,7 +103,11 @@ UPCOUNTER_POSEDGE # (16) PC
 	.Clock(   iClock                ),
 	.Reset(   iReset | rOverWritePc ),
 	.Initial( wInitialPc            ),
+	`ifdef DISABLE_CPU
+	.Enable(  1'b0    ),
+	`else
 	.Enable(  wIPC & rFlowEnable    ),
+	`endif
 	.Q(       wPc                   )
 );
 
