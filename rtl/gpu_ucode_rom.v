@@ -106,7 +106,7 @@ begin
   25: oUop = {  `gsubl,  `r1, 10'h10 };
   26: oUop = {  `gjz , 15'd3  };
 
-//defines jump for next row of pixels 
+//defines jump to next row of pixels 
   27: oUop = {  `gsubl,  `cur_tile, 10'd32 };
   28: oUop = {  `ggoto,  15'd4 };
 
