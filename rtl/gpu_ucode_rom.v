@@ -93,8 +93,10 @@ begin
   15: oUop = {  `gwbg,   `gnull,`gnull, `gnull};// BH and BL go through bg pallete and result gets saved in framebuffer
   
 //uCode for sprite loop
-  16: oUop = {`gand, `r3, `r1, `lcdc}; //and bitwise for r1 and lcd if bit 2 = 1 sprites are on  
-/*17: oUop = {`gjz,`skip_the_sprites};
+  16: oUop = {`gwrl, `r1, 10'b100}; // set bit 3 as 1 for next oUopp
+  17: oUop = {`gand, `r3, `r1, `lcdc}; //and bitwise for r1 and lcd if bit 2 = 1 sprites are on
+  18: oUop = {`gjz,`skip_the_sprites};
+/*  
 18: oUop = {`gwrl, `r1, 10'd40};
 TODO uCode for getting oamoffset
 
@@ -138,21 +140,21 @@ TODO palette logic
 //defines loop for getting the same row for the next tile
 /*50ish might vary*/  
 
-  17: oUop = { `gsubl, `r1, 10'd8191}; 
-  18: oUop = { `gsub, `r1, `fbuffer_addr, `r8191};
-  19: oUop = { `gjz, 15'h2};
-  20: oUop = {  `gaddl, `cur_tile, 10'd1  };
-  21: oUop = {  `gsubl, `r2, 10'd1 };
-  22: oUop = {  `gjnz ,  15'd5 };
-  23: oUop = {  `gaddl,  `tile_row, 10'd2  };
-  24: oUop = {  `gaddl , `ly, 10'd1 };
-  25: oUop = {  `gwrr,  `r1, `tile_row, `gnull };
-  26: oUop = {  `gsubl,  `r1, 10'h10 };
-  27: oUop = {  `gjz , 15'd3  };
+  19: oUop = { `gsubl, `r1, 10'd8191}; 
+  20: oUop = { `gsub, `r1, `fbuffer_addr, `r8191};
+  21: oUop = { `gjz, 15'h2};
+  22: oUop = {  `gaddl, `cur_tile, 10'd1  };
+  23: oUop = {  `gsubl, `r2, 10'd1 };
+  24: oUop = {  `gjnz ,  15'd5 };
+  25: oUop = {  `gaddl,  `tile_row, 10'd2  };
+  26: oUop = {  `gaddl , `ly, 10'd1 };
+  27: oUop = {  `gwrr,  `r1, `tile_row, `gnull };
+  28: oUop = {  `gsubl,  `r1, 10'h10 };
+  29: oUop = {  `gjz , 15'd3  };
 
 //defines jump to next row of pixels 
-  28: oUop = {  `gsubl,  `cur_tile, 10'd32 };
-  29: oUop = {  `ggoto,  15'd4 };
+  30: oUop = {  `gsubl,  `cur_tile, 10'd32 };
+  31: oUop = {  `ggoto,  15'd4 };
 
   endcase
 end

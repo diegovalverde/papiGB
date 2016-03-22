@@ -225,6 +225,8 @@ $readmemh(
 			uut.GPU.FF_SCY.Q = 8'h0;
 			uut.GPU.FF_LY.Q = 8'h0;
 			uut.GPU.FFS_BGP.Q = 8'h27;
+			//uut.GPU.FFS_BP0.Q = 8'h27;
+			//uut.GPU.FFS_BP1.Q = 8'h27;
 		`endif
 
 		// Add stimulus here
@@ -259,7 +261,7 @@ begin
 				`grvmem: $fwrite(glog,"grvmem @ %h\n", uut.GPU.oMcuAddr);
 				`gshl:   $fwrite(glog,"gshl  \n");
 				`gand: $fwrite(glog, "gand %h & %h = %h\n", uut.GPU.wOp1, uut.GPU.wOp0, uut.GPU.rResult);
-
+				`gjz: $fwrite(glog, "gjz \n");
 		endcase
 
 			//Print the Registers

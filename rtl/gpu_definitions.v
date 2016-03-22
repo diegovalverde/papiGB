@@ -62,7 +62,7 @@
 `define scy_tile_row_offset 5'd28
 `define r8191               5'd29
 `define lcdc				5'd0
-
+`define skip_the_sprites	15'd19
 `define SCANLINE_VRAM_READ  10'd3
 
 `endif

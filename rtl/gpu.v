@@ -88,7 +88,7 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LYC(  iClock, iReset, iMcuWe  & wMcuRegW
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_DMA(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[6], iMcuWriteData, oDMA );// sprites
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_BGP(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[7], iMcuWriteData, oBGP );// bg pallete
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_OBP0( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[8], iMcuWriteData, oOBP0 );// sprite pallet 1
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_OBP1( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[9], iMcuWriteData, oOBP1 );// sprite pallet 2
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_OBP1( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[9], iMcuWriteData, oOBP1 );// sprite pallet 2
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_WY(   iClock, iReset, iMcuWe  & wMcuRegWriteSelect[10], iMcuWriteData, oWY );// window vertical
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_WX(   iClock, iReset, iMcuWe  & wMcuRegWriteSelect[11], iMcuWriteData, oWX );// window horizontal
 
