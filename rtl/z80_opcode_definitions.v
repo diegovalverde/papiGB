@@ -703,6 +703,8 @@
 `define srx16    5'h10
 `define seti	 5'h11
 `define cibit	 5'h12
+`define ceti	 5'h13
+`define sx16l    5'h14   
 
 `define null 4'h0
 

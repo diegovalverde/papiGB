@@ -581,6 +581,23 @@ begin
             rClearIntLatch      = 1'b0;
 		end
 
+		`sx16l:
+		begin
+			oMCUwe              = 1'b0;
+			rRegSelect          = wUop[3:0];
+			rSetMCOAddr         = 1'b0;
+			rRegWe              = 1'b1;
+			rWriteSelect        = `x16;
+			rFlagsWe            = 1'b0;
+			rFlags              = 8'b0;
+			rUopDstRegData      = wUop[7:0];
+			rOverWritePc        = 1'b0;
+			rMcuReadRequest     = 1'b0;
+			rSetiWe             = 1'b0;   
+            rSetiVal            = 1'b0;
+            rClearIntLatch      = 1'b0;
+		end
+
 		
         `seti:
                begin
@@ -596,6 +613,23 @@ begin
                        rMcuReadRequest     = 1'b0;
                        rSetiWe             = 1'b1;   
                        rSetiVal            = 1'b1;
+                       rClearIntLatch      = 1'b0;
+               end
+               
+           `ceti:  //Disable interruption 
+               begin
+                       oMCUwe              = 1'b0;
+                       rRegSelect          = `null;
+                       rSetMCOAddr         = 1'b0;
+                       rRegWe              = 1'b0;
+                       rWriteSelect        = 8'b0;
+                       rFlagsWe            = 1'b0;
+                       rFlags              = 8'b0;
+                       rUopDstRegData      = 16'b0;
+                       rOverWritePc        = 1'b0;
+                       rMcuReadRequest     = 1'b0;
+                       rSetiWe             = 1'b1;   
+                       rSetiVal            = 1'b0;
                        rClearIntLatch      = 1'b0;
                end
                
