@@ -701,7 +701,10 @@
 `define shl      5'he
 `define subx16   5'hf
 `define srx16    5'h10
-
+`define seti	 5'h11
+`define cibit	 5'h12
+`define ceti	 5'h13
+`define sx16l    5'h14   
 
 `define null 4'h0
 
@@ -733,3 +736,11 @@
 `define DZCPU_START_FLOW  1
 `define DZCPU_RUN_FLOW    2
 `define DZCPU_END_FLOW    3
+
+
+//this is offset interruption microflow
+`define FLOW_ID_INT_VBLANK 					8'd163
+`define FLOW_ID_INT_LCD_STATUS_TRIGGER		8'd0
+`define FLOW_ID_INT_TIMER_OVERFLOW          8'd0
+`define FLOW_ID_INT_VBLANK_JOYPAD_PRESS     8'd0
+
