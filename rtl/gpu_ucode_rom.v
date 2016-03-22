@@ -135,7 +135,7 @@ begin
 //defines loop for getting the same row for the next tile
 //50ish might vary*/  
 
-  22: oUop = { `gsubl, `r1, 10'd8191}; 
+  22: oUop = { `gsubl, `r1, 10'd8191}; //limit 0x1FFF or d 8191
   23: oUop = { `gsub, `r1, `fbuffer_addr, `r8191};
   24: oUop = { `gjz, 15'h2};
   25: oUop = {  `gaddl, `cur_tile, 10'd1  };

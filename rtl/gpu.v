@@ -97,7 +97,7 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_WX(   iClock, iReset, iMcuWe  & wMcuRegW
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_12(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[12], rResult, oMcuAddr ); //address one wants to read from VMEM
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_13(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[13], rResult[7:0], wBh );//tile high byte
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_14(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[14], rResult[7:0], wBl );//tile low byte
-UPCOUNTER_POSEDGE            # ( 13 )UP_15(    iClock, iReset,  13'b0, wGpuActive  & rIncFBufferAddr,  wFrameBufferAddress );// where to write on framebuffer
+UPCOUNTER_POSEDGE            # ( 16 )UP_15(    iClock, iReset,  13'b0, wGpuActive  & rIncFBufferAddr,  wFrameBufferAddress );// where to write on framebuffer
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_16(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[16], rResult, wR0 );// gp registers
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_17(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[17], rResult, wR1 );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_18(   iClock, iReset,  wRegWe  & wGpuRegWriteSelect[18], rResult, wR2 );// gp reg
@@ -229,7 +229,8 @@ MUXFULLPARALELL_5SEL_GENERIC # (21) MUX_REG_WE
   .I18(21'b001000000000000000000),
   .I19(21'b010000000000000000000),
   .I20(21'b100000000000000000000),
-
+  .I21(21'b0), .I22(21'b0), .I23(21'b0), .I24(21'b0), .I25(21'b0), .I26(21'b0), 
+  .I27(21'b0), .I28(21'b0), .I29(21'b0), .I30(21'b0), .I31(21'b0), 
   .O( wGpuRegWriteSelect )
 );
 
