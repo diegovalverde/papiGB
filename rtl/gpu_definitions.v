@@ -38,6 +38,7 @@
 `define gshl    5'd10
 `define ggoto   5'd11
 `define gjz     5'd12
+`define gand    5'd13
 
 `define gnull               5'd0
 `define ly                  5'd4

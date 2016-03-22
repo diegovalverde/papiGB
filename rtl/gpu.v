@@ -434,6 +434,15 @@ begin
       rIncFBufferAddr = 1'b0;
     end
 
+  `gand://bitwise and for two registers
+    begin
+      rResult     = wOp1 & wOp0 ;
+      rRegWe      = 1'b1;
+      rBgBufferWe = 1'b0;
+      rJump       = 1'b0;
+      oMcuReadRequest = 1'b0;
+      rIncFBufferAddr = 1'b0;
+    end
     default://default case for error
     begin
       rResult     = 16'hdead ;
