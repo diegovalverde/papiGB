@@ -26,41 +26,41 @@ module gpu
   input wire iClock,
   input wire iReset,
 
-  output wire         oFramBufferWe,
-  output wire [15:0]  oFramBufferData,
-  output wire [15:0]  oFramBufferAddr,
+  output wire         oFramBufferWe, //ask for write
+  output wire [15:0]  oFramBufferData, //data for writing on buffer
+  output wire [15:0]  oFramBufferAddr, //address to which one wants to write on buffer
 
-  output wire [15:0] oMcuAddr,
-  output reg        oMcuReadRequest,
-  input wire [3:0]  iMcuRegSelect,
-  input wire [7:0]  iMcuWriteData,
-  input wire [7:0]  iMcuReadData,
-  input wire        iMcuWe,
+  output wire [15:0] oMcuAddr,  //adress that wants to be read
+  output reg        oMcuReadRequest,  //ask for read, gain control over databus(depends of timing)
+  input wire [3:0]  iMcuRegSelect, //control register select comes from cpu
+  input wire [7:0]  iMcuWriteData, //what does the cpu want to write
+  input wire [7:0]  iMcuReadData, //data the cpu wants to be written
+  input wire        iMcuWe, //write enable for vmem
 
-
-  output wire [7:0]  oSTAT,
-  output wire [7:0]  oLCDC,
-  output wire [7:0]  oSCY,
-  output wire [7:0]  oSCX,
-  output wire [7:0]  oLY,
-  output wire [7:0]  oLYC,
-  output wire [7:0]  oDMA,
-  output wire [7:0]  oBGP,
-  output wire [7:0]  oOBP0,
-  output wire [7:0]  oOBP1,
-  output wire [7:0]  oWY,
-  output wire [7:0]  oWX
+ //registros de gameboy 
+  output wire [7:0]  oSTAT, //status reg
+  output wire [7:0]  oLCDC, //lcd control
+  output wire [7:0]  oSCY, //scroll y position
+  output wire [7:0]  oSCX, // scroll x position
+  output wire [7:0]  oLY, //which column im on
+  output wire [7:0]  oLYC, // compares actual column
+  output wire [7:0]  oDMA, //sprites
+  output wire [7:0]  oBGP, // bg pallette 
+  output wire [7:0]  oOBP0, // pallette 1 for sprites
+  output wire [7:0]  oOBP1, // pallette 2 for sprites
+  output wire [7:0]  oWY,//coords for window, vertical
+  output wire [7:0]  oWX // coords for window, horizontal
 
 );
-//TODO: These assigns are temporary to humor the synthesis tool
-assign oFramBufferData = {wBgPixel7,wBgPixel6,wBgPixel5,wBgPixel4,wBgPixel3,wBgPixel2,wBgPixel1,wBgPixel0} ;
-assign oFramBufferAddr = {2'b0,wFrameBufferAddress};
-assign oFramBufferWe   = rBgBufferWe;
+
+assign oFramBufferData = {wBgPixel7,wBgPixel6,wBgPixel5,wBgPixel4,wBgPixel3,wBgPixel2,wBgPixel1,wBgPixel0};
+assign oFramBufferAddr = {2'b0,wFrameBufferAddress};  // address to be written on buffer
+assign oFramBufferWe   = rBgBufferWe; // write enable
 
 
 
 
-wire [20:0] wMcuRegWriteSelect,wGpuRegWriteSelect;
+wire [20:0] wMcuRegWriteSelect,wGpuRegWriteSelect; 
 wire [15:0] wOp0, wOp1, wR1, wR2, wR3;
 wire [9:0]  wR0;  //Only support up to 32*32 = 1024 tiles
 wire [7:0] wBh, wBl, wState, wIp, wInitialPc, wSC_Tile_Row;
@@ -78,32 +78,34 @@ reg rRegWe, rBgBufferWe, rJump, rIncFBufferAddr;
 
 
 assign oSTAT = { 6'b0, wState };
-
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LCDC( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[0], iMcuWriteData, oLCDC );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFX_STAT(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[1], rResult[7:0], wState );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_SCY(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[2], iMcuWriteData, oSCY );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_SCX(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[3], iMcuWriteData, oSCX );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LY(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[4], rResult[7:0], oLY );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LYC(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[5], iMcuWriteData, oLYC );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_DMA(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[6], iMcuWriteData, oDMA );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_BGP(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[7], iMcuWriteData, oBGP );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_OBP0( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[8], iMcuWriteData, oOBP0 );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_OBP1( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[9], iMcuWriteData, oOBP1 );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_WY(   iClock, iReset, iMcuWe  & wMcuRegWriteSelect[10], iMcuWriteData, oWY );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_WX(   iClock, iReset, iMcuWe  & wMcuRegWriteSelect[11], iMcuWriteData, oWX );
-
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_12(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[12], rResult, oMcuAddr );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_13(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[13], rResult[7:0], wBh );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_14(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[14], rResult[7:0], wBl );
-UPCOUNTER_POSEDGE            # ( 13 )UP_15(    iClock, iReset,  13'b0, wGpuActive  & rIncFBufferAddr,  wFrameBufferAddress );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_16(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[16], rResult, wR0 );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_17(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[17], rResult, wR1 );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_18(   iClock, iReset,  wRegWe  & wGpuRegWriteSelect[18], rResult, wR2 );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_19(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[19], rResult, wR3 );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_20(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[20], rResult, wCurrentTileRow );
+// nintendo defined control registers made with flips flops so one can access them all at the same time 
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LCDC( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[0], iMcuWriteData, oLCDC ); //lcd control
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFX_STAT(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[1], rResult[7:0], wState );//state register
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_SCY(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[2], iMcuWriteData, oSCY );// scroll y
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_SCX(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[3], iMcuWriteData, oSCX );// scroll x
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LY(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[4], rResult[7:0], oLY );// defines current tile
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LYC(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[5], iMcuWriteData, oLYC );//compares to get column
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_DMA(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[6], iMcuWriteData, oDMA );// sprites
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_BGP(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[7], iMcuWriteData, oBGP );// bg pallete
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_OBP0( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[8], iMcuWriteData, oOBP0 );// sprite pallet 1
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_OBP1( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[9], iMcuWriteData, oOBP1 );// sprite pallet 2
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_WY(   iClock, iReset, iMcuWe  & wMcuRegWriteSelect[10], iMcuWriteData, oWY );// window vertical
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_WX(   iClock, iReset, iMcuWe  & wMcuRegWriteSelect[11], iMcuWriteData, oWX );// window horizontal
 
 
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FFX_Z(   iClock, iReset, wRegWe, (rResult == 8'b0) ? 1'b1 : 1'b0, wZ );
+//User defined control registers
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_12(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[12], rResult, oMcuAddr ); //address one wants to read from VMEM
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_13(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[13], rResult[7:0], wBh );//tile high byte
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_14(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[14], rResult[7:0], wBl );//tile low byte
+UPCOUNTER_POSEDGE            # ( 13 )UP_15(    iClock, iReset,  13'b0, wGpuActive  & rIncFBufferAddr,  wFrameBufferAddress );// where to write on framebuffer
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_16(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[16], rResult, wR0 );// gp registers
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_17(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[17], rResult, wR1 );// gp reg
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_18(   iClock, iReset,  wRegWe  & wGpuRegWriteSelect[18], rResult, wR2 );// gp reg
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_19(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[19], rResult, wR3 );// gp reg
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_20(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[20], rResult, wCurrentTileRow );//which tile row am I on
+
+
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FFX_Z(   iClock, iReset, wRegWe, (rResult == 8'b0) ? 1'b1 : 1'b0, wZ );// flag zero
 
 
 assign wInitialPc = ( rJump ) ? wUop[7:0]: 8'b0;
@@ -113,9 +115,10 @@ UPCOUNTER_POSEDGE # (8) PC
   .Clock(   iClock                ),
   .Reset(   iReset | rJump        ),
   .Initial( wInitialPc            ),
-  .Enable(  ~iReset & wGpuActive  ),
+  .Enable(  ~iReset & wGpuActive  ),//bit 7 LCDC  defines wGPUActive
   .Q(       wIp                   )
 );
+
 
 assign wGpuActive = (oLCDC[7]) ? 1'b1 : 1'b0;
 assign wRegSelect       = ( wGpuActive ) ? wUop[14:10] : iMcuRegSelect ;
@@ -160,15 +163,21 @@ assign wBGTileOffset    = ( oLCDC[4] ) ? wTile1_Bg_Offset : wTile0_Bg_Offset;
 assign wBGTileMapOffset = ( oLCDC[6] ) ? 16'h9c00 : 16'h9800;
 assign wBGRowOffset     = wCurrentTileRow;
 
+
 `ifdef LCD_SCXY_DISABLED
   assign wSC_Tile = 16'b0;
 `else
   //To know the current tile we divide by 8 (since each tile is 8x8 pixels)
   //then we multiply by 32, since each row has 32 tiles
+
+//TODO cocatenate two zeros to right and discard to zeros to the left instead of shifting 2 to the left
   assign wSC_Tile = ((oSCY >> 3) << 5) + oSCX;
 `endif
+//defines initial current row
 assign wSC_Tile_Row = 8'b0;//{4'b0,oSCY[2:0],1'b0};  //(SCY % 8) * 2
 
+
+//defines bit map for wMcuRegWriteSelect
 MUXFULLPARALELL_4SEL_GENERIC # (21) MUX_REG_WE_MCU
 (
   .Sel( iMcuRegSelect ),
@@ -193,7 +202,7 @@ MUXFULLPARALELL_4SEL_GENERIC # (21) MUX_REG_WE_MCU
   .O( wMcuRegWriteSelect )
 );
 
-
+//defines bit map for wGpuRegWriteSelect
 MUXFULLPARALELL_5SEL_GENERIC # (21) MUX_REG_WE
 (
   .Sel( wUop[14:10]  ),
@@ -223,7 +232,8 @@ MUXFULLPARALELL_5SEL_GENERIC # (21) MUX_REG_WE
   .O( wGpuRegWriteSelect )
 );
 
-//TODO: Split this into a n 8bit MUX and 16bit MUX
+//TODO: Split this into a n 8bit MUX and 16bit MUX for hardware improvement
+//defines operator 0
 MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG0
 (
   .Sel( wUop[4:0] ),
@@ -241,7 +251,7 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG0
 
 
 
-
+//defines operator 1
 assign wOp1Sel = (wUop[19:15] == `gaddl || wUop[19:15] == `gsubl ) ? wUop[14:10] : wUop[9:5];
 MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG1
 (
@@ -284,7 +294,7 @@ MUXFULLPARALELL_2SEL_GENERIC # (2) MUX_BGP6 (   .Sel( {wBh[6], wBl[6]} ),
 MUXFULLPARALELL_2SEL_GENERIC # (2) MUX_BGP7 (   .Sel( {wBh[7], wBl[7]} ),
   .I0( oBGP[1:0]), .I1( oBGP[3:2]), .I2( oBGP[5:4]), .I3( oBGP[7:6]) , .O( wBgPixel7)  );
 
-
+//TODO PALLETTE 1, 2 for SPRITEs
 wire [15:0] wFramBuffer;
 
 
@@ -302,7 +312,7 @@ begin
       rIncFBufferAddr = 1'b0;
     end
 
-    `gwbg:
+    `gwbg: //writes color of current pixel to a temporal register
     begin
       rResult     = wUop[7:0];
       rRegWe      = 1'b0;
@@ -312,7 +322,7 @@ begin
       rIncFBufferAddr = 1'b1;
     end
 
-    `gwrr:
+    `gwrr:// moves one value to another GPU register
     begin
       rResult     = wOp1;
       rRegWe      = 1'b1;
@@ -322,7 +332,7 @@ begin
       rIncFBufferAddr = 1'b0;
     end
 
-    `gwrl:
+    `gwrl:// writes a literal to a GPU register
     begin
       rResult     = wUop[7:0];
       rRegWe      = 1'b1;
@@ -332,7 +342,7 @@ begin
       rIncFBufferAddr = 1'b0;
     end
 
-    `grvmem:
+    `grvmem://reads from VMEM data gets stored in a register by default
     begin
       rResult     = wUop[7:0];
       rRegWe      = 1'b0;
@@ -342,7 +352,7 @@ begin
       rIncFBufferAddr = 1'b0;
     end
 
-    `gadd:
+    `gadd:// adds two registers
     begin
       rResult     = wOp1 + wOp0 ;
       rRegWe      = 1'b1;
@@ -353,7 +363,7 @@ begin
     end
 
 
-    `gshl:
+    `gshl://shift left
     begin
       rResult     = wOp1 << wUop[5:0]  ;
       rRegWe      = 1'b1;
@@ -363,7 +373,7 @@ begin
       rIncFBufferAddr = 1'b0;
     end
 
-    `gaddl:
+    `gaddl://adds a literal to a register
     begin
       rResult     = wOp1 + {6'b0,wUop[9:0]} ;
       rRegWe      = 1'b1;
@@ -373,7 +383,7 @@ begin
       rIncFBufferAddr = 1'b0;
     end
 
-    `gsubl:
+    `gsubl://subs a literal to a register
     begin
       rResult     = wOp1 - {6'b0,wUop[9:0]} ;
       rRegWe      = 1'b1;
@@ -384,7 +394,7 @@ begin
     end
 
 
-    `gsub:
+    `gsub://subs two registers
     begin
       rResult     = wOp1 - wOp0;
       rRegWe      = 1'b1;
@@ -394,7 +404,7 @@ begin
       rIncFBufferAddr = 1'b0;
     end
 
-    `gjnz:
+    `gjnz://jump if not zero
     begin
       rResult     = wOp1 ;
       rRegWe      = 1'b0;
@@ -404,7 +414,7 @@ begin
       rIncFBufferAddr = 1'b0;
     end
 
-    `gjz:
+    `gjz://jump if zero
     begin
       rResult     = wOp1 ;
       rRegWe      = 1'b0;
@@ -414,7 +424,7 @@ begin
       rIncFBufferAddr = 1'b0;
     end
 
-    `ggoto:
+    `ggoto://jump to address
     begin
       rResult     = wOp1 ;
       rRegWe      = 1'b0;
@@ -424,7 +434,7 @@ begin
       rIncFBufferAddr = 1'b0;
     end
 
-    default:
+    default://default case for error
     begin
       rResult     = 16'hdead ;
       rRegWe      = 1'b0;
