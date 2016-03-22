@@ -65,6 +65,7 @@ wire [15:0] wOp0, wOp1, wR1, wR2, wR3;
 wire [9:0]  wR0;  //Only support up to 32*32 = 1024 tiles
 wire [7:0] wBh, wBl, wState, wIp, wInitialPc, wSC_Tile_Row;
 wire [15:0] wBGTileOffset, wBGTileMapOffset, wBGRowOffset, wFrameBufferAddress, wCurrentTileRow;
+wire [15:0] wTile1_Bg_Offset, wTile0_Bg_Offset;
 wire [15:0] wSC_Tile;
 wire [7:0] wRegSelect;
 wire [1:0] wBgPixel0,wBgPixel1,wBgPixel2,wBgPixel3,wBgPixel4,wBgPixel5,wBgPixel6,wBgPixel7;
@@ -119,7 +120,43 @@ UPCOUNTER_POSEDGE # (8) PC
 assign wGpuActive = (oLCDC[7]) ? 1'b1 : 1'b0;
 assign wRegSelect       = ( wGpuActive ) ? wUop[14:10] : iMcuRegSelect ;
 assign wRegWe           = ( wGpuActive ) ? rRegWe : iMcuWe ;
-assign wBGTileOffset    = ( oLCDC[4] ) ? 16'h8000 : 16'h8800;
+
+//Generally speaking the tiles are addressing like so:
+//             0                  1
+//LCDC[6]  9800-9BFF        9C00-9FFF       Tile MapCB
+//LCDC[4]  8800-97FF        8000-8FFF       Background
+
+//However, there is an additional detail, tile1 index can be greater than 127,
+//while tile0 index can be negative
+//This is done to share some tiles across the two otherwise separate regions
+//Let's assume that the tile number is held in iMcuReadData
+//if the tile number is greater than 128 (if the bit 7 is set)
+//the use 8800-8FFF
+//Like so:
+
+//+-----------+------------------------------+
+//| Region    |	Usage                        |
+//+-----------+------------------------------+
+//| 8000-87FF	| Tile set #1: tiles 0-127     |
+//+-----------+------------------------------+
+//| 8800-8FFF	| Tile set #1: tiles 128-255   |
+//|           | Tile set #0: tiles -1 to -128|
+//+-----------+------------------------------+
+//| 9000-97FF	| Tile set #0: tiles 0-127     |
+//+-----------+------------------------------+
+//| 9800-9BFF	| Tile map #0                  |
+//+-----------+------------------------------+
+//| 9C00-9FFF	| Tile map #1                  |
+//+-----------+------------------------------+
+
+
+//Check if tile1 is greater than 127
+assign wTile1_Bg_Offset = (iMcuReadData[7] == 1'b1) ? 16'h8000 : 16'h8000;
+//Check if tile0 is negative. In case it is negative (ie. 0x80 or greater)
+//the add 0x8000 such that 0x8000 + (0x80 << 8) = 0x8000 + 0x0800 = 0x8800
+assign wTile0_Bg_Offset = (iMcuReadData[7] == 1'b1) ? 16'h8000 : 16'h9000;
+
+assign wBGTileOffset    = ( oLCDC[4] ) ? wTile1_Bg_Offset : wTile0_Bg_Offset;
 assign wBGTileMapOffset = ( oLCDC[6] ) ? 16'h9c00 : 16'h9800;
 assign wBGRowOffset     = wCurrentTileRow;
 
