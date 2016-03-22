@@ -62,9 +62,9 @@ assign oFramBufferWe   = rBgBufferWe; // write enable
 
 wire [20:0] wMcuRegWriteSelect,wGpuRegWriteSelect; 
 wire [15:0] wOp0, wOp1, wR1, wR2, wR3;
-wire [9:0]  wR0;  //Only support up to 32*32 = 1024 tiles
+wire [15:0]  wR0;  //Only support up to 32*32 = 1024 tiles
 wire [7:0] wBh, wBl, wState, wIp, wInitialPc, wSC_Tile_Row;
-wire [15:0] wBGTileOffset, wBGTileMapOffset, wBGRowOffset, wFrameBufferAddress, wCurrentTileRow;
+wire [15:0] wBGTileOffset, wBGTileMapOffset, wBGRowOffset, wFrameBufferAddress, wCurrentTileRow,wOAMOffset;
 wire [15:0] wTile1_Bg_Offset, wTile0_Bg_Offset;
 wire [15:0] wSC_Tile;
 wire [7:0] wRegSelect;
@@ -85,7 +85,7 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_SCY(  iClock, iReset, iMcuWe  & wMcuRegW
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_SCX(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[3], iMcuWriteData, oSCX );// scroll x
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LY(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[4], rResult[7:0], oLY );// defines current tile
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LYC(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[5], iMcuWriteData, oLYC );//compares to get column
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_DMA(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[6], iMcuWriteData, oDMA );// sprites
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_DMA(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[6], iMcuWriteData, oDMA );// writes data in sprite memory $FE00-FE9F.
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_BGP(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[7], iMcuWriteData, oBGP );// bg pallete
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_OBP0( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[8], iMcuWriteData, oOBP0 );// sprite pallet 1
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_OBP1( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[9], iMcuWriteData, oOBP1 );// sprite pallet 2
@@ -121,8 +121,8 @@ UPCOUNTER_POSEDGE # (8) PC
 
 
 assign wGpuActive = (oLCDC[7]) ? 1'b1 : 1'b0;
-assign wRegSelect       = ( wGpuActive ) ? wUop[14:10] : iMcuRegSelect ;
-assign wRegWe           = ( wGpuActive ) ? rRegWe : iMcuWe ;
+assign wRegSelect = ( wGpuActive ) ? wUop[14:10] : iMcuRegSelect ;
+assign wRegWe     = ( wGpuActive ) ? rRegWe : iMcuWe ;
 
 //Generally speaking the tiles are addressing like so:
 //             0                  1
@@ -163,6 +163,7 @@ assign wBGTileOffset    = ( oLCDC[4] ) ? wTile1_Bg_Offset : wTile0_Bg_Offset;
 assign wBGTileMapOffset = ( oLCDC[6] ) ? 16'h9c00 : 16'h9800;
 assign wBGRowOffset     = wCurrentTileRow;
 
+assign wOAMOffset = 16'hFE00; //Sprite Attribute Table (OAM - Object Attribute Memory) at $FE00-FE9F.
 
 `ifdef LCD_SCXY_DISABLED
   assign wSC_Tile = 16'b0;
@@ -245,7 +246,7 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG0
   .I16( wR0 ),   .I17( wR1 ), .I18( {8'b0,wR2} ), .I19( wR3 ), .I20( wCurrentTileRow ),
   .I21( {8'h0,iMcuReadData} ), .I22( wBGTileMapOffset ), .I23( wBGRowOffset ), .I24( wBGTileOffset ),
   .I25( {8'h0,6'h0,oLY[1:0]} ), .I26( {4'b0,iMcuReadData,4'b0} ), .I27( wSC_Tile ), .I28( {8'b0,wSC_Tile_Row} ),
-  .I29( 16'd8191 ), .I30( 16'b0 ), .I31( 16'b0 ),
+  .I29( 16'd8191 ), .I30( wOAMOffset ), .I31( 16'b0 ),
   .O( wOp0 )
 );
 
@@ -264,7 +265,7 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG1
   .I16( wR0 ),   .I17( wR1 ), .I18( {8'b0,wR2} ), .I19( wR3 ), .I20( wCurrentTileRow ),
   .I21( {8'h0,iMcuReadData} ), .I22( wBGTileMapOffset ), .I23( wBGRowOffset ), .I24( wBGTileOffset ),
   .I25( {8'h0,6'h0,oLY[1:0]} ), .I26( {4'b0,iMcuReadData,4'b0} ), .I27( wSC_Tile ), .I28( {8'b0,wSC_Tile_Row} ),
-  .I29( 16'd8191 ), .I30( 16'b0 ), .I31( 16'b0 ),
+  .I29( 16'd8191 ), .I30( 16'b0), .I31( 16'b0 ),
   .O( wOp1 )
 );
 

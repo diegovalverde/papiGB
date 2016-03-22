@@ -62,7 +62,9 @@
 `define scy_tile_row_offset 5'd28
 `define r8191               5'd29
 `define lcdc				5'd0
-`define skip_the_sprites	15'd19
+`define skip_the_sprites	15'd22 //remember to change during testing of new uop
 `define SCANLINE_VRAM_READ  10'd3
+`define	oam_offset			10'd30
+
 
 `endif

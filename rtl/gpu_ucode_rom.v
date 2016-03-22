@@ -94,67 +94,62 @@ begin
   
 //uCode for sprite loop
   16: oUop = {`gwrl, `r1, 10'b100}; // set bit 3 as 1 for next oUopp
-  17: oUop = {`gand, `r3, `r1, `lcdc}; //and bitwise for r1 and lcd if bit 2 = 1 sprites are on
+  17: oUop = {`gand, `r3, `r1, `lcdc}; //and bitwise for r0 and lcd if bit 2 = 1 sprites are on
   18: oUop = {`gjz,`skip_the_sprites};
+  19: oUop = {`gwrl, `r1, 10'd40};//we have a maximum of 40 sprites
+  20: oUop = {`gadd, `vmem_addr, `r1, `oam_offset};//get address of first sprite
+  21: oUop = {`grvmem, `gnull, `gnull, `gnull};//store vmem data
 /*  
-18: oUop = {`gwrl, `r1, 10'd40};
-TODO uCode for getting oamoffset
+//TODO find if Y coord falls in current fb row
+  21: oUop = {`gsub, `r0, `vmem_data};
+  22: oUop = {`gjnz, `get_next_sprite}; //TODO define get_next_sprite
 
-19: oUop = {`gadd, `vmem_addr, `r1, `oam_offset};
-20: oUop = {`grvmem, `gnull, `gnull, `gnull};
+  23: oUop = {`gaddl, `vmem_addr, `10'd1};
+  24: oUop = {`grvmem, `gnull,`gnull,`gnull};
 
-TODO find if Y coord falls in current fb row
-21: oUop = {`gsub, `r0, `vmem_data};
-22: oUop = {`gjnz, `get_next_sprite}; TODO define get_next_sprite
-
-23: oUop = {`gaddl, `vmem_addr, `10'd1};
-24: oUop = {`grvmem, `gnull,`gnull,`gnull};
-
-TODO get x coord and see if it falls on fb row
+//TODO get x coord and see if it falls on fb row
 25: oUop = {`gsub, `r0, `vmem_data};
-26: oUop = {`gjnz, `get_next_sprite}; TODO define get_next_sprite
+26: oUop = {`gjnz, `get_next_sprite}; //TODO define get_next_sprite
 
-Fetch sprite tile number
+//Fetch sprite tile number
 
 27: oUop = {`gaddl, `vmem_addr, 10'd1};
 28: oUop = {`grvem, `gnull,`gnull,`gnull};
 29: oUop = {`gwrr, `sprite_tile_indx,`vmem_data_shl_4};
 30: oUop = {`gaddl, `vmem_addr, 10'd1};
 31: oUop = {`grvem, `gnull,`gnull,`gnull};
-32: oUop = {`gwrr, `sprite_info,`vmem_data}; TODO define `sprite_info
+32: oUop = {`gwrr, `sprite_info,`vmem_data}; //TODO define `sprite_info
 
-GO read tile memory
+//GO read tile memory
 
 33: oUop = {`gadd, `r1, `sprite_tile_indx};
 34: oUop = {`gadd, `vmem_addr,`r1,`bgtoffset};
 35: oUop = {`grvem,`gnull,`gnull,`gnull};
-36: oUop = {`gwrr, `bh, `vmem_data}; first tile high byte 
+36: oUop = {`gwrr, `bh, `vmem_data}; //first tile high byte 
 37: oUop = {`gaddl, `vmem_addr, 10'd1};
 38: oUop = {`grvem, `gnull,`gnull,`gnull}
 39: oUop = {`gwrr, `bl,`vmem_data}
 
-TODO palette logic
+//TODO palette logic
 
-
-*/  
 //defines loop for getting the same row for the next tile
-/*50ish might vary*/  
+//50ish might vary*/  
 
-  19: oUop = { `gsubl, `r1, 10'd8191}; 
-  20: oUop = { `gsub, `r1, `fbuffer_addr, `r8191};
-  21: oUop = { `gjz, 15'h2};
-  22: oUop = {  `gaddl, `cur_tile, 10'd1  };
-  23: oUop = {  `gsubl, `r2, 10'd1 };
-  24: oUop = {  `gjnz ,  15'd5 };
-  25: oUop = {  `gaddl,  `tile_row, 10'd2  };
-  26: oUop = {  `gaddl , `ly, 10'd1 };
-  27: oUop = {  `gwrr,  `r1, `tile_row, `gnull };
-  28: oUop = {  `gsubl,  `r1, 10'h10 };
-  29: oUop = {  `gjz , 15'd3  };
+  22: oUop = { `gsubl, `r1, 10'd8191}; 
+  23: oUop = { `gsub, `r1, `fbuffer_addr, `r8191};
+  24: oUop = { `gjz, 15'h2};
+  25: oUop = {  `gaddl, `cur_tile, 10'd1  };
+  26: oUop = {  `gsubl, `r2, 10'd1 };
+  27: oUop = {  `gjnz ,  15'd5 };
+  28: oUop = {  `gaddl,  `tile_row, 10'd2  };
+  29: oUop = {  `gaddl , `ly, 10'd1 };
+  30: oUop = {  `gwrr,  `r1, `tile_row, `gnull };
+  31: oUop = {  `gsubl,  `r1, 10'h10 };
+  32: oUop = {  `gjz , 15'd3  };
 
 //defines jump to next row of pixels 
-  30: oUop = {  `gsubl,  `cur_tile, 10'd32 };
-  31: oUop = {  `ggoto,  15'd4 };
+  33: oUop = {  `gsubl,  `cur_tile, 10'd32 };
+  34: oUop = {  `ggoto,  15'd4 };
 
   endcase
 end
