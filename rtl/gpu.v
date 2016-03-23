@@ -61,7 +61,7 @@ assign oFramBufferWe   = rBgBufferWe; // write enable
 
 
 wire [20:0] wMcuRegWriteSelect,wGpuRegWriteSelect; 
-wire [15:0] wOp0, wOp1, wR1, wR3;
+wire [15:0] wOp0, wOp1, wR1, wR3,wR4,wR5,wR6,wR7,wR8;
 wire [7:0] wR2;
 wire [15:0]  wR0;  //Only support up to 32*32 = 1024 tiles
 wire [7:0] wBh, wBl, wState, wIp, wInitialPc, wSC_Tile_Row;
@@ -103,6 +103,11 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_16(   iClock, iReset, wRegWe  & wGpuReg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_17(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[17], rResult, wR1 );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_18(   iClock, iReset,  wRegWe  & wGpuRegWriteSelect[18], rResult[7:0], wR2 );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_19(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[19], rResult, wR3 );// gp reg
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_21(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[5], rResult, wR4 );// gp reg
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_22(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[6], rResult, wR5 );// gp reg
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_23(   iClock, iReset,  wRegWe  & wGpuRegWriteSelect[7], rResult, wR6 );// gp reg
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_24(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[8], rResult, wR7 );// gp reg
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_25(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[9], rResult, wR8 );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_20(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[20], rResult, wCurrentTileRow );//which tile row am I on
 
 
@@ -242,8 +247,8 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG0
   .Sel( wUop[4:0] ),
 
   .I0( {8'h0,oLCDC} ), .I1( {8'h0,oSTAT} ), .I2( {8'h0,oSCY} ), .I3( {8'h0,oSCX} ),
-  .I4( {8'h0,oLY} ),   .I5( {8'h0,oLYC} ),  .I6( {8'h0,oDMA} ), .I7( {8'h0,oBGP} ),
-  .I8( {8'h0,oOBP0} ), .I9( {8'h0,oOBP1} ), .I10( {8'h0,oWY} ), .I11( {8'h0,oWX} ),
+  .I4( {8'h0,oLY} ),   .I5( {wR4} ),  .I6( {wR5} ), .I7( {wR6} ),
+  .I8( {wR7} ), .I9( {wR8} ), .I10( {8'h0,oWY} ), .I11( {8'h0,oWX} ),
   .I12( oMcuAddr ),   .I13( {8'b0,wBh} ),   .I14({8'b0, wBl}),  .I15( wFrameBufferAddress ),
   .I16( wR0 ),   .I17( wR1 ), .I18( {8'b0,wR2} ), .I19( wR3 ), .I20( wCurrentTileRow ),
   .I21( {8'h0,iMcuReadData} ), .I22( wBGTileMapOffset ), .I23( wBGRowOffset ), .I24( wBGTileOffset ),
@@ -261,8 +266,8 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG1
   .Sel( wOp1Sel ),
 
   .I0( {8'h0,oLCDC} ), .I1( {8'h0,oSTAT} ), .I2( {8'h0,oSCY} ), .I3( {8'h0,oSCX} ),
-  .I4( {8'h0,oLY} ),   .I5( {8'h0,oLYC} ),  .I6( {8'h0,oDMA} ), .I7( {8'h0,oBGP} ),
-  .I8( {8'h0,oOBP0} ), .I9( {8'h0,oOBP1} ), .I10( {8'h0,oWY} ), .I11( {8'h0,oWX} ),
+  .I4( {8'h0,oLY} ),   .I5( {wR4} ),  .I6( {wR5} ), .I7( {wR6} ),
+  .I8( {wR7} ), .I9( {wR8} ), .I10( {8'h0,oWY} ), .I11( {8'h0,oWX} ),
   .I12( oMcuAddr ),   .I13( {8'b0,wBh} ),   .I14( {8'b0,wBl}),  .I15( wFrameBufferAddress ),
   .I16( wR0 ),   .I17( wR1 ), .I18( {8'b0,wR2} ), .I19( wR3 ), .I20( wCurrentTileRow ),
   .I21( {8'h0,iMcuReadData} ), .I22( wBGTileMapOffset ), .I23( wBGRowOffset ), .I24( wBGTileOffset ),

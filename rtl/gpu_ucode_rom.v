@@ -73,7 +73,6 @@ begin
 
   */
 ///////////////////////////////////////////////////////////////////////////
-
 //defines code for getting the first tile and applying color pallete to it
   0: oUop = { `gnop,  `gnull, `gnull, `gnull }; //always has to be a nop because of pc definition
   1: oUop = { `gwrl,  `state, `SCANLINE_VRAM_READ };// writes a literal to register state for cpu to know which state the GPU currently is
@@ -99,13 +98,14 @@ begin
   19: oUop = {`gwrl, `r1, 10'd40};//we have a maximum of 40 sprites
   20: oUop = {`gadd, `vmem_addr, `r1, `oam_offset};//get address of first sprite
   21: oUop = {`grvmem, `gnull, `gnull, `gnull};//store vmem data
-/*  
-//TODO find if Y coord falls in current fb row
-  21: oUop = {`gsub, `r0, `vmem_data};
-  22: oUop = {`gjnz, `get_next_sprite}; //TODO define get_next_sprite
+/* 
+//Ycoord -16 = coordY of sprite if Y = 0 sprite doesnt display 
+  22: oUop = {`gwrl,` , `vmem_data};
+  23: oUop = {`gsub, `r0, `vmem_data};
+  24: oUop = {`gjnz, `get_next_sprite}; //TODO define get_next_sprite
 
-  23: oUop = {`gaddl, `vmem_addr, `10'd1};
-  24: oUop = {`grvmem, `gnull,`gnull,`gnull};
+  25: oUop = {`gaddl, `vmem_addr, `10'd1};
+  26: oUop = {`grvmem, `gnull,`gnull,`gnull};
 
 //TODO get x coord and see if it falls on fb row
 25: oUop = {`gsub, `r0, `vmem_data};
