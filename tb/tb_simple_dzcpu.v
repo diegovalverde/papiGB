@@ -219,8 +219,12 @@ $readmemh(
 
 		`ifdef DISABLE_CPU
 		  //Force GPU to start
-			//uut.GPU.FF_LCDC.Q = 8'b10010000;//tetris
-			uut.GPU.FF_LCDC.Q = 8'b10000000;//zelda
+			`ifdef FORCE_LCDC
+				uut.GPU.FF_LCDC.Q = `FORCE_LCDC;
+			`else
+				//uut.GPU.FF_LCDC.Q = 8'b10010000;//tetris
+				uut.GPU.FF_LCDC.Q = 8'b10000000;//zelda
+			`endif
 			uut.GPU.FF_SCX.Q = 8'h0;
 			uut.GPU.FF_SCY.Q = 8'h0;
 			uut.GPU.FF_LY.Q = 8'h0;
