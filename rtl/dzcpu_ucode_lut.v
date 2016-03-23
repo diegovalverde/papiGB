@@ -80,6 +80,7 @@ begin
 	`LDAHLI: oUopFlowIdx = 8'd149;
 	`LDHLmn: oUopFlowIdx = 8'd154;
 	`NOP:    oUopFlowIdx = 8'd162;
+    `DI:     oUopFlowIdx = 8'd163;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -338,6 +339,8 @@ begin
 
 //NOP
 		162: oUop = { `inc_eof, `nop, `null };
+//DI 
+		163: oUop = { `inc_eof, `ceti, `null }; //Disable Interruption
 		
 //FLOW_ID_INT_VBLANK
 /*

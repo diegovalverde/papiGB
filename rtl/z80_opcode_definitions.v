@@ -3,7 +3,7 @@
 `define  NOP     8'h0
 `define  LDBCnn  8'h1
 `define  LDBCmA  8'h2
-//  `define  INCBC;
+//`define  INCBC   8'h2
 
   `define  INCr_b 8'h4
   `define  DECr_b 8'h5
@@ -310,10 +310,10 @@
 //  //  `define  RST28;
 //  //  `define
 //  F0
- `define  LDAIOn 8'hf0
+`define  LDAIOn 8'hf0
 //  //  `define  POPAF;
 //  //  `define  LDAIOC;
-//  //  `define  DI;
+`define  DI 8'hF3
 //  //  `define
 //  //  `define  XX;
 //  //  `define  PUSHAF;
@@ -739,7 +739,7 @@
 
 
 //this is offset interruption microflow
-`define FLOW_ID_INT_VBLANK 					8'd163
+`define FLOW_ID_INT_VBLANK 					8'd0
 `define FLOW_ID_INT_LCD_STATUS_TRIGGER		8'd0
 `define FLOW_ID_INT_TIMER_OVERFLOW          8'd0
 `define FLOW_ID_INT_VBLANK_JOYPAD_PRESS     8'd0
