@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+//`timescale 1ns / 1ps
 ////////////////////////////////////////////////////////////////////////////////////
 //
 // pGB, yet another FPGA fully functional and super fun GB classic clone!
@@ -38,6 +38,7 @@
 `define gshl    5'd10
 `define ggoto   5'd11
 `define gjz     5'd12
+`define gand    5'd13
 
 `define gnull               5'd0
 `define ly                  5'd4
@@ -60,8 +61,10 @@
 `define scy_shl_5__plus_scx 5'd27
 `define scy_tile_row_offset 5'd28
 `define r8191               5'd29
-
-
+`define lcdc				5'd0
+`define skip_the_sprites	15'd22 //remember to change during testing of new uop
 `define SCANLINE_VRAM_READ  10'd3
+`define	oam_offset			10'd30
+
 
 `endif

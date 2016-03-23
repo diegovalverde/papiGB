@@ -92,23 +92,64 @@ begin
   14: oUop = {  `gwrr,   `bl, `vmem_data, `gnull };//save in BL for low byte
   15: oUop = {  `gwbg,   `gnull,`gnull, `gnull};// BH and BL go through bg pallete and result gets saved in framebuffer
   
+//uCode for sprite loop
+  16: oUop = {`gwrl, `r1, 10'b100}; // set bit 3 as 1 for next oUopp
+  17: oUop = {`gand, `r3, `r1, `lcdc}; //and bitwise for r0 and lcd if bit 2 = 1 sprites are on
+  18: oUop = {`gjz,`skip_the_sprites};
+  19: oUop = {`gwrl, `r1, 10'd40};//we have a maximum of 40 sprites
+  20: oUop = {`gadd, `vmem_addr, `r1, `oam_offset};//get address of first sprite
+  21: oUop = {`grvmem, `gnull, `gnull, `gnull};//store vmem data
+/*  
+//TODO find if Y coord falls in current fb row
+  21: oUop = {`gsub, `r0, `vmem_data};
+  22: oUop = {`gjnz, `get_next_sprite}; //TODO define get_next_sprite
+
+  23: oUop = {`gaddl, `vmem_addr, `10'd1};
+  24: oUop = {`grvmem, `gnull,`gnull,`gnull};
+
+//TODO get x coord and see if it falls on fb row
+25: oUop = {`gsub, `r0, `vmem_data};
+26: oUop = {`gjnz, `get_next_sprite}; //TODO define get_next_sprite
+
+//Fetch sprite tile number
+
+27: oUop = {`gaddl, `vmem_addr, 10'd1};
+28: oUop = {`grvem, `gnull,`gnull,`gnull};
+29: oUop = {`gwrr, `sprite_tile_indx,`vmem_data_shl_4};
+30: oUop = {`gaddl, `vmem_addr, 10'd1};
+31: oUop = {`grvem, `gnull,`gnull,`gnull};
+32: oUop = {`gwrr, `sprite_info,`vmem_data}; //TODO define `sprite_info
+
+//GO read tile memory
+
+33: oUop = {`gadd, `r1, `sprite_tile_indx};
+34: oUop = {`gadd, `vmem_addr,`r1,`bgtoffset};
+35: oUop = {`grvem,`gnull,`gnull,`gnull};
+36: oUop = {`gwrr, `bh, `vmem_data}; //first tile high byte 
+37: oUop = {`gaddl, `vmem_addr, 10'd1};
+38: oUop = {`grvem, `gnull,`gnull,`gnull}
+39: oUop = {`gwrr, `bl,`vmem_data}
+
+//TODO palette logic
+
 //defines loop for getting the same row for the next tile
-//TODO 8191 where does it come from?
-  16: oUop = { `gsubl, `r1, 10'd8191}; 
-  17: oUop = { `gsub, `r1, `fbuffer_addr, `r8191};
-  18: oUop = { `gjz, 15'h2};
-  19: oUop = {  `gaddl, `cur_tile, 10'd1  };
-  20: oUop = {  `gsubl, `r2, 10'd1 };
-  21: oUop = {  `gjnz ,  15'd5 };
-  22: oUop = {  `gaddl,  `tile_row, 10'd2  };
-  23: oUop = {  `gaddl , `ly, 10'd1 };
-  24: oUop = {  `gwrr,  `r1, `tile_row, `gnull };
-  25: oUop = {  `gsubl,  `r1, 10'h10 };
-  26: oUop = {  `gjz , 15'd3  };
+//50ish might vary*/  
+
+  22: oUop = { `gsubl, `r1, 10'd8191}; //limit 0x1FFF or d 8191
+  23: oUop = { `gsub, `r1, `fbuffer_addr, `r8191};
+  24: oUop = { `gjz, 15'h2};
+  25: oUop = {  `gaddl, `cur_tile, 10'd1  };
+  26: oUop = {  `gsubl, `r2, 10'd1 };
+  27: oUop = {  `gjnz ,  15'd5 };
+  28: oUop = {  `gaddl,  `tile_row, 10'd2  };
+  29: oUop = {  `gaddl , `ly, 10'd1 };
+  30: oUop = {  `gwrr,  `r1, `tile_row, `gnull };
+  31: oUop = {  `gsubl,  `r1, 10'h10 };
+  32: oUop = {  `gjz , 15'd3  };
 
 //defines jump to next row of pixels 
-  27: oUop = {  `gsubl,  `cur_tile, 10'd32 };
-  28: oUop = {  `ggoto,  15'd4 };
+  33: oUop = {  `gsubl,  `cur_tile, 10'd32 };
+  34: oUop = {  `ggoto,  15'd4 };
 
   endcase
 end
