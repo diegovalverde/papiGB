@@ -79,6 +79,7 @@ begin
 	`LDrn_h: oUopFlowIdx = 8'd146;
 	`LDAHLI: oUopFlowIdx = 8'd149;
 	`LDHLmn: oUopFlowIdx = 8'd154;
+	`NOP:    oUopFlowIdx = 8'd162;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -334,6 +335,25 @@ begin
 		160: oUop = {`inc_eof,  `sma,   `pc };
 //INCR_b
 		161: oUop = {`inc_eof, `inc16, `b };
+
+//NOP
+		162: oUop = { `inc_eof, `nop, `null };
+		
+//FLOW_ID_INT_VBLANK
+/*
+        163: oUop = { `op, `ceti, `null};  //Disable interruption         
+        164: oUop = { `inc, `dec16,  `sp  };
+        165: oUop = { `inc, `sx16r,  `hl  };
+        166: oUop = { `op , `srm,    `l   }; //l = MEM[pc] = literal
+        167: oUop = { `inc, `srm,    `h   }; //l = MEM[pc] = literal
+        168: oUop = { `op,  `sma,    `sp  };
+        169: oUop = { `op,  `smw,    `pch }; //MEM[sp] = pc[7:0]
+        170: oUop = { `op,  `dec16,  `sp  };
+        171: oUop = { `op , `smw,    `pc  }; //MEM[sp+1] = pc[15:8]
+        172: oUop = { `op , `sx16l,    8'h40  };
+        173: oUop = { `op, `srx16,  `pc  };
+        174: oUop = { `inc ,`sma,   `pc   };
+		*/
 
 
 	/*
