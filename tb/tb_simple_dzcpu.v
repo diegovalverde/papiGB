@@ -193,7 +193,7 @@ end //always
 		glog = $fopen("pgb_gpu.log");
 `endif
 
-`ifdef LOAD_VMEM_DUMP
+`ifdef VMEM_DUMP_PATH
 $readmemh(
 	`VMEM_DUMP_PATH, uut.MMU.VMEM.Ram);
 
