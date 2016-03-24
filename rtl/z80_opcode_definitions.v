@@ -1,9 +1,9 @@
 
 //  00
-`define  NOP     8'h0
-`define  LDBCnn  8'h1
-`define  LDBCmA  8'h2
-//`define  INCBC   8'h2
+  `define  NOP     8'h0
+  `define  LDBCnn  8'h1
+  `define  LDBCmA  8'h2
+//`define  INCBC   8'h3
 
   `define  INCr_b 8'h4
   `define  DECr_b 8'h5
@@ -13,47 +13,47 @@
 //  `define  LDmmSP;
 //  `define  ADDHLBC;
 //  `define  LDABCm;
-//  `define  DECBC;
+  `define  DECBC 8'hb
 
-`define  INCr_c 8'hc
-`define  DECr_c 8'hd
-`define  LDrn_c 8'he
+  `define  INCr_c 8'hc
+  `define  DECr_c 8'hd
+  `define  LDrn_c 8'he
 //  `define  RRCA;
 
 //  10
 //  `define  DJNZn;
-`define  LDDEnn 8'h11
+  `define  LDDEnn 8'h11
 //  `define  LDDEmA;
   `define  INCDE 8'h13
 
-//  `define  INCr_d;
+  `define  INCr_d 8'h14		
   `define  DECr_d 8'h15
   `define  LDrn_d 8'h16
   `define  RLA 8'h17
   `define  JRn 8'h18
 //  `define  ADDHLDE;
   `define  LDADEm 8'h1A
-//  `define  DECDE;
+//  `define  DECDE;		*******
 
-//  `define  INCr_e;
-//  `define  DECr_e;
+//  `define  INCr_e 8'h1c;      //OK
+//  `define  DECr_e;    **********
   `define  LDrn_e 8'h1e
 //  `define  RRA;
 //  `define
 //  20
-    `define  JRNZn  8'h20
-    `define  LDHLnn 8'h21
-    `define  LDHLIA 8'h22
-    `define  INCHL  8'h23
-    `define  INCr_h 8'h24
-//  `define  DECr_h;
-    `define  LDrn_h 8'h26
+  `define  JRNZn  8'h20
+  `define  LDHLnn 8'h21
+  `define  LDHLIA 8'h22
+  `define  INCHL  8'h23
+  `define  INCr_h 8'h24
+//  `define  DECr_h;    *************
+  `define  LDrn_h 8'h26
 //  `define  DAA;
 //  `define
   `define  JRZn 8'h28
 //  `define  ADDHLHL;
   `define  LDAHLI 8'h2A
-//  `define  DECHL;
+//  `define  DECHL;		***********
 //  `define
 //  `define  INCr_l;
 //  `define  DECr_l;
@@ -64,7 +64,7 @@
   `define  JRNCn   8'h30
   `define  LDSPnn  8'h31
   `define  LDHLDA  8'h32
-//  `define  INCSP;
+//  `define  INCSP;			*************
 
 //  `define  INCHLm;
 //  `define  DECHLm;
@@ -74,11 +74,11 @@
 //  `define  JRCn;
 //  `define  ADDHLSP;
 //  `define  LDAHLD;
-//  `define  DECSP;
+//  `define  DECSP;			*************
 
-//  `define  INCr_a;
-    `define  DECr_a 8'h3d
-    `define  LDrn_a 8'h3e
+//  `define  INCr_a;		************
+  `define  DECr_a 8'h3d
+  `define  LDrn_a 8'h3e
 //  `define  CCF;
 
 //  40
@@ -100,7 +100,7 @@
 //  `define  LDrr_ch;
 //  `define  LDrr_cl;
 //  `define  LDrHLm_c;
-    `define  LDrr_ca 8'h4f
+  `define  LDrr_ca 8'h4f
 
 //  50
 //  `define  LDrr_db;
@@ -111,16 +111,16 @@
 //  `define  LDrr_dh;
 //  `define  LDrr_dl;
 //  `define  LDrHLm_d;
-    `define  LDrr_da 8'h57
-    `define  LDrr_eb 8'h58
-    `define  LDrr_ec 8'h59
-    `define  LDrr_ed 8'h5a
-    `define  LDrr_ee 8'h5b
+  `define  LDrr_da 8'h57
+  `define  LDrr_eb 8'h58
+  `define  LDrr_ec 8'h59
+  `define  LDrr_ed 8'h5a
+  `define  LDrr_ee 8'h5b
 
-    `define  LDrr_eh 8'h5c
-    `define  LDrr_el 8'h5d
+  `define  LDrr_eh 8'h5c
+  `define  LDrr_el 8'h5d
 //  `define  LDrHLm_e;
-    `define  LDrr_ea 8'h5f
+  `define  LDrr_ea 8'h5f
 
 //  60
   `define  LDrr_hb 8'h60
@@ -131,7 +131,7 @@
 //  `define  LDrr_hh;
   `define  LDrr_hl 8'h65
 //  `define  LDrHLm_h
-`define  LDrr_ha 8'h67
+  `define  LDrr_ha 8'h67
 
 //  `define  LDrr_lb;
 //  `define  LDrr_lc;
@@ -163,13 +163,13 @@
 //  `define  LDrr_aa;
 //  `define
 //  80
-//  `define  ADDr_b;
+//  `define  ADDr_b;		**********
 //  `define  ADDr_c;
 //  `define  ADDr_d;
 //  `define  ADDr_e;
 //  `define
 //  `define  ADDr_h;
-//  `define  ADDr_l;
+//  `define  ADDr_l;		
 //  `define  ADDHL;
 //  `define  ADDr_a;
 //  `define
@@ -179,12 +179,12 @@
 //  `define  ADCr_e;
 //  `define
 //  `define  ADCr_h;
-//  `define  ADCr_l;
+//  `define  ADCr_l;		************
 //  `define  ADCHL;
 //  `define  ADCr_a;
 //  `define
 //  90
-  `define  SUBr_b 8'h90
+  `define  SUBr_b 8'h90		//******
 //  `define  SUBr_c;
 //  `define  SUBr_d;
 //  `define  SUBr_e;
@@ -301,7 +301,7 @@
 
 //  //  `define  ADDSPn;
 //  //  `define  JPHL;
-`define  LDmmA  8'hEA
+  `define  LDmmA  8'hEA
 //  //  `define  XX;
 //  //  `define
 //  //  `define  XX;
@@ -310,10 +310,10 @@
 //  //  `define  RST28;
 //  //  `define
 //  F0
-`define  LDAIOn 8'hf0
+  `define  LDAIOn 8'hf0
 //  //  `define  POPAF;
 //  //  `define  LDAIOC;
-`define  DI 8'hF3
+  `define  DI 8'hF3
 //  //  `define
 //  //  `define  XX;
 //  //  `define  PUSHAF;
@@ -324,7 +324,7 @@
 //  //  `define  XX;
 //  //  `define  LDAmm;
 //  //  `define  EI;
- `define  CPn 8'hFE
+  `define  CPn 8'hFE
 //  //  `define  RST38
 
 //  CB00
@@ -676,10 +676,10 @@
 `define inc             4'b1000
 `define inc_eof         4'b1100
 `define inc_eof_z       4'b1101
-`define inc_eof_fu      4'b1110
+`define inc_eof_fu      4'b1110 //increment PC , flow finish and flag update 
 `define inc_eof_nz      4'b1111
 `define eof             4'b0100
-`define eof_z           4'b0101
+`define eof_z           4'b0101	//finish flow if zero flag is 1
 `define eof_fu          4'b0110
 
 `define uop_flags_update_enable 1
