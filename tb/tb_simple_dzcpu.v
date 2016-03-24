@@ -349,6 +349,7 @@ end //always
 			170: $fwrite(log,"=== INCr_a  === %h \n", uut.DZCPU.iMCUData );
 			171: $fwrite(log,"=== INCSP === %h \n", uut.DZCPU.iMCUData ); //Increment SP
 			172: $fwrite(log,"=== DECSP === %h \n", uut.DZCPU.iMCUData );
+			173: $fwrite(log,"=== INCr_l  === %h \n", uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 

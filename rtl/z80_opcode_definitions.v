@@ -52,9 +52,8 @@
   `define  JRZn 8'h28
 //  `define  ADDHLHL;
   `define  LDAHLI 8'h2A
-  `define  DECHL 8'h2b
-//  `define
-//  `define  INCr_l;
+  `define  DECHL  8'h2b
+  `define  INCr_l 8'h2c
 //  `define  DECr_l;
   `define  LDrn_l 8'h2e
 //  `define  CPL;
