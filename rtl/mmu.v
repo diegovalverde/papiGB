@@ -76,20 +76,35 @@ module mmu
 	);
 
 	wire [3:0] wMemSel_H, wMemSel_L;
-	wire [7:0] wReadCartridgeBank0, wReadVmem, wReadData_L;
+	wire [7:0] wReadCartridgeBank0, wReadVmem, wReadData_L, wOAMData;
 
 
 
 //TODO: This has to go into SRAM!!!
+//VRAMR 8000-9FFF
+//TODO: I think the depth shall be 4096
 RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(8192) ) VMEM
 (
  .Clock( iClock ),
- .iWriteEnable( wWeVRam       ),
+ .iWriteEnable(  wWeVRam              ),
  .iReadAddress0( wVmemReadAddr[12:0]  ),
- .iWriteAddress( wAddr[12:0]  ),
- .iDataIn(       iCpuData        ),
- .oDataOut0( wReadVmem        )
+ .iWriteAddress( wAddr[12:0]          ),
+ .iDataIn(       iCpuData             ),
+ .oDataOut0(     wReadVmem            )
 );
+
+
+//Sprite OAM RAM 0xFE00 - 0xFE9F
+RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(160) ) OAM
+(
+ .Clock( iClock ),
+ .iWriteEnable(  wWeVRam              ),		//Since this is DMA, this has to change
+ .iReadAddress0( wVmemReadAddr[12:0]  ),
+ .iWriteAddress( wAddr[12:0]          ),
+ .iDataIn(       iCpuData             ),
+ .oDataOut0(     wOAMData             )
+);
+
 
 //A high-speed area of 128 bytes of RAM.
 //Will use FPGA internal mem since most of the interaction between
@@ -150,8 +165,8 @@ MUXFULLPARALELL_2SEL_GENERIC # (8) MUX_MEMREAD_IO_ZERPAGE_INTERRUPTS
 	.Sel( wAddr[7:6]),
 	.I0( wIORegisters     ),    //FF00-FF7F     wAddr[7:6] = 00
 	.I1( wIORegisters     ),    //FF00-FF7F     wAddr[7:6] = 01
-	.I2( wZeroPageDataOut ),	//FF80-FFFF     wAddr[7:6] = 10
-	.I3( wZeroPageDataOut ),	//FF80-FFFF     wAddr[7:6] = 11
+	.I2( wZeroPageDataOut ),	  //FF80-FFFF     wAddr[7:6] = 10
+	.I3( wZeroPageDataOut ),	  //FF80-FFFF     wAddr[7:6] = 11
 	.O(  wZIOData )
 
 );
@@ -167,11 +182,10 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_L
 	.I8(8'b0), .I9(8'b0),
 	.I10(8'b0), .I11(8'b0),
 	.I12(8'b0), .I13(8'b0),
-	.I14(8'b0),
-	//OAM
-	//.I14(ADDR_OAM),
+	//OAM.
+	.I14( wOAMData),		//Address 0xFE_00, ie. 14
 	//Zeropage RAM, I/O, interrupts
-	.I15( wZIOData ), //wZeroPageDataOut),
+	.I15( wZIOData ), //Address 0xFF_00, ie. 15
 
 	.O( wReadData_L )
 );
