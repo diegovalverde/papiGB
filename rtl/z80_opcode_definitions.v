@@ -63,7 +63,7 @@
   `define  JRNCn   8'h30
   `define  LDSPnn  8'h31
   `define  LDHLDA  8'h32
-//  `define  INCSP;			*************
+//  `define  INCSP   8'h33
 
 //  `define  INCHLm;
 //  `define  DECHLm;
@@ -75,7 +75,7 @@
 //  `define  LDAHLD;
 //  `define  DECSP;			*************
 
-//  `define  INCr_a;		************
+  `define  INCr_a 8'h3c
   `define  DECr_a 8'h3d
   `define  LDrn_a 8'h3e
 //  `define  CCF;
