@@ -193,12 +193,39 @@ end //always
 		glog = $fopen("pgb_gpu.log");
 `endif
 
-`ifdef LOAD_VMEM_DUMP
+
+`ifdef VMEM_DUMP_PATH
 $readmemh(
 	`VMEM_DUMP_PATH, uut.MMU.VMEM.Ram);
 
+			$fwrite(glog,"\n\n=== VIDEO MEMORY FROM FILE: %s===\n\n", `VMEM_DUMP_PATH);
+			for (i = 16'h8000; i <= 16'h9fff; i = i + 1)
+			begin
+				if (i % 16 == 0)
+						$fwrite(glog,"\n %h : ", i );
+				$fwrite(glog,"%02h ",uut.MMU.VMEM.Ram[i- 16'h8000]);
+			end
+
+
 `endif
 
+
+
+`ifdef OAM_DUMP_PATH
+  $readmemh(
+	`OAM_DUMP_PATH, uut.MMU.OAM.Ram);
+
+	$fwrite(glog,"\n\n=== OAM MEMORY FROM FILE: %s===\n\n", `OAM_DUMP_PATH);
+	for (i = 16'hfe00; i <= 16'hfe9f; i = i + 1)
+	begin
+		if (i % 16 == 0)
+				$fwrite(glog,"\n %h : ", i );
+		$fwrite(glog,"%02h ",uut.MMU.OAM.Ram[i- 16'hfe00]);
+	end
+
+	$fwrite(glog,"\n\n");
+
+`endif
 
 		$dumpfile("tb_simple_dzcpu.vcd");
 		$dumpvars(0,tb_simple_dzcpu);
@@ -219,12 +246,18 @@ $readmemh(
 
 		`ifdef DISABLE_CPU
 		  //Force GPU to start
-			//uut.GPU.FF_LCDC.Q = 8'b10010000;
-			uut.GPU.FF_LCDC.Q = 8'b10000000;
+			`ifdef FORCE_LCDC
+				uut.GPU.FF_LCDC.Q = `FORCE_LCDC;
+			`else
+				//uut.GPU.FF_LCDC.Q = 8'b10010000;//tetris
+				uut.GPU.FF_LCDC.Q = 8'b10000000;//zelda
+			`endif
 			uut.GPU.FF_SCX.Q = 8'h0;
 			uut.GPU.FF_SCY.Q = 8'h0;
 			uut.GPU.FF_LY.Q = 8'h0;
 			uut.GPU.FFS_BGP.Q = 8'h27;
+			//uut.GPU.FFS_BP0.Q = 8'h27;
+			//uut.GPU.FFS_BP1.Q = 8'h27;
 		`endif
 
 		// Add stimulus here
@@ -248,7 +281,7 @@ begin
 	 			$fwrite(glog,"%05dns [GPU] IP:%d  %h .",$time, uut.GPU.wIp, uut.GPU.wUop[19:15] );
 	 case (uut.GPU.wUop[19:15])
 			 	`gnop: $fwrite(glog, "nop  \n");
-				`gwrl: $fwrite(glog, "gwrl \n");
+				`gwrl: $fwrite(glog, "gwrl r[%h] = %h\n",uut.GPU.wUop[14:10],uut.GPU.wUop[9:0]);
 				`gwrr: $fwrite(glog, "gwrr \n");
 				`gadd: $fwrite(glog, "gadd %h + %h = %h\n", uut.GPU.wOp1, uut.GPU.wOp0, uut.GPU.rResult);
 				`gsub: $fwrite(glog, "gsub \n");
@@ -258,6 +291,8 @@ begin
 				`gsubl: $fwrite(glog, "gsubl %h -= %h = %h\n", uut.GPU.wOp1, uut.GPU.wUop[9:0], uut.GPU.rResult);
 				`grvmem: $fwrite(glog,"grvmem @ %h\n", uut.GPU.oMcuAddr);
 				`gshl:   $fwrite(glog,"gshl  \n");
+				`gand: $fwrite(glog, "gand %h & %h = %h\n", uut.GPU.wOp1, uut.GPU.wOp0, uut.GPU.rResult);
+				`gjz: $fwrite(glog, "gjz \n");
 		endcase
 
 			//Print the Registers
@@ -272,15 +307,17 @@ begin
 			uut.GPU.oLYC,   uut.GPU.oDMA,     uut.GPU.oBGP,         uut.GPU.oOBP0,
 			uut.GPU.oOBP1, 	uut.GPU.oWY,      uut.GPU.oWX );
 
-			$fwrite(glog, "%02s %02s %04s %08s %08s %08s\n", "Bh", "Bl", "Bsel", "cur_tile", "tile_row", "fb_addr");
-			$fwrite(glog, "%02x %02x %04x %08x %08x %08d\n",
-			uut.GPU.wBh, uut.GPU.wBl, uut.GPU.wR2, uut.GPU.wR0, uut.GPU.wCurrentTileRow, wFrameBufferAddress);
+			$fwrite(glog, "%02s %02s %04s %08s %08s %08s %08s\n", "Bh", "Bl", "Bsel", "cur_tile", "tile_row", "fb_addr", "vmem_data");
+			$fwrite(glog, "%02x %02x %04x %08x %08x %08d %08x\n",
+			uut.GPU.wBh, uut.GPU.wBl, uut.GPU.wR2, uut.GPU.wR0, uut.GPU.wCurrentTileRow, wFrameBufferAddress, uut.GPU.iMcuReadData);
 
 			$fwrite(glog, "Tile Pixel Row:\n");
 			$fwrite(glog, "%02x %02x %02x %02x %02x %02x %02x %02x\n",
 			uut.GPU.wBgPixel7,uut.GPU.wBgPixel6,uut.GPU.wBgPixel5,uut.GPU.wBgPixel4,uut.GPU.wBgPixel3,uut.GPU.wBgPixel2,uut.GPU.wBgPixel1,uut.GPU.wBgPixel0);
 
 			$fwrite(glog,"\n\n\n");
+
+
 	 end //if
 end //always
 `endif
@@ -373,8 +410,8 @@ end //always
 
 		if (uut.MMU.iGpuReadRequest)
 		begin
-			$fwrite(log,"%dns [MMU] Gpu requesting read @ %h\n ", $time, uut.MMU.iGpuAddr);
-			$fwrite(glog,"%dns [MMU] Gpu requesting read @ %h\n ", $time, uut.MMU.iGpuAddr);
+			$fwrite(log,"%dns [MMU] Gpu requesting read @ %h (%h)\n ", $time, uut.MMU.iGpuAddr, uut.MMU.wVmemReadAddr);
+			$fwrite(glog,"%dns [MMU] Gpu requesting read @ %h (%h)\n ", $time, uut.MMU.iGpuAddr, uut.MMU.wVmemReadAddr);
 		end
 
 

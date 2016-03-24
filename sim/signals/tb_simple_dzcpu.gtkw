@@ -1,17 +1,18 @@
 [*]
 [*] GTKWave Analyzer v3.3.58 (w)1999-2014 BSI
-[*] Thu Jan  7 04:03:29 2016
+[*] Thu Mar 24 19:14:55 2016
 [*]
 [dumpfile] "/opt/hdd2/workspace/projects/papiGB/sim/tb_simple_dzcpu.vcd"
-[dumpfile_mtime] "Thu Jan  7 03:55:43 2016"
-[dumpfile_size] 104404964
+[dumpfile_mtime] "Thu Mar 24 19:12:25 2016"
+[dumpfile_size] 59390
 [savefile] "/opt/hdd2/workspace/projects/papiGB/sim/signals/tb_simple_dzcpu.gtkw"
-[timestart] 1876257910
+[timestart] 38200
 [size] 1366 744
 [pos] -1 -1
-*-13.813875 1876277090 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-16.813875 325000 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb_simple_dzcpu.
 [treeopen] tb_simple_dzcpu.uut.
+[treeopen] tb_simple_dzcpu.uut.MMU.
 [sst_width] 260
 [signals_width] 418
 [sst_expanded] 1
@@ -109,7 +110,7 @@ tb_simple_dzcpu.uut.DZCPU.wX8[7:0]
 tb_simple_dzcpu.uut.DZCPU.wX16[15:0]
 @1401200
 -dzCPU
-@c00200
+@800200
 -MMU
 @2024
 ^4 /opt/hdd2/workspace/projects/papiGB/sim/signals/mmu_cpu_gpu_sel
@@ -120,15 +121,21 @@ tb_simple_dzcpu.uut.MMU.iGpuReadRequest
 @22
 tb_simple_dzcpu.uut.MMU.iCpuAddr[15:0]
 tb_simple_dzcpu.uut.MMU.iGpuAddr[15:0]
+@23
+tb_simple_dzcpu.uut.MMU.oGpuVmemReadData[7:0]
+@22
+tb_simple_dzcpu.uut.MMU.wVmemReadAddr[15:0]
+tb_simple_dzcpu.uut.MMU.wOAMData[7:0]
+tb_simple_dzcpu.uut.MMU.wReadVmem[7:0]
 tb_simple_dzcpu.uut.MMU.wAddr[15:0]
 @28
 tb_simple_dzcpu.uut.MMU.wWeVRam
 tb_simple_dzcpu.uut.MMU.wWeZeroPage
 tb_simple_dzcpu.uut.MMU.wInBios
 tb_simple_dzcpu.uut.MMU.wInCartridgeBank0
-@1401200
+@1000200
 -MMU
-@800200
+@c00200
 -GPU
 @28
 tb_simple_dzcpu.uut.GPU.iClock
@@ -249,16 +256,20 @@ tb_simple_dzcpu.uut.GPU.oLY[7:0]
 tb_simple_dzcpu.uut.GPU.rResult[15:0]
 tb_simple_dzcpu.uut.GPU.wState[7:0]
 tb_simple_dzcpu.uut.GPU.oMcuAddr[15:0]
-@23
 tb_simple_dzcpu.uut.GPU.wR0[15:0]
-@22
 tb_simple_dzcpu.uut.GPU.wR1[15:0]
-tb_simple_dzcpu.uut.GPU.wR2[15:0]
 tb_simple_dzcpu.uut.GPU.wR3[15:0]
 tb_simple_dzcpu.uut.GPU.wBh[7:0]
 tb_simple_dzcpu.uut.GPU.wBl[7:0]
-tb_simple_dzcpu.uut.GPU.wBGBufferBlockSel[15:0]
-@1000200
+@1401200
 -GPU
+@800200
+-OAM
+@22
+tb_simple_dzcpu.uut.MMU.OAM.iDataIn[7:0]
+tb_simple_dzcpu.uut.MMU.OAM.iReadAddress0[7:0]
+tb_simple_dzcpu.uut.MMU.OAM.oDataOut0[7:0]
+@1000200
+-OAM
 [pattern_trace] 1
 [pattern_trace] 0

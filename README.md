@@ -71,3 +71,29 @@ The following command will disable the CPU and load VMEM data from a dump file:
 This also erases the vcd and the log files!
 
 `make clean`
+
+##Installing a game boy assembly
+
+RGBDS is a great gameboy assembly (https://www.anjbe.name/rgbds/)
+To install it do:
+
+`git clone https://github.com/bentley/rgbds/`
+
+`cd rgbds`
+
+`sudo apt-get install bison flex`
+
+`make`
+
+`sudo make install`
+To compile an assebly program called test_INCr_b.asm do:
+
+`rgbasm -o test_INCr_b.obj test_INCr_b.asm`
+
+`rgblink -m test_INCr_b.map -n test_INCr_b.sym -o test_INCr_b.gb test_INCr_b.obj`
+
+The use hexdump to get the ASCII hex dump to load into the RTL simulation:
+
+`hexdump -v test_INCr_b.gb > test_INCr_b.hex`
+
+

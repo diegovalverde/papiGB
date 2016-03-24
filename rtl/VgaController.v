@@ -1,6 +1,4 @@
-
-
-
+`timescale 1ns / 1ps
 //The papilio logic start wing has 4096 color depth.
 //Each color R,G and B is 4 bits.
 //The VGA section of the LogicStart Shield uses 12 resistors to implement
