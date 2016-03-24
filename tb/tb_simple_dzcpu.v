@@ -399,8 +399,8 @@ end //always
 
 		if (uut.MMU.iGpuReadRequest)
 		begin
-			$fwrite(log,"%dns [MMU] Gpu requesting read @ %h\n ", $time, uut.MMU.iGpuAddr);
-			$fwrite(glog,"%dns [MMU] Gpu requesting read @ %h\n ", $time, uut.MMU.iGpuAddr);
+			$fwrite(log,"%dns [MMU] Gpu requesting read @ %h (%h)\n ", $time, uut.MMU.iGpuAddr, uut.MMU.wVmemReadAddr);
+			$fwrite(glog,"%dns [MMU] Gpu requesting read @ %h (%h)\n ", $time, uut.MMU.iGpuAddr, uut.MMU.wVmemReadAddr);
 		end
 
 

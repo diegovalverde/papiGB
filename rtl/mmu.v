@@ -59,6 +59,9 @@ module mmu
 	wire [7:0] wSoundRegisters_WavePattern, wJoyPadAndTimers;
 	wire [15:0] wAddr, wVmemReadAddr;
 	wire wInBios, wInCartridgeBank0, wWeZeroPage, wWeVRam, wCPU_GPU_Sel;
+	wire [3:0] wMemSel_H, wMemSel_L;
+	wire [7:0] wReadCartridgeBank0, wReadVmem, wReadData_L, wOAMData;
+
 
 	//Choose who has Memory access at this point in time: GPU or CPU
 	//Simply check MSb from STAT mode. Also check to see if LCD is ON
@@ -66,7 +69,7 @@ module mmu
 	assign wAddr =  iCpuAddr;
 	assign wVmemReadAddr = ( wCPU_GPU_Sel ) ? iGpuAddr[12:0] : iCpuAddr[12:0];
 	assign oGPU_RegData = iCpuData;
-  assign oGpuVmemReadData = wReadVmem;
+  assign oGpuVmemReadData = (iGpuAddr[15:8] == 8'hfe) ?  wOAMData : wReadVmem;
 
 	bios BIOS
 	(
@@ -75,8 +78,6 @@ module mmu
 		.oData( wBiosData  )
 	);
 
-	wire [3:0] wMemSel_H, wMemSel_L;
-	wire [7:0] wReadCartridgeBank0, wReadVmem, wReadData_L, wOAMData;
 
 
 
@@ -95,12 +96,12 @@ RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(8192) ) VMEM
 
 
 //Sprite OAM RAM 0xFE00 - 0xFE9F
-RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(160) ) OAM
+RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(8), .MEM_SIZE(160) ) OAM
 (
  .Clock( iClock ),
  .iWriteEnable(  wWeVRam              ),		//Since this is DMA, this has to change
- .iReadAddress0( wVmemReadAddr[12:0]  ),
- .iWriteAddress( wAddr[12:0]          ),
+ .iReadAddress0( wVmemReadAddr[7:0]  ),
+ .iWriteAddress( wAddr[7:0]          ),
  .iDataIn(       iCpuData             ),
  .oDataOut0(     wOAMData             )
 );
