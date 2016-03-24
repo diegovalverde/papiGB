@@ -340,8 +340,11 @@ end //always
 			154: $fwrite(log,"=== LDHLmn  === %h \n", uut.DZCPU.iMCUData );
 			162: $fwrite(log,"=== NOP  ===  \n");
 			163: $fwrite(log,"=== DI  ===  \n", uut.DZCPU.iMCUData );
-			164: $fwrite(log,"=== INCr_d  === %h \n", uut.DZCPU.iMCUData ); 
-			165: $fwrite(log,"=== INCr_e  === %h \n", uut.DZCPU.iMCUData )
+			164: $fwrite(log,"=== INCr_d  === %h \n", uut.DZCPU.iMCUData );
+			165: $fwrite(log,"=== INCr_e  === %h \n", uut.DZCPU.iMCUData );
+			166: $fwrite(log,"=== DECr_e  === %h \n", uut.DZCPU.iMCUData );
+
+
 
 			default:
 			  case (uut.DZCPU.iMCUData)

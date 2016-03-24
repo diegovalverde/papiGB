@@ -36,7 +36,7 @@
 //  `define  DECDE;		*******
 
   `define  INCr_e 8'h1c
-//  `define  DECr_e;    **********
+  `define  DECr_e 8'h1d
   `define  LDrn_e 8'h1e
 //  `define  RRA;
 //  `define
