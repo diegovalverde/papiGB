@@ -89,6 +89,7 @@ begin
     `DECHL:  oUopFlowIdx = 8'd169;
     `INCr_a: oUopFlowIdx = 8'd170;
 	`INCSP:  oUopFlowIdx = 8'd171;
+	`DECSP:  oUopFlowIdx = 8'd172;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 	default:
 			 oUopFlowIdx = 8'd0;
@@ -366,6 +367,8 @@ begin
 		170: oUop = { `inc_eof, `inc16, `a };
 //INCSP
 		171: oUop = { `inc_eof, `inc16, `sp };  //increment SP
+//DECSP
+		172: oUop = { `inc_eof_fu, `dec16, `sp };
 
 //DECBC
 		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register

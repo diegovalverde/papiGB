@@ -73,8 +73,7 @@
 //  `define  JRCn;
 //  `define  ADDHLSP;
 //  `define  LDAHLD;
-//  `define  DECSP;			*************
-
+  `define  DECSP  8'h3b
   `define  INCr_a 8'h3c
   `define  DECr_a 8'h3d
   `define  LDrn_a 8'h3e
