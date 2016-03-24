@@ -340,7 +340,7 @@ end //always
 			154: $fwrite(log,"=== LDHLmn  === %h \n", uut.DZCPU.iMCUData );
 			162: $fwrite(log,"=== NOP  ===  \n");
 			163: $fwrite(log,"=== DI  ===  \n", uut.DZCPU.iMCUData );
-
+			164: $fwrite(log,"=== INCr_d  === %h \n", uut.DZCPU.iMCUData ); 
 
 			default:
 			  case (uut.DZCPU.iMCUData)
@@ -354,6 +354,7 @@ end //always
 							`LDrr_ab: $fwrite(log,"=== LDrr_ab  === %h \n", uut.DZCPU.iMCUData );
 							`XORr_a: $fwrite(log,"=== XORr_a  === %h \n", uut.DZCPU.iMCUData );
 							`NOP: $fwrite(log,"=== NOP  === %h \n", uut.DZCPU.iMCUData );
+							//`DI: $fwrite(log,"=== DI  ===  \n", uut.DZCPU.iMCUData );
 							default:	$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
 				endcase
 
@@ -393,6 +394,7 @@ end //always
 				`shl: $fwrite(log,"shl %h << 1 + %h\n", uut.DZCPU.wRegData, uut.DZCPU.wFlags[`flag_c] );
 				`subx16: $fwrite(log,"subx16 %h -= %h\n", uut.DZCPU.wX16, uut.DZCPU.wRegData);
 				`srx16: $fwrite(log,"srx16 %h\n", uut.DZCPU.wRegData);
+				`ceti: $fwrite(log,"ceti %h\n", uut.DZCPU.wRegData);
 				`z801bop:
 				begin
 					case (uut.DZCPU.iMCUData[7:3])

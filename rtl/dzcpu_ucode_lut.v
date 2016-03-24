@@ -81,6 +81,8 @@ begin
 	`LDHLmn: oUopFlowIdx = 8'd154;
 	`NOP:    oUopFlowIdx = 8'd162;
     `DI:     oUopFlowIdx = 8'd163;
+    `INCr_d: oUopFlowIdx = 8'd164;
+	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -300,7 +302,7 @@ begin
 		131: oUop = { `inc_eof, `inc16, `h };
 //SUBr_b
 		132: oUop = { `op, `sx16r, `a       };
-    133: oUop = { `update_flags, `subx16, `b      };
+		133: oUop = { `update_flags, `subx16, `b      };
 		134: oUop = { `inc_eof, `srx16, `a  };
 //DECr_d
 		135:	oUop = { `inc_eof_fu, `dec16,    `d  };
@@ -341,6 +343,13 @@ begin
 		162: oUop = { `inc_eof, `nop, `null };
 //DI 
 		163: oUop = { `inc_eof, `ceti, `null }; //Disable Interruption
+//INCr_d
+		164: oUop = { `inc_eof, `inc16, `d };
+
+//DECBC
+		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
+
+
 		
 //FLOW_ID_INT_VBLANK
 /*
