@@ -45,7 +45,7 @@
   `define  LDHLIA 8'h22
   `define  INCHL  8'h23
   `define  INCr_h 8'h24
-//  `define  DECr_h;    *************
+  `define  DECr_h 8'h25
   `define  LDrn_h 8'h26
 //  `define  DAA;
 //  `define

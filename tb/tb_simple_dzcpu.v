@@ -344,7 +344,7 @@ end //always
 			165: $fwrite(log,"=== INCr_e  === %h \n", uut.DZCPU.iMCUData );
 			166: $fwrite(log,"=== DECr_e  === %h \n", uut.DZCPU.iMCUData );
 			167: $fwrite(log,"=== DECDE  === %h \n", uut.DZCPU.iMCUData );
-
+			168: $fwrite(log,"=== DECr_h  === %h \n", uut.DZCPU.iMCUData );
 
 			default:
 			  case (uut.DZCPU.iMCUData)
