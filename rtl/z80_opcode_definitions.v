@@ -35,7 +35,7 @@
   `define  LDADEm 8'h1A
 //  `define  DECDE;		*******
 
-//  `define  INCr_e 8'h1c;      //OK
+  `define  INCr_e 8'h1c
 //  `define  DECr_e;    **********
   `define  LDrn_e 8'h1e
 //  `define  RRA;
