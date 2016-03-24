@@ -54,7 +54,7 @@
   `define  LDAHLI 8'h2A
   `define  DECHL  8'h2b
   `define  INCr_l 8'h2c
-//  `define  DECr_l;
+  `define  DECr_l 8'h2d
   `define  LDrn_l 8'h2e
 //  `define  CPL;
 //  `define
