@@ -33,8 +33,7 @@
   `define  JRn 8'h18
 //  `define  ADDHLDE;
   `define  LDADEm 8'h1A
-//  `define  DECDE;		*******
-
+  `define  DECDE 8'h1b
   `define  INCr_e 8'h1c
   `define  DECr_e 8'h1d
   `define  LDrn_e 8'h1e

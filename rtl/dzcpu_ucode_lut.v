@@ -84,6 +84,7 @@ begin
     `INCr_d: oUopFlowIdx = 8'd164;
     `INCr_e: oUopFlowIdx = 8'd165;
     `DECr_e: oUopFlowIdx = 8'd166;
+    `DECDE:  oUopFlowIdx = 8'd167;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 	default:
 			 oUopFlowIdx = 8'd0;
@@ -351,7 +352,8 @@ begin
 		165: oUop = { `inc_eof, `inc16, `e };
 //DECr_e
 		166: oUop = { `inc_eof_fu, `dec16, `e };
-
+//DECDE
+		167: oUop = { `inc_eof_fu, `dec16, `de };
 //DECBC
 		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
 
