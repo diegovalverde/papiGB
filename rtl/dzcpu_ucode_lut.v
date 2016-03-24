@@ -347,7 +347,7 @@ begin
 		159: oUop = {`op,   `smw,   `x8  };
 		160: oUop = {`inc_eof,  `sma,   `pc };
 //INCR_b
-		161: oUop = {`inc_eof, `inc16, `b };
+		161: oUop = {`inc_eof_fu, `inc16, `b };
 
 //NOP
 		162: oUop = { `inc_eof, `nop, `null };
