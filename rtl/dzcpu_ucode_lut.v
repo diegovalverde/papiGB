@@ -356,7 +356,7 @@ begin
 //INCr_d
 		164: oUop = { `inc_eof_fu, `inc16, `d };
 //INCr_e
-		165: oUop = { `inc_eof, `inc16, `e };
+		165: oUop = { `inc_eof_fu, `inc16, `e };
 //DECr_e
 		166: oUop = { `inc_eof_fu, `dec16, `e };
 //DECDE
