@@ -372,7 +372,7 @@ begin
 //DECSP
 		172: oUop = { `inc_eof_fu, `dec16, `sp };
 //INCr_l
-		173: oUop = { `inc_eof, `inc16, `l };
+		173: oUop = { `inc_eof_fu, `inc16, `l };
 //DECr_l
 		174: oUop = { `inc_eof_fu, `dec16, `l };
 
