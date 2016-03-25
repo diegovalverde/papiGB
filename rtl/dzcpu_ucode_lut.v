@@ -354,7 +354,7 @@ begin
 //DI 
 		163: oUop = { `inc_eof, `ceti, `null }; //Disable Interruption
 //INCr_d
-		164: oUop = { `inc_eof, `inc16, `d };
+		164: oUop = { `inc_eof_fu, `inc16, `d };
 //INCr_e
 		165: oUop = { `inc_eof, `inc16, `e };
 //DECr_e
