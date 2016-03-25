@@ -263,7 +263,12 @@ $readmemh(
 		// Add stimulus here
 		//#500
 		//#5000000
+
+`ifdef SIMULATION_TIME_OUT
+		#`SIMULATION_TIME_OUT
+`else
 		#500000000
+`endif
 		$fwrite(log, "Simulation reached MAX time %hns",$time);
 		rSimulationDone = 1;
 	end
