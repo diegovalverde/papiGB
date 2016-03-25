@@ -166,6 +166,9 @@ end //always
 				if ( i >= 16'h9800 && i <= 16'h9bff)
 					$fwrite(vram_log_9800_9bff,"%02h ",uut.MMU.VMEM.Ram[i- 16'h8000]);
 			end
+
+      $fwrite(log,"\n\nTEST_RET_VAL %04h\n\n", {uut.MMU.ZERO_PAGE.Ram[ 16'hfffd - 16'hff80 ],uut.MMU.ZERO_PAGE.Ram[ 16'hfffc - 16'hff80 ]} );
+
 			$fwrite(log,"Simulation ended at time %dns\n", $time);
 
 `ifdef ENABLE_CPU_LOG
@@ -263,7 +266,13 @@ $readmemh(
 		// Add stimulus here
 		//#500
 		//#5000000
+
+	`ifdef SIMULATION_TIME_OUT
+ 		#`SIMULATION_TIME_OUT
+ `else
 		#500000000
+	`endif
+
 		$fwrite(log, "Simulation reached MAX time %hns",$time);
 		rSimulationDone = 1;
 	end
@@ -376,6 +385,19 @@ end //always
 			149: $fwrite(log,"=== LDAHLI  === %h \n", uut.DZCPU.iMCUData );
 			154: $fwrite(log,"=== LDHLmn  === %h \n", uut.DZCPU.iMCUData );
 			162: $fwrite(log,"=== NOP  ===  \n");
+			163: $fwrite(log,"=== DI  ===  \n", uut.DZCPU.iMCUData );
+			164: $fwrite(log,"=== INCr_d  === %h \n", uut.DZCPU.iMCUData );
+			165: $fwrite(log,"=== INCr_e  === %h \n", uut.DZCPU.iMCUData );
+			166: $fwrite(log,"=== DECr_e  === %h \n", uut.DZCPU.iMCUData );
+			167: $fwrite(log,"=== DECDE  === %h \n", uut.DZCPU.iMCUData );
+			168: $fwrite(log,"=== DECr_h  === %h \n", uut.DZCPU.iMCUData );
+			169: $fwrite(log,"=== DECHL  === %h \n", uut.DZCPU.iMCUData );
+			170: $fwrite(log,"=== INCr_a  === %h \n", uut.DZCPU.iMCUData );
+			171: $fwrite(log,"=== INCSP === %h \n", uut.DZCPU.iMCUData ); //Increment SP
+			172: $fwrite(log,"=== DECSP === %h \n", uut.DZCPU.iMCUData );
+			173: $fwrite(log,"=== INCr_l  === %h \n", uut.DZCPU.iMCUData );
+			174: $fwrite(log,"=== DECr_l  === %h \n", uut.DZCPU.iMCUData );
+
 
 
 			default:
@@ -429,6 +451,7 @@ end //always
 				`shl: $fwrite(log,"shl %h << 1 + %h\n", uut.DZCPU.wRegData, uut.DZCPU.wFlags[`flag_c] );
 				`subx16: $fwrite(log,"subx16 %h -= %h\n", uut.DZCPU.wX16, uut.DZCPU.wRegData);
 				`srx16: $fwrite(log,"srx16 %h\n", uut.DZCPU.wRegData);
+				`ceti: $fwrite(log,"ceti %h\n", uut.DZCPU.wRegData);
 				`z801bop:
 				begin
 					case (uut.DZCPU.iMCUData[7:3])
