@@ -184,8 +184,8 @@ begin
 		29: oUop = {`op, `sma, `io_c };
 		30: oUop = {`op, `smw, `a };
 		31: oUop = {`inc_eof, `sma, `pc };
-	//INCR_C
-		32: oUop = {`inc_eof, `inc16, `c };
+	//INCr_c
+		32: oUop = {`inc_eof_fu, `inc16, `c };
 	//LDHLmr_a
 		33: oUop = {`inc, `sma, `hl  };
 		34: oUop = {`op, `smw, `a    };
