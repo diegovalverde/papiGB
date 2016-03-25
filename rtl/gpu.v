@@ -90,10 +90,14 @@ assign wTileCoordY = (wCurrentTile[4:0]<<3) + (wCurrentTile >>5) ;
 //Check if the sprite intersects the current tile
 assign wIsSpriteInCurrentTile =
    (
-    (wSpriteCoordX >= wTileCoordX && wSpriteCoordX <= wTileCoordX +16'b1000) ||
+    (wSpriteCoordX >= wTileCoordX && wSpriteCoordX <= wTileCoordX +16'b1000) &&
     (wSpriteCoordY >= wTileCoordY && wSpriteCoordY <= wTileCoordY +16'b1000) ||
-    (wSpriteCoordX + wSpriteWidth >= wTileCoordX && wSpriteCoordX +wSpriteWidth <= wTileCoordY +16'b1000) ||
-    (wSpriteCoordY + wSpriteHeight >= wTileCoordY && wSpriteCoordY + wSpriteHeight<= wTileCoordY +16'b1000)  
+    (wSpriteCoordX + wSpriteWidth >= wTileCoordX && wSpriteCoordX +wSpriteWidth <= wTileCoordX +16'b1000)&&
+    (wSpriteCoordY >= wTileCoordY && wSpriteCoordY <= wTileCoordY +16'b1000) ||
+    (wSpriteCoordX >= wTileCoordX && wSpriteCoordX <= wTileCoordX +16'b1000) &&
+    (wSpriteCoordY + wSpriteHeight >= wTileCoordY && wSpriteCoordY + wSpriteHeight<= wTileCoordY +16'b1000)||
+    (wSpriteCoordX + wSpriteWidth >= wTileCoordX && wSpriteCoordX +wSpriteWidth <= wTileCoordX +16'b1000)&&
+    (wSpriteCoordY + wSpriteHeight >= wTileCoordY && wSpriteCoordY + wSpriteHeight<= wTileCoordY +16'b1000)
 	
    ) ? 1'b1 : 1'b0;
 
