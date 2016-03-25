@@ -366,7 +366,7 @@ begin
 //DECHL
 		169: oUop = { `inc_eof_fu, `dec16, `hl };
 //INCr_a
-		170: oUop = { `inc_eof, `inc16, `a };
+		170: oUop = { `inc_eof_fu, `inc16, `a };
 //INCSP
 		171: oUop = { `inc_eof, `inc16, `sp };  //increment SP
 //DECSP
