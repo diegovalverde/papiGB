@@ -80,6 +80,19 @@ begin
 	`LDAHLI: oUopFlowIdx = 8'd149;
 	`LDHLmn: oUopFlowIdx = 8'd154;
 	`NOP:    oUopFlowIdx = 8'd162;
+    `DI:     oUopFlowIdx = 8'd163;
+    `INCr_d: oUopFlowIdx = 8'd164;
+    `INCr_e: oUopFlowIdx = 8'd165;
+    `DECr_e: oUopFlowIdx = 8'd166;
+    `DECDE:  oUopFlowIdx = 8'd167;
+    `DECr_h: oUopFlowIdx = 8'd168;
+    `DECHL:  oUopFlowIdx = 8'd169;
+    `INCr_a: oUopFlowIdx = 8'd170;
+	`INCSP:  oUopFlowIdx = 8'd171;
+	`DECSP:  oUopFlowIdx = 8'd172;
+	`INCr_l: oUopFlowIdx = 8'd173;
+	`DECr_l: oUopFlowIdx = 8'd174;
+	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -299,7 +312,7 @@ begin
 		131: oUop = { `inc_eof, `inc16, `h };
 //SUBr_b
 		132: oUop = { `op, `sx16r, `a       };
-    133: oUop = { `update_flags, `subx16, `b      };
+		133: oUop = { `update_flags, `subx16, `b      };
 		134: oUop = { `inc_eof, `srx16, `a  };
 //DECr_d
 		135:	oUop = { `inc_eof_fu, `dec16,    `d  };
@@ -338,6 +351,35 @@ begin
 
 //NOP
 		162: oUop = { `inc_eof, `nop, `null };
+//DI 
+		163: oUop = { `inc_eof, `ceti, `null }; //Disable Interruption
+//INCr_d
+		164: oUop = { `inc_eof, `inc16, `d };
+//INCr_e
+		165: oUop = { `inc_eof, `inc16, `e };
+//DECr_e
+		166: oUop = { `inc_eof_fu, `dec16, `e };
+//DECDE
+		167: oUop = { `inc_eof_fu, `dec16, `de };
+//DECr_h
+		168: oUop = { `inc_eof_fu, `dec16, `h };
+//DECHL
+		169: oUop = { `inc_eof_fu, `dec16, `hl };
+//INCr_a
+		170: oUop = { `inc_eof, `inc16, `a };
+//INCSP
+		171: oUop = { `inc_eof, `inc16, `sp };  //increment SP
+//DECSP
+		172: oUop = { `inc_eof_fu, `dec16, `sp };
+//INCr_l
+		173: oUop = { `inc_eof, `inc16, `l };
+//DECr_l
+		174: oUop = { `inc_eof_fu, `dec16, `l };
+
+//DECBC
+		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
+
+
 		
 //FLOW_ID_INT_VBLANK
 /*
