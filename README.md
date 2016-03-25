@@ -45,7 +45,7 @@ To control additional simulation options, use the SIMFLAGS flag. Valid values ar
 *  ``-DDISABLE_CPU``: Disables the CPU from running
 *  ``-DLOAD_VMEM_DUMP``: Enables loading a vmem area from a ASCII hex dump file.
 *  ``-DVMEM_DUMP_PATH``: When LOAD_VMEM_DUMP is set, then this flag specifies the path to the VMEME dump file.
-
+*  ``-DSIMULATION_TIME_OUT``: Specify a simulation timeout in nanoseconds
 Example:
 
 The following command will stop the simulation after the first frame, will generate GPU log, but will not generate CPU log.
@@ -75,6 +75,7 @@ This also erases the vcd and the log files!
 ##Installing a game boy assembly
 
 RGBDS is a great gameboy assembly (https://www.anjbe.name/rgbds/)
+
 To install it do:
 
 `git clone https://github.com/bentley/rgbds/`
@@ -86,6 +87,7 @@ To install it do:
 `make`
 
 `sudo make install`
+
 To compile an assebly program called test_INCr_b.asm do:
 
 `rgbasm -o test_INCr_b.obj test_INCr_b.asm`
