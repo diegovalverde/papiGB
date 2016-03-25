@@ -37,7 +37,7 @@ module gpu
   input wire [7:0]  iMcuReadData, //data the cpu wants to be written
   input wire        iMcuWe, //write enable for vmem
 
- //registros de gameboy 
+ //registros de gameboy
   output wire [7:0]  oSTAT, //status reg
   output wire [7:0]  oLCDC, //lcd control
   output wire [7:0]  oSCY, //scroll y position
@@ -45,7 +45,7 @@ module gpu
   output wire [7:0]  oLY, //which column im on
   output wire [7:0]  oLYC, // compares actual column
   output wire [7:0]  oDMA, //sprites
-  output wire [7:0]  oBGP, // bg pallette 
+  output wire [7:0]  oBGP, // bg pallette
   output wire [7:0]  oOBP0, // pallette 1 for sprites
   output wire [7:0]  oOBP1, // pallette 2 for sprites
   output wire [7:0]  oWY,//coords for window, vertical
@@ -60,10 +60,10 @@ assign oFramBufferWe   = rBgBufferWe; // write enable
 
 
 
-wire [20:0] wMcuRegWriteSelect,wGpuRegWriteSelect; 
-wire [15:0] wOp0, wOp1, wR1, wR3,wR4,wR5,wR6,wR7,wR8;
+wire [20:0] wMcuRegWriteSelect,wGpuRegWriteSelect;
+wire [15:0] wOp0, wOp1, wR1, wR3,wR4,wR5,wR6,wSpriteCoordX,wSpriteCoordY;
 wire [7:0] wR2;
-wire [15:0]  wR0;  //Only support up to 32*32 = 1024 tiles
+wire [15:0]  wCurrentTile;  //Only support up to 32*32 = 1024 tiles
 wire [7:0] wBh, wBl, wState, wIp, wInitialPc, wSC_Tile_Row;
 wire [15:0] wBGTileOffset, wBGTileMapOffset, wBGRowOffset, wFrameBufferAddress, wCurrentTileRow,wOAMOffset;
 wire [15:0] wTile1_Bg_Offset, wTile0_Bg_Offset;
@@ -72,14 +72,30 @@ wire [7:0] wRegSelect;
 wire [1:0] wBgPixel0,wBgPixel1,wBgPixel2,wBgPixel3,wBgPixel4,wBgPixel5,wBgPixel6,wBgPixel7;
 wire [19:0] wUop;
 wire [4:0] wOp1Sel;
-wire wZ, wRegWe, wGpuActive;
+wire wZ, wRegWe, wGpuActive, wIsSpriteInCurrentTile;
+wire [15:0] wSpriteWidth, wSpriteHeight, wTileCoordX, wTileCoordY;
 reg [15:0] rResult;
 reg rRegWe, rBgBufferWe, rJump, rIncFBufferAddr;
 
+//LCCD Bit 2 - OBJ (Sprite) Size              (0=8x8, 1=8x16)
+assign wSpriteWidth  = 16'h8;
+assign wSpriteHeight = ( oLCDC[2] == 1'b1) ? 16'd16 : 16'd8;
 
+//wTileCoordX =  8*(wCurrentTile % 32)
+assign wTileCoordX =  wCurrentTile[4:0] << 3;
+
+//wTileCoordY =(wCurrentTile/32)*8
+assign wTileCoordY = (wCurrentTile >> 5)<<3;
+
+//Check if the sprite intersects the current tile
+assign wIsSpriteInCurrentTile =
+   (
+    (wSpriteCoordX >= wTileCoordX && (wSpriteCoordX + wSpriteWidth) <= wTileCoordX) ||
+    (wSpriteCoordY >= wTileCoordY && (wSpriteCoordY + wSpriteHeight) <= wTileCoordX) 
+   ) ? 1'b1 : 1'b0;
 
 assign oSTAT = { 6'b0, wState };
-// nintendo defined control registers made with flips flops so one can access them all at the same time 
+// nintendo defined control registers made with flips flops so one can access them all at the same time
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LCDC( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[0], iMcuWriteData, oLCDC ); //lcd control
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFX_STAT(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[1], rResult[7:0], wState );//state register
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_SCY(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[2], iMcuWriteData, oSCY );// scroll y
@@ -99,15 +115,15 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_12(   iClock, iReset, wRegWe  & wGpuReg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_13(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[13], rResult[7:0], wBh );//tile high byte
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_14(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[14], rResult[7:0], wBl );//tile low byte
 UPCOUNTER_POSEDGE            # ( 16 )UP_15(    iClock, iReset,  13'b0, wGpuActive  & rIncFBufferAddr,  wFrameBufferAddress );// where to write on framebuffer
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_16(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[16], rResult, wR0 );// gp registers
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_16(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[16], rResult, wCurrentTile );// gp registers
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_17(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[17], rResult, wR1 );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_18(   iClock, iReset,  wRegWe  & wGpuRegWriteSelect[18], rResult[7:0], wR2 );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_19(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[19], rResult, wR3 );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_21(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[5], rResult, wR4 );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_22(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[6], rResult, wR5 );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_23(   iClock, iReset,  wRegWe  & wGpuRegWriteSelect[7], rResult, wR6 );// gp reg
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_24(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[8], rResult, wR7 );// gp reg
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_25(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[9], rResult, wR8 );// gp reg
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_24(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[8], rResult, wSpriteCoordX );// gp reg
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_25(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[9], rResult, wSpriteCoordY );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_20(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[20], rResult, wCurrentTileRow );//which tile row am I on
 
 
@@ -235,8 +251,8 @@ MUXFULLPARALELL_5SEL_GENERIC # (21) MUX_REG_WE
   .I18(21'b001000000000000000000),
   .I19(21'b010000000000000000000),
   .I20(21'b100000000000000000000),
-  .I21(21'b0), .I22(21'b0), .I23(21'b0), .I24(21'b0), .I25(21'b0), .I26(21'b0), 
-  .I27(21'b0), .I28(21'b0), .I29(21'b0), .I30(21'b0), .I31(21'b0), 
+  .I21(21'b0), .I22(21'b0), .I23(21'b0), .I24(21'b0), .I25(21'b0), .I26(21'b0),
+  .I27(21'b0), .I28(21'b0), .I29(21'b0), .I30(21'b0), .I31(21'b0),
   .O( wGpuRegWriteSelect )
 );
 
@@ -247,10 +263,10 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG0
   .Sel( wUop[4:0] ),
 
   .I0( {8'h0,oLCDC} ), .I1( {8'h0,oSTAT} ), .I2( {8'h0,oSCY} ), .I3( {8'h0,oSCX} ),
-  .I4( {8'h0,oLY} ),   .I5( {wR4} ),  .I6( {wR5} ), .I7( {wR6} ),
-  .I8( {wR7} ), .I9( {wR8} ), .I10( {8'h0,oWY} ), .I11( {8'h0,oWX} ),
+  .I4( {8'h0,oLY} ),   .I5( wR4 ),  .I6( wR5 ), .I7( wR6 ),
+  .I8( wSpriteCoordX ), .I9( wSpriteCoordY ), .I10( {8'h0,oWY} ), .I11( {8'h0,oWX} ),
   .I12( oMcuAddr ),   .I13( {8'b0,wBh} ),   .I14({8'b0, wBl}),  .I15( wFrameBufferAddress ),
-  .I16( wR0 ),   .I17( wR1 ), .I18( {8'b0,wR2} ), .I19( wR3 ), .I20( wCurrentTileRow ),
+  .I16( wCurrentTile ),   .I17( wR1 ), .I18( {8'b0,wR2} ), .I19( wR3 ), .I20( wCurrentTileRow ),
   .I21( {8'h0,iMcuReadData} ), .I22( wBGTileMapOffset ), .I23( wBGRowOffset ), .I24( wBGTileOffset ),
   .I25( {8'h0,6'h0,oLY[1:0]} ), .I26( {4'b0,iMcuReadData,4'b0} ), .I27( wSC_Tile ), .I28( {8'b0,wSC_Tile_Row} ),
   .I29( 16'd8191 ), .I30( wOAMOffset ), .I31( 16'b0 ),
@@ -266,13 +282,13 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG1
   .Sel( wOp1Sel ),
 
   .I0( {8'h0,oLCDC} ), .I1( {8'h0,oSTAT} ), .I2( {8'h0,oSCY} ), .I3( {8'h0,oSCX} ),
-  .I4( {8'h0,oLY} ),   .I5( {wR4} ),  .I6( {wR5} ), .I7( {wR6} ),
-  .I8( {wR7} ), .I9( {wR8} ), .I10( {8'h0,oWY} ), .I11( {8'h0,oWX} ),
+  .I4( {8'h0,oLY} ),   .I5( wR4 ),  .I6( wR5 ), .I7( wR6 ),
+  .I8( wSpriteCoordX ), .I9( wSpriteCoordY ), .I10( {8'h0,oWY} ), .I11( {8'h0,oWX} ),
   .I12( oMcuAddr ),   .I13( {8'b0,wBh} ),   .I14( {8'b0,wBl}),  .I15( wFrameBufferAddress ),
-  .I16( wR0 ),   .I17( wR1 ), .I18( {8'b0,wR2} ), .I19( wR3 ), .I20( wCurrentTileRow ),
+  .I16( wCurrentTile ),   .I17( wR1 ), .I18( {8'b0,wR2} ), .I19( wR3 ), .I20( wCurrentTileRow ),
   .I21( {8'h0,iMcuReadData} ), .I22( wBGTileMapOffset ), .I23( wBGRowOffset ), .I24( wBGTileOffset ),
   .I25( {8'h0,6'h0,oLY[1:0]} ), .I26( {4'b0,iMcuReadData,4'b0} ), .I27( wSC_Tile ), .I28( {8'b0,wSC_Tile_Row} ),
-  .I29( 16'd8191 ), .I30( 16'b0), .I31( 16'b0 ),
+  .I29( 16'd8191 ), .I30( wOAMOffset ), .I31( 16'b0 ),
   .O( wOp1 )
 );
 
@@ -451,6 +467,18 @@ begin
       oMcuReadRequest = 1'b0;
       rIncFBufferAddr = 1'b0;
     end
+
+    `gsprtt:
+    begin
+      rResult     = {15'b0,wIsSpriteInCurrentTile};
+      rRegWe      = 1'b1;
+      rBgBufferWe = 1'b0;
+      rJump       = 1'b0;
+      oMcuReadRequest = 1'b0;
+      rIncFBufferAddr = 1'b0;
+    end
+
+
     default://default case for error
     begin
       rResult     = 16'hdead ;

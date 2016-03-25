@@ -25,6 +25,8 @@
 `ifndef GPU_DEFINITIONS_V
 `define GPU_DEFINITIONS_V
 
+
+//Operations
 `define gnop    5'd0
 `define gwrl    5'd1
 `define gwrr    5'd2
@@ -39,9 +41,16 @@
 `define ggoto   5'd11
 `define gjz     5'd12
 `define gand    5'd13
+`define gsprtt  5'd14
 
+//Registers
 `define gnull               5'd0
 `define ly                  5'd4
+`define r4                  5'd5
+`define r5                  5'd6
+`define r6                  5'd7
+`define sprite_x_coord      5'd8
+`define sprite_y_coord      5'd9
 `define vmem_addr           5'd12
 `define bh                  5'd13
 `define bl                  5'd14
@@ -61,10 +70,14 @@
 `define scy_shl_5__plus_scx 5'd27
 `define scy_tile_row_offset 5'd28
 `define r8191               5'd29
-`define lcdc				5'd0
-`define skip_the_sprites	15'd22 //remember to change during testing of new uop
+`define lcdc				        5'd0
 `define SCANLINE_VRAM_READ  10'd3
-`define	oam_offset			10'd30
+`define	oam_offset			    5'd30
 
+
+
+//Jump labels
+`define get_next_sprite     15'd46
+`define skip_the_sprites	  15'd35  //remember to change during testing of new uop
 
 `endif
