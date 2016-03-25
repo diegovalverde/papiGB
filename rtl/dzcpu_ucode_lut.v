@@ -309,7 +309,7 @@ begin
 		129: oUop = { `op,   `srx8, `c   };
 		130: oUop = { `inc_eof, `sma, `pc };
 //INCr_h
-		131: oUop = { `inc_eof, `inc16, `h };
+		131: oUop = { `inc_eof_fu, `inc16, `h };
 //SUBr_b
 		132: oUop = { `op, `sx16r, `a       };
 		133: oUop = { `update_flags, `subx16, `b      };
