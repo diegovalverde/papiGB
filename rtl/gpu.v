@@ -81,17 +81,20 @@ reg rRegWe, rBgBufferWe, rJump, rIncFBufferAddr;
 assign wSpriteWidth  = 16'h8;
 assign wSpriteHeight = ( oLCDC[2] == 1'b1) ? 16'd16 : 16'd8;
 
-//wTileCoordX =  8*(wCurrentTile % 32)
+//wTileCoordX =  8*(wCurrentTile mod 32)
 assign wTileCoordX =  wCurrentTile[4:0] << 3;
 
-//wTileCoordY =(wCurrentTile/32)*8
-assign wTileCoordY = (wCurrentTile >> 5)<<3;
+//wTileCoordY = 8*(wCurrentTile mod 32) + (wCurrentTile/32)
+assign wTileCoordY = (wCurrentTile[4:0]<<3) + (wCurrentTile >>5) ;
 
 //Check if the sprite intersects the current tile
 assign wIsSpriteInCurrentTile =
    (
-    (wSpriteCoordX >= wTileCoordX && (wSpriteCoordX + wSpriteWidth) <= wTileCoordX) ||
-    (wSpriteCoordY >= wTileCoordY && (wSpriteCoordY + wSpriteHeight) <= wTileCoordX) 
+    (wSpriteCoordX >= wTileCoordX && wSpriteCoordX <= wTileCoordX +16'b1000) ||
+    (wSpriteCoordY >= wTileCoordY && wSpriteCoordY <= wTileCoordY +16'b1000) ||
+    (wSpriteCoordX + wSpriteWidth >= wTileCoordX && wSpriteCoordX +wSpriteWidth <= wTileCoordY +16'b1000) ||
+    (wSpriteCoordY + wSpriteHeight >= wTileCoordY && wSpriteCoordY + wSpriteHeight<= wTileCoordY +16'b1000)  
+	
    ) ? 1'b1 : 1'b0;
 
 assign oSTAT = { 6'b0, wState };
