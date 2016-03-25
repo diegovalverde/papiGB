@@ -166,6 +166,9 @@ end //always
 				if ( i >= 16'h9800 && i <= 16'h9bff)
 					$fwrite(vram_log_9800_9bff,"%02h ",uut.MMU.VMEM.Ram[i- 16'h8000]);
 			end
+
+			$fwrite(log,"\n\nTEST_RET_VAL %04h\n\n", {uut.MMU.ZERO_PAGE.Ram[ 16'hfffd - 16'hff80 ],uut.MMU.ZERO_PAGE.Ram[ 16'hfffc - 16'hff80 ]} );
+
 			$fwrite(log,"Simulation ended at time %dns\n", $time);
 
 `ifdef ENABLE_CPU_LOG
