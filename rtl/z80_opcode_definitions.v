@@ -181,7 +181,7 @@
 //  `define
 //  90
   `define  SUBr_b 8'h90		//******
-//  `define  SUBr_c;
+  `define  SUBr_c 8'h91
 //  `define  SUBr_d;
 //  `define  SUBr_e;
 //  `define

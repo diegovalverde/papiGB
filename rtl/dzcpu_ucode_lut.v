@@ -94,6 +94,7 @@ begin
 	`DECr_l: oUopFlowIdx = 8'd174;
 	`ADDr_a: oUopFlowIdx = 8'd175;
 	`ADDr_b: oUopFlowIdx = 8'd178;
+	`SUBr_c: oUopFlowIdx = 8'd181;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 	default:
 			 oUopFlowIdx = 8'd0;
@@ -385,7 +386,10 @@ begin
 		178: oUop = { `op, `sx16r, `a       };
 		179: oUop = { `update_flags, `addx16, `b };
 		180: oUop = { `inc_eof, `srx16, `a  };
-
+//SUBr_c
+		181: oUop = { `op, `sx16r, `a       };
+		182: oUop = { `update_flags, `subx16, `c      };
+		183: oUop = { `inc_eof, `srx16, `a  };
 //DECBC
 		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
 
