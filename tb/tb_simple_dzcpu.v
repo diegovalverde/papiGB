@@ -399,6 +399,7 @@ end //always
 			199: $fwrite(log,"=== SUBr_d  === %h \n", uut.DZCPU.iMCUData );
 			202: $fwrite(log,"=== SUBr_e  === %h \n", uut.DZCPU.iMCUData );
 			205: $fwrite(log,"=== SUBr_h  === %h \n", uut.DZCPU.iMCUData );
+			208: $fwrite(log,"=== SUBr_l  === %h \n", uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
