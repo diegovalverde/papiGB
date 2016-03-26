@@ -394,7 +394,7 @@ end //always
 			181: $fwrite(log,"=== SUBr_c  === %h \n", uut.DZCPU.iMCUData );
 			184: $fwrite(log,"=== ADDr_c  === %h \n", uut.DZCPU.iMCUData );
 			187: $fwrite(log,"=== ADDr_d  === %h \n", uut.DZCPU.iMCUData );
-			//ADDr_e 190-191-192
+			190: $fwrite(log,"=== ADDr_e  === %h \n", uut.DZCPU.iMCUData );
 			//ADDr_h 193-194-195
 			//ADDr_l 196-197-198
 			//Start SUB 199
