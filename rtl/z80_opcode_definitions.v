@@ -183,7 +183,7 @@
   `define  SUBr_b 8'h90		//******
   `define  SUBr_c 8'h91
   `define  SUBr_d 8'h92
-//  `define  SUBr_e;
+  `define  SUBr_e 8'h93
 //  `define
 //  `define  SUBr_h;
 //  `define  SUBr_l;

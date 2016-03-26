@@ -397,6 +397,7 @@ end //always
 			//ADDr_h 193-194-195
 			//ADDr_l 196-197-198
 			199: $fwrite(log,"=== SUBr_d  === %h \n", uut.DZCPU.iMCUData );
+			202: $fwrite(log,"=== SUBr_e  === %h \n", uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
