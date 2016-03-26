@@ -95,11 +95,11 @@ begin
 	`ADDr_a: oUopFlowIdx = 8'd175;
 	`ADDr_b: oUopFlowIdx = 8'd178;
 	`SUBr_c: oUopFlowIdx = 8'd181;
-	//ADDr_c 184-185-186
-	//ADDr_d 187-188-189
-	//ADDr_e 190-191-192
-	//ADDr_h 193-194-195
-	//ADDr_l 196-197-198
+	`ADDr_c: oUopFlowIdx = 8'd184;
+	`ADDr_d: oUopFlowIdx = 8'd187; 
+	`ADDr_e: oUopFlowIdx = 8'd190;
+	`ADDr_h: oUopFlowIdx = 8'd193;
+	`ADDr_l: oUopFlowIdx = 8'd196;
 	`SUBr_d: oUopFlowIdx = 8'd199;
 	`SUBr_e: oUopFlowIdx = 8'd202;
 	`SUBr_h: oUopFlowIdx = 8'd205;
@@ -400,27 +400,30 @@ begin
 		182: oUop = { `update_flags, `subx16, `c      };
 		183: oUop = { `inc_eof, `srx16, `a  };
 
-//ADDr_c 184-185-186
+//ADDr_c 
+		184: oUop = { `op, `sx16r, `a       };
+		185: oUop = { `update_flags, `addx16, `c };
+		186: oUop = { `inc_eof, `srx16, `a  };
 
+//ADDr_d 
+		187: oUop = { `op, `sx16r, `a       };
+		188: oUop = { `update_flags, `addx16, `d };
+		189: oUop = { `inc_eof, `srx16, `a  };
+		
+//ADDr_e 
+		190: oUop = { `op, `sx16r, `a       };
+		191: oUop = { `update_flags, `addx16, `e };
+		192: oUop = { `inc_eof, `srx16, `a  };
 
+//ADDr_h 
+		193: oUop = { `op, `sx16r, `a       };
+		194: oUop = { `update_flags, `addx16, `h };
+		195: oUop = { `inc_eof, `srx16, `a  };
 
-//ADDr_d 187-188-189
-
-
-
-//ADDr_e 190-191-192
-
-
-
-//ADDr_h 193-194-195
-
-
-
-//ADDr_l 196-197-198
-
-
-
-//Start SUB 199
+//ADDr_l 
+		196: oUop = { `op, `sx16r, `a       };
+		197: oUop = { `update_flags, `addx16, `l };
+		198: oUop = { `inc_eof, `srx16, `a  };
 //SUBr_d
 		199: oUop = { `op, `sx16r, `a       };
 		200: oUop = { `update_flags, `subx16, `d      };
