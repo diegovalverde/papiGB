@@ -160,7 +160,7 @@
 //  `define  LDrr_aa;
 //  `define
 //  80
-//  `define  ADDr_b;		**********
+  `define  ADDr_b 8'h80
 //  `define  ADDr_c;
 //  `define  ADDr_d;
 //  `define  ADDr_e;

@@ -389,6 +389,7 @@ end //always
 			173: $fwrite(log,"=== INCr_l  === %h \n", uut.DZCPU.iMCUData );
 			174: $fwrite(log,"=== DECr_l  === %h \n", uut.DZCPU.iMCUData );
 			175: $fwrite(log,"=== ADDr_a  === %h \n", uut.DZCPU.iMCUData );
+			178: $fwrite(log,"=== ADDr_b  === %h \n", uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
