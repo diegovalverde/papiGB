@@ -164,7 +164,7 @@
   `define  ADDr_c 8'h81
   `define  ADDr_d 8'h82
   `define  ADDr_e 8'h83
-//  `define  ADDr_h;
+  `define  ADDr_h 8'h84
 //  `define  ADDr_l;		
 //  `define  ADDHL;
   `define  ADDr_a 8'h87

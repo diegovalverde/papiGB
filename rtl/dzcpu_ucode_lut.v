@@ -98,7 +98,7 @@ begin
 	`ADDr_c: oUopFlowIdx = 8'd184;
 	`ADDr_d: oUopFlowIdx = 8'd187; 
 	`ADDr_e: oUopFlowIdx = 8'd190;
-	//ADDr_h 193-194-195
+	`ADDr_h: oUopFlowIdx = 8'd193;
 	//ADDr_l 196-197-198
 	//Start SUB 199
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
@@ -412,9 +412,10 @@ begin
 		191: oUop = { `update_flags, `addx16, `e };
 		192: oUop = { `inc_eof, `srx16, `a  };
 
-//ADDr_h 193-194-195
-
-
+//ADDr_h 
+		193: oUop = { `op, `sx16r, `a       };
+		194: oUop = { `update_flags, `addx16, `h };
+		195: oUop = { `inc_eof, `srx16, `a  };
 
 //ADDr_l 196-197-198
 
