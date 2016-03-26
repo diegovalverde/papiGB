@@ -391,7 +391,7 @@ end //always
 			175: $fwrite(log,"=== ADDr_a  === %h \n", uut.DZCPU.iMCUData );
 			178: $fwrite(log,"=== ADDr_b  === %h \n", uut.DZCPU.iMCUData );
 			181: $fwrite(log,"=== SUBr_c  === %h \n", uut.DZCPU.iMCUData );
-			//ADDr_c 184-185-186
+			184: $fwrite(log,"=== ADDr_c  === %h \n", uut.DZCPU.iMCUData );
 			//ADDr_d 187-188-189
 			//ADDr_e 190-191-192
 			//ADDr_h 193-194-195
