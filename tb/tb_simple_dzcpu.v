@@ -392,7 +392,7 @@ end //always
 			175: $fwrite(log,"=== ADDr_a  === %h \n", uut.DZCPU.iMCUData );
 			178: $fwrite(log,"=== ADDr_b  === %h \n", uut.DZCPU.iMCUData );
 			181: $fwrite(log,"=== SUBr_c  === %h \n", uut.DZCPU.iMCUData );
-            184: $fwrite(log,"=== ADDr_c  === %h \n", uut.DZCPU.iMCUData );
+      184: $fwrite(log,"=== ADDr_c  === %h \n", uut.DZCPU.iMCUData );
 			187: $fwrite(log,"=== ADDr_d  === %h \n", uut.DZCPU.iMCUData );
 			190: $fwrite(log,"=== ADDr_e  === %h \n", uut.DZCPU.iMCUData );
 			193: $fwrite(log,"=== ADDr_h  === %h \n", uut.DZCPU.iMCUData );
@@ -401,6 +401,11 @@ end //always
 			202: $fwrite(log,"=== SUBr_e  === %h \n", uut.DZCPU.iMCUData );
 			205: $fwrite(log,"=== SUBr_h  === %h \n", uut.DZCPU.iMCUData );
 			208: $fwrite(log,"=== SUBr_l  === %h \n", uut.DZCPU.iMCUData );
+			//SUBr_a 211-212-213
+			//PUSHDE 214-215-216-217-218-219
+			//PUSHHL 220-221-222-223-224-225
+			//POPDE 226-227-228-229-230-231
+			//POPHL 232-233-234-235-236-237
 			default:
 			  case (uut.DZCPU.iMCUData)
 

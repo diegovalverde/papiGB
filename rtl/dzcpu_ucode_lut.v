@@ -96,7 +96,7 @@ begin
 	`ADDr_b: oUopFlowIdx = 8'd178;
 	`SUBr_c: oUopFlowIdx = 8'd181;
 	`ADDr_c: oUopFlowIdx = 8'd184;
-	`ADDr_d: oUopFlowIdx = 8'd187; 
+	`ADDr_d: oUopFlowIdx = 8'd187;
 	`ADDr_e: oUopFlowIdx = 8'd190;
 	`ADDr_h: oUopFlowIdx = 8'd193;
 	`ADDr_l: oUopFlowIdx = 8'd196;
@@ -104,6 +104,11 @@ begin
 	`SUBr_e: oUopFlowIdx = 8'd202;
 	`SUBr_h: oUopFlowIdx = 8'd205;
 	`SUBr_l: oUopFlowIdx = 8'd208;
+	//SUBr_a 211-212-213
+	//PUSHDE 214-215-216-217-218-219
+	//PUSHHL 220-221-222-223-224-225
+	//POPDE 226-227-228-229-230-231
+	//POPHL 232-233-234-235-236-237
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 	default:
 			 oUopFlowIdx = 8'd0;
@@ -363,7 +368,7 @@ begin
 
 //NOP
 		162: oUop = { `inc_eof, `nop, `null };
-//DI 
+//DI
 		163: oUop = { `inc_eof, `ceti, `null }; //Disable Interruption
 //INCr_d
 		164: oUop = { `inc_eof_fu, `inc16, `d };
@@ -400,27 +405,27 @@ begin
 		182: oUop = { `update_flags, `subx16, `c      };
 		183: oUop = { `inc_eof, `srx16, `a  };
 
-//ADDr_c 
+//ADDr_c
 		184: oUop = { `op, `sx16r, `a       };
 		185: oUop = { `update_flags, `addx16, `c };
 		186: oUop = { `inc_eof, `srx16, `a  };
 
-//ADDr_d 
+//ADDr_d
 		187: oUop = { `op, `sx16r, `a       };
 		188: oUop = { `update_flags, `addx16, `d };
 		189: oUop = { `inc_eof, `srx16, `a  };
-		
-//ADDr_e 
+
+//ADDr_e
 		190: oUop = { `op, `sx16r, `a       };
 		191: oUop = { `update_flags, `addx16, `e };
 		192: oUop = { `inc_eof, `srx16, `a  };
 
-//ADDr_h 
+//ADDr_h
 		193: oUop = { `op, `sx16r, `a       };
 		194: oUop = { `update_flags, `addx16, `h };
 		195: oUop = { `inc_eof, `srx16, `a  };
 
-//ADDr_l 
+//ADDr_l
 		196: oUop = { `op, `sx16r, `a       };
 		197: oUop = { `update_flags, `addx16, `l };
 		198: oUop = { `inc_eof, `srx16, `a  };
@@ -440,14 +445,46 @@ begin
 		208: oUop = { `op, `sx16r, `a       };
 		209: oUop = { `update_flags, `subx16, `l      };
 		210: oUop = { `inc_eof, `srx16, `a  };
+//SUB_a 211-212-213
+
+
+
+//PUSHDE 214-215-216-217-218-219
+
+
+
+
+
+//PUSHHL 220-221-222-223-224-225
+
+
+
+
+
+
+//POPDE 226-227-228-229-230-231
+
+
+
+
+
+
+//POPHL 232-233-234-235-236-237
+
+
+
+
+
+
+
 //DECBC
 		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
 
 
-		
+
 //FLOW_ID_INT_VBLANK
 /*
-        163: oUop = { `op, `ceti, `null};  //Disable interruption         
+        163: oUop = { `op, `ceti, `null};  //Disable interruption
         164: oUop = { `inc, `dec16,  `sp  };
         165: oUop = { `inc, `sx16r,  `hl  };
         166: oUop = { `op , `srm,    `l   }; //l = MEM[pc] = literal
