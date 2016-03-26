@@ -104,7 +104,7 @@ begin
 	`SUBr_e: oUopFlowIdx = 8'd202;
 	`SUBr_h: oUopFlowIdx = 8'd205;
 	`SUBr_l: oUopFlowIdx = 8'd208;
-	`SUBr_l: oUopFlowIdx = 8'd211;
+	`SUBr_a: oUopFlowIdx = 8'd211;
 	//PUSHDE 214-215-216-217-218-219
 	//PUSHHL 220-221-222-223-224-225
 	//POPDE 226-227-228-229-230-231
