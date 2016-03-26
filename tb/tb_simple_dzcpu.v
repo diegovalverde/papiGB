@@ -393,6 +393,7 @@ end //always
 			131: $fwrite(log,"=== INCr_h  === %h \n", uut.DZCPU.iMCUData );
 			132: $fwrite(log,"=== SUBr_b  === %h \n", uut.DZCPU.iMCUData );
 			135: $fwrite(log,"=== DECr_d  === %h \n", uut.DZCPU.iMCUData );
+			136: $fwrite(log,"=== LDrn_d  === %h \n", uut.DZCPU.iMCUData );
 			139: $fwrite(log,"=== JPnn  === %h \n", uut.DZCPU.iMCUData );
 			146: $fwrite(log,"=== LDrn_h  === %h \n", uut.DZCPU.iMCUData );
 			149: $fwrite(log,"=== LDAHLI  === %h \n", uut.DZCPU.iMCUData );
@@ -410,9 +411,22 @@ end //always
 			172: $fwrite(log,"=== DECSP === %h \n", uut.DZCPU.iMCUData );
 			173: $fwrite(log,"=== INCr_l  === %h \n", uut.DZCPU.iMCUData );
 			174: $fwrite(log,"=== DECr_l  === %h \n", uut.DZCPU.iMCUData );
-
-
-
+			175: $fwrite(log,"=== ADDr_a  === %h \n", uut.DZCPU.iMCUData );
+			178: $fwrite(log,"=== ADDr_b  === %h \n", uut.DZCPU.iMCUData );
+			181: $fwrite(log,"=== SUBr_c  === %h \n", uut.DZCPU.iMCUData );
+			187: $fwrite(log,"=== ADDr_d  === %h \n", uut.DZCPU.iMCUData );
+			190: $fwrite(log,"=== ADDr_e  === %h \n", uut.DZCPU.iMCUData );
+			193: $fwrite(log,"=== ADDr_h  === %h \n", uut.DZCPU.iMCUData );
+			196: $fwrite(log,"=== ADDr_l  === %h \n", uut.DZCPU.iMCUData );
+			199: $fwrite(log,"=== SUBr_d  === %h \n", uut.DZCPU.iMCUData );
+			202: $fwrite(log,"=== SUBr_e  === %h \n", uut.DZCPU.iMCUData );
+			205: $fwrite(log,"=== SUBr_h  === %h \n", uut.DZCPU.iMCUData );
+			208: $fwrite(log,"=== SUBr_l  === %h \n", uut.DZCPU.iMCUData );
+			211: $fwrite(log,"=== SUBr_a  === %h \n", uut.DZCPU.iMCUData );
+			214: $fwrite(log,"=== PUSHDE  === %h \n", uut.DZCPU.iMCUData );
+			220: $fwrite(log,"=== PUSHHL  === %h \n", uut.DZCPU.iMCUData );
+			226: $fwrite(log,"=== POPDE === %h \n", uut.DZCPU.iMCUData );
+			232: $fwrite(log,"=== POPHL === %h \n", uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
