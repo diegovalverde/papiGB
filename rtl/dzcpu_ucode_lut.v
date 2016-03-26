@@ -80,18 +80,35 @@ begin
 	`LDAHLI: oUopFlowIdx = 8'd149;
 	`LDHLmn: oUopFlowIdx = 8'd154;
 	`NOP:    oUopFlowIdx = 8'd162;
-    `DI:     oUopFlowIdx = 8'd163;
-    `INCr_d: oUopFlowIdx = 8'd164;
-    `INCr_e: oUopFlowIdx = 8'd165;
-    `DECr_e: oUopFlowIdx = 8'd166;
-    `DECDE:  oUopFlowIdx = 8'd167;
-    `DECr_h: oUopFlowIdx = 8'd168;
-    `DECHL:  oUopFlowIdx = 8'd169;
-    `INCr_a: oUopFlowIdx = 8'd170;
+  `DI:     oUopFlowIdx = 8'd163;
+  `INCr_d: oUopFlowIdx = 8'd164;
+  `INCr_e: oUopFlowIdx = 8'd165;
+  `DECr_e: oUopFlowIdx = 8'd166;
+  `DECDE:  oUopFlowIdx = 8'd167;
+  `DECr_h: oUopFlowIdx = 8'd168;
+  `DECHL:  oUopFlowIdx = 8'd169;
+  `INCr_a: oUopFlowIdx = 8'd170;
 	`INCSP:  oUopFlowIdx = 8'd171;
 	`DECSP:  oUopFlowIdx = 8'd172;
 	`INCr_l: oUopFlowIdx = 8'd173;
 	`DECr_l: oUopFlowIdx = 8'd174;
+	`ADDr_a: oUopFlowIdx = 8'd175;
+	`ADDr_b: oUopFlowIdx = 8'd178;
+	`SUBr_c: oUopFlowIdx = 8'd181;
+	`ADDr_c: oUopFlowIdx = 8'd184;
+	`ADDr_d: oUopFlowIdx = 8'd187;
+	`ADDr_e: oUopFlowIdx = 8'd190;
+	`ADDr_h: oUopFlowIdx = 8'd193;
+	`ADDr_l: oUopFlowIdx = 8'd196;
+	`SUBr_d: oUopFlowIdx = 8'd199;
+	`SUBr_e: oUopFlowIdx = 8'd202;
+	`SUBr_h: oUopFlowIdx = 8'd205;
+	`SUBr_l: oUopFlowIdx = 8'd208;
+	`SUBr_a: oUopFlowIdx = 8'd211;
+	`PUSHDE: oUopFlowIdx = 8'd214;
+	`PUSHHL: oUopFlowIdx = 8'd220;
+	`POPDE:  oUopFlowIdx = 8'd226;
+	`POPHL:  oUopFlowIdx = 8'd232;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 	default:
 			 oUopFlowIdx = 8'd0;
@@ -184,8 +201,8 @@ begin
 		29: oUop = {`op, `sma, `io_c };
 		30: oUop = {`op, `smw, `a };
 		31: oUop = {`inc_eof, `sma, `pc };
-	//INCR_C
-		32: oUop = {`inc_eof, `inc16, `c };
+	//INCr_c
+		32: oUop = {`inc_eof_fu, `inc16, `c };
 	//LDHLmr_a
 		33: oUop = {`inc, `sma, `hl  };
 		34: oUop = {`op, `smw, `a    };
@@ -309,7 +326,7 @@ begin
 		129: oUop = { `op,   `srx8, `c   };
 		130: oUop = { `inc_eof, `sma, `pc };
 //INCr_h
-		131: oUop = { `inc_eof, `inc16, `h };
+		131: oUop = { `inc_eof_fu, `inc16, `h };
 //SUBr_b
 		132: oUop = { `op, `sx16r, `a       };
 		133: oUop = { `update_flags, `subx16, `b      };
@@ -347,16 +364,16 @@ begin
 		159: oUop = {`op,   `smw,   `x8  };
 		160: oUop = {`inc_eof,  `sma,   `pc };
 //INCR_b
-		161: oUop = {`inc_eof, `inc16, `b };
+		161: oUop = {`inc_eof_fu, `inc16, `b };
 
 //NOP
 		162: oUop = { `inc_eof, `nop, `null };
-//DI 
+//DI
 		163: oUop = { `inc_eof, `ceti, `null }; //Disable Interruption
 //INCr_d
-		164: oUop = { `inc_eof, `inc16, `d };
+		164: oUop = { `inc_eof_fu, `inc16, `d };
 //INCr_e
-		165: oUop = { `inc_eof, `inc16, `e };
+		165: oUop = { `inc_eof_fu, `inc16, `e };
 //DECr_e
 		166: oUop = { `inc_eof_fu, `dec16, `e };
 //DECDE
@@ -366,24 +383,108 @@ begin
 //DECHL
 		169: oUop = { `inc_eof_fu, `dec16, `hl };
 //INCr_a
-		170: oUop = { `inc_eof, `inc16, `a };
+		170: oUop = { `inc_eof_fu, `inc16, `a };
 //INCSP
 		171: oUop = { `inc_eof, `inc16, `sp };  //increment SP
 //DECSP
 		172: oUop = { `inc_eof_fu, `dec16, `sp };
 //INCr_l
-		173: oUop = { `inc_eof, `inc16, `l };
+		173: oUop = { `inc_eof_fu, `inc16, `l };
 //DECr_l
 		174: oUop = { `inc_eof_fu, `dec16, `l };
+//ADDr_a
+		175: oUop = { `op, `sx16r, `a       };
+		176: oUop = { `update_flags, `addx16, `a };
+		177: oUop = { `inc_eof, `srx16, `a  };
+//ADDr_b
+		178: oUop = { `op, `sx16r, `a       };
+		179: oUop = { `update_flags, `addx16, `b };
+		180: oUop = { `inc_eof, `srx16, `a  };
+//SUBr_c
+		181: oUop = { `op, `sx16r, `a       };
+		182: oUop = { `update_flags, `subx16, `c      };
+		183: oUop = { `inc_eof, `srx16, `a  };
 
+//ADDr_c
+		184: oUop = { `op, `sx16r, `a       };
+		185: oUop = { `update_flags, `addx16, `c };
+		186: oUop = { `inc_eof, `srx16, `a  };
+
+//ADDr_d
+		187: oUop = { `op, `sx16r, `a       };
+		188: oUop = { `update_flags, `addx16, `d };
+		189: oUop = { `inc_eof, `srx16, `a  };
+
+//ADDr_e
+		190: oUop = { `op, `sx16r, `a       };
+		191: oUop = { `update_flags, `addx16, `e };
+		192: oUop = { `inc_eof, `srx16, `a  };
+
+//ADDr_h
+		193: oUop = { `op, `sx16r, `a       };
+		194: oUop = { `update_flags, `addx16, `h };
+		195: oUop = { `inc_eof, `srx16, `a  };
+
+//ADDr_l
+		196: oUop = { `op, `sx16r, `a       };
+		197: oUop = { `update_flags, `addx16, `l };
+		198: oUop = { `inc_eof, `srx16, `a  };
+//SUBr_d
+		199: oUop = { `op, `sx16r, `a       };
+		200: oUop = { `update_flags, `subx16, `d      };
+		201: oUop = { `inc_eof, `srx16, `a  };
+//SUBr_e
+		202: oUop = { `op, `sx16r, `a       };
+		203: oUop = { `update_flags, `subx16, `e      };
+		204: oUop = { `inc_eof, `srx16, `a  };
+//SUBr_h
+		205: oUop = { `op, `sx16r, `a       };
+		206: oUop = { `update_flags, `subx16, `h      };
+		207: oUop = { `inc_eof, `srx16, `a  };
+//SUBr_l
+		208: oUop = { `op, `sx16r, `a       };
+		209: oUop = { `update_flags, `subx16, `l      };
+		210: oUop = { `inc_eof, `srx16, `a  };
+//SUB_a
+		211: oUop = { `op, `sx16r, `a       };
+		212: oUop = { `update_flags, `subx16, `a      };
+		213: oUop = { `inc_eof, `srx16, `a  };
+//PUSHDE
+		214: oUop = { `op, `dec16,  `sp  };
+		215: oUop = { `op, `sma,    `sp  };
+		216: oUop = { `op ,`smw,    `d   };
+		217: oUop = { `op, `dec16,  `sp  };
+		218: oUop = { `op ,`smw,     `e  };
+		219: oUop = { `inc_eof ,`sma,`pc };
+//PUSHHL
+		220: oUop = { `op, `dec16,  `sp  };
+		221: oUop = { `op, `sma,    `sp  };
+		222: oUop = { `op ,`smw,    `h   };
+		223: oUop = { `op, `dec16,  `sp  };
+		224: oUop = { `op ,`smw,     `l  };
+		225: oUop = { `inc_eof ,`sma,`pc };
+//POPDE
+		226: oUop = { `op, `sma,    `sp   };
+		227: oUop = { `op ,`inc16,  `sp   };
+		228: oUop = { `op ,`srm,    `e    };
+		229: oUop = { `op ,`srm,    `d    };
+		230: oUop = { `inc ,`inc16,  `sp  };
+		231: oUop = { `eof, `sma,    `pc  };
+//POPHL
+		232: oUop = { `op, `sma,    `sp   };
+		233: oUop = { `op ,`inc16,  `sp   };
+		234: oUop = { `op ,`srm,    `l    };
+		235: oUop = { `op ,`srm,    `h    };
+		236: oUop = { `inc ,`inc16,  `sp  };
+		237: oUop = { `eof, `sma,    `pc  };
 //DECBC
 		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
 
 
-		
+
 //FLOW_ID_INT_VBLANK
 /*
-        163: oUop = { `op, `ceti, `null};  //Disable interruption         
+        163: oUop = { `op, `ceti, `null};  //Disable interruption
         164: oUop = { `inc, `dec16,  `sp  };
         165: oUop = { `inc, `sx16r,  `hl  };
         166: oUop = { `op , `srm,    `l   }; //l = MEM[pc] = literal

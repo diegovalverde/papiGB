@@ -4,5 +4,5 @@ DS $100
         ld  b, 0
         ld  c, 0
         inc b
-        ; b shall be 1
+        ;the value expected is 1
         push bc
