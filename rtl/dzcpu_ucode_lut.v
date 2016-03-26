@@ -95,6 +95,12 @@ begin
 	`ADDr_a: oUopFlowIdx = 8'd175;
 	`ADDr_b: oUopFlowIdx = 8'd178;
 	`SUBr_c: oUopFlowIdx = 8'd181;
+	//ADDr_c 184-185-186
+	//ADDr_d 187-188-189
+	//ADDr_e 190-191-192
+	//ADDr_h 193-194-195
+	//ADDr_l 196-197-198
+	//Start SUB 199
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 	default:
 			 oUopFlowIdx = 8'd0;
@@ -390,6 +396,30 @@ begin
 		181: oUop = { `op, `sx16r, `a       };
 		182: oUop = { `update_flags, `subx16, `c      };
 		183: oUop = { `inc_eof, `srx16, `a  };
+
+//ADDr_c 184-185-186
+
+
+
+//ADDr_d 187-188-189
+
+
+
+//ADDr_e 190-191-192
+
+
+
+//ADDr_h 193-194-195
+
+
+
+//ADDr_l 196-197-198
+
+
+
+//Start SUB 199
+
+
 //DECBC
 		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
 
