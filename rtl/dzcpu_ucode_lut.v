@@ -104,7 +104,7 @@ begin
 	`SUBr_e: oUopFlowIdx = 8'd202;
 	`SUBr_h: oUopFlowIdx = 8'd205;
 	`SUBr_l: oUopFlowIdx = 8'd208;
-	//SUBr_a 211-212-213
+	`SUBr_l: oUopFlowIdx = 8'd211;
 	//PUSHDE 214-215-216-217-218-219
 	//PUSHHL 220-221-222-223-224-225
 	//POPDE 226-227-228-229-230-231
@@ -445,10 +445,10 @@ begin
 		208: oUop = { `op, `sx16r, `a       };
 		209: oUop = { `update_flags, `subx16, `l      };
 		210: oUop = { `inc_eof, `srx16, `a  };
-//SUB_a 211-212-213
-
-
-
+//SUB_a
+		211: oUop = { `op, `sx16r, `a       };
+		212: oUop = { `update_flags, `subx16, `a      };
+		213: oUop = { `inc_eof, `srx16, `a  };
 //PUSHDE 214-215-216-217-218-219
 
 

@@ -401,7 +401,7 @@ end //always
 			202: $fwrite(log,"=== SUBr_e  === %h \n", uut.DZCPU.iMCUData );
 			205: $fwrite(log,"=== SUBr_h  === %h \n", uut.DZCPU.iMCUData );
 			208: $fwrite(log,"=== SUBr_l  === %h \n", uut.DZCPU.iMCUData );
-			//SUBr_a 211-212-213
+			211: $fwrite(log,"=== SUBr_a  === %h \n", uut.DZCPU.iMCUData );
 			//PUSHDE 214-215-216-217-218-219
 			//PUSHHL 220-221-222-223-224-225
 			//POPDE 226-227-228-229-230-231

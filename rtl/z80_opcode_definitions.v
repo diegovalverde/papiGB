@@ -26,7 +26,7 @@
 //  `define  LDDEmA;
   `define  INCDE 8'h13
 
-  `define  INCr_d 8'h14		
+  `define  INCr_d 8'h14
   `define  DECr_d 8'h15
   `define  LDrn_d 8'h16
   `define  RLA 8'h17
@@ -62,7 +62,7 @@
   `define  JRNCn   8'h30
   `define  LDSPnn  8'h31
   `define  LDHLDA  8'h32
-  `define  INCSP   8'h33 
+  `define  INCSP   8'h33
 
 //  `define  INCHLm;
 //  `define  DECHLm;
@@ -165,7 +165,7 @@
   `define  ADDr_d 8'h82
   `define  ADDr_e 8'h83
   `define  ADDr_h 8'h84
-  `define  ADDr_l 8'h85		
+  `define  ADDr_l 8'h85
 //  `define  ADDHL;
   `define  ADDr_a 8'h87
 //  `define
@@ -188,7 +188,7 @@
   `define  SUBr_h 8'h94
   `define  SUBr_l 8'h95
 //  `define  SUBHL;
-//  `define  SUBr_a;
+  `define  SUBr_a 8'h97
 //  `define
 //  `define  SBCr_b;
 //  `define  SBCr_c;
@@ -672,7 +672,7 @@
 `define inc             4'b1000
 `define inc_eof         4'b1100
 `define inc_eof_z       4'b1101
-`define inc_eof_fu      4'b1110 //increment PC , flow finish and flag update 
+`define inc_eof_fu      4'b1110 //increment PC , flow finish and flag update
 `define inc_eof_nz      4'b1111
 `define eof             4'b0100
 `define eof_z           4'b0101	//finish flow if zero flag is 1
@@ -700,7 +700,7 @@
 `define seti	 5'h11
 `define cibit	 5'h12
 `define ceti	 5'h13
-`define sx16l    5'h14   
+`define sx16l    5'h14
 
 `define null 4'h0
 
@@ -739,4 +739,3 @@
 `define FLOW_ID_INT_LCD_STATUS_TRIGGER		8'd0
 `define FLOW_ID_INT_TIMER_OVERFLOW          8'd0
 `define FLOW_ID_INT_VBLANK_JOYPAD_PRESS     8'd0
-
