@@ -396,7 +396,7 @@ end //always
 			//ADDr_e 190-191-192
 			//ADDr_h 193-194-195
 			//ADDr_l 196-197-198
-			//Start SUB 199
+			199: $fwrite(log,"=== SUBr_d  === %h \n", uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
