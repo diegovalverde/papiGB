@@ -164,11 +164,10 @@
 //  `define  ADDr_c;
 //  `define  ADDr_d;
 //  `define  ADDr_e;
-//  `define
 //  `define  ADDr_h;
 //  `define  ADDr_l;		
 //  `define  ADDHL;
-//  `define  ADDr_a;
+  `define  ADDr_a 8'h87
 //  `define
 //  `define  ADCr_b;
 //  `define  ADCr_c;
