@@ -96,7 +96,7 @@ begin
 	`ADDr_b: oUopFlowIdx = 8'd178;
 	`SUBr_c: oUopFlowIdx = 8'd181;
 	`ADDr_c: oUopFlowIdx = 8'd184;
-	//ADDr_d 187-188-189
+	`ADDr_d: oUopFlowIdx = 8'd187; 
 	//ADDr_e 190-191-192
 	//ADDr_h 193-194-195
 	//ADDr_l 196-197-198
@@ -402,10 +402,11 @@ begin
 		185: oUop = { `update_flags, `addx16, `c };
 		186: oUop = { `inc_eof, `srx16, `a  };
 
-//ADDr_d 187-188-189
-
-
-
+//ADDr_d 
+		187: oUop = { `op, `sx16r, `a       };
+		188: oUop = { `update_flags, `addx16, `d };
+		189: oUop = { `inc_eof, `srx16, `a  };
+		
 //ADDr_e 190-191-192
 
 
