@@ -259,8 +259,8 @@ $readmemh(
 			uut.GPU.FF_SCY.Q = 8'h0;
 			uut.GPU.FF_LY.Q = 8'h0;
 			uut.GPU.FFS_BGP.Q = 8'h27;
-			//uut.GPU.FFS_BP0.Q = 8'h27;
-			//uut.GPU.FFS_BP1.Q = 8'h27;
+			uut.GPU.FFS_OBP0.Q = 8'he4;
+			uut.GPU.FFS_OBP1.Q = 8'hc4;
 		`endif
 
 		// Add stimulus here
@@ -321,13 +321,18 @@ begin
 			$fwrite(glog, "0x%02x 0x%02x 0x%02x 0x%02x 0x%04x 0x%08x 0x%08x 0d%08d 0x%08x 0d%08d %08d\n",
 			uut.GPU.wSh, uut.GPU.wSl,uut.GPU.wBh, uut.GPU.wBl, uut.GPU.wR2, uut.GPU.wCurrentTile, uut.GPU.wCurrentTileRow, wFrameBufferAddress, uut.GPU.iMcuReadData, uut.GPU.wSpriteCoordX, uut.GPU.wSpriteCoordY);
 
-			$fwrite(glog, "Background Tile Pixel Row:\n");
+			$fwrite(glog, "\nBackground Tile Pixel Row:\n");
 			$fwrite(glog, "%02x %02x %02x %02x %02x %02x %02x %02x\n",
 			uut.GPU.wBgPixel7,uut.GPU.wBgPixel6,uut.GPU.wBgPixel5,uut.GPU.wBgPixel4,uut.GPU.wBgPixel3,uut.GPU.wBgPixel2,uut.GPU.wBgPixel1,uut.GPU.wBgPixel0);
 
-			$fwrite(glog, "Sprite Tile Pixel Row:\n");
+			$fwrite(glog, "\nSprite Tile Pixel Row:\n");
 			$fwrite(glog, "%02x %02x %02x %02x %02x %02x %02x %02x\n",
 			uut.GPU.wSprtPixel7,uut.GPU.wSprtPixel6,uut.GPU.wSprtPixel5,uut.GPU.wSprtPixel4,uut.GPU.wSprtPixel3,uut.GPU.wSprtPixel2,uut.GPU.wSprtPixel1,uut.GPU.wSprtPixel0);
+
+			$fwrite(glog, "\nFrame buffer Pixel Row:\n");
+			$fwrite(glog, "%02x %02x %02x %02x %02x %02x %02x %02x\n",
+			uut.GPU.wPixel7,uut.GPU.wPixel6,uut.GPU.wPixel5,uut.GPU.wPixel4,uut.GPU.wPixel3,uut.GPU.wPixel2,uut.GPU.wPixel1,uut.GPU.wPixel0);
+
 
 			$fwrite(glog,"\n\n\n");
 
