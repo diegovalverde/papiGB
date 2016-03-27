@@ -142,7 +142,7 @@
 
 //  70
   `define  LDHLmr_b 8'h70
-//  `define  LDHLmr_c;
+  `define  LDHLmr_c 8'h71
 //  `define  LDHLmr_d;
 //  `define  LDHLmr_e;
 //  `define
