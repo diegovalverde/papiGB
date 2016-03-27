@@ -111,7 +111,7 @@ assign oFramBufferWe   = rBgBufferWe; // write enable
 assign wSpriteWidth  = 16'h8;
 assign wSpriteHeight = ( oLCDC[2] == 1'b1) ? 16'd16 : 16'd8;
 
-//wTileCoordX =  8*(wCurrentTile % 32)
+//wTileCoordX =  8*(wCurrentTile mod 32)
 assign wTileCoordX =  wCurrentTile[4:0] << 3;
 
 //wTileCoordY = (wCurrentTile / 32)*8
