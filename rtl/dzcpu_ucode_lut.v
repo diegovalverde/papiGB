@@ -80,14 +80,14 @@ begin
 	`LDAHLI: oUopFlowIdx = 8'd149;
 	`LDHLmn: oUopFlowIdx = 8'd154;
 	`NOP:    oUopFlowIdx = 8'd162;
-    `DI:     oUopFlowIdx = 8'd163;
-    `INCr_d: oUopFlowIdx = 8'd164;
-    `INCr_e: oUopFlowIdx = 8'd165;
-    `DECr_e: oUopFlowIdx = 8'd166;
-    `DECDE:  oUopFlowIdx = 8'd167;
-    `DECr_h: oUopFlowIdx = 8'd168;
-    `DECHL:  oUopFlowIdx = 8'd169;
-    `INCr_a: oUopFlowIdx = 8'd170;
+  `DI:     oUopFlowIdx = 8'd163;
+  `INCr_d: oUopFlowIdx = 8'd164;
+  `INCr_e: oUopFlowIdx = 8'd165;
+  `DECr_e: oUopFlowIdx = 8'd166;
+  `DECDE:  oUopFlowIdx = 8'd167;
+  `DECr_h: oUopFlowIdx = 8'd168;
+  `DECHL:  oUopFlowIdx = 8'd169;
+  `INCr_a: oUopFlowIdx = 8'd170;
 	`INCSP:  oUopFlowIdx = 8'd171;
 	`DECSP:  oUopFlowIdx = 8'd172;
 	`INCr_l: oUopFlowIdx = 8'd173;
@@ -107,7 +107,7 @@ begin
 	`SUBr_a: oUopFlowIdx = 8'd211;
 	`PUSHDE: oUopFlowIdx = 8'd214;
 	//PUSHHL 220-221-222-223-224-225
-	//POPDE 226-227-228-229-230-231
+	`POPDE:  oUopFlowIdx = 8'd226;
 	//POPHL 232-233-234-235-236-237
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 	default:
@@ -463,14 +463,14 @@ begin
 
 
 
-//POPDE 226-227-228-229-230-231
-
-
-
-
-
-
-//POPHL 232-233-234-235-236-237
+//POPDE
+		226: oUop = { `op, `sma,    `sp   };
+		227: oUop = { `op ,`inc16,  `sp   };
+		228: oUop = { `op ,`srm,    `e    };
+		229: oUop = { `op ,`srm,    `d    };
+		230: oUop = { `inc ,`inc16,  `sp  };
+		231: oUop = { `eof, `sma,    `pc  };
+//POPHL
 
 
 

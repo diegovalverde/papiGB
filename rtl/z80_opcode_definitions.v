@@ -180,7 +180,7 @@
 //  `define  ADCr_a;
 //  `define
 //  90
-  `define  SUBr_b 8'h90		//******
+  `define  SUBr_b 8'h90
   `define  SUBr_c 8'h91
   `define  SUBr_d 8'h92
   `define  SUBr_e 8'h93
@@ -265,7 +265,7 @@
 //  //  `define
 //  D0
 //  //  `define  RETNC;
-//  //  `define  POPDE;
+  `define  POPDE 8'hD1
 //  //  `define  JPNCnn;
 //  //  `define  XX;
 //  //  `define

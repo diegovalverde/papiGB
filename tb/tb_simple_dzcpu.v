@@ -404,7 +404,7 @@ end //always
 			211: $fwrite(log,"=== SUBr_a  === %h \n", uut.DZCPU.iMCUData );
 			214: $fwrite(log,"=== PUSHDE  === %h \n", uut.DZCPU.iMCUData );
 			//PUSHHL 220-221-222-223-224-225
-			//POPDE 226-227-228-229-230-231
+			226: $fwrite(log,"=== POPDE === %h \n", uut.DZCPU.iMCUData );
 			//POPHL 232-233-234-235-236-237
 			default:
 			  case (uut.DZCPU.iMCUData)
