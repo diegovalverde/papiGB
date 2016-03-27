@@ -73,6 +73,23 @@ wire wZ, wRegWe, wGpuActive, wIsSpriteInCurrentTile,wIsSpriteInCurrentRow;
 wire [15:0] wSpriteWidth, wSpriteHeight, wTileCoordX, wTileCoordY,wSprite_tile_offset,wSprite_info;
 reg [15:0] rResult;
 reg rRegWe, rBgBufferWe, rJump, rIncFBufferAddr;
+
+wire[15:0] wSpriteTopLeftX     ;
+wire[15:0] wSpriteTopLeftY     ;
+wire[15:0] wSpriteTopRightX    ;
+wire[15:0] wSpriteTopRightY    ;
+wire[15:0] wSpriteBottomLeftX  ;
+wire[15:0] wSpriteBottomLeftY  ;
+wire[15:0] wSpriteBottomRightX ;
+wire[15:0] wSpriteBottomRightY ;
+wire[15:0] wTileLeft   ;
+wire[15:0] wTileRight  ;
+wire[15:0] wTileTop    ;
+wire[15:0] wTileBottom ;
+
+
+
+
 assign oFramBufferData = {wPixel7,wPixel6,wPixel5,wPixel4,wPixel3,wPixel2,wPixel1,wPixel0};
 assign wPixel0 = (wSprtPixel0 == `SPRITE_COLOR_TRANSPARENT)? wBgPixel0 : wSprtPixel0;
 assign wPixel1 = (wSprtPixel1 == `SPRITE_COLOR_TRANSPARENT)? wBgPixel1 : wSprtPixel1;
@@ -97,21 +114,45 @@ assign wSpriteHeight = ( oLCDC[2] == 1'b1) ? 16'd16 : 16'd8;
 //wTileCoordX =  8*(wCurrentTile % 32)
 assign wTileCoordX =  wCurrentTile[4:0] << 3;
 
-//wTileCoordY = 8*(wCurrentTile mod 32) + (wCurrentTile/32)
-assign wTileCoordY = (wCurrentTile[4:0]<<3) + (wCurrentTile >>5) ;
+//wTileCoordY = (wCurrentTile / 32)*8 
+assign wTileCoordY = (wCurrentTile >>5) << 3;
 
 //Check if the sprite intersects the current tile
+
+assign wSpriteTopLeftX     = wSpriteCoordX;
+assign wSpriteTopLeftY     = wSpriteCoordY;
+
+assign wSpriteTopRightX    = wSpriteCoordX + wSpriteWidth;
+assign wSpriteTopRightY    = wSpriteCoordY;
+
+assign wSpriteBottomLeftX  = wSpriteCoordX;
+assign wSpriteBottomLeftY  = wSpriteCoordY + wSpriteHeight;
+
+assign wSpriteBottomRightX = wSpriteTopRightX;
+assign wSpriteBottomRightY = wSpriteBottomLeftY;
+
+assign wTileLeft   = wTileCoordX;
+assign wTileRight  = wTileCoordX + 8'd8;
+assign wTileTop    = wTileCoordY;
+assign wTileBottom = wTileCoordY + 16'd8;
+
+
 assign wIsSpriteInCurrentTile =
    (
-    (wSpriteCoordX >= wTileCoordX && wSpriteCoordX <= wTileCoordX +16'd8) &&
-    (wSpriteCoordY >= wTileCoordY && wSpriteCoordY <= wTileCoordY +16'd8) ||
-    (wSpriteCoordX + wSpriteWidth >= wTileCoordX && wSpriteCoordX +wSpriteWidth <= wTileCoordX +16'b1000)&&
-    (wSpriteCoordY >= wTileCoordY && wSpriteCoordY <= wTileCoordY +16'd8) ||
-    (wSpriteCoordX >= wTileCoordX && wSpriteCoordX <= wTileCoordX +16'd8) &&
-    (wSpriteCoordY + wSpriteHeight >= wTileCoordY && wSpriteCoordY + wSpriteHeight<= wTileCoordY +16'd8)||
-    (wSpriteCoordX + wSpriteWidth >= wTileCoordX && wSpriteCoordX +wSpriteWidth <= wTileCoordX +16'd8)&&
-    (wSpriteCoordY + wSpriteHeight >= wTileCoordY && wSpriteCoordY + wSpriteHeight<= wTileCoordY +16'd8)
 
+     //Test top left sprite corner
+    ((wSpriteTopLeftX >= wTileLeft && wSpriteTopLeftX <= wTileRight ) &&
+    (wSpriteTopLeftY  >= wTileTop  && wSpriteTopLeftY <= wTileBottom))
+    ||
+     //Test top right sprite corner
+     ((wSpriteTopRightX >= wTileLeft && wSpriteTopRightX <= wTileRight ) &&
+     (wSpriteTopRightY  >= wTileTop  && wSpriteTopRightY <= wTileBottom))
+    ||
+    ((wSpriteBottomRightX >= wTileLeft && wSpriteBottomRightX <= wTileRight ) &&
+    (wSpriteBottomRightY  >= wTileTop  && wSpriteBottomRightY <= wTileBottom))
+    ||
+    ((wSpriteBottomLeftX >= wTileLeft && wSpriteBottomLeftX <= wTileRight ) &&
+    (wSpriteBottomLeftY  >= wTileTop  && wSpriteBottomLeftY <= wTileBottom))
    ) ? 1'b1 : 1'b0;
 
 assign wIsSpriteInCurrentRow = (wCurrentTileRow + wTileCoordY >= wSpriteCoordY &&

@@ -105,10 +105,10 @@ begin
   17: oUop = {`gand, `r3, `r6, `lcdc};                  //and bitwise for r6 and lcd if bit 2 = 1 sprites are on
   18: oUop = {`gjz,`skip_the_sprites};
   19:
-  //begin
+  begin
    oUop = {`gwrl, `r6, 12'd0};                       //we have a maximum of 40 sprites x= 39*4 because if 4 byte descriptors
-   //$display("Sprites are enabled, punk!");
-  //end
+
+  end
 
 
   20: oUop = {`gadd, `vmem_addr, `r6, `oam_offset};     //get address of sprite
@@ -147,7 +147,7 @@ begin
   48: oUop = {`gjz,`get_next_sprite};
   //TODO LOGIC FOR BACKGROUND AND FOREGROUND display for sprites
   //sprite palette logic
-  49: oUop = {`gwfbuffer, `gnull,`gnull, `gnull};// BH and BL go through sprite palletes and result gets saved in framebuffer
+  49: oUop = {`gwfbuffer, `gnull,`gnull, `gnull};// SH and SL go through sprite palletes and result gets saved in framebuffer
 
   50: oUop = {`gaddl,`r6, 12'd4};
   51: oUop = {`gsubl,`r6, 12'd156};//39*4 = 156
@@ -161,42 +161,28 @@ end
 //skip_sprites
 //defines loop for getting the same row for the next tile
   53: oUop = {`ginfbaddr, `gnull, `gnull, `gnull};        //Increment the framebuffer write pointer
-  54: //begin
+  54: oUop = {`gwrl, `sl, 12'd0};
+  55: oUop = {`gwrl, `sh, 12'd0};
+  56: //begin
   // $display("No more GPU code, stop here I say!\n");
    oUop = { `gsubl, `r1, 12'd8191}; //limit 0x1FFF or d 8191
    //$finish();
   //end
-  55: oUop = { `gsub, `r1, `fbuffer_addr, `r8191};          //Did we painted all of the 32x32 tiles?
-  56: oUop = { `gjz, 18'h2};                                //Yes, ok restart the loop for next frame
+  57: oUop = { `gsub, `r1, `fbuffer_addr, `r8191};          //Did we painted all of the 32x32 tiles?
+  58: oUop = { `gjz, 18'h2};                                //Yes, ok restart the loop for next frame
+  59: oUop = { `gwrl,`sprite_current_row_offset, 12'd0};    //Reset the sprite roww offset to zero since we will start with a fresh tile now
+  60: oUop = {  `gaddl, `cur_tile, 12'd1  };                //Time to take care of the next tile
+  61: oUop = {  `gsubl, `r2, 12'd1 };                       //Is this tile the last of the 2 tiles in a tile row?
+  62: oUop = {  `gjnz ,  18'd5 };                           //No, Keep rendering the  remaining rows of the current tile
+  63: oUop = {  `gaddl,  `tile_row, 12'd2  };
+  64: oUop = {  `gaddl , `ly, 12'd1 };
+  65: oUop = {  `gwrr,  `r1, `tile_row, `gnull };
+  66: oUop = {  `gsubl,  `r1, 12'h10 };
+  67: oUop = {  `gjz , 18'd3  };                           //Move to next tile
 
-/*
-  57: oUop = { `gwrl,`sprite_current_row_offset, 12'd0};    //Reset the sprite roww offset to zero since we will start with a fresh tile now
-  58: oUop = {  `gaddl, `cur_tile, 12'd1  };                //Time to take care of the next tile
-  59: oUop = {  `gsubl, `r2, 12'd1 };                       //Is this tile the last of the 2 tiles in a tile row?
-  60: oUop = {  `gjnz ,  18'd5 };                           //No, Keep rendering the  remaining rows of the current tile
-  61: oUop = {  `gaddl,  `tile_row, 10'd2  };
-  62: oUop = {  `gaddl , `ly, 12'd1 };
-  63: oUop = {  `gwrr,  `r1, `tile_row, `gnull };
-  64: oUop = {  `gsubl,  `r1, 12'h10 };
-  65: oUop = {  `gjz , 18'd3  };                           //Move to next tile
-
-//defines jump to next row of pixels
-  66: oUop = {  `gsubl,  `cur_tile, 12'd32 };  //Reset the tile index to the first tile index in the row of tiles, this is because we always start a a row of tiles from left to right (like a typewritting machine)
-  67: oUop = {  `ggoto,  18'd4 };              //Move down one row
-*/
-
-57: oUop = {  `gaddl, `cur_tile, 12'd1  };                //Time to take care of the next tile
-58: oUop = {  `gsubl, `r2, 12'd1 };                       //Is this tile the last of the 2 tiles in a tile row?
-59: oUop = {  `gjnz ,  18'd5 };                           //No, Keep rendering the  remaining rows of the current tile
-60: oUop = {  `gaddl,  `tile_row, 12'd2  };
-61: oUop = {  `gaddl , `ly, 12'd1 };
-62: oUop = {  `gwrr,  `r1, `tile_row, `gnull };
-63: oUop = {  `gsubl,  `r1, 12'h10 };
-64: oUop = {  `gjz , 18'd3  };                           //Move to next tile
-
-//defines jump to next row of pixels
-65: oUop = {  `gsubl,  `cur_tile, 12'd32 };  //Reset the tile index to the first tile index in the row of tiles, this is because we always start a a row of tiles from left to right (like a typewritting machine)
-66: oUop = {  `ggoto,  18'd4 };              //Move down one row
+   //defines jump to next row of pixels
+  68: oUop = {  `gsubl,  `cur_tile, 12'd32 };  //Reset the tile index to the first tile index in the row of tiles, this is because we always start a a row of tiles from left to right (like a typewritting machine)
+  69: oUop = {  `ggoto,  18'd4 };              //Move down one row
 
   endcase
 end

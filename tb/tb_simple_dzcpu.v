@@ -302,7 +302,10 @@ begin
 				`gshl:   $fwrite(glog,"gshl  \n");
 				`gand: $fwrite(glog, "gand %h & %h = %h\n", uut.GPU.wOp1, uut.GPU.wOp0, uut.GPU.rResult);
 				`gjz: $fwrite(glog, "gjz \n");
-				`gsprtt: $fwrite(glog, "gsprtt %h %h compared with XCoord YCoord %h\n", uut.GPU.wOp1, uut.GPU.wOp0, uut.GPU.rResult);
+				`gsprtt: $fwrite(glog, " >>> gsprtt tile_row: %d tile_idx: %d sprite [%d , %d] , tile [%d %d ] = %h\n",
+													uut.GPU.wCurrentTileRow/2, uut.GPU.wCurrentTile,
+				                  uut.GPU.wSpriteCoordX, uut.GPU.wSpriteCoordY,
+													uut.GPU.wTileCoordX, uut.GPU.wTileCoordY, uut.GPU.wIsSpriteInCurrentTile);
 		endcase
 
 			//Print the Registers
