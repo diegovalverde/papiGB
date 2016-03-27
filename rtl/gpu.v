@@ -420,31 +420,31 @@ MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP0 ( .Sel( {wSprite_info[4],wSh[0], w
   .I0( oOBP0[1:0]), .I1( oOBP0[3:2]), .I2( oOBP0[5:4]), .I3( oOBP0[7:6]) , .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
   .O( wSprtPixel0));
 
-MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP1 (.Sel( {wSprite_info[4],wSh[0], wSl[0]} ),
+MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP1 (.Sel( {wSprite_info[4],wSh[1], wSl[1]} ),
   .I0( oOBP0[1:0]), .I1( oOBP0[3:2]), .I2( oOBP0[5:4]), .I3( oOBP0[7:6]) , .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
   .O( wSprtPixel1));
 
-MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP2 (.Sel( {wSprite_info[4],wSh[0], wSl[0]} ),
+MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP2 (.Sel( {wSprite_info[4],wSh[2], wSl[2]} ),
   .I0( oOBP0[1:0]), .I1( oOBP0[3:2]), .I2( oOBP0[5:4]), .I3( oOBP0[7:6]) , .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
   .O( wSprtPixel2));
 
-MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP3 (.Sel( {wSprite_info[4],wSh[0], wSl[0]} ),
+MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP3 (.Sel( {wSprite_info[4],wSh[3], wSl[3]} ),
   .I0( oOBP0[1:0]), .I1( oOBP0[3:2]), .I2( oOBP0[5:4]), .I3( oOBP0[7:6]) , .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
   .O( wSprtPixel3));
 
-MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP4 ( .Sel( {wSprite_info[4],wSh[0], wSl[0]} ),
+MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP4 ( .Sel( {wSprite_info[4],wSh[4], wSl[4]} ),
   .I0( oOBP0[1:0]), .I1( oOBP0[3:2]), .I2( oOBP0[5:4]), .I3( oOBP0[7:6]) , .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
   .O( wSprtPixel4));
 
-MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP5 (.Sel( {wSprite_info[4],wSh[0], wSl[0]} ),
+MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP5 (.Sel( {wSprite_info[4],wSh[5], wSl[5]} ),
   .I0( oOBP0[1:0]), .I1( oOBP0[3:2]), .I2( oOBP0[5:4]), .I3( oOBP0[7:6]) , .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
   .O( wSprtPixel5));
 
-MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP6 (.Sel( {wSprite_info[4],wSh[0], wSl[0]} ),
+MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP6 (.Sel( {wSprite_info[4],wSh[6], wSl[6]} ),
   .I0( oOBP0[1:0]), .I1( oOBP0[3:2]), .I2( oOBP0[5:4]), .I3( oOBP0[7:6]) , .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
   .O( wSprtPixel6));
 
-MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP7 (.Sel( {wSprite_info[4],wSh[0], wSl[0]} ),
+MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP7 (.Sel( {wSprite_info[4],wSh[7], wSl[7]} ),
   .I0( oOBP0[1:0]), .I1( oOBP0[3:2]), .I2( oOBP0[5:4]), .I3( oOBP0[7:6]) , .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
   .O( wSprtPixel7));
 
