@@ -111,6 +111,7 @@ begin
 	`POPHL:  oUopFlowIdx = 8'd232;
 	`LDHLmr_b: oUopFlowIdx = 8'd238;
 	`LDHLmr_c: oUopFlowIdx = 8'd241;
+	`LDHLmr_d: oUopFlowIdx = 8'd244;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 	default:
 			 oUopFlowIdx = 8'd0;
@@ -487,6 +488,10 @@ begin
 		241: oUop = {`inc, `sma, `hl  };
 		242: oUop = {`op, `smw, `c    };
 		243: oUop = {`eof, `sma, `pc  };
+//LDHLmr_d
+		244: oUop = {`inc, `sma, `hl  };
+		245: oUop = {`op, `smw, `d    };
+		246: oUop = {`eof, `sma, `pc  };
 //DECBC
 		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
 
