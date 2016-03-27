@@ -286,7 +286,7 @@
 //  //  `define
 
   `define  LDIOnA 8'hE0
-//  //  `define  POPHL;
+  `define  POPHL  8'hE1
   `define  LDIOCA 8'hE2
 //  //  `define  XX;
 

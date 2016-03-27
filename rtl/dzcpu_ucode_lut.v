@@ -108,7 +108,7 @@ begin
 	`PUSHDE: oUopFlowIdx = 8'd214;
 	//PUSHHL 220-221-222-223-224-225
 	`POPDE:  oUopFlowIdx = 8'd226;
-	//POPHL 232-233-234-235-236-237
+	`POPHL:  oUopFlowIdx = 8'd232;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 	default:
 			 oUopFlowIdx = 8'd0;
@@ -471,13 +471,12 @@ begin
 		230: oUop = { `inc ,`inc16,  `sp  };
 		231: oUop = { `eof, `sma,    `pc  };
 //POPHL
-
-
-
-
-
-
-
+		232: oUop = { `op, `sma,    `sp   };
+		233: oUop = { `op ,`inc16,  `sp   };
+		234: oUop = { `op ,`srm,    `l    };
+		235: oUop = { `op ,`srm,    `h    };
+		236: oUop = { `inc ,`inc16,  `sp  };
+		237: oUop = { `eof, `sma,    `pc  };
 //DECBC
 		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
 
