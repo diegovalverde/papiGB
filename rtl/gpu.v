@@ -91,14 +91,14 @@ wire[15:0] wTileBottom ;
 
 
 assign oFramBufferData = {wPixel7,wPixel6,wPixel5,wPixel4,wPixel3,wPixel2,wPixel1,wPixel0};
-assign wPixel0 = (wSprtPixel0 == `SPRITE_COLOR_TRANSPARENT)? wBgPixel0 : wSprtPixel0;
-assign wPixel1 = (wSprtPixel1 == `SPRITE_COLOR_TRANSPARENT)? wBgPixel1 : wSprtPixel1;
-assign wPixel2 = (wSprtPixel2 == `SPRITE_COLOR_TRANSPARENT)? wBgPixel2 : wSprtPixel2;
-assign wPixel3 = (wSprtPixel3 == `SPRITE_COLOR_TRANSPARENT)? wBgPixel3 : wSprtPixel3;
-assign wPixel4 = (wSprtPixel4 == `SPRITE_COLOR_TRANSPARENT)? wBgPixel4 : wSprtPixel4;
-assign wPixel5 = (wSprtPixel5 == `SPRITE_COLOR_TRANSPARENT)? wBgPixel5 : wSprtPixel5;
-assign wPixel6 = (wSprtPixel6 == `SPRITE_COLOR_TRANSPARENT)? wBgPixel6 : wSprtPixel6;
-assign wPixel7 = (wSprtPixel7 == `SPRITE_COLOR_TRANSPARENT)? wBgPixel7 : wSprtPixel7;
+assign wPixel0 = ({wSh[0],wSl[0]} == `SPRITE_COLOR_TRANSPARENT)? wBgPixel0 : wSprtPixel0;
+assign wPixel1 = ({wSh[1],wSl[1]} == `SPRITE_COLOR_TRANSPARENT)? wBgPixel1 : wSprtPixel1;
+assign wPixel2 = ({wSh[2],wSl[2]} == `SPRITE_COLOR_TRANSPARENT)? wBgPixel2 : wSprtPixel2;
+assign wPixel3 = ({wSh[3],wSl[3]} == `SPRITE_COLOR_TRANSPARENT)? wBgPixel3 : wSprtPixel3;
+assign wPixel4 = ({wSh[4],wSl[4]} == `SPRITE_COLOR_TRANSPARENT)? wBgPixel4 : wSprtPixel4;
+assign wPixel5 = ({wSh[5],wSl[5]} == `SPRITE_COLOR_TRANSPARENT)? wBgPixel5 : wSprtPixel5;
+assign wPixel6 = ({wSh[6],wSl[6]} == `SPRITE_COLOR_TRANSPARENT)? wBgPixel6 : wSprtPixel6;
+assign wPixel7 = ({wSh[7],wSl[7]} == `SPRITE_COLOR_TRANSPARENT)? wBgPixel7 : wSprtPixel7;
 
 
 
@@ -114,7 +114,7 @@ assign wSpriteHeight = ( oLCDC[2] == 1'b1) ? 16'd16 : 16'd8;
 //wTileCoordX =  8*(wCurrentTile % 32)
 assign wTileCoordX =  wCurrentTile[4:0] << 3;
 
-//wTileCoordY = (wCurrentTile / 32)*8 
+//wTileCoordY = (wCurrentTile / 32)*8
 assign wTileCoordY = (wCurrentTile >>5) << 3;
 
 //Check if the sprite intersects the current tile
@@ -141,18 +141,18 @@ assign wIsSpriteInCurrentTile =
    (
 
      //Test top left sprite corner
-    ((wSpriteTopLeftX >= wTileLeft && wSpriteTopLeftX <= wTileRight ) &&
-    (wSpriteTopLeftY  >= wTileTop  && wSpriteTopLeftY <= wTileBottom))
+    ((wSpriteTopLeftX >= wTileLeft && wSpriteTopLeftX < wTileRight ) &&
+    (wSpriteTopLeftY  >= wTileTop  && wSpriteTopLeftY < wTileBottom))
     ||
      //Test top right sprite corner
-     ((wSpriteTopRightX >= wTileLeft && wSpriteTopRightX <= wTileRight ) &&
-     (wSpriteTopRightY  >= wTileTop  && wSpriteTopRightY <= wTileBottom))
+     ((wSpriteTopRightX >  wTileLeft && wSpriteTopRightX < wTileRight ) &&
+     (wSpriteTopRightY  >  wTileTop  && wSpriteTopRightY < wTileBottom))
     ||
-    ((wSpriteBottomRightX >= wTileLeft && wSpriteBottomRightX <= wTileRight ) &&
-    (wSpriteBottomRightY  >= wTileTop  && wSpriteBottomRightY <= wTileBottom))
+    ((wSpriteBottomRightX > wTileLeft && wSpriteBottomRightX < wTileRight ) &&
+    (wSpriteBottomRightY  > wTileTop  && wSpriteBottomRightY < wTileBottom))
     ||
-    ((wSpriteBottomLeftX >= wTileLeft && wSpriteBottomLeftX <= wTileRight ) &&
-    (wSpriteBottomLeftY  >= wTileTop  && wSpriteBottomLeftY <= wTileBottom))
+    ((wSpriteBottomLeftX > wTileLeft && wSpriteBottomLeftX < wTileRight ) &&
+    (wSpriteBottomLeftY  > wTileTop  && wSpriteBottomLeftY < wTileBottom))
    ) ? 1'b1 : 1'b0;
 
 assign wIsSpriteInCurrentRow = (wCurrentTileRow + wTileCoordY >= wSpriteCoordY &&
@@ -458,35 +458,46 @@ MUXFULLPARALELL_2SEL_GENERIC # (2) MUX_BGP7 (   .Sel( {wBh[7], wBl[7]} ),
 //PALLETTE 1, 2 for SPRITES
 
 MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP0 ( .Sel( {wSprite_info[4],wSh[0], wSl[0]} ),
-  .I0( oOBP0[1:0]), .I1( oOBP0[3:2]), .I2( oOBP0[5:4]), .I3( oOBP0[7:6]) , .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
+  .I3( oOBP0[1:0]), .I2( oOBP0[3:2]), .I1( oOBP0[5:4]), .I0( oOBP0[7:6]) ,
+  .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
   .O( wSprtPixel0));
 
 MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP1 (.Sel( {wSprite_info[4],wSh[1], wSl[1]} ),
-  .I0( oOBP0[1:0]), .I1( oOBP0[3:2]), .I2( oOBP0[5:4]), .I3( oOBP0[7:6]) , .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
+  .I3( oOBP0[1:0]), .I2( oOBP0[3:2]), .I1( oOBP0[5:4]), .I0( oOBP0[7:6]) ,
+  .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
   .O( wSprtPixel1));
 
 MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP2 (.Sel( {wSprite_info[4],wSh[2], wSl[2]} ),
-  .I0( oOBP0[1:0]), .I1( oOBP0[3:2]), .I2( oOBP0[5:4]), .I3( oOBP0[7:6]) , .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
+  .I3( oOBP0[1:0]), .I2( oOBP0[3:2]), .I1( oOBP0[5:4]), .I0( oOBP0[7:6]) ,
+  .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
   .O( wSprtPixel2));
 
 MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP3 (.Sel( {wSprite_info[4],wSh[3], wSl[3]} ),
-  .I0( oOBP0[1:0]), .I1( oOBP0[3:2]), .I2( oOBP0[5:4]), .I3( oOBP0[7:6]) , .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
+
+  .I3( oOBP0[1:0]), .I2( oOBP0[3:2]), .I1( oOBP0[5:4]),.I0( oOBP0[7:6]) ,
+  .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
+
   .O( wSprtPixel3));
 
 MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP4 ( .Sel( {wSprite_info[4],wSh[4], wSl[4]} ),
-  .I0( oOBP0[1:0]), .I1( oOBP0[3:2]), .I2( oOBP0[5:4]), .I3( oOBP0[7:6]) , .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
+
+  .I3( oOBP0[1:0]), .I2( oOBP0[3:2]), .I1( oOBP0[5:4]), .I0( oOBP0[7:6]) ,
+  .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
   .O( wSprtPixel4));
 
 MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP5 (.Sel( {wSprite_info[4],wSh[5], wSl[5]} ),
-  .I0( oOBP0[1:0]), .I1( oOBP0[3:2]), .I2( oOBP0[5:4]), .I3( oOBP0[7:6]) , .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
+  .I3( oOBP0[1:0]), .I2( oOBP0[3:2]), .I1( oOBP0[5:4]), .I0( oOBP0[7:6]) ,
+  .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
   .O( wSprtPixel5));
 
 MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP6 (.Sel( {wSprite_info[4],wSh[6], wSl[6]} ),
-  .I0( oOBP0[1:0]), .I1( oOBP0[3:2]), .I2( oOBP0[5:4]), .I3( oOBP0[7:6]) , .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
+  .I3( oOBP0[1:0]), .I2( oOBP0[3:2]), .I1( oOBP0[5:4]), .I0( oOBP0[7:6]) ,
+  .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
   .O( wSprtPixel6));
 
 MUXFULLPARALELL_3SEL_GENERIC # (2) MUX_SprtP7 (.Sel( {wSprite_info[4],wSh[7], wSl[7]} ),
-  .I0( oOBP0[1:0]), .I1( oOBP0[3:2]), .I2( oOBP0[5:4]), .I3( oOBP0[7:6]) , .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
+  .I3( oOBP0[1:0]), .I2( oOBP0[3:2]), .I1( oOBP0[5:4]), .I0( oOBP0[7:6]) ,
+  .I4( oOBP1[1:0]), .I5( oOBP1[3:2]), .I6( oOBP1[5:4]), .I7( oOBP1[7:6]),
   .O( wSprtPixel7));
 
 

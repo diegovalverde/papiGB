@@ -129,7 +129,7 @@ begin
 //Fetch sprite tile number
   35: oUop = {`gaddl, `vmem_addr, 12'd1};//get next byte sprite index
   36: oUop = {`grvmem, `gnull,`gnull,`gnull};
-  37: oUop = {`gadd, `r4 ,`vmem_data_shl_4,`sprite_current_row_offset}; //define sprite tile index shifted by 4 to the left would get added with bgomffset for tile memory read
+  37: oUop = {`gadd, `r4 ,`vmem_data_shl_4, `tile_row };//`sprite_current_row_offset}; //define sprite tile index shifted by 4 to the left would get added with bgomffset for tile memory read
   38: oUop = {`gaddl, `vmem_addr, 12'd1};//get next byte sprite options
   39: oUop = {`grvmem, `gnull,`gnull,`gnull};
   40: oUop = {`gwrr, `sprite_info,`vmem_data}; //define `sprite_info bits are important for effects flips and flashes
@@ -144,7 +144,7 @@ begin
   45: oUop = {`grvmem, `gnull,`gnull,`gnull};
   46: oUop = {`gwrr, `sl,`vmem_data, `gnull};                            //second tile low byte for current sprite
   47: oUop = {`gnop,  `gnull, `gnull, `gnull};//{`glsprtt, `gnull, `tile_row,`sprite_y_coord}; //test if sprite is in current row
-  48: oUop = {`gjz,`get_next_sprite};
+  48: oUop = {`gnop,  `gnull, `gnull, `gnull};//{`gjz,`get_next_sprite};
   //TODO LOGIC FOR BACKGROUND AND FOREGROUND display for sprites
   //sprite palette logic
   49: oUop = {`gwfbuffer, `gnull,`gnull, `gnull};// SH and SL go through sprite palletes and result gets saved in framebuffer
@@ -154,7 +154,7 @@ begin
   52:  begin
   //$display("DRAW THE ARROW PLZ \n");
   //oUop = {`gjnz, 15'd20}; // end of sprites go to next tile
-    oUop = {`gaddl,  `sprite_current_row_offset, 12'd2};           //Each sprite row is 2Bytes (8 pixles). Increment the sprite row offset by 2 for next iteration
+    oUop = {`gwrr,  `sprite_current_row_offset, `tile_row, `gnull};           //Each sprite row is 2Bytes (8 pixles). Increment the sprite row offset by 2 for next iteration
 //  $finish();
 end
 ////////////////End of ucode for sprite loop////////////////////////////
