@@ -291,7 +291,7 @@
 //  //  `define  XX;
 
 //  //  `define  XX;
-//  //  `define  PUSHHL;
+  `define  PUSHHL 8'hE5
 //  //  `define  ANDn;
 //  //  `define  RST20;
 

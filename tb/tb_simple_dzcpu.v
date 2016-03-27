@@ -403,7 +403,7 @@ end //always
 			208: $fwrite(log,"=== SUBr_l  === %h \n", uut.DZCPU.iMCUData );
 			211: $fwrite(log,"=== SUBr_a  === %h \n", uut.DZCPU.iMCUData );
 			214: $fwrite(log,"=== PUSHDE  === %h \n", uut.DZCPU.iMCUData );
-			//PUSHHL 220-221-222-223-224-225
+			220: $fwrite(log,"=== PUSHHL  === %h \n", uut.DZCPU.iMCUData );
 			226: $fwrite(log,"=== POPDE === %h \n", uut.DZCPU.iMCUData );
 			232: $fwrite(log,"=== POPHL === %h \n", uut.DZCPU.iMCUData );
 			default:

@@ -106,7 +106,7 @@ begin
 	`SUBr_l: oUopFlowIdx = 8'd208;
 	`SUBr_a: oUopFlowIdx = 8'd211;
 	`PUSHDE: oUopFlowIdx = 8'd214;
-	//PUSHHL 220-221-222-223-224-225
+	`PUSHHL: oUopFlowIdx = 8'd220;
 	`POPDE:  oUopFlowIdx = 8'd226;
 	`POPHL:  oUopFlowIdx = 8'd232;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
@@ -456,13 +456,13 @@ begin
 		217: oUop = { `op, `dec16,  `sp  };
 		218: oUop = { `op ,`smw,     `e  };
 		219: oUop = { `inc_eof ,`sma,`pc };
-//PUSHHL 220-221-222-223-224-225
-
-
-
-
-
-
+//PUSHHL
+		220: oUop = { `op, `dec16,  `sp  };
+		221: oUop = { `op, `sma,    `sp  };
+		222: oUop = { `op ,`smw,    `h   };
+		223: oUop = { `op, `dec16,  `sp  };
+		224: oUop = { `op ,`smw,     `l  };
+		225: oUop = { `inc_eof ,`sma,`pc };
 //POPDE
 		226: oUop = { `op, `sma,    `sp   };
 		227: oUop = { `op ,`inc16,  `sp   };
