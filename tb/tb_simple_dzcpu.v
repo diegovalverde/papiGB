@@ -406,6 +406,7 @@ end //always
 			220: $fwrite(log,"=== PUSHHL  === %h \n", uut.DZCPU.iMCUData );
 			226: $fwrite(log,"=== POPDE === %h \n", uut.DZCPU.iMCUData );
 			232: $fwrite(log,"=== POPHL === %h \n", uut.DZCPU.iMCUData );
+			238: $fwrite(log,"=== LDHLmr_b === %h \n", uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
