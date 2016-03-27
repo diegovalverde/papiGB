@@ -139,10 +139,10 @@ begin
 
   41: oUop = {`gadd, `vmem_addr,`bgtoffset,`r4}; //by adding this two you get the address of the tile memory
   42: oUop = {`grvmem,`gnull,`gnull,`gnull};
-  43: oUop = {`gwrr, `sh, `vmem_data};                           //first tile high byte for current sprite
+  43: oUop = {`gwrr, `sh, `vmem_data, `gnull};                           //first tile high byte for current sprite
   44: oUop = {`gaddl, `vmem_addr, 12'd1};
   45: oUop = {`grvmem, `gnull,`gnull,`gnull};
-  46: oUop = {`gwrr, `sl,`vmem_data};                            //second tile low byte for current sprite
+  46: oUop = {`gwrr, `sl,`vmem_data, `gnull};                            //second tile low byte for current sprite
   47: oUop = {`gnop,  `gnull, `gnull, `gnull};//{`glsprtt, `gnull, `tile_row,`sprite_y_coord}; //test if sprite is in current row
   48: oUop = {`gjz,`get_next_sprite};
   //TODO LOGIC FOR BACKGROUND AND FOREGROUND display for sprites
