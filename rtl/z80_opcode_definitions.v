@@ -141,9 +141,9 @@
 //  `define  LDrr_la;
 
 //  70
-//  `define  LDHLmr_b;
-//  `define  LDHLmr_c;
-//  `define  LDHLmr_d;
+  `define  LDHLmr_b 8'h70
+  `define  LDHLmr_c 8'h71
+  `define  LDHLmr_d 8'h72
 //  `define  LDHLmr_e;
 //  `define
 //  `define  LDHLmr_h;
