@@ -166,6 +166,9 @@ end //always
 				if ( i >= 16'h9800 && i <= 16'h9bff)
 					$fwrite(vram_log_9800_9bff,"%02h ",uut.MMU.VMEM.Ram[i- 16'h8000]);
 			end
+
+      $fwrite(log,"\n\nTEST_RET_VAL %04h\n\n", {uut.MMU.ZERO_PAGE.Ram[ 16'hfffd - 16'hff80 ],uut.MMU.ZERO_PAGE.Ram[ 16'hfffc - 16'hff80 ]} );
+
 			$fwrite(log,"Simulation ended at time %dns\n", $time);
 
 `ifdef ENABLE_CPU_LOG
@@ -256,14 +259,20 @@ $readmemh(
 			uut.GPU.FF_SCY.Q = 8'h0;
 			uut.GPU.FF_LY.Q = 8'h0;
 			uut.GPU.FFS_BGP.Q = 8'h27;
-			//uut.GPU.FFS_BP0.Q = 8'h27;
-			//uut.GPU.FFS_BP1.Q = 8'h27;
+			uut.GPU.FFS_OBP0.Q = 8'he4;
+			uut.GPU.FFS_OBP1.Q = 8'hc4;
 		`endif
 
 		// Add stimulus here
 		//#500
 		//#5000000
+
+	`ifdef SIMULATION_TIME_OUT
+ 		#`SIMULATION_TIME_OUT
+ `else
 		#500000000
+	`endif
+
 		$fwrite(log, "Simulation reached MAX time %hns",$time);
 		rSimulationDone = 1;
 	end
@@ -278,21 +287,25 @@ begin
 
 	 if (uut.GPU.wGpuActive)
 	 begin
-	 			$fwrite(glog,"%05dns [GPU] IP:%d  %h .",$time, uut.GPU.wIp, uut.GPU.wUop[19:15] );
-	 case (uut.GPU.wUop[19:15])
+	 			$fwrite(glog,"%05dns [GPU] IP:%d  %h .",$time, uut.GPU.wIp, uut.GPU.wUop[`GPU_OP_RNG] );
+	 case (uut.GPU.wUop[`GPU_OP_RNG])
 			 	`gnop: $fwrite(glog, "nop  \n");
-				`gwrl: $fwrite(glog, "gwrl r[%h] = %h\n",uut.GPU.wUop[14:10],uut.GPU.wUop[9:0]);
+				`gwrl: $fwrite(glog, "gwrl r[%h] = %h\n",uut.GPU.wUop[`GPU_DST_RNG],uut.GPU.wUop[`GPU_LIT_RNG]);
 				`gwrr: $fwrite(glog, "gwrr \n");
 				`gadd: $fwrite(glog, "gadd %h + %h = %h\n", uut.GPU.wOp1, uut.GPU.wOp0, uut.GPU.rResult);
-				`gsub: $fwrite(glog, "gsub \n");
-				`gaddl: $fwrite(glog, "gaddl %h += %h = %h\n", uut.GPU.wOp1, uut.GPU.wUop[9:0], uut.GPU.rResult );
+				`gsub: $fwrite(glog, "gsub %h - %h = %h\n",uut.GPU.wOp1, uut.GPU.wOp0, uut.GPU.rResult);
+				`gaddl: $fwrite(glog, "gaddl %h += %h = %h\n", uut.GPU.wOp1, uut.GPU.wUop[`GPU_LIT_RNG], uut.GPU.rResult );
 				`gjnz: $fwrite(glog, "gjnz \n");
-				`gwbg: $fwrite(glog, "gwbg \n");
-				`gsubl: $fwrite(glog, "gsubl %h -= %h = %h\n", uut.GPU.wOp1, uut.GPU.wUop[9:0], uut.GPU.rResult);
+				`gwfbuffer: $fwrite(glog, "gwfbuffer \n");
+				`gsubl: $fwrite(glog, "gsubl %h -= %h = %h\n", uut.GPU.wOp1, uut.GPU.wUop[`GPU_LIT_RNG], uut.GPU.rResult);
 				`grvmem: $fwrite(glog,"grvmem @ %h\n", uut.GPU.oMcuAddr);
 				`gshl:   $fwrite(glog,"gshl  \n");
 				`gand: $fwrite(glog, "gand %h & %h = %h\n", uut.GPU.wOp1, uut.GPU.wOp0, uut.GPU.rResult);
 				`gjz: $fwrite(glog, "gjz \n");
+				`gsprtt: $fwrite(glog, " >>> gsprtt tile_row: %d tile_idx: %d sprite [%d , %d] , tile [%d %d ] = %h\n",
+													uut.GPU.wCurrentTileRow/2, uut.GPU.wCurrentTile,
+				                  uut.GPU.wSpriteCoordX, uut.GPU.wSpriteCoordY,
+													uut.GPU.wTileCoordX, uut.GPU.wTileCoordY, uut.GPU.wIsSpriteInCurrentTile);
 		endcase
 
 			//Print the Registers
@@ -307,13 +320,22 @@ begin
 			uut.GPU.oLYC,   uut.GPU.oDMA,     uut.GPU.oBGP,         uut.GPU.oOBP0,
 			uut.GPU.oOBP1, 	uut.GPU.oWY,      uut.GPU.oWX );
 
-			$fwrite(glog, "%02s %02s %04s %08s %08s %08s %08s\n", "Bh", "Bl", "Bsel", "cur_tile", "tile_row", "fb_addr", "vmem_data");
-			$fwrite(glog, "%02x %02x %04x %08x %08x %08d %08x\n",
-			uut.GPU.wBh, uut.GPU.wBl, uut.GPU.wR2, uut.GPU.wR0, uut.GPU.wCurrentTileRow, wFrameBufferAddress, uut.GPU.iMcuReadData);
+			$fwrite(glog, "%04s %04s %04s %04s %06s %10s %10s %10s %10s %10s %10s\n", "Sh", "Sl","Bh", "Bl", "Bsel", "cur_tile", "tile_row", "fb_addr", "vmem_data", "sprite_x", "sprite_y");
+			$fwrite(glog, "0x%02x 0x%02x 0x%02x 0x%02x 0x%04x 0x%08x 0x%08x 0d%08d 0x%08x 0d%08d %08d\n",
+			uut.GPU.wSh, uut.GPU.wSl,uut.GPU.wBh, uut.GPU.wBl, uut.GPU.wR2, uut.GPU.wCurrentTile, uut.GPU.wCurrentTileRow, wFrameBufferAddress, uut.GPU.iMcuReadData, uut.GPU.wSpriteCoordX, uut.GPU.wSpriteCoordY);
 
-			$fwrite(glog, "Tile Pixel Row:\n");
+			$fwrite(glog, "\nBackground Tile Pixel Row:\n");
 			$fwrite(glog, "%02x %02x %02x %02x %02x %02x %02x %02x\n",
 			uut.GPU.wBgPixel7,uut.GPU.wBgPixel6,uut.GPU.wBgPixel5,uut.GPU.wBgPixel4,uut.GPU.wBgPixel3,uut.GPU.wBgPixel2,uut.GPU.wBgPixel1,uut.GPU.wBgPixel0);
+
+			$fwrite(glog, "\nSprite Tile Pixel Row:\n");
+			$fwrite(glog, "%02x %02x %02x %02x %02x %02x %02x %02x\n",
+			uut.GPU.wSprtPixel7,uut.GPU.wSprtPixel6,uut.GPU.wSprtPixel5,uut.GPU.wSprtPixel4,uut.GPU.wSprtPixel3,uut.GPU.wSprtPixel2,uut.GPU.wSprtPixel1,uut.GPU.wSprtPixel0);
+
+			$fwrite(glog, "\nFrame buffer Pixel Row:\n");
+			$fwrite(glog, "%02x %02x %02x %02x %02x %02x %02x %02x\n",
+			uut.GPU.wPixel7,uut.GPU.wPixel6,uut.GPU.wPixel5,uut.GPU.wPixel4,uut.GPU.wPixel3,uut.GPU.wPixel2,uut.GPU.wPixel1,uut.GPU.wPixel0);
+
 
 			$fwrite(glog,"\n\n\n");
 
@@ -392,7 +414,6 @@ end //always
 			175: $fwrite(log,"=== ADDr_a  === %h \n", uut.DZCPU.iMCUData );
 			178: $fwrite(log,"=== ADDr_b  === %h \n", uut.DZCPU.iMCUData );
 			181: $fwrite(log,"=== SUBr_c  === %h \n", uut.DZCPU.iMCUData );
-      184: $fwrite(log,"=== ADDr_c  === %h \n", uut.DZCPU.iMCUData );
 			187: $fwrite(log,"=== ADDr_d  === %h \n", uut.DZCPU.iMCUData );
 			190: $fwrite(log,"=== ADDr_e  === %h \n", uut.DZCPU.iMCUData );
 			193: $fwrite(log,"=== ADDr_h  === %h \n", uut.DZCPU.iMCUData );
@@ -421,7 +442,6 @@ end //always
 							`LDrr_ab: $fwrite(log,"=== LDrr_ab  === %h \n", uut.DZCPU.iMCUData );
 							`XORr_a: $fwrite(log,"=== XORr_a  === %h \n", uut.DZCPU.iMCUData );
 							`NOP: $fwrite(log,"=== NOP  === %h \n", uut.DZCPU.iMCUData );
-							//`DI: $fwrite(log,"=== DI  ===  \n", uut.DZCPU.iMCUData );
 							default:	$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
 				endcase
 
