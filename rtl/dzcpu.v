@@ -36,7 +36,8 @@ module dzcpu
 
 );
 wire[15:0]  wPc, wRegData, wUopSrc, wX16, wY16, wZ16, wInitialPc, wInterruptVectorAddress ;
-wire [7:0]  wuPc, wuOpBasicFlowIdx,wuOpExtendedFlowIdx, wuOpFlowIdx, wBitMask, wX8;
+wire [7:0]  wuOpBasicFlowIdx,wuOpExtendedFlowIdx, wuOpFlowIdx, wBitMask, wX8;
+wire [8:0]  wuPc;
 wire        wIPC,wEof, wZ, wN, wCarry;
 wire [12:0] wUop;
 wire [4:0 ] wuCmd;
@@ -100,7 +101,7 @@ assign wInterruptRequestBitMap = ( wInterruptsEnabled  == 1'b1) ? wInterruptRequ
 
 
 
-UPCOUNTER_POSEDGE # (8) UPC
+UPCOUNTER_POSEDGE # (9) UPC
 (
   .Clock(   iClock                             ),
   .Reset(   iReset | rResetFlow | wJcbDetected ),

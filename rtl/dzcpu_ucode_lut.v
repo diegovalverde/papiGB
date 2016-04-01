@@ -31,7 +31,7 @@ module dzcpu_ucode_lut
 
 
 
-wire [7:0] wUopFlowIdx;
+
 
 
 
@@ -133,7 +133,7 @@ module dzcpu_ucode_cblut
 
 
 
-wire [7:0] wUopFlowIdx;
+
 
 
 
@@ -156,7 +156,7 @@ endmodule
 
 module dzcpu_ucode_rom
 (
-	input  wire[7:0]  iAddr,
+	input  wire[8:0]  iAddr,
 	output reg [12:0]  oUop
 );
 always @ ( iAddr )
@@ -497,7 +497,7 @@ begin
 		247: oUop = {`op, `nop, `null  };
 		248: oUop = {`op, `nop, `null    };
 		249: oUop = {`eof, `jint, `null  };
-
+//LDDEmA
 
 //DECBC
 		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
