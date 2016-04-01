@@ -116,6 +116,7 @@ end //always
 					FrameDumpCount = FrameDumpCount + 1;
 
 					`ifdef STOP_AFTER_FIRST_FRAME
+							$fwrite(log,"**** First fram complete. Stopping Simulation **** \n");
 				  		rSimulationDone = 1;
 					`endif
 			end
@@ -349,8 +350,8 @@ end //always
 	begin
 		wait(iReset != 1);
 
-		if (uut.DZCPU.wPc == 16'he0)//16'h0fc // || uut.GPU.oLY == 8'hff)	//This instructrion finishes copying the little (R)
-			rSimulationDone = 1;
+		//if (uut.DZCPU.wPc == 16'he0)//16'h0fc // || uut.GPU.oLY == 8'hff)	//This instructrion finishes copying the little (R)
+			//rSimulationDone = 1;
 
 
 		if (uut.DZCPU.rCurrentState == `DZCPU_START_FLOW)
@@ -482,6 +483,8 @@ end //always
 				`subx16: $fwrite(log,"subx16 %h -= %h\n", uut.DZCPU.wX16, uut.DZCPU.wRegData);
 				`srx16: $fwrite(log,"srx16 %h\n", uut.DZCPU.wRegData);
 				`ceti: $fwrite(log,"ceti %h\n", uut.DZCPU.wRegData);
+				`jint: $fwrite(log,"jint %h\n", uut.DZCPU.wRegData);
+				`seti: $fwrite(log,"set %h\n", uut.DZCPU.wRegData);
 				`z801bop:
 				begin
 					case (uut.DZCPU.iMCUData[7:3])

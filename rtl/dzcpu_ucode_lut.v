@@ -179,7 +179,7 @@ begin
 		10: oUop = { `op,  `smw,   `a  };
 		11: oUop = { `inc, `sma,   `pc };
 		12: oUop = { `eof, `dec16, `hl };
-	//0xCB
+	//MAPcb 0xCB
 		13: oUop = { `inc, `sma, `pc   };
 		14: oUop = { `op,  `nop, `null };
 		15: oUop = { `inc, `jcb, `null };
@@ -492,6 +492,13 @@ begin
 		244: oUop = {`inc, `sma, `hl  };
 		245: oUop = {`op, `smw, `d    };
 		246: oUop = {`eof, `sma, `pc  };
+
+//FLOW_ID_INT_VBLANK
+		247: oUop = {`op, `nop, `null  };
+		248: oUop = {`op, `nop, `null    };
+		249: oUop = {`eof, `jint, `null  };
+
+
 //DECBC
 		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
 

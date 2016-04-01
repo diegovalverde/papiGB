@@ -35,7 +35,7 @@ module dzcpu
   output reg         oMCUwe
 
 );
-wire[15:0]  wPc, wRegData, wUopSrc, wX16, wY16, wZ16, wInitialPc ;
+wire[15:0]  wPc, wRegData, wUopSrc, wX16, wY16, wZ16, wInitialPc, wInterruptVectorAddress ;
 wire [7:0]  wuPc, wuOpBasicFlowIdx,wuOpExtendedFlowIdx, wuOpFlowIdx, wBitMask, wX8;
 wire        wIPC,wEof, wZ, wN, wCarry;
 wire [12:0] wUop;
@@ -43,7 +43,7 @@ wire [4:0 ] wuCmd;
 wire [3:0]  wMcuAdrrSel;
 wire [2:0]  wUopRegReadAddr0, wUopRegReadAddr1, rUopRegWriteAddr;
 wire [7:0]  wB,wC,wD, wE, wH,wL,wA, wSpL, wSpH, wFlags, wUopSrcRegData0,wUopSrcRegData1, wNextUopFlowIdx;
-wire [3:0]  wInterruptRequest, wInterruptRequests_pre;
+wire [3:0]  wInterruptRequestBitMap, wInterruptRequestBitMaps_pre;
 wire       wInterruptsEnabled;
 wire [7:0]   wNextFlow; //output of Interruption MUX
 reg     rSetiWe,rSetiVal; // set FF_INTENABLE
@@ -83,33 +83,19 @@ dzcpu_ucode_cblut ucblut
   .oUopFlowIdx( wuOpExtendedFlowIdx )
 );
 
-wire wJcbDetected;
+wire wJcbDetected, wInterruptRoutineJumpDetected;
 
+assign wInterruptRoutineJumpDetected = ( rFlowEnable & wuCmd == `jint ) ? 1'b1 : 1'b0;
 assign wJcbDetected    = ( rFlowEnable & wuCmd == `jcb ) ? 1'b1 : 1'b0;
-assign wuOpFlowIdx     = ( wJcbDetected ) ? wuOpExtendedFlowIdx : wuOpBasicFlowIdx ;
 
-assign wNextUopFlowIdx = (iReset) ? 8'b0 : wuOpFlowIdx;
 
 //Hold the int signal while we wait for current flow to finish
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 4 )FF_INTSIGNAL( iClock, iReset | rClearIntLatch, 4'b0 , iInterruptRequests, wInterruptRequests_pre );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 4 )FF_INTSIGNAL( iClock, iReset | rClearIntLatch, 4'b0 , iInterruptRequests, wInterruptRequestBitMaps_pre );
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FF_INTENABLE( iClock, iReset, rFlowEnable & rSetiWe, rSetiVal, wInterruptsEnabled );
 
 //Disregard interrupts if interrupts are disabled
-assign wInterruptRequest = ( wInterruptsEnabled  == 1'b1) ? wInterruptRequests_pre : 4'b0;
-
-
-MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_INTERRUPT
-(
-       .Sel( wInterruptRequest ),
-       .I0(  wNextUopFlowIdx),                       //0000 No interrupts, use the normal flow
-       .I1( `FLOW_ID_INT_VBLANK ),             //0001
-       .I2( `FLOW_ID_INT_LCD_STATUS_TRIGGER),  //0010
-       .I8(  `FLOW_ID_INT_TIMER_OVERFLOW),     //0100
-       .I15( `FLOW_ID_INT_VBLANK_JOYPAD_PRESS),//1000
-
-       .O( wNextFlow )
-);
+assign wInterruptRequestBitMap = ( wInterruptsEnabled  == 1'b1) ? wInterruptRequestBitMaps_pre : 4'b0;
 
 
 
@@ -118,11 +104,49 @@ UPCOUNTER_POSEDGE # (8) UPC
 (
   .Clock(   iClock                             ),
   .Reset(   iReset | rResetFlow | wJcbDetected ),
-  .Initial( wNextFlow                    ),
-  //.Initial(   wNextUopFlowIdx            ),
+  .Initial( wNextFlow                          ),
   .Enable(  rFlowEnable                        ),
   .Q(       wuPc                               )
 );
+
+
+assign wNextFlow = (iReset) ? 8'b0 : wuOpFlowIdx;
+
+MUXFULLPARALELL_2SEL_GENERIC MUX_NEXT_FLOW
+(
+  .Sel({wInterruptRoutineJumpDetected,wJcbDetected}),
+  .I0( wuOpBasicFlowIdx     ),
+  .I1( wuOpExtendedFlowIdx  ),
+  .I2( `FLOW_ID_INTERRUPT   ),
+  .I3( `FLOW_ID_INTERRUPT   ),
+  .O( wuOpFlowIdx )
+);
+
+
+MUXFULLPARALELL_4SEL_GENERIC # (16) MUX_INTERRUPT
+(
+       .Sel( wInterruptRequestBitMap ),
+       .I0(  wPc             ),                //0000 No interrupts, use the normal flow
+       .I1(  `INT_ADDR_VBLANK ),               //0001 -- Interrupt routine 0x40
+       .I2(  `INT_ADDR_LCD_STATUS_TRIGGER),    //0010
+       .I3(  `INT_ADDR_VBLANK ),               //0011 -- Interrupt routine 0x40
+       .I4(  `INT_ADDR_TIMER_OVERFLOW),        //0100
+       .I5(  `INT_ADDR_VBLANK),                //0101
+       .I6(  `INT_ADDR_TIMER_OVERFLOW),        //0110
+       .I7(  `INT_ADDR_VBLANK        ),        //0111
+       .I8( `INT_ADDR_VBLANK_JOYPAD_PRESS),    //1000
+       .I9( `INT_ADDR_VBLANK_JOYPAD_PRESS),    //1001
+       .I10( `INT_ADDR_VBLANK_JOYPAD_PRESS),   //1010
+       .I11( `INT_ADDR_VBLANK_JOYPAD_PRESS),   //1011
+       .I12( `INT_ADDR_VBLANK_JOYPAD_PRESS),   //1100
+       .I13( `INT_ADDR_VBLANK_JOYPAD_PRESS),   //1101
+       .I14( `INT_ADDR_VBLANK_JOYPAD_PRESS),   //1110
+       .I15( `INT_ADDR_VBLANK_JOYPAD_PRESS),   //1111
+
+       .O( wInterruptVectorAddress )
+);
+
+
 
 `ifdef SKIP_BIOS
   assign wInitialPc = ( rOverWritePc ) ? rUopDstRegData : 16'h100;
@@ -444,7 +468,24 @@ begin
       rClearIntLatch      = 1'b0;
     end
 
-    `jcb:
+    `jint:    //Jump to interrupt routine
+    begin
+      oMCUwe              = 1'b0;
+      rRegSelect          = wUop[3:0];
+      rSetMCOAddr         = 1'b0;
+      rRegWe              = 1'b0;
+      rWriteSelect        = `pc;
+      rFlagsWe            = 1'b0;
+      rFlags              = 8'b0;
+      rUopDstRegData      = wInterruptVectorAddress;
+      rOverWritePc        = 1'b1;
+      rMcuReadRequest     = 1'b0;
+      rSetiWe             = 1'b0;
+      rSetiVal            = 1'b0;
+      rClearIntLatch      = 1'b1;
+    end
+
+    `jcb:  //Jump to extended Z80 flow (0xCB command)
     begin
       oMCUwe              = 1'b0;
       rRegSelect          = wUop[3:0];
@@ -580,24 +621,6 @@ begin
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
     end
-
-    `sx16l:
-    begin
-      oMCUwe              = 1'b0;
-      rRegSelect          = wUop[3:0];
-      rSetMCOAddr         = 1'b0;
-      rRegWe              = 1'b1;
-      rWriteSelect        = `x16;
-      rFlagsWe            = 1'b0;
-      rFlags              = 8'b0;
-      rUopDstRegData      = wUop[7:0];
-      rOverWritePc        = 1'b0;
-      rMcuReadRequest     = 1'b0;
-      rSetiWe             = 1'b0;
-      rSetiVal            = 1'b0;
-      rClearIntLatch      = 1'b0;
-    end
-
 
     `seti:
      begin
