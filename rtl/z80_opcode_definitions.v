@@ -23,7 +23,7 @@
 //  10
 //  `define  DJNZn;
   `define  LDDEnn 8'h11
-//  `define  LDDEmA;
+  `define  LDDEmA 8'h12
   `define  INCDE 8'h13
 
   `define  INCr_d 8'h14
@@ -701,6 +701,7 @@
 `define cibit	 5'h12
 `define ceti	 5'h13
 `define jint    5'h14
+`define lbcx16  5'd15
 
 `define null 4'h0
 

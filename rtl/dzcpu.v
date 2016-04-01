@@ -310,8 +310,8 @@ begin
   endcase
 end
 
-assign wZ = (rUopDstRegData == 16'b0) ? 1'b1 : 1'b0;
-assign wN = (rUopDstRegData[15] == 1'b1) ? 1'b1 : 1'b0;
+assign wZ = (rUopDstRegData[7:0] ==8'b0) ? 1'b1 : 1'b0;
+assign wN = (rUopDstRegData[7] == 1'b1) ? 1'b1 : 1'b0;
 
 
 always @ ( * )
@@ -674,7 +674,22 @@ begin
         rClearIntLatch      = 1'b1;
      end
 
-
+    `lbcx16:
+      begin
+         oMCUwe              = 1'b0;
+         rRegSelect          = `null;
+         rSetMCOAddr         = 1'b0;
+         rRegWe              = 1'b1;
+         rWriteSelect        = `x16;
+         rFlagsWe            = 1'b0;
+         rFlags              = 8'b0;
+         rUopDstRegData      = {wB,wC};
+         rOverWritePc        = 1'b0;
+         rMcuReadRequest     = 1'b0;
+         rSetiWe             = 1'b0;
+         rSetiVal            = 1'b0;
+         rClearIntLatch      = 1'b0;
+      end
 
     default:
     begin

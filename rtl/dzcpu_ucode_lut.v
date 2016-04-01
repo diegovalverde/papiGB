@@ -112,6 +112,7 @@ begin
 	`LDHLmr_b: oUopFlowIdx = 8'd238;
 	`LDHLmr_c: oUopFlowIdx = 8'd241;
 	`LDHLmr_d: oUopFlowIdx = 8'd244;
+	`LDDEmA:   oUopFlowIdx = 8'd247;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 	default:
 			 oUopFlowIdx = 8'd0;
@@ -492,12 +493,12 @@ begin
 		244: oUop = {`inc, `sma, `hl  };
 		245: oUop = {`op, `smw, `d    };
 		246: oUop = {`eof, `sma, `pc  };
-
-//FLOW_ID_INT_VBLANK
-		247: oUop = {`op, `nop, `null  };
-		248: oUop = {`op, `nop, `null    };
-		249: oUop = {`eof, `jint, `null  };
 //LDDEmA
+		247: oUop = {`op, `sma, `de  };
+		248: oUop = {`op, `smw, `a    };
+		249: oUop = {`inc_eof, `sma, `pc    };
+
+
 
 //DECBC
 		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
