@@ -59,7 +59,7 @@ begin
 	`DECr_b: oUopFlowIdx = 8'd77;
 	`LDHLIA: oUopFlowIdx = 8'd78;
 	`INCHL:  oUopFlowIdx = 8'd82;
-	`RET:    oUopFlowIdx = 8'd83;
+	`RET:    oUopFlowIdx = 8'd252;//8'd83;
 	`INCDE:  oUopFlowIdx = 8'd89;
 	`CPn:    oUopFlowIdx = 8'd90;
 	`LDmmA: oUopFlowIdx = 8'd98;
@@ -82,7 +82,7 @@ begin
 	`NOP:    oUopFlowIdx = 8'd162;
   `DI:     oUopFlowIdx = 8'd163;
   `INCr_d: oUopFlowIdx = 8'd164;
-  `INCr_e: oUopFlowIdx = 8'd165;
+  `INCr_e: oUopFlowIdx = 8'd250; //8'd165;
   `DECr_e: oUopFlowIdx = 8'd166;
   `DECDE:  oUopFlowIdx = 8'd167;
   `DECr_h: oUopFlowIdx = 8'd168;
@@ -272,12 +272,22 @@ begin
 	//INCHL
 		82: oUop = { `inc_eof ,`inc16,  `hl };
 	//RET
-		83: oUop = { `nop ,`sma,  `sp   };
+	  83: oUop = { `nop ,`sma,  `sp   };
 		84: oUop = { `nop, `inc16, `sp  };
 		85: oUop = { `nop , `srm, `x8   };
 		86: oUop = { `nop , `spc, `x8   };
 		87: oUop = { `nop, `inc16, `sp  };
 		88: oUop = { `eof ,`sma,  `pc   };
+		//RET
+		    /*83: oUop = { `nop ,`sma,  `sp   };
+				84:  oUop = { `nop, `inc16, `sp  };
+				139: oUop = {`op, `sx16r,  `hl };
+				84:  oUop = { `nop, `inc16, `sp  };
+				142: oUop = {`inc,   `srm,   `l  };
+				143: oUop = {`op,   `srm,   `h  };
+				144: oUop = {`op,   `spc,   `hl  };
+				145: oUop = {`eof,  `srx16, `hl };
+				88: oUop = { `eof ,`sma,  `pc   }; */
 	//INCDE
 		89: oUop = { `inc_eof, `inc16, `de };
 	//CPn
@@ -376,8 +386,8 @@ begin
 		163: oUop = { `inc_eof, `ceti, `null }; //Disable Interruption
 //INCr_d
 		164: oUop = { `inc_eof_fu, `inc16, `d };
-//INCr_e
-		165: oUop = { `inc_eof_fu, `inc16, `e };
+//**INCr_e
+		165: oUop = {`op,  `nop, `null };//{ `inc_eof_fu, `inc16, `e };
 //DECr_e
 		166: oUop = { `inc_eof_fu, `dec16, `e };
 //DECDE
@@ -497,8 +507,19 @@ begin
 		247: oUop = {`op, `sma, `de  };
 		248: oUop = {`op, `smw, `a    };
 		249: oUop = {`inc_eof, `sma, `pc    };
+//INCr_e
+    250:  oUop = { `update_flags, `inc16, `e };
+		251:  oUop = { `inc_eof, `nop, `null };
 
-
+//RET
+		252: oUop = {`op ,`sma,  `sp   };
+		254: oUop = {`op, `sx16r,  `hl };
+		255: oUop = {`op, `inc16, `sp  };
+		256: oUop = {`op,   `srm,   `l  };
+		257: oUop = {`op,   `srm,   `h  };
+		258: oUop = {`op,   `spc,   `hl  };
+		259: oUop = {`op,  `srx16, `hl };
+		260: oUop = { `eof ,`sma,  `pc   };
 
 //DECBC
 		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register

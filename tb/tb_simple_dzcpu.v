@@ -379,7 +379,7 @@ end //always
 			77: $fwrite(log,"=== DECr_b === %h \n", uut.DZCPU.iMCUData );
 			78: $fwrite(log,"=== LDHLIA === %h \n", uut.DZCPU.iMCUData );
 			82: $fwrite(log,"=== INCHL === %h \n", uut.DZCPU.iMCUData );
-			83: $fwrite(log,"=== RET === %h \n", uut.DZCPU.iMCUData );
+			252/*83*/: $fwrite(log,"=== RET === %h \n", uut.DZCPU.iMCUData );
 			89: $fwrite(log,"=== INCDE === %h \n", uut.DZCPU.iMCUData );
 			90: $fwrite(log,"=== CPn === %h \n", uut.DZCPU.iMCUData );
 			98: $fwrite(log,"=== LDmmA === %h \n", uut.DZCPU.iMCUData );
