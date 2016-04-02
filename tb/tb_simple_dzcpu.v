@@ -402,7 +402,7 @@ end //always
 			162: $fwrite(log,"=== NOP  ===  \n");
 			163: $fwrite(log,"=== DI  ===  \n", uut.DZCPU.iMCUData );
 			164: $fwrite(log,"=== INCr_d  === %h \n", uut.DZCPU.iMCUData );
-			165: $fwrite(log,"=== INCr_e  === %h \n", uut.DZCPU.iMCUData );
+			250/*165*/: $fwrite(log,"=== INCr_e  === %h \n", uut.DZCPU.iMCUData );
 			166: $fwrite(log,"=== DECr_e  === %h \n", uut.DZCPU.iMCUData );
 			167: $fwrite(log,"=== DECDE  === %h \n", uut.DZCPU.iMCUData );
 			168: $fwrite(log,"=== DECr_h  === %h \n", uut.DZCPU.iMCUData );
@@ -468,7 +468,7 @@ end //always
 				`srm:
 				begin
 					$fwrite(log,"srm %h %h\n", uut.DZCPU.wUopSrc, uut.DZCPU.iMCUData);
-					$fwrite(log,"[MMU] reading %h @ %h\n", uut.MMU.iCpuData,uut.MMU.iCpuAddr);
+					$fwrite(log,"[MMU] reading %h @ %h\n", uut.MMU.oCpuData,uut.MMU.iCpuAddr);
 				end
 				`jcb: $fwrite(log,"jcb %h \n", uut.DZCPU.iMCUData);
 				`smw: $fwrite(log,"smw %h %h\n", uut.DZCPU.oMCUAddr, uut.DZCPU.oMCUData);
@@ -552,6 +552,27 @@ end //always
 			uut.GPU.oSTAT,  uut.GPU.oLCDC,  uut.GPU.oSCY,     uut.GPU.oSCX,   			uut.GPU.oLY,
 			uut.GPU.oLYC,   uut.GPU.oDMA,     uut.GPU.oBGP,         uut.GPU.oOBP0,
 			uut.GPU.oOBP1, 	uut.GPU.oWY,      uut.GPU.oWX );
+
+
+			`ifdef CPU_TRACE_WORK_MEMORY
+
+			$fwrite(log, "=== WORK MEMORY C000 - DFFFF ===\n");
+			for (i = 0; i <  5*16; i = i + 1)
+			begin
+					$fwrite(log,"%02x ", uut.MMU.WORK_RAM.Ram[i]);
+					if ((i+1) % 16 == 0)
+							$fwrite(log,"\n");
+
+			end
+
+			for (i = 8176; i <  8176+5*16; i = i + 1)
+			begin
+					$fwrite(log,"*%02x ", uut.MMU.WORK_RAM.Ram[i]);
+					if ((i+1) % 16 == 0)
+							$fwrite(log,"\n");
+
+			end
+			`endif
 
 			if (uut.GPU.oLY == 144)
 				$fwrite(log,"[SCREEN_FRAME_COMPLETED]\n");
