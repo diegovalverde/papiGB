@@ -206,7 +206,7 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_H
 	//External RAM
 	.I10(8'b0), .I11(8'b0),
 	// Work RAM and Echo
-	.I12( 8'b0), .I13(8'b0), .I14(8'b0),
+	.I12( wReadCartridgeBank0 ), .I13(8'b0), .I14(8'b0),
 	//Extended Regions
 	.I15( wReadData_L ),
 
