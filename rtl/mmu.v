@@ -55,10 +55,10 @@ module mmu
 
 
 );
-	wire [7:0] wBiosData, wZeroPageDataOut, wZIOData, wIORegisters,wLCDRegisters,wSoundRegisters_Group0,wSoundRegisters_Group1;
+	wire [7:0] wBiosData, wZeroPageDataOut, wWorkRamDataOut, wZIOData, wIORegisters,wLCDRegisters,wSoundRegisters_Group0,wSoundRegisters_Group1;
 	wire [7:0] wSoundRegisters_WavePattern, wJoyPadAndTimers;
 	wire [15:0] wAddr, wVmemReadAddr;
-	wire wInBios, wInCartridgeBank0, wWeZeroPage, wWeVRam, wCPU_GPU_Sel;
+	wire wInBios, wInCartridgeBank0, wWeZeroPage, wWeVRam, wCPU_GPU_Sel, wWeWorkRam;
 	wire [3:0] wMemSel_H, wMemSel_L;
 	wire [7:0] wReadCartridgeBank0, wReadVmem, wReadData_L, wOAMData;
 
@@ -118,6 +118,16 @@ RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(7), .MEM_SIZE(128) ) ZERO_P
  .iWriteAddress( wAddr[6:0]   ),
  .iDataIn(       iCpuData        ),
  .oDataOut0( wZeroPageDataOut )
+);
+
+RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(8191) ) WORK_RAM
+(
+ .Clock( iClock ),
+ .iWriteEnable( wWeWorkRam   ),
+ .iReadAddress0( wAddr[12:0]   ),
+ .iWriteAddress( wAddr[12:0]   ),
+ .iDataIn(       iCpuData        ),
+ .oDataOut0( wWorkRamDataOut )
 );
 
 assign oGpu_RegSelect = wAddr[3:0];
@@ -204,9 +214,11 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_H
 	.I8(wReadVmem), .I9(wReadVmem),
 
 	//External RAM
-	.I10(8'b0), .I11(8'b0),
+	.I10(8'b0), .I11(8'b0),      //A000 - BFFF
 	// Work RAM and Echo
-	.I12( wReadCartridgeBank0 ), .I13(8'b0), .I14(8'b0),
+	.I12( wWorkRamDataOut     ),//wReadCartridgeBank0 ), //C000 - DFFF
+	.I13( wWorkRamDataOut     ), //C000 - DFFF
+	.I14(wReadCartridgeBank0),
 	//Extended Regions
 	.I15( wReadData_L ),
 
@@ -217,7 +229,8 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_H
 assign wWeZeroPage = ( iCpuWe && wAddr[15:12] == 4'hf && wAddr[11:8] == 4'hf && (wAddr[7:6] == 2'h2 || wAddr[7:6] == 2'h3) ) ? 1'b1 : 1'b0 ;
 assign wWeVRam     = ( iCpuWe && (wAddr[15:12] == 4'h8 || wAddr[15:12] == 4'h9 ) ) ? 1'b1 : 1'b0;
 assign oGpu_RegWe  = ( iCpuWe && wAddr[15:4] == 12'hff4 ) ? 1'b1 : 1'b0;
-
+//Working RAM C000 - DFFF
+assign wWeWorkRam  = ( iCpuWe && wAddr[15:13] == 3'h6 ) ? 1'b1 : 1'b0;
 
 
 
@@ -241,7 +254,7 @@ dummy_cartridge DummyCartridgeBank0
 endmodule
 `ifndef REAL_CARTRIDGE_DATA
 
-`ifdef LOAD_CARTRIDGE_FROM_FILE
+`ifdef CARTRIGDE_DUMP_PATH
 module dummy_cartridge
 (
   input wire [15:0] iAddr,
@@ -343,6 +356,6 @@ end//always
 endmodule
 
 
-`endif //LOAD_CARTRIDGE_FROM_FILE
+`endif //CARTRIGDE_DUMP_PATH
 
 `endif //REAL_CARTRIDGE_DATA
