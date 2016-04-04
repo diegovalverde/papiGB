@@ -310,9 +310,9 @@
 //  //  `define  POPAF;
 //  //  `define  LDAIOC;
   `define  DI 8'hF3
-//  //  `define
+
 //  //  `define  XX;
-//  //  `define  PUSHAF;
+`define  PUSHAF  8'hF5
 //  //  `define  ORn;
 //  //  `define  RST30;
 //  //  `define
@@ -665,6 +665,12 @@
 `define flag_h 5  //half carry
 `define flag_c 4  //carry
 
+//+------------+-----------+-------------+
+//|   13:10         9:5         4:0     |
+//+------------+-----------+-------------+
+//| Predicate  | Operation |  Operand    |
+//+------------+-----------+-------------+
+
 //Prefixed
 `define op              4'b0000
 `define pred_z          4'b0001
@@ -678,7 +684,8 @@
 `define eof_z           4'b0101	//finish flow if zero flag is 1
 `define eof_fu          4'b0110
 
-`define uop_flags_update_enable 1
+`define uop_flags_update_enable 11
+`define uop_flags_eof           12
 
 `define nop      5'h0
 `define sma      5'h1
@@ -697,37 +704,37 @@
 `define shl      5'he
 `define subx16   5'hf
 `define srx16    5'h10
-`define seti	 5'h11
-`define cibit	 5'h12
-`define ceti	 5'h13
-`define jint    5'h14
-`define lbcx16  5'd15
+`define seti	   5'h11
+`define cibit	   5'h12
+`define ceti	   5'h13
+`define jint     5'h14
+`define lbcx16   5'd15
 
-`define null 4'h0
+`define null 5'h0
 
 
 
-`define b     4'h0
-`define c     4'h1
-`define d     4'h2
-`define e     4'h3
-`define h     4'h4
-`define l     4'h5
-`define hl    4'h6
-`define a     4'h7
-`define pc    4'h8
-`define pch   4'he
-`define sp    4'h9
-`define flags 4'h9
-`define spl   4'ha
-`define sph   4'hb
-`define y16   4'ha
-`define z16   4'hb
-`define x8    4'hc
-`define x16   4'hd
-`define io_c  4'he
-`define de    4'hf
-
+`define b     5'h0
+`define c     5'h1
+`define d     5'h2
+`define e     5'h3
+`define h     5'h4
+`define l     5'h5
+`define hl    5'h6
+`define a     5'h7
+`define pc    5'h8
+`define pch   5'he
+`define sp    5'h9
+`define flags 5'h9
+`define spl   5'ha
+`define sph   5'hb
+`define y16   5'ha
+`define z16   5'hb
+`define x8    5'hc
+`define x16   5'hd
+`define io_c  5'he
+`define de    5'hf
+`define f     5'h10
 
 `define DZCPU_AFTER_RESET 0
 `define DZCPU_START_FLOW  1
@@ -738,7 +745,7 @@
 
 
 //this is offset interruption microflow
-`define FLOW_ID_INTERRUPT   8'd247
+`define FLOW_ID_INTERRUPT   9'd247
 
 `define INT_ADDR_VBLANK 					     16'h40
 `define INT_ADDR_LCD_STATUS_TRIGGER		 16'h48
