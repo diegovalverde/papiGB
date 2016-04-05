@@ -433,6 +433,7 @@ end //always
 			244: $fwrite(log,"=== LDHLmr_d === %h \n", uut.DZCPU.iMCUData );
 			247: $fwrite(log,"=== LDDEmA === %h \n", uut.DZCPU.iMCUData );
 			261: $fwrite(log,"=== PUSHAF === %h \n", uut.DZCPU.iMCUData );
+			267: $fwrite(log,"=== POPAF === %h \n", uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 

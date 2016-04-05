@@ -307,7 +307,7 @@
 //  //  `define
 //  F0
   `define  LDAIOn 8'hf0
-//  //  `define  POPAF;
+  `define  POPAF  8'hf1
 //  //  `define  LDAIOC;
   `define  DI 8'hF3
 
