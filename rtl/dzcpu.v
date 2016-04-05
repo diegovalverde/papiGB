@@ -737,6 +737,7 @@ begin
   case (iMCUData[7:3])
     5'b10100:  rZ80Result = wA & wRegData; //AND
     5'b10101:  rZ80Result = wA ^ wRegData; //XOR
+    5'b10110:  rZ80Result = wA | wRegData; //OR
     5'b01000, 5'b01001, 5'b01010, 5'b01011, 5'b01100, 5'b01101, 5'b01110, 5'b01111:   rZ80Result = wRegData;      //ldrr
     default:  rZ80Result = 8'hcc;
   endcase

@@ -222,8 +222,8 @@
   `define  XORr_a 8'hAF
 
 //  B0
-//  `define  ORr_b;
-//  `define  ORr_c;
+  `define  ORr_b 8'hb0
+  `define  ORr_c 8'hb1
 //  `define  ORr_d;
 //  `define  ORr_e;
 
