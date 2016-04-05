@@ -309,6 +309,7 @@ begin
   case (rWriteSelect)
     `b:    rRegWriteSelect = 14'b00000000000001;
     `c:    rRegWriteSelect = 14'b00000000000010;
+    `bc:   rRegWriteSelect = 14'b00000000000011;
     `d:    rRegWriteSelect = 14'b00000000000100;
     `e:    rRegWriteSelect = 14'b00000000001000;
     `de:   rRegWriteSelect = 14'b00000000001100;
@@ -324,6 +325,7 @@ begin
     `y16:  rRegWriteSelect = 14'b00100000000000;
     `z16:  rRegWriteSelect = 14'b01000000000000;
     `f:    rRegWriteSelect = 14'b10000000000000;
+
     default: rRegWriteSelect = 13'b0;
   endcase
 end
