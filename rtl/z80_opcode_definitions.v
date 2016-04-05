@@ -3,7 +3,7 @@
   `define  NOP     8'h0
   `define  LDBCnn  8'h1
   `define  LDBCmA  8'h2
-//`define  INCBC   8'h3
+  `define  INCBC   8'h3
 
   `define  INCr_b 8'h4
   `define  DECr_b 8'h5
@@ -735,6 +735,7 @@
 `define io_c  5'd18
 `define de    5'd19
 `define f     5'd20
+`define bc    5'd21
 
 `define DZCPU_AFTER_RESET 0
 `define DZCPU_START_FLOW  1

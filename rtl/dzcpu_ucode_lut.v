@@ -116,6 +116,7 @@ begin
 	`PUSHAF:   oUopFlowIdx = 9'd261;
 	`POPAF:    oUopFlowIdx = 9'd267;
 	`LDBCnn:   oUopFlowIdx = 9'd273;
+	`INCBC:    oUopFlowIdx = 9'd277;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 	default:
 			 oUopFlowIdx = 9'd0;
@@ -545,6 +546,9 @@ begin
 		274: oUop = { `inc, `nop, `null };
 	  275: oUop = { `op , `srm, `c    };
 		276: oUop = { `inc_eof , `srm, `b    };
+//INCBC
+		277: oUop = { `inc_eof ,`inc16,  `bc };
+
 
 //DECBC
 		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
