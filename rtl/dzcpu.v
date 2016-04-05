@@ -41,16 +41,16 @@ wire [8:0]  wuOpBasicFlowIdx,wuOpExtendedFlowIdx, wuOpFlowIdx, wuPc;
 wire        wIPC,wEof, wZ, wN, wCarry;
 wire [13:0] wUop;
 wire [4:0 ] wuCmd;
-wire [3:0]  wMcuAdrrSel;
+wire [4:0]  wMcuAdrrSel;
 wire [2:0]  wUopRegReadAddr0, wUopRegReadAddr1, rUopRegWriteAddr;
 wire [7:0]  wB,wC,wD, wE, wH,wL,wA, wF, wSpL, wSpH, wFlags, wUopSrcRegData0,wUopSrcRegData1, wNextUopFlowIdx;
 wire [3:0]  wInterruptRequestBitMap, wInterruptRequestBitMaps_pre;
 wire       wInterruptsEnabled;
-wire [7:0]   wNextFlow; //output of Interruption MUX
+wire [8:0]   wNextFlow; //output of Interruption MUX
 reg     rSetiWe,rSetiVal; // set FF_INTENABLE
 reg        rClearIntLatch; // clean FF_INTSIGNAL
 reg         rResetFlow,rFlowEnable, rRegWe, rSetMCOAddr, rFlagsWe,  rOverWritePc, rCarry, rMcuReadRequest;
-reg [3:0]   rRegSelect;
+reg [4:0]   rRegSelect;
 reg [7:0]   rZ80Result, rFlags, rWriteSelect;
 reg [15:0]  rUopDstRegData;
 
@@ -111,9 +111,9 @@ UPCOUNTER_POSEDGE # (9) UPC
 );
 
 
-assign wNextFlow = (iReset) ? 8'b0 : wuOpFlowIdx;
+assign wNextFlow = (iReset) ? 9'b0 : wuOpFlowIdx;
 
-MUXFULLPARALELL_2SEL_GENERIC MUX_NEXT_FLOW
+MUXFULLPARALELL_2SEL_GENERIC # (9) MUX_NEXT_FLOW
 (
   .Sel({wInterruptRoutineJumpDetected,wJcbDetected}),
   .I0( wuOpBasicFlowIdx     ),
@@ -234,7 +234,7 @@ always @( * )
 endcase
 end
 
-reg [12:0] rRegWriteSelect;
+reg [13:0] rRegWriteSelect;
 wire wFlowEnable_Delay;
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFB (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[0], rUopDstRegData[7:0], wB );
@@ -250,44 +250,56 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX8 (   iClock, iReset, rFlowEnable & rRegW
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFX16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[10], rUopDstRegData[15:0], wX16 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFY16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[11], rUopDstRegData[15:0], wY16 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFZ16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[12], rUopDstRegData[15:0], wZ16 );
+
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8)FFF (     iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[13], rUopDstRegData[7:0], wF );
 
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFFLAGS( iClock, iReset, (rFlowEnable /*| wFlowEnable_Delay*/) & rFlagsWe & wUop[ `uop_flags_update_enable ], rFlags, wFlags );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FFFLOW_EN_DELAY( iClock, iReset, wUop[ `uop_flags_update_enable ], rFlowEnable, wFlowEnable_Delay );
-FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 4 )FFMCUADR( iClock, iReset, rFlowEnable & rSetMCOAddr, `pc , wUop[4:0], wMcuAdrrSel );
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 5 )FFMCUADR( iClock, iReset, rFlowEnable & rSetMCOAddr, `pc , wUop[4:0], wMcuAdrrSel );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FF_RREQ( iClock, iReset, rFlowEnable & ~oMCUwe, rMcuReadRequest, oMcuReadRequest );
 
 
-MUXFULLPARALELL_4SEL_GENERIC # (16) MUX_MCUADR
+
+MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_MCUADR
 (
   .Sel( wMcuAdrrSel),
-  .I0({8'b0,wB}), .I1({8'b0,wC}), .I2({8'b0,wD}), .I3({8'b0,wE}),
-  .I4({8'b0,wH}), .I5({8'b0,wL}), .I6({wH,wL}),   .I7({8'b0,wA}),
-  .I8(wPc), .I9({wSpH,wSpL}), .I10({8'b0,wX8}), .I15({wD,wE}),
-  .I11( 16'b0 ), .I12( 16'b0 ), .I13( 16'b0 ),
-  .I14( {8'hff,wC}), //Special case for LDIOCA
+  .I0({8'b0,wB}),           .I1({8'b0,wC}),           .I2({8'b0,wD}),    .I3({8'b0,wE}),
+  .I4({8'b0,wH}),           .I5({8'b0,wL}),           .I6({wH,wL}),      .I7({8'b0,wA}),
+  .I8(wPc),                 .I9({8'b0,wPc[15:8]}),    .I10({wSpH,wSpL}), .I11({8'b0,wFlags})  ,
+  .I12({8'b0,wSpL}),        .I13( {8'b0,wSpH} ),      .I14( wY16 ),      .I15( wZ16 ),
+  .I16({8'b0,wX8 }),        .I17( wX16),              .I18({8'hff,wC}),  .I19({wD,wE}),
+  .I20({8'b0,wF }),         .I21({wB,wC}),            .I22({wA,wF}),     .I23(16'b0),
+  .I24(16'b0), .I25(16'b0), .I26(16'b0), .I27(16'b0),
+  .I28(16'b0), .I29(16'b0), .I30(16'b0), .I31(16'b0),
   .O( oMCUAddr )
 );
 
-MUXFULLPARALELL_4SEL_GENERIC # (16) MUX_REGDATA
+MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REGDATA
 (
   .Sel( rRegSelect),
-  .I0({8'b0,wB}), .I1({8'b0,wC}),   .I2({8'b0,wD}), .I3({8'b0,wE}),
-  .I4({8'b0,wH}), .I5({8'b0,wL}),   .I6({wH,wL}),  .I7({8'b0,wA}),
-  .I8(wPc),       .I9({wSpH,wSpL}), .I10(wY16),   .I11(wZ16),
-  .I12({8'b0,wX8}), .I13( wX16 ), .I15({wD,wE}),
-  .I14( {8'hff,wC}), //Special case for LDIOCA
+  .I0({8'b0,wB}),           .I1({8'b0,wC}),           .I2({8'b0,wD}),    .I3({8'b0,wE}),
+  .I4({8'b0,wH}),           .I5({8'b0,wL}),           .I6({wH,wL}),      .I7({8'b0,wA}),
+  .I8(wPc),                 .I9({8'b0,wPc[15:8]}),    .I10({wSpH,wSpL}), .I11({8'b0,wFlags})  ,
+  .I12({8'b0,wSpL}),        .I13( {8'b0,wSpH} ),      .I14( wY16 ),      .I15( wZ16 ),
+  .I16({8'b0,wX8 }),        .I17( wX16),              .I18({8'hff,wC}),  .I19({wD,wE}),
+  .I20({8'b0,wF }),         .I21({wB,wC}),            .I22({wA,wF}),     .I23(16'b0),
+  .I24(16'b0), .I25(16'b0), .I26(16'b0), .I27(16'b0),
+  .I28(16'b0), .I29(16'b0), .I30(16'b0), .I31(16'b0),
   .O( wRegData )
 );
 
-MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MCUDATA_OUT
+MUXFULLPARALELL_5SEL_GENERIC # (8) MUX_MCUDATA_OUT
 (
   .Sel( rRegSelect),
-  .I0(wB), .I1(wC), .I2(wD), .I3(wE),
-  .I4(wH), .I5(wL), .I6(wL), .I7(wA),
-  .I8(wPc[7:0]), .I9(wSpL), .I10(wL), .I11(wA),
-  .I12(wH), .I13(wX16[7:0]), .I14(wPc[15:8]), .I15(wA),
+  .I0(wB),           .I1(wC),           .I2(wD),                .I3(wE),
+  .I4(wH),           .I5(wL),           .I6(wL),                .I7(wA),
+  .I8(wPc),          .I9(wPc[15:8]),    .I10(wSpL),             .I11(wFlags)  ,
+  .I12(wSpL),        .I13( wSpH ),      .I14( wY16[7:0] ),      .I15( wZ16[7:0] ),
+  .I16(wX8 ),        .I17( wX16[7:0]),  .I18(wC),               .I19(wE),
+  .I20(wF ),         .I21(wC),          .I22(wF),     .I23(8'b0),
+  .I24(8'b0), .I25(8'b0), .I26(8'b0), .I27(8'b0),
+  .I28(8'b0), .I29(8'b0), .I30(8'b0), .I31(8'b0),
   .O( oMCUData )
 );
 
@@ -295,22 +307,23 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MCUDATA_OUT
 always @ ( * )
 begin
   case (rWriteSelect)
-    `b:    rRegWriteSelect = 13'b0000000000001;
-    `c:    rRegWriteSelect = 13'b0000000000010;
-    `d:    rRegWriteSelect = 13'b0000000000100;
-    `e:    rRegWriteSelect = 13'b0000000001000;
-    `de:   rRegWriteSelect = 13'b0000000001100;
-    `h:    rRegWriteSelect = 13'b0000000010000;
-    `l:    rRegWriteSelect = 13'b0000000100000;
-    `hl:   rRegWriteSelect = 13'b0000000110000;
-    `a:    rRegWriteSelect = 13'b0000001000000;
-    `spl:  rRegWriteSelect = 13'b0000010000000;
-    `sph:  rRegWriteSelect = 13'b0000100000000;
-    `sp:   rRegWriteSelect = 13'b0000110000000;
-    `x8:   rRegWriteSelect = 13'b0001000000000;
-    `x16:  rRegWriteSelect = 13'b0010000000000;
-    `y16:  rRegWriteSelect = 13'b0100000000000;
-    `z16:  rRegWriteSelect = 13'b1000000000000;
+    `b:    rRegWriteSelect = 14'b00000000000001;
+    `c:    rRegWriteSelect = 14'b00000000000010;
+    `d:    rRegWriteSelect = 14'b00000000000100;
+    `e:    rRegWriteSelect = 14'b00000000001000;
+    `de:   rRegWriteSelect = 14'b00000000001100;
+    `h:    rRegWriteSelect = 14'b00000000010000;
+    `l:    rRegWriteSelect = 14'b00000000100000;
+    `hl:   rRegWriteSelect = 14'b00000000110000;
+    `a:    rRegWriteSelect = 14'b00000001000000;
+    `spl:  rRegWriteSelect = 14'b00000010000000;
+    `sph:  rRegWriteSelect = 14'b00000100000000;
+    `sp:   rRegWriteSelect = 14'b00000110000000;
+    `x8:   rRegWriteSelect = 14'b00001000000000;
+    `x16:  rRegWriteSelect = 14'b00010000000000;
+    `y16:  rRegWriteSelect = 14'b00100000000000;
+    `z16:  rRegWriteSelect = 14'b01000000000000;
+    `f:    rRegWriteSelect = 14'b10000000000000;
     default: rRegWriteSelect = 13'b0;
   endcase
 end

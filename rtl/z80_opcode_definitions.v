@@ -714,27 +714,27 @@
 
 
 
-`define b     5'h0
-`define c     5'h1
-`define d     5'h2
-`define e     5'h3
-`define h     5'h4
-`define l     5'h5
-`define hl    5'h6
-`define a     5'h7
-`define pc    5'h8
-`define pch   5'he
-`define sp    5'h9
-`define flags 5'h9
-`define spl   5'ha
-`define sph   5'hb
-`define y16   5'ha
-`define z16   5'hb
-`define x8    5'hc
-`define x16   5'hd
-`define io_c  5'he
-`define de    5'hf
-`define f     5'h10
+`define b     5'd0
+`define c     5'd1
+`define d     5'd2
+`define e     5'd3
+`define h     5'd4
+`define l     5'd5
+`define hl    5'd6
+`define a     5'd7
+`define pc    5'd8
+`define pch   5'd9
+`define sp    5'd10
+`define flags 5'd11
+`define spl   5'd12
+`define sph   5'd13
+`define y16   5'd14
+`define z16   5'd15
+`define x8    5'd16
+`define x16   5'd17
+`define io_c  5'd18
+`define de    5'd19
+`define f     5'd20
 
 `define DZCPU_AFTER_RESET 0
 `define DZCPU_START_FLOW  1
