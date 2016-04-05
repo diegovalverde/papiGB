@@ -432,6 +432,7 @@ end //always
 			241: $fwrite(log,"=== LDHLmr_c === %h \n", uut.DZCPU.iMCUData );
 			244: $fwrite(log,"=== LDHLmr_d === %h \n", uut.DZCPU.iMCUData );
 			247: $fwrite(log,"=== LDDEmA === %h \n", uut.DZCPU.iMCUData );
+			261: $fwrite(log,"=== PUSHAF === %h \n", uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
@@ -539,8 +540,8 @@ end //always
 
 		if (uut.DZCPU.wEof )
 		begin
-			$fwrite(log,"\n          %04s %04s %02s %02s %02s %02s %02s %02s %02s %02s %02s %02s\n", "PC", "SP", "B", "C", "D" ,"E", "H", "L", "A", "Flags", "x8", "x16");
-			$fwrite(log,"[regs] %04x %04x %02x %02x %02x %02x %02x %02x %02x %b %02x %02x\n", Pc, {uut.DZCPU.wSpH,uut.DZCPU.wSpL}, uut.DZCPU.wB, uut.DZCPU.wC, uut.DZCPU.wD, uut.DZCPU.wE ,uut.DZCPU.wH, uut.DZCPU.wL, uut.DZCPU.wA, uut.DZCPU.wFlags, uut.DZCPU.wX8, uut.DZCPU.wX16);
+			$fwrite(log,"\n             %04s %04s %02s %02s %02s %02s %02s %02s %02s %02s %02s %02s\n", "PC", "SP", "B", "C", "D" ,"E", "H", "L", "A", "F", "Flags", "x8", "x16");
+			$fwrite(log,"[regs] %04x %04x %02x %02x %02x %02x %02x %02x %02x %02x %b %02x %02x\n", Pc, {uut.DZCPU.wSpH,uut.DZCPU.wSpL}, uut.DZCPU.wB, uut.DZCPU.wC, uut.DZCPU.wD, uut.DZCPU.wE ,uut.DZCPU.wH, uut.DZCPU.wL, uut.DZCPU.wA,uut.DZCPU.wF, uut.DZCPU.wFlags, uut.DZCPU.wX8, uut.DZCPU.wX16);
 
 
 			$fwrite(log,"\n\n         %05s %05s %05s %05s %05s %05s %05s %05s %05s %05s %05s %05s\n",
