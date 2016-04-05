@@ -237,7 +237,7 @@ end
 reg [13:0] rRegWriteSelect;
 wire wFlowEnable_Delay;
 
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFB (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[0], rUopDstRegData[7:0], wB );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFB (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[0], (( rRegWriteSelect[1] &  rRegWriteSelect[0])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wB );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFC (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[1], rUopDstRegData[7:0], wC );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFD (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[2], (( rRegWriteSelect[2] &  rRegWriteSelect[3])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wD );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFE (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[3], rUopDstRegData[7:0], wE );
