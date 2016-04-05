@@ -515,17 +515,18 @@ begin
 
 //RET
 		252: oUop = {`op ,`sma,  `sp   };
-		254: oUop = {`op, `sx16r,  `hl };
-		255: oUop = {`op, `inc16, `sp  };
-		256: oUop = {`op,   `srm,   `l  };
-		257: oUop = {`op,   `srm,   `h  };
-		258: oUop = {`op,   `spc,   `hl  };
-		259: oUop = {`op,  `srx16, `hl };
+		253: oUop = {`op, `sx16r,  `hl };
+		254: oUop = {`op, `inc16, `sp  };
+		255: oUop = {`op,   `srm,   `l  };
+		256: oUop = {`op,   `srm,   `h  };
+		257: oUop = {`op,   `spc,   `hl  };
+		258: oUop = {`op,  `srx16, `hl };
+		259: oUop = {`op, `inc16, `sp  };
 		260: oUop = { `eof ,`sma,  `pc   };
 
 //PUSHAF
 		261: oUop = { `op, `dec16,  `sp  };
-		261: oUop = { `op, `sma,    `sp  };
+		262: oUop = { `op, `sma,    `sp  };
 		263: oUop = { `op ,`smw,    `a   };
 		264: oUop = { `op, `dec16,  `sp  };
 		265: oUop = { `op ,`smw,     `f  };
