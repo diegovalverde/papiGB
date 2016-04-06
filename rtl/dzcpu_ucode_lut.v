@@ -119,7 +119,7 @@ begin
 	`INCBC:    oUopFlowIdx = 9'd277;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 	default:
-			 oUopFlowIdx = 9'd0;
+			 oUopFlowIdx = 9'd278;
 	endcase
 end
 
@@ -168,7 +168,7 @@ always @ ( iAddr )
 begin
 	case ( iAddr )
 	//Regular 1 Byte mOp
-		0: oUop = { `inc_eof, `z801bop , `a };
+		0: oUop = { `inc_eof_fu, `z801bop , `a };
 	//LDSPnn
 		1: oUop = { `inc, `sma, `pc   };
 		2: oUop = { `inc, `nop, `null };
@@ -548,7 +548,9 @@ begin
 		276: oUop = { `inc_eof , `srm, `b    };
 //INCBC
 		277: oUop = { `inc_eof ,`inc16,  `bc };
-
+//Z80 1 Byte op
+    278: oUop = { `update_flags, `z801bop , `a };
+		279: oUop = { `inc_eof, `nop , `null };
 
 //DECBC
 		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
