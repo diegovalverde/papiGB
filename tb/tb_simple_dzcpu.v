@@ -31,7 +31,7 @@ module tb_simple_dzcpu;
 	// Inputs
 	reg iClock;
 	reg iReset;
-
+  reg rResetDone;
 	wire [15:0] wFramBufferData, wFrameBufferAddress;
 	wire wFramBufferWe;
 	reg [15:0] rCurrentTileRow;
@@ -230,7 +230,7 @@ $readmemh(
 	$fwrite(glog,"\n\n");
 
 `endif
-
+		rResetDone = 1'b0;
 		$dumpfile("tb_simple_dzcpu.vcd");
 		$dumpvars(0,tb_simple_dzcpu);
 		$fwrite(log,"Simulation started at time %dns\n", $time);
@@ -266,6 +266,8 @@ $readmemh(
 
 		// Add stimulus here
 		//#500
+		#1000
+		rResetDone = 1'b1;
 		//#5000000
 
 	`ifdef SIMULATION_TIME_OUT
@@ -450,7 +452,14 @@ end //always
 							`ORr_b: $fwrite(log,"=== ORr_a  === %h \n", uut.DZCPU.iMCUData );
 							`ORr_c: $fwrite(log,"=== ORr_c  === %h \n", uut.DZCPU.iMCUData );
 							`NOP: $fwrite(log,"=== NOP  === %h \n", uut.DZCPU.iMCUData );
-							default:	$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
+							default:
+							begin
+									if (rResetDone)
+									begin
+											$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
+											rSimulationDone = 1'b1;
+									end
+							end
 				endcase
 
 			endcase
