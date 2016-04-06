@@ -563,8 +563,8 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = ( iMCUData[7:6] == 2'b01  ) ? iMCUData[5:3] : wUopSrc[7:0];
-      rFlagsWe            = 1'b0;
-      rFlags              = 8'b0;
+      rFlagsWe            = 1'b1;
+      rFlags              = {wZ, 1'b0, 1'b0, wRegData[7], 4'b0};
       rUopDstRegData      = rZ80Result;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;

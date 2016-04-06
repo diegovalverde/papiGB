@@ -447,6 +447,8 @@ end //always
 							`LDrr_al: $fwrite(log,"=== LDrr_al  === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ab: $fwrite(log,"=== LDrr_ab  === %h \n", uut.DZCPU.iMCUData );
 							`XORr_a: $fwrite(log,"=== XORr_a  === %h \n", uut.DZCPU.iMCUData );
+							`ORr_b: $fwrite(log,"=== ORr_a  === %h \n", uut.DZCPU.iMCUData );
+							`ORr_c: $fwrite(log,"=== ORr_c  === %h \n", uut.DZCPU.iMCUData );
 							`NOP: $fwrite(log,"=== NOP  === %h \n", uut.DZCPU.iMCUData );
 							default:	$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
 				endcase
