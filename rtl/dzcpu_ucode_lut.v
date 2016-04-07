@@ -117,6 +117,7 @@ begin
 	`POPAF:    oUopFlowIdx = 9'd267;
 	`LDBCnn:   oUopFlowIdx = 9'd273;
 	`INCBC:    oUopFlowIdx = 9'd277;
+	`LDAmm:    oUopFlowIdx = 9'd280;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 	default:
 			 oUopFlowIdx = 9'd278;
@@ -551,7 +552,15 @@ begin
 //Z80 1 Byte op
     278: oUop = { `update_flags, `z801bop , `a };
 		279: oUop = { `inc_eof, `nop , `null };
-
+//LDAmm
+	  280: oUop = { `inc, `sx16r,  `hl };
+		281: oUop = { `inc, `sma , `pc };
+		282: oUop = { `op ,`srm,    `l  };
+		283: oUop = { `op ,`srm,    `h  };
+		284: oUop = { `op, `sma ,   `hl };
+		285: oUop = { `op ,`srm,    `a  };
+		286: oUop = { `op, `srx16,  `hl };
+		287: oUop = { `inc_eof, `sma , `pc };
 //DECBC
 		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
 

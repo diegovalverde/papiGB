@@ -315,10 +315,10 @@
 `define  PUSHAF  8'hF5
 //  //  `define  ORn;
 //  //  `define  RST30;
-//  //  `define
+
 //  //  `define  LDHLSPn;
 //  //  `define  XX;
-//  //  `define  LDAmm;
+`define  LDAmm 8'hFA
 //  //  `define  EI;
   `define  CPn 8'hFE
 //  //  `define  RST38

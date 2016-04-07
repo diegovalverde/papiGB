@@ -438,6 +438,7 @@ end //always
 			267: $fwrite(log,"=== POPAF === %h \n", uut.DZCPU.iMCUData );
 			273: $fwrite(log,"=== LDBCnn === %h \n", uut.DZCPU.iMCUData );
 			277: $fwrite(log,"=== INCBC === %h \n", uut.DZCPU.iMCUData );
+			280: $fwrite(log,"=== LDAmm === %h \n", uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
