@@ -116,7 +116,7 @@ begin
 	`PUSHAF:   oUopFlowIdx = 9'd261;
 	`POPAF:    oUopFlowIdx = 9'd267;
 	`LDBCnn:   oUopFlowIdx = 9'd273;
-	`INCBC:    oUopFlowIdx = 9'd277;
+	`INCBC:    oUopFlowIdx = 9'd83;
 	`LDAmm:    oUopFlowIdx = 9'd280;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 	default:
@@ -277,12 +277,14 @@ begin
 	//INCHL
 		82: oUop = { `inc_eof ,`inc16,  `hl };
 	//RET
-	  83: oUop = { `nop ,`sma,  `sp   };
-		84: oUop = { `nop, `inc16, `sp  };
-		85: oUop = { `nop , `srm, `x8   };
-		86: oUop = { `nop , `spc, `x8   };
-		87: oUop = { `nop, `inc16, `sp  };
-		88: oUop = { `eof ,`sma,  `pc   };
+	//INCBC
+	  83: oUop = { `update_flags ,`inc16,  `bc   };		//flags might be wrong for 16bits
+		84: oUop = { `inc_eof, `nop, `null  };
+	//UNUSED
+		85: oUop = { `op , `nop, `x8   };
+		86: oUop = { `op , `nop, `x8   };
+		87: oUop = { `op, `nop, `sp  };
+		88: oUop = { `op ,`nop,  `pc   };
 		//RET
 		    /*83: oUop = { `nop ,`sma,  `sp   };
 				84:  oUop = { `nop, `inc16, `sp  };
@@ -390,9 +392,8 @@ begin
 //DI
 		163: oUop = { `inc_eof, `ceti, `null }; //Disable Interruption
 //INCr_d
-		164: oUop = { `inc_eof_fu, `inc16, `d };
-//**INCr_e
-		165: oUop = {`op,  `nop, `null };//{ `inc_eof_fu, `inc16, `e };
+		164: oUop = { `update_flags, `inc16, `d };
+		165: oUop = { `inc_eof,  `nop, `null };
 //DECr_e
 		166: oUop = { `inc_eof_fu, `dec16, `e };
 //DECDE
