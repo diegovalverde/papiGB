@@ -283,7 +283,7 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REGDATA
   .I8(wPc),                 .I9({8'b0,wPc[15:8]}),    .I10({wSpH,wSpL}), .I11({8'b0,wFlags})  ,
   .I12({8'b0,wSpL}),        .I13( {8'b0,wSpH} ),      .I14( wY16 ),      .I15( wZ16 ),
   .I16({8'b0,wX8 }),        .I17( wX16),              .I18({8'hff,wC}),  .I19({wD,wE}),
-  .I20({8'b0,wF }),         .I21({wB,wC}),            .I22({wA,wF}),     .I23(16'b0),
+  .I20({8'b0,wF }),         .I21({wB,wC}),            .I22({wA,wF}),     .I23(iMCUData),
   .I24(16'b0), .I25(16'b0), .I26(16'b0), .I27(16'b0),
   .I28(16'b0), .I29(16'b0), .I30(16'b0), .I31(16'b0),
   .O( wRegData )
@@ -693,24 +693,7 @@ begin
         rSetiVal            = 1'b0;
         rClearIntLatch      = 1'b1;
      end
-
-    `lbcx16:
-      begin
-         oMCUwe              = 1'b0;
-         rRegSelect          = `null;
-         rSetMCOAddr         = 1'b0;
-         rRegWe              = 1'b1;
-         rWriteSelect        = `x16;
-         rFlagsWe            = 1'b0;
-         rFlags              = 8'b0;
-         rUopDstRegData      = {wB,wC};
-         rOverWritePc        = 1'b0;
-         rMcuReadRequest     = 1'b0;
-         rSetiWe             = 1'b0;
-         rSetiVal            = 1'b0;
-         rClearIntLatch      = 1'b0;
-      end
-
+  
     default:
     begin
       oMCUwe              = 1'b0;

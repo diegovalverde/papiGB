@@ -292,7 +292,7 @@
 
 //  //  `define  XX;
   `define  PUSHHL 8'hE5
-//  //  `define  ANDn;
+  `define  ANDn   8'hE6
 //  //  `define  RST20;
 
 //  //  `define  ADDSPn;
@@ -708,7 +708,7 @@
 `define cibit	   5'h12
 `define ceti	   5'h13
 `define jint     5'h14
-`define lbcx16   5'd15
+
 
 `define null 5'h0
 
@@ -737,6 +737,7 @@
 `define f     5'd20
 `define bc    5'd21
 `define af    5'd22
+`define idata 5'd23
 
 `define DZCPU_AFTER_RESET 0
 `define DZCPU_START_FLOW  1
