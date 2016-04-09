@@ -736,6 +736,7 @@
 `define de    5'd19
 `define f     5'd20
 `define bc    5'd21
+`define af    5'd22
 
 `define DZCPU_AFTER_RESET 0
 `define DZCPU_START_FLOW  1
