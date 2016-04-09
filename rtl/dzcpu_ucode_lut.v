@@ -118,7 +118,9 @@ begin
 	`LDBCnn:   oUopFlowIdx = 9'd273;
 	`INCBC:    oUopFlowIdx = 9'd83;
 	`LDAmm:    oUopFlowIdx = 9'd280;
+	`ANDn:     oUopFlowIdx = 9'd285;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
+
 	default:
 			 oUopFlowIdx = 9'd278;
 	endcase
@@ -280,21 +282,13 @@ begin
 	//INCBC
 	  83: oUop = { `update_flags ,`inc16,  `bc   };		//flags might be wrong for 16bits
 		84: oUop = { `inc_eof, `nop, `null  };
-	//UNUSED
-		85: oUop = { `op , `nop, `x8   };
-		86: oUop = { `op , `nop, `x8   };
-		87: oUop = { `op, `nop, `sp  };
-		88: oUop = { `op ,`nop,  `pc   };
-		//RET
-		    /*83: oUop = { `nop ,`sma,  `sp   };
-				84:  oUop = { `nop, `inc16, `sp  };
-				139: oUop = {`op, `sx16r,  `hl };
-				84:  oUop = { `nop, `inc16, `sp  };
-				142: oUop = {`inc,   `srm,   `l  };
-				143: oUop = {`op,   `srm,   `h  };
-				144: oUop = {`op,   `spc,   `hl  };
-				145: oUop = {`eof,  `srx16, `hl };
-				88: oUop = { `eof ,`sma,  `pc   }; */
+
+	//ANDn
+		85: oUop = { `inc, `sma,  `pc };
+		86: oUop = { `op, `nop , `null };
+		87: oUop = { `update_flags ,`anda,    `idata  };
+		88: oUop = { `inc_eof ,`nop,    `null  };
+
 	//INCDE
 		89: oUop = { `inc_eof, `inc16, `de };
 	//CPn
