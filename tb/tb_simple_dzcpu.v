@@ -258,6 +258,9 @@ $readmemh(
 		#10
 		iReset = 0;
 
+		`ifdef REG_A
+				uut.DZCPU.FFD_A.
+		`endif
 
 		`ifdef DISABLE_CPU
 		  //Force GPU to start
@@ -389,7 +392,7 @@ end //always
 			63: $fwrite(log,"=== PUSHBC === %h \n", uut.DZCPU.iMCUData );
 			70: $fwrite(log,"=== RLA === %h \n", uut.DZCPU.iMCUData );
 			71: $fwrite(log,"=== POPBC === %h \n", uut.DZCPU.iMCUData );
-			77: $fwrite(log,"=== DECr_b === %h \n", uut.DZCPU.iMCUData );
+			300: $fwrite(log,"=== DECr_b === %h \n", uut.DZCPU.iMCUData );
 			78: $fwrite(log,"=== LDHLIA === %h \n", uut.DZCPU.iMCUData );
 			82: $fwrite(log,"=== INCHL === %h \n", uut.DZCPU.iMCUData );
 			252/*83*/: $fwrite(log,"=== RET === %h \n", uut.DZCPU.iMCUData );
@@ -451,6 +454,7 @@ end //always
 			83: $fwrite(log,"=== INCBC === %h \n", uut.DZCPU.iMCUData );
 			280: $fwrite(log,"=== LDAmm === %h \n", uut.DZCPU.iMCUData );
 			85:  $fwrite(log,"=== ANDn === %h\n", uut.DZCPU.iMCUData );
+			289: $fwrite(log,"=== CALLNZnn === %h\n",uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
@@ -496,7 +500,7 @@ end //always
 				`srm:
 				begin
 					$fwrite(log,"srm %h %h\n", uut.DZCPU.wUopSrc, uut.DZCPU.iMCUData);
-					$fwrite(log,"[MMU] reading %h @ %h\n", uut.MMU.oCpuData,uut.MMU.iCpuAddr);
+					$fwrite(log,"[MMU] reading %h @ %h,\n", uut.MMU.oCpuData,uut.MMU.iCpuAddr);
 				end
 				`jcb: $fwrite(log,"jcb %h \n", uut.DZCPU.iMCUData);
 				`smw: $fwrite(log,"smw %h %h\n", uut.DZCPU.oMCUAddr, uut.DZCPU.oMCUData);
@@ -514,6 +518,7 @@ end //always
 				`ceti: $fwrite(log,"ceti %h\n", uut.DZCPU.wRegData);
 				`jint: $fwrite(log,"jint %h\n", uut.DZCPU.wRegData);
 				`seti: $fwrite(log,"set %h\n", uut.DZCPU.wRegData);
+				`anda: $fwrite(log,"anda %h\n", uut.DZCPU.wRegData);
 				`z801bop:
 				begin
 					case (uut.DZCPU.iMCUData[7:3])

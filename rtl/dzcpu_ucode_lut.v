@@ -56,7 +56,7 @@ begin
 	`PUSHBC: oUopFlowIdx = 9'd63;
 	`RLA:    oUopFlowIdx = 9'd70;	//TODO: Make sure this is OK!
 	`POPBC:  oUopFlowIdx = 9'd71;
-	`DECr_b: oUopFlowIdx = 9'd77;
+	`DECr_b: oUopFlowIdx = 9'd300;
 	`LDHLIA: oUopFlowIdx = 9'd78;
 	`INCHL:  oUopFlowIdx = 9'd82;
 	`RET:    oUopFlowIdx = 9'd252;//8'd83;
@@ -119,6 +119,7 @@ begin
 	`INCBC:    oUopFlowIdx = 9'd83;
 	`LDAmm:    oUopFlowIdx = 9'd280;
 	`ANDn:     oUopFlowIdx = 9'd85;
+	`CALLNZnn: oUopFlowIdx = 9'd289;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 
 	default:
@@ -269,7 +270,7 @@ begin
 		74: oUop = { `op ,`srm,    `b    };
 		75: oUop = { `inc ,`inc16,  `sp  };
 		76: oUop = { `eof, `sma,    `pc  };
-	//DECr_b
+	//UNUSED
 		77:	oUop = { `inc_eof_fu, `dec16,    `b  };
 	//LDHLIA
 		78: oUop = {`op, `sma, `hl  };
@@ -278,7 +279,6 @@ begin
 		81: oUop = {`eof, `sma, `pc  };
 	//INCHL
 		82: oUop = { `inc_eof ,`inc16,  `hl };
-	//RET
 	//INCBC
 	  83: oUop = { `update_flags ,`inc16,  `bc   };		//flags might be wrong for 16bits
 		84: oUop = { `inc_eof, `nop, `null  };
@@ -557,6 +557,22 @@ begin
 		286: oUop = { `op ,`srm,    `a  };
 		287: oUop = { `op, `srx16,  `hl };
 		288: oUop = { `inc_eof, `sma , `pc };
+//CALLNZnn
+		289: oUop = { `inc_eof_z, `dec16,  `sp  };
+		290: oUop = { `inc, `sx16r,  `hl  };
+		291: oUop = { `op , `srm,    `l   }; //l = MEM[pc] = literal
+		292: oUop = { `inc, `srm,    `h   }; //l = MEM[pc] = literal
+		293: oUop = { `op,  `sma,    `sp  };
+		294: oUop = { `op,  `smw,    `pch };	//MEM[sp] = pc[7:0]
+		295: oUop = { `op,  `dec16,  `sp  };
+		296: oUop = { `op , `smw,    `pc  };	//MEM[sp+1] = pc[15:8]
+		297: oUop = { `op , `spc,    `hl  };
+		298: oUop = { `op, `srx16,  `hl  };
+		299: oUop = { `eof ,`sma,   `pc   };
+//DECr_b
+		300:	oUop = { `update_flags, `dec16,    `b  };
+		301:  oUop = { `inc_eof, `nop, `null};
+
 //DECBC
 		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
 
