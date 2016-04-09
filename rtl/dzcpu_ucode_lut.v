@@ -553,9 +553,10 @@ begin
 		282: oUop = { `op ,`srm,    `l  };
 		283: oUop = { `op ,`srm,    `h  };
 		284: oUop = { `op, `sma ,   `hl };
-		285: oUop = { `op ,`srm,    `a  };
-		286: oUop = { `op, `srx16,  `hl };
-		287: oUop = { `inc_eof, `sma , `pc };
+		285: oUop = { `op, `nop ,   `null };	//remember to wait 1cc after sma
+		286: oUop = { `op ,`srm,    `a  };
+		287: oUop = { `op, `srx16,  `hl };
+		288: oUop = { `inc_eof, `sma , `pc };
 //DECBC
 		//164: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
 
