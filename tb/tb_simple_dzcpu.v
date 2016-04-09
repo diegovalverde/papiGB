@@ -136,6 +136,17 @@ end //always
 			vram_log_9800_9bff = $fopen("papi_vram_9800_9bff.dump");
 
 			$display("Stopping Simulation and dumping memory");
+
+			$fwrite(log, "=== WORK MEMORY C000 - DFFFF ===\n");
+			$fwrite(log,"%02x: ",16'hc000);
+			for (i = 0; i <  (16'hdfff-16'hc000); i = i + 1)
+			begin
+					$fwrite(log,"%02x ", uut.MMU.WORK_RAM.Ram[i]);
+					if ((i+1) % 16 == 0)
+							$fwrite(log,"\n %h: ", (16'hc000+i+1));
+
+			end
+
 			$fwrite(log,"\n\n=== PAGEZERO MEMORY ===\n\n");
 			for (i = 16'hff80; i <= 16'hffff; i = i + 1)
 			begin
@@ -437,8 +448,9 @@ end //always
 			261: $fwrite(log,"=== PUSHAF === %h \n", uut.DZCPU.iMCUData );
 			267: $fwrite(log,"=== POPAF === %h \n", uut.DZCPU.iMCUData );
 			273: $fwrite(log,"=== LDBCnn === %h \n", uut.DZCPU.iMCUData );
-			277: $fwrite(log,"=== INCBC === %h \n", uut.DZCPU.iMCUData );
+			83: $fwrite(log,"=== INCBC === %h \n", uut.DZCPU.iMCUData );
 			280: $fwrite(log,"=== LDAmm === %h \n", uut.DZCPU.iMCUData );
+			85:  $fwrite(log,"=== ANDn === %h\n", uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
@@ -573,15 +585,16 @@ end //always
 			`ifdef CPU_TRACE_WORK_MEMORY
 
 			$fwrite(log, "=== WORK MEMORY C000 - DFFFF ===\n");
+			$fwrite(log,"%02h: ",16'hc000);
 			for (i = 0; i <  5*16; i = i + 1)
 			begin
-					$fwrite(log,"%02x ", uut.MMU.WORK_RAM.Ram[i]);
+					$fwrite(log,"%02h ", uut.MMU.WORK_RAM.Ram[i]);
 					if ((i+1) % 16 == 0)
-							$fwrite(log,"\n");
+							$fwrite(log,"\n %h: ", (16'hc000+i));
 
 			end
 
-			for (i = 8176; i <  8176+5*16; i = i + 1)
+			for (i = 8176; i <  8176+15*16; i = i + 1)
 			begin
 					$fwrite(log,"*%02x ", uut.MMU.WORK_RAM.Ram[i]);
 					if ((i+1) % 16 == 0)
