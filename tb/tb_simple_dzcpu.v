@@ -509,7 +509,7 @@ end //always
 				`dec16: $fwrite(log,"dec16 %h\n", uut.DZCPU.wRegData);
 				`srx8:$fwrite(log,"srx8 %h\n", uut.DZCPU.wRegData);
 				`shl: $fwrite(log,"shl %h << 1 + %h\n", uut.DZCPU.wRegData, uut.DZCPU.wFlags[`flag_c] );
-				`subx16: $fwrite(log,"subx16 %h -= %h\n", uut.DZCPU.wX16, uut.DZCPU.wRegData);
+				`subx16: $fwrite(log,"subx16 %h -= %h = %h\n", uut.DZCPU.wX16, uut.DZCPU.wRegData, uut.DZCPU.rUopDstRegData);
 				`srx16: $fwrite(log,"srx16 %h\n", uut.DZCPU.wRegData);
 				`ceti: $fwrite(log,"ceti %h\n", uut.DZCPU.wRegData);
 				`jint: $fwrite(log,"jint %h\n", uut.DZCPU.wRegData);
