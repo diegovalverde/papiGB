@@ -118,7 +118,7 @@ begin
 	`LDBCnn:   oUopFlowIdx = 9'd273;
 	`INCBC:    oUopFlowIdx = 9'd83;
 	`LDAmm:    oUopFlowIdx = 9'd280;
-	`ANDn:     oUopFlowIdx = 9'd285;
+	`ANDn:     oUopFlowIdx = 9'd85;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 
 	default:

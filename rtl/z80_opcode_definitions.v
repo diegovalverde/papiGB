@@ -708,7 +708,7 @@
 `define cibit	   5'h12
 `define ceti	   5'h13
 `define jint     5'h14
-`define anda     5'd15
+`define anda     5'h15
 
 `define null 5'h0
 

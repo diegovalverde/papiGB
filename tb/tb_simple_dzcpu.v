@@ -489,7 +489,7 @@ end //always
 
 		if (uut.DZCPU.rFlowEnable)
 		begin
-			$fwrite(log,"%05dns [DZCPU] %d  .",$time, uut.DZCPU.wuPc);
+			$fwrite(log,"%05dns [DZCPU] %d (%h) .",$time, uut.DZCPU.wuPc, uut.DZCPU.wuCmd);
 			case (uut.DZCPU.wuCmd)
 				`nop: $fwrite(log,"nop \n");
 				`sma: $fwrite(log,"sma %h\n", uut.DZCPU.oMCUAddr);
