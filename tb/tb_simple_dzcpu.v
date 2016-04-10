@@ -420,13 +420,13 @@ end //always
 			164: $fwrite(log,"=== INCr_d  === %h \n", uut.DZCPU.iMCUData );
 			250/*165*/: $fwrite(log,"=== INCr_e  === %h \n", uut.DZCPU.iMCUData );
 			166: $fwrite(log,"=== DECr_e  === %h \n", uut.DZCPU.iMCUData );
-			167: $fwrite(log,"=== DECDE  === %h \n", uut.DZCPU.iMCUData );
-			168: $fwrite(log,"=== DECr_h  === %h \n", uut.DZCPU.iMCUData );
-			169: $fwrite(log,"=== DECHL  === %h \n", uut.DZCPU.iMCUData );
-			170: $fwrite(log,"=== INCr_a  === %h \n", uut.DZCPU.iMCUData );
-			171: $fwrite(log,"=== INCSP === %h \n", uut.DZCPU.iMCUData ); //Increment SP
-			172: $fwrite(log,"=== DECSP === %h \n", uut.DZCPU.iMCUData );
-			173: $fwrite(log,"=== INCr_l  === %h \n", uut.DZCPU.iMCUData );
+			168: $fwrite(log,"=== DECDE  === %h \n", uut.DZCPU.iMCUData );
+			170: $fwrite(log,"=== DECr_h  === %h \n", uut.DZCPU.iMCUData );
+			172: $fwrite(log,"=== DECHL  === %h \n", uut.DZCPU.iMCUData );
+			302: $fwrite(log,"=== INCr_a  === %h \n", uut.DZCPU.iMCUData );
+			304: $fwrite(log,"=== INCSP === %h \n", uut.DZCPU.iMCUData ); //Increment SP
+			306: $fwrite(log,"=== DECSP === %h \n", uut.DZCPU.iMCUData );
+			310: $fwrite(log,"=== INCr_l  === %h \n", uut.DZCPU.iMCUData );
 			174: $fwrite(log,"=== DECr_l  === %h \n", uut.DZCPU.iMCUData );
 			175: $fwrite(log,"=== ADDr_a  === %h \n", uut.DZCPU.iMCUData );
 			178: $fwrite(log,"=== ADDr_b  === %h \n", uut.DZCPU.iMCUData );
