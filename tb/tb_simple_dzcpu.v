@@ -407,7 +407,7 @@ end //always
 			161: $fwrite(log,"=== INCr_b  === %h \n", uut.DZCPU.iMCUData );
 			121: $fwrite(log,"=== LDrn_e  === %h \n", uut.DZCPU.iMCUData );
 			124: $fwrite(log,"=== LDAIOn  === %h \n", uut.DZCPU.iMCUData );
-			131: $fwrite(log,"=== INCr_h  === %h \n", uut.DZCPU.iMCUData );
+			312: $fwrite(log,"=== INCr_h  === %h \n", uut.DZCPU.iMCUData );
 			132: $fwrite(log,"=== SUBr_b  === %h \n", uut.DZCPU.iMCUData );
 			135: $fwrite(log,"=== DECr_d  === %h \n", uut.DZCPU.iMCUData );
 			136: $fwrite(log,"=== LDrn_d  === %h \n", uut.DZCPU.iMCUData );
@@ -426,7 +426,7 @@ end //always
 			302: $fwrite(log,"=== INCr_a  === %h \n", uut.DZCPU.iMCUData );
 			304: $fwrite(log,"=== INCSP === %h \n", uut.DZCPU.iMCUData ); //Increment SP
 			306: $fwrite(log,"=== DECSP === %h \n", uut.DZCPU.iMCUData );
-			310: $fwrite(log,"=== INCr_l  === %h \n", uut.DZCPU.iMCUData );
+			308: $fwrite(log,"=== INCr_l  === %h \n", uut.DZCPU.iMCUData );
 			174: $fwrite(log,"=== DECr_l  === %h \n", uut.DZCPU.iMCUData );
 			175: $fwrite(log,"=== ADDr_a  === %h \n", uut.DZCPU.iMCUData );
 			178: $fwrite(log,"=== ADDr_b  === %h \n", uut.DZCPU.iMCUData );

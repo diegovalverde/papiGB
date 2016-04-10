@@ -71,7 +71,7 @@ begin
 	`INCr_b: oUopFlowIdx = 9'd161;
 	`LDrn_e: oUopFlowIdx = 9'd121;
 	`LDAIOn: oUopFlowIdx = 9'd124;
-	`INCr_h: oUopFlowIdx = 9'd131;
+	`INCr_h: oUopFlowIdx = 9'd312;
 	`SUBr_b: oUopFlowIdx = 9'd132;
 	`DECr_d: oUopFlowIdx = 9'd135;
 	`LDrn_d: oUopFlowIdx = 9'd136;
@@ -340,8 +340,8 @@ begin
 		128: oUop = { `op,   `srm,  `a   };
 		129: oUop = { `op,   `srx8, `c   };
 		130: oUop = { `inc_eof, `sma, `pc };
-//INCr_h
-		131: oUop = { `inc_eof_fu, `inc16, `h };
+//UNUSED
+		131: oUop = { `op, `nop, `null };
 //SUBr_b
 		132: oUop = { `op, `sx16r, `a       };
 		133: oUop = { `update_flags, `subx16, `b      };
@@ -584,7 +584,9 @@ begin
 //DECr_l
 		310: oUop = { `update_flags, `dec16, `l };
 		311:  oUop = { `inc_eof, `nop, `null};
-
+//INCr_h
+    312: oUop = { `update_flags, `inc16, `h };
+		313:  oUop = { `inc_eof, `nop, `null};
 
 //FLOW_ID_INT_VBLANK
 /*
