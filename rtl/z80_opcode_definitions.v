@@ -271,7 +271,7 @@
 //  //  `define
 //  //  `define  CALLNCnn;
   `define  PUSHDE 8'hD5
-//  //  `define  SUBn;
+  `define  SUBn   8'hD6
 //  //  `define  RST10;
 //  //  `define
 //  //  `define  RETC;

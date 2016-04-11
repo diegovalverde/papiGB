@@ -121,6 +121,7 @@ begin
 	`ANDn:     oUopFlowIdx = 9'd85;
 	`CALLNZnn: oUopFlowIdx = 9'd289;
 	`ADDn:     oUopFlowIdx = 9'd314;
+	`SUBn:     oUopFlowIdx = 9'd319;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 
 	default:
@@ -592,8 +593,14 @@ begin
 		314: oUop = { `inc, `sma, `pc   };
 		315: oUop = { `op,  `nop, `null };
 		316: oUop = { `op,  `srm, `x16 };
-		317: oUop = { `op,  `addx16, `a };
+		317: oUop = { `update_flags,  `addx16, `a };
 		318: oUop = { `inc_eof, `srx16, `a};
+//SUBn
+		319: oUop = { `inc, `sma, `pc   };
+		320: oUop = { `op,  `nop, `null };
+		321: oUop = { `op,  `srm, `x16 };
+		322: oUop = { `update_flags,  `subx16, `a };
+		323: oUop = { `inc_eof, `srx16, `a};
 
 
 //FLOW_ID_INT_VBLANK

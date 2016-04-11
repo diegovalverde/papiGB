@@ -456,6 +456,7 @@ end //always
 			85:  $fwrite(log,"=== ANDn === %h\n", uut.DZCPU.iMCUData );
 			289: $fwrite(log,"=== CALLNZnn === %h\n",uut.DZCPU.iMCUData );
 			314: $fwrite(log,"=== ADDn === %h\n",uut.DZCPU.iMCUData );
+			319: $fwrite(log,"=== SUBn === %h\n",uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
