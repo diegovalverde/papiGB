@@ -96,7 +96,7 @@
 
 //  `define  LDrr_ch;
 //  `define  LDrr_cl;
-//  `define  LDrHLm_c;
+  `define  LDrHLm_c 8'h4e
   `define  LDrr_ca 8'h4f
 
 //  50
@@ -107,7 +107,7 @@
 //  `define
 //  `define  LDrr_dh;
 //  `define  LDrr_dl;
-//  `define  LDrHLm_d;
+  `define  LDrHLm_d 8'h56
   `define  LDrr_da 8'h57
   `define  LDrr_eb 8'h58
   `define  LDrr_ec 8'h59
@@ -218,7 +218,7 @@
 
 //  `define  XORr_h;
 //  `define  XORr_l;
-//  `define  XORHL;
+  `define  XORHL  8'hAE
   `define  XORr_a 8'hAF
 
 //  B0
@@ -709,6 +709,7 @@
 `define ceti	   5'h13
 `define jint     5'h14
 `define anda     5'h15
+`define xorx16   5'h17
 
 `define null 5'h0
 

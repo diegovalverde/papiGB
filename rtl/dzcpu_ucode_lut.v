@@ -124,6 +124,9 @@ begin
 	`SUBn:     oUopFlowIdx = 9'd319;
 	`CPr_c:    oUopFlowIdx = 9'd324;
 	`LDrHLm_b: oUopFlowIdx = 9'd327;
+	`LDrHLm_c: oUopFlowIdx = 9'd331;
+	`LDrHLm_d: oUopFlowIdx = 9'd335;
+	`XORHL:    oUopFlowIdx = 9'd339;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 
 	default:
@@ -612,6 +615,23 @@ begin
 		328:  oUop = { `op,  `nop,   `null };
 		329:  oUop = { `op,  `srm,   `b };
 		330:  oUop = { `inc_eof, `sma, `pc};
+//LDrHLm_c
+		331:  oUop = { `op,  `sma,   `hl };
+		332:  oUop = { `op,  `nop,   `null };
+		333:  oUop = { `op,  `srm,   `c };
+		334:  oUop = { `inc_eof, `sma, `pc};
+//LDrHLm_d
+		335:  oUop = { `op,  `sma,   `hl };
+		336:  oUop = { `op,  `nop,   `null };
+		337:  oUop = { `op,  `srm,   `d };
+		338:  oUop = { `inc_eof, `sma, `pc};
+//XORHL
+		339:  oUop = { `op,  `sma,   `hl   };
+		340:  oUop = { `op,  `nop,   `null };
+		341:  oUop = { `op,  `srm,   `x16  };
+		342:  oUop = { `update_flags, `xorx16, `pc};
+		343:  oUop = { `op, `srx16, `a};
+		344:  oUop = { `inc_eof, `sma, `pc};
 
 //FLOW_ID_INT_VBLANK
 /*
