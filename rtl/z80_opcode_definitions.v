@@ -86,7 +86,7 @@
 
 //  `define  LDrr_bh;
 //  `define  LDrr_bl;
-//  `define  LDrHLm_b;
+`define  LDrHLm_b 8'h46
 //  `define  LDrr_ba;
 //  `define
 //  `define  LDrr_cb;
@@ -230,10 +230,10 @@
 //  `define  ORr_h;
 //  `define  ORr_l;
 //  `define  ORHL;
-//  `define  ORr_a;
+  `define  ORr_a 8'hb7
 
 //  `define  CPr_b;
-//  `define  CPr_c;
+  `define  CPr_c 8'hb9
 //  `define  CPr_d;
 //  `define  CPr_e;
 
