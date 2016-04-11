@@ -455,6 +455,7 @@ end //always
 			280: $fwrite(log,"=== LDAmm === %h \n", uut.DZCPU.iMCUData );
 			85:  $fwrite(log,"=== ANDn === %h\n", uut.DZCPU.iMCUData );
 			289: $fwrite(log,"=== CALLNZnn === %h\n",uut.DZCPU.iMCUData );
+			314: $fwrite(log,"=== ADDn === %h\n",uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
@@ -466,6 +467,8 @@ end //always
 							`LDrr_al: $fwrite(log,"=== LDrr_al  === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ab: $fwrite(log,"=== LDrr_ab  === %h \n", uut.DZCPU.iMCUData );
 							`XORr_a: $fwrite(log,"=== XORr_a  === %h \n", uut.DZCPU.iMCUData );
+							`XORr_b: $fwrite(log,"=== XORr_b  === %h \n", uut.DZCPU.iMCUData );
+							`XORr_c: $fwrite(log,"=== XORr_c  === %h \n", uut.DZCPU.iMCUData );
 							`ORr_b: $fwrite(log,"=== ORr_a  === %h \n", uut.DZCPU.iMCUData );
 							`ORr_c: $fwrite(log,"=== ORr_c  === %h \n", uut.DZCPU.iMCUData );
 							`NOP: $fwrite(log,"=== NOP  === %h \n", uut.DZCPU.iMCUData );

@@ -211,8 +211,8 @@
 //  `define  ANDHL;
 //  `define  ANDr_a;
 
-//  `define  XORr_b;
-//  `define  XORr_c;
+  `define  XORr_b 8'ha8
+  `define  XORr_c 8'ha9
 //  `define  XORr_d;
 //  `define  XORr_e;
 

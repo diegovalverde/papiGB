@@ -120,6 +120,7 @@ begin
 	`LDAmm:    oUopFlowIdx = 9'd280;
 	`ANDn:     oUopFlowIdx = 9'd85;
 	`CALLNZnn: oUopFlowIdx = 9'd289;
+	`ADDn:     oUopFlowIdx = 9'd314;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 
 	default:
@@ -587,6 +588,13 @@ begin
 //INCr_h
     312: oUop = { `update_flags, `inc16, `h };
 		313:  oUop = { `inc_eof, `nop, `null};
+//ADDn
+		314: oUop = { `inc, `sma, `pc   };
+		315: oUop = { `op,  `nop, `null };
+		316: oUop = { `op,  `srm, `x16 };
+		317: oUop = { `op,  `addx16, `a };
+		318: oUop = { `inc_eof, `srx16, `a};
+
 
 //FLOW_ID_INT_VBLANK
 /*
