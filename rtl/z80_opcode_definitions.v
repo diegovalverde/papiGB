@@ -3,7 +3,7 @@
   `define  NOP     8'h0
   `define  LDBCnn  8'h1
   `define  LDBCmA  8'h2
-//`define  INCBC   8'h3
+  `define  INCBC   8'h3
 
   `define  INCr_b 8'h4
   `define  DECr_b 8'h5
@@ -23,7 +23,7 @@
 //  10
 //  `define  DJNZn;
   `define  LDDEnn 8'h11
-//  `define  LDDEmA;
+  `define  LDDEmA 8'h12
   `define  INCDE 8'h13
 
   `define  INCr_d 8'h14
@@ -222,8 +222,8 @@
   `define  XORr_a 8'hAF
 
 //  B0
-//  `define  ORr_b;
-//  `define  ORr_c;
+  `define  ORr_b 8'hb0
+  `define  ORr_c 8'hb1
 //  `define  ORr_d;
 //  `define  ORr_e;
 
@@ -292,7 +292,7 @@
 
 //  //  `define  XX;
   `define  PUSHHL 8'hE5
-//  //  `define  ANDn;
+  `define  ANDn   8'hE6
 //  //  `define  RST20;
 
 //  //  `define  ADDSPn;
@@ -307,18 +307,18 @@
 //  //  `define
 //  F0
   `define  LDAIOn 8'hf0
-//  //  `define  POPAF;
+  `define  POPAF  8'hf1
 //  //  `define  LDAIOC;
   `define  DI 8'hF3
-//  //  `define
+
 //  //  `define  XX;
-//  //  `define  PUSHAF;
+`define  PUSHAF  8'hF5
 //  //  `define  ORn;
 //  //  `define  RST30;
-//  //  `define
+
 //  //  `define  LDHLSPn;
 //  //  `define  XX;
-//  //  `define  LDAmm;
+`define  LDAmm 8'hFA
 //  //  `define  EI;
   `define  CPn 8'hFE
 //  //  `define  RST38
@@ -665,6 +665,12 @@
 `define flag_h 5  //half carry
 `define flag_c 4  //carry
 
+//+------------+-----------+-------------+
+//|   13:10         9:5         4:0     |
+//+------------+-----------+-------------+
+//| Predicate  | Operation |  Operand    |
+//+------------+-----------+-------------+
+
 //Prefixed
 `define op              4'b0000
 `define pred_z          4'b0001
@@ -678,7 +684,8 @@
 `define eof_z           4'b0101	//finish flow if zero flag is 1
 `define eof_fu          4'b0110
 
-`define uop_flags_update_enable 1
+`define uop_flags_update_enable 11
+`define uop_flags_eof           12
 
 `define nop      5'h0
 `define sma      5'h1
@@ -697,36 +704,40 @@
 `define shl      5'he
 `define subx16   5'hf
 `define srx16    5'h10
-`define seti	 5'h11
-`define cibit	 5'h12
-`define ceti	 5'h13
-`define sx16l    5'h14
+`define seti	   5'h11
+`define cibit	   5'h12
+`define ceti	   5'h13
+`define jint     5'h14
+`define anda     5'h15
 
-`define null 4'h0
+`define null 5'h0
 
 
 
-`define b     4'h0
-`define c     4'h1
-`define d     4'h2
-`define e     4'h3
-`define h     4'h4
-`define l     4'h5
-`define hl    4'h6
-`define a     4'h7
-`define pc    4'h8
-`define pch   4'he
-`define sp    4'h9
-`define flags 4'h9
-`define spl   4'ha
-`define sph   4'hb
-`define y16   4'ha
-`define z16   4'hb
-`define x8    4'hc
-`define x16   4'hd
-`define io_c  4'he
-`define de    4'hf
-
+`define b     5'd0
+`define c     5'd1
+`define d     5'd2
+`define e     5'd3
+`define h     5'd4
+`define l     5'd5
+`define hl    5'd6
+`define a     5'd7
+`define pc    5'd8
+`define pch   5'd9
+`define sp    5'd10
+`define flags 5'd11
+`define spl   5'd12
+`define sph   5'd13
+`define y16   5'd14
+`define z16   5'd15
+`define x8    5'd16
+`define x16   5'd17
+`define io_c  5'd18
+`define de    5'd19
+`define f     5'd20
+`define bc    5'd21
+`define af    5'd22
+`define idata 5'd23
 
 `define DZCPU_AFTER_RESET 0
 `define DZCPU_START_FLOW  1
@@ -734,8 +745,12 @@
 `define DZCPU_END_FLOW    3
 
 
+
+
 //this is offset interruption microflow
-`define FLOW_ID_INT_VBLANK 					8'd0
-`define FLOW_ID_INT_LCD_STATUS_TRIGGER		8'd0
-`define FLOW_ID_INT_TIMER_OVERFLOW          8'd0
-`define FLOW_ID_INT_VBLANK_JOYPAD_PRESS     8'd0
+`define FLOW_ID_INTERRUPT   9'd247
+
+`define INT_ADDR_VBLANK 					     16'h40
+`define INT_ADDR_LCD_STATUS_TRIGGER		 16'h48
+`define INT_ADDR_TIMER_OVERFLOW        16'h50
+`define INT_ADDR_VBLANK_JOYPAD_PRESS   16'h60

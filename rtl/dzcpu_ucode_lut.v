@@ -26,96 +26,104 @@
 module dzcpu_ucode_lut
 (
 	input  wire[7:0]  iMop,
-	output reg [7:0]  oUopFlowIdx
+	output reg [8:0]  oUopFlowIdx
 );
 
 
 
-wire [7:0] wUopFlowIdx;
+
 
 
 
 always @ ( iMop )
 begin
 	case ( iMop )
-	`LDSPnn: oUopFlowIdx = 8'd1;
-	`LDHLnn: oUopFlowIdx = 8'd5;
-	`LDHLDA: oUopFlowIdx = 8'd9;
-	`MAPcb:  oUopFlowIdx = 8'd13;
-	`JRNZn:  oUopFlowIdx = 8'd17;
-	`LDrn_c: oUopFlowIdx = 8'd23;
-	`LDrn_a: oUopFlowIdx = 8'd26;
-	`LDIOCA: oUopFlowIdx = 8'd29;
-	`INCr_c: oUopFlowIdx = 8'd32;
-	`LDHLmr_a: oUopFlowIdx = 8'd33;
-	`LDIOnA: oUopFlowIdx = 8'd36;
-	`LDDEnn: oUopFlowIdx = 8'd43;
-	`LDADEm: oUopFlowIdx = 8'd94;
-	`CALLnn: oUopFlowIdx = 8'd49;
-	`LDrn_b: oUopFlowIdx = 8'd60;
-	`PUSHBC: oUopFlowIdx = 8'd63;
-	`RLA:    oUopFlowIdx = 8'd70;	//TODO: Make sure this is OK!
-	`POPBC:  oUopFlowIdx = 8'd71;
-	`DECr_b: oUopFlowIdx = 8'd77;
-	`LDHLIA: oUopFlowIdx = 8'd78;
-	`INCHL:  oUopFlowIdx = 8'd82;
-	`RET:    oUopFlowIdx = 8'd83;
-	`INCDE:  oUopFlowIdx = 8'd89;
-	`CPn:    oUopFlowIdx = 8'd90;
-	`LDmmA: oUopFlowIdx = 8'd98;
-	`DECr_a: oUopFlowIdx = 8'd47;
-	`DECr_c: oUopFlowIdx = 8'd48;
-	`JRZn:   oUopFlowIdx = 8'd106;
-	`LDrn_l: oUopFlowIdx = 8'd112;
-	`JRn:    oUopFlowIdx = 8'd115;
-	`INCr_b: oUopFlowIdx = 8'd161;
-	`LDrn_e: oUopFlowIdx = 8'd121;
-	`LDAIOn: oUopFlowIdx = 8'd124;
-	`INCr_h: oUopFlowIdx = 8'd131;
-	`SUBr_b: oUopFlowIdx = 8'd132;
-	`DECr_d: oUopFlowIdx = 8'd135;
-	`LDrn_d: oUopFlowIdx = 8'd136;
-	`JPnn:   oUopFlowIdx = 8'd139;
-	`LDrn_h: oUopFlowIdx = 8'd146;
-	`LDAHLI: oUopFlowIdx = 8'd149;
-	`LDHLmn: oUopFlowIdx = 8'd154;
-	`NOP:    oUopFlowIdx = 8'd162;
-  `DI:     oUopFlowIdx = 8'd163;
-  `INCr_d: oUopFlowIdx = 8'd164;
-  `INCr_e: oUopFlowIdx = 8'd165;
-  `DECr_e: oUopFlowIdx = 8'd166;
-  `DECDE:  oUopFlowIdx = 8'd167;
-  `DECr_h: oUopFlowIdx = 8'd168;
-  `DECHL:  oUopFlowIdx = 8'd169;
-  `INCr_a: oUopFlowIdx = 8'd170;
-	`INCSP:  oUopFlowIdx = 8'd171;
-	`DECSP:  oUopFlowIdx = 8'd172;
-	`INCr_l: oUopFlowIdx = 8'd173;
-	`DECr_l: oUopFlowIdx = 8'd174;
-	`ADDr_a: oUopFlowIdx = 8'd175;
-	`ADDr_b: oUopFlowIdx = 8'd178;
-	`SUBr_c: oUopFlowIdx = 8'd181;
-	`ADDr_c: oUopFlowIdx = 8'd184;
-	`ADDr_d: oUopFlowIdx = 8'd187;
-	`ADDr_e: oUopFlowIdx = 8'd190;
-	`ADDr_h: oUopFlowIdx = 8'd193;
-	`ADDr_l: oUopFlowIdx = 8'd196;
-	`SUBr_d: oUopFlowIdx = 8'd199;
-	`SUBr_e: oUopFlowIdx = 8'd202;
-	`SUBr_h: oUopFlowIdx = 8'd205;
-	`SUBr_l: oUopFlowIdx = 8'd208;
-	`SUBr_a: oUopFlowIdx = 8'd211;
-	`PUSHDE: oUopFlowIdx = 8'd214;
-	`PUSHHL: oUopFlowIdx = 8'd220;
-	`POPDE:  oUopFlowIdx = 8'd226;
-	`POPHL:  oUopFlowIdx = 8'd232;
-	`LDHLmr_b: oUopFlowIdx = 8'd238;
-	`LDHLmr_c: oUopFlowIdx = 8'd241;
-	`LDHLmr_d: oUopFlowIdx = 8'd244;
-	//`DECBC:  oUopFlowIdx = 8'd247; //OK
-	`LDBCnn: oUopFlowIdx = 8'd247;
+	`LDSPnn: oUopFlowIdx = 9'd1;
+	`LDHLnn: oUopFlowIdx = 9'd5;
+	`LDHLDA: oUopFlowIdx = 9'd9;
+	`MAPcb:  oUopFlowIdx = 9'd13;
+	`JRNZn:  oUopFlowIdx = 9'd17;
+	`LDrn_c: oUopFlowIdx = 9'd23;
+	`LDrn_a: oUopFlowIdx = 9'd26;
+	`LDIOCA: oUopFlowIdx = 9'd29;
+	`INCr_c: oUopFlowIdx = 9'd32;
+	`LDHLmr_a: oUopFlowIdx = 9'd33;
+	`LDIOnA: oUopFlowIdx = 9'd36;
+	`LDDEnn: oUopFlowIdx = 9'd43;
+	`LDADEm: oUopFlowIdx = 9'd94;
+	`CALLnn: oUopFlowIdx = 9'd49;
+	`LDrn_b: oUopFlowIdx = 9'd60;
+	`PUSHBC: oUopFlowIdx = 9'd63;
+	`RLA:    oUopFlowIdx = 9'd70;	//TODO: Make sure this is OK!
+	`POPBC:  oUopFlowIdx = 9'd71;
+	`DECr_b: oUopFlowIdx = 9'd300;
+	`LDHLIA: oUopFlowIdx = 9'd78;
+	`INCHL:  oUopFlowIdx = 9'd82;
+	`RET:    oUopFlowIdx = 9'd252;//8'd83;
+	`INCDE:  oUopFlowIdx = 9'd89;
+	`CPn:    oUopFlowIdx = 9'd90;
+	`LDmmA: oUopFlowIdx  = 9'd98;
+	`DECr_a: oUopFlowIdx = 9'd47;
+	`DECr_c: oUopFlowIdx = 9'd48;
+	`JRZn:   oUopFlowIdx = 9'd106;
+	`LDrn_l: oUopFlowIdx = 9'd112;
+	`JRn:    oUopFlowIdx = 9'd115;
+	`INCr_b: oUopFlowIdx = 9'd161;
+	`LDrn_e: oUopFlowIdx = 9'd121;
+	`LDAIOn: oUopFlowIdx = 9'd124;
+	`INCr_h: oUopFlowIdx = 9'd312;
+	`SUBr_b: oUopFlowIdx = 9'd132;
+	`DECr_d: oUopFlowIdx = 9'd135;
+	`LDrn_d: oUopFlowIdx = 9'd136;
+	`JPnn:   oUopFlowIdx = 9'd139;
+	`LDrn_h: oUopFlowIdx = 9'd146;
+	`LDAHLI: oUopFlowIdx = 9'd149;
+	`LDHLmn: oUopFlowIdx = 9'd154;
+	`NOP:    oUopFlowIdx = 9'd162;
+  `DI:     oUopFlowIdx = 9'd163;
+  `INCr_d: oUopFlowIdx = 9'd164;
+  `INCr_e: oUopFlowIdx = 9'd250; //8'd165;
+  `DECr_e: oUopFlowIdx = 9'd166;
+  `DECDE:  oUopFlowIdx = 9'd168;
+  `DECr_h: oUopFlowIdx = 9'd170;
+  `DECHL:  oUopFlowIdx = 9'd172;
+  `INCr_a: oUopFlowIdx = 9'd302;
+	`INCSP:  oUopFlowIdx = 9'd304;
+	`DECSP:  oUopFlowIdx = 9'd306;
+	`INCr_l: oUopFlowIdx = 9'd308;
+	`DECr_l: oUopFlowIdx = 9'd310;
+	`ADDr_a: oUopFlowIdx = 9'd175;
+	`ADDr_b: oUopFlowIdx = 9'd178;
+	`SUBr_c: oUopFlowIdx = 9'd181;
+	`ADDr_c: oUopFlowIdx = 9'd184;
+	`ADDr_d: oUopFlowIdx = 9'd187;
+	`ADDr_e: oUopFlowIdx = 9'd190;
+	`ADDr_h: oUopFlowIdx = 9'd193;
+	`ADDr_l: oUopFlowIdx = 9'd196;
+	`SUBr_d: oUopFlowIdx = 9'd199;
+	`SUBr_e: oUopFlowIdx = 9'd202;
+	`SUBr_h: oUopFlowIdx = 9'd205;
+	`SUBr_l: oUopFlowIdx = 9'd208;
+	`SUBr_a: oUopFlowIdx = 9'd211;
+	`PUSHDE: oUopFlowIdx = 9'd214;
+	`PUSHHL: oUopFlowIdx = 9'd220;
+	`POPDE:  oUopFlowIdx = 9'd226;
+	`POPHL:  oUopFlowIdx = 9'd232;
+	`LDHLmr_b: oUopFlowIdx = 9'd238;
+	`LDHLmr_c: oUopFlowIdx = 9'd241;
+	`LDHLmr_d: oUopFlowIdx = 9'd244;
+	`LDDEmA:   oUopFlowIdx = 9'd247;
+	`PUSHAF:   oUopFlowIdx = 9'd261;
+	`POPAF:    oUopFlowIdx = 9'd267;
+	`LDBCnn:   oUopFlowIdx = 9'd273;
+	`INCBC:    oUopFlowIdx = 9'd83;
+	`LDAmm:    oUopFlowIdx = 9'd280;
+	`ANDn:     oUopFlowIdx = 9'd85;
+	`CALLNZnn: oUopFlowIdx = 9'd289;
+	//`DECBC:  oUopFlowIdx = 8'd164; //OK
+
 	default:
-			 oUopFlowIdx = 8'd0;
+			 oUopFlowIdx = 9'd278;
 	endcase
 end
 
@@ -129,22 +137,22 @@ endmodule
 module dzcpu_ucode_cblut
 (
 	input  wire[7:0]  iMop,
-	output reg [7:0]  oUopFlowIdx
+	output reg [8:0]  oUopFlowIdx
 );
 
 
 
-wire [7:0] wUopFlowIdx;
+
 
 
 
 always @ ( iMop )
 begin
 	case ( iMop )
-		8'h7C: oUopFlowIdx = 8'd16;		//BIT7
-		8'h11: oUopFlowIdx = 8'd69;		//RLr_b
+		8'h7C: oUopFlowIdx = 9'd16;		//BIT7
+		8'h11: oUopFlowIdx = 9'd69;		//RLr_b
 	default:
-			oUopFlowIdx = 8'd0;
+			oUopFlowIdx = 9'd0;
 	endcase
 end
 
@@ -157,14 +165,14 @@ endmodule
 
 module dzcpu_ucode_rom
 (
-	input  wire[7:0]  iAddr,
-	output reg [12:0]  oUop
+	input  wire[8:0]  iAddr,
+	output reg [13:0]  oUop
 );
 always @ ( iAddr )
 begin
 	case ( iAddr )
 	//Regular 1 Byte mOp
-		0: oUop = { `inc_eof, `z801bop , `a };
+		0: oUop = { `inc_eof_fu, `z801bop , `a };
 	//LDSPnn
 		1: oUop = { `inc, `sma, `pc   };
 		2: oUop = { `inc, `nop, `null };
@@ -180,7 +188,7 @@ begin
 		10: oUop = { `op,  `smw,   `a  };
 		11: oUop = { `inc, `sma,   `pc };
 		12: oUop = { `eof, `dec16, `hl };
-	//0xCB
+	//MAPcb 0xCB
 		13: oUop = { `inc, `sma, `pc   };
 		14: oUop = { `op,  `nop, `null };
 		15: oUop = { `inc, `jcb, `null };
@@ -262,7 +270,7 @@ begin
 		74: oUop = { `op ,`srm,    `b    };
 		75: oUop = { `inc ,`inc16,  `sp  };
 		76: oUop = { `eof, `sma,    `pc  };
-	//DECr_b
+	//UNUSED
 		77:	oUop = { `inc_eof_fu, `dec16,    `b  };
 	//LDHLIA
 		78: oUop = {`op, `sma, `hl  };
@@ -271,13 +279,16 @@ begin
 		81: oUop = {`eof, `sma, `pc  };
 	//INCHL
 		82: oUop = { `inc_eof ,`inc16,  `hl };
-	//RET
-		83: oUop = { `nop ,`sma,  `sp   };
-		84: oUop = { `nop, `inc16, `sp  };
-		85: oUop = { `nop , `srm, `x8   };
-		86: oUop = { `nop , `spc, `x8   };
-		87: oUop = { `nop, `inc16, `sp  };
-		88: oUop = { `eof ,`sma,  `pc   };
+	//INCBC
+	  83: oUop = { `update_flags ,`inc16,  `bc   };		//flags might be wrong for 16bits
+		84: oUop = { `inc_eof, `nop, `null  };
+
+	//ANDn
+		85: oUop = { `inc, `sma,  `pc };
+		86: oUop = { `op, `nop , `null };
+		87: oUop = { `update_flags ,`anda,    `idata  };
+		88: oUop = { `inc_eof ,`nop,    `null  };
+
 	//INCDE
 		89: oUop = { `inc_eof, `inc16, `de };
 	//CPn
@@ -329,8 +340,8 @@ begin
 		128: oUop = { `op,   `srm,  `a   };
 		129: oUop = { `op,   `srx8, `c   };
 		130: oUop = { `inc_eof, `sma, `pc };
-//INCr_h
-		131: oUop = { `inc_eof_fu, `inc16, `h };
+//UNUSED
+		131: oUop = { `op, `nop, `null };
 //SUBr_b
 		132: oUop = { `op, `sx16r, `a       };
 		133: oUop = { `update_flags, `subx16, `b      };
@@ -375,27 +386,22 @@ begin
 //DI
 		163: oUop = { `inc_eof, `ceti, `null }; //Disable Interruption
 //INCr_d
-		164: oUop = { `inc_eof_fu, `inc16, `d };
-//INCr_e
-		165: oUop = { `inc_eof_fu, `inc16, `e };
+		164: oUop = { `update_flags, `inc16, `d };
+		165: oUop = { `inc_eof,  `nop, `null };
 //DECr_e
-		166: oUop = { `inc_eof_fu, `dec16, `e };
+		166: oUop = { `update_flags, `dec16, `e };
+		167: oUop = { `inc_eof,  `nop, `null };
 //DECDE
-		167: oUop = { `inc_eof_fu, `dec16, `de };
+		168: oUop = { `update_flags, `dec16, `de };
+		169: oUop = { `inc_eof,  `nop, `null };
 //DECr_h
-		168: oUop = { `inc_eof_fu, `dec16, `h };
+		170: oUop = { `update_flags, `dec16, `h };
+		171: oUop = { `inc_eof,  `nop, `null };
 //DECHL
-		169: oUop = { `inc_eof_fu, `dec16, `hl };
-//INCr_a
-		170: oUop = { `inc_eof_fu, `inc16, `a };
-//INCSP
-		171: oUop = { `inc_eof, `inc16, `sp };  //increment SP
-//DECSP
-		172: oUop = { `inc_eof_fu, `dec16, `sp };
-//INCr_l
-		173: oUop = { `inc_eof_fu, `inc16, `l };
-//DECr_l
-		174: oUop = { `inc_eof_fu, `dec16, `l };
+		172: oUop = { `update_flags, `dec16, `hl };
+		173: oUop = { `inc_eof,  `nop, `null };
+//UNUSED
+		174: oUop = { `inc_eof,  `nop, `null };
 //ADDr_a
 		175: oUop = { `op, `sx16r, `a       };
 		176: oUop = { `update_flags, `addx16, `a };
@@ -493,13 +499,97 @@ begin
 		244: oUop = {`inc, `sma, `hl  };
 		245: oUop = {`op, `smw, `d    };
 		246: oUop = {`eof, `sma, `pc  };
+//LDDEmA
+		247: oUop = {`op, `sma, `de  };
+		248: oUop = {`op, `smw, `a    };
+		249: oUop = {`inc_eof, `sma, `pc    };
+//INCr_e
+    250:  oUop = { `update_flags, `inc16, `e };
+		251:  oUop = { `inc_eof, `nop, `null };
+
+//RET
+		252: oUop = {`op ,`sma,  `sp   };
+		253: oUop = {`op, `sx16r,  `hl };
+		254: oUop = {`op, `inc16, `sp  };
+		255: oUop = {`op,   `srm,   `l  };
+		256: oUop = {`op,   `srm,   `h  };
+		257: oUop = {`op,   `spc,   `hl  };
+		258: oUop = {`op,  `srx16, `hl };
+		259: oUop = {`op, `inc16, `sp  };
+		260: oUop = { `eof ,`sma,  `pc   };
+
+//PUSHAF
+		261: oUop = { `op, `dec16,  `sp  };
+		262: oUop = { `op, `sma,    `sp  };
+		263: oUop = { `op ,`smw,    `a   };
+		264: oUop = { `op, `dec16,  `sp  };
+		265: oUop = { `op ,`smw,     `f  };
+		266: oUop = { `inc_eof ,`sma,`pc };
+
+//POPAF
+		267: oUop = { `op, `sma,    `sp   };
+		268: oUop = { `op ,`inc16,  `sp   };
+		269: oUop = { `op ,`srm,    `f    };
+		270: oUop = { `op ,`srm,    `a    };
+		271: oUop = { `inc ,`inc16,  `sp  };
+		272: oUop = { `eof, `sma,    `pc  };
+//LDBCnn
+		273: oUop = { `inc, `sma, `pc   };
+		274: oUop = { `inc, `nop, `null };
+	  275: oUop = { `op , `srm, `c    };
+		276: oUop = { `inc_eof , `srm, `b    };
+//INCBC
+		277: oUop = { `inc_eof ,`inc16,  `bc };
+//Z80 1 Byte op
+    278: oUop = { `update_flags, `z801bop , `a };
+		279: oUop = { `inc_eof, `nop , `null };
+//LDAmm
+	  280: oUop = { `inc, `sx16r,  `hl };
+		281: oUop = { `inc, `sma , `pc };
+		282: oUop = { `op ,`srm,    `l  };
+		283: oUop = { `op ,`srm,    `h  };
+		284: oUop = { `op, `sma ,   `hl };
+		285: oUop = { `op, `nop ,   `null };	//remember to wait 1cc after sma
+		286: oUop = { `op ,`srm,    `a  };
+		287: oUop = { `op, `srx16,  `hl };
+		288: oUop = { `inc_eof, `sma , `pc };
+//CALLNZnn
+		289: oUop = { `inc_eof_z, `dec16,  `sp  };
+		290: oUop = { `inc, `sx16r,  `hl  };
+		291: oUop = { `op , `srm,    `l   }; //l = MEM[pc] = literal
+		292: oUop = { `inc, `srm,    `h   }; //l = MEM[pc] = literal
+		293: oUop = { `op,  `sma,    `sp  };
+		294: oUop = { `op,  `smw,    `pch };	//MEM[sp] = pc[7:0]
+		295: oUop = { `op,  `dec16,  `sp  };
+		296: oUop = { `op , `smw,    `pc  };	//MEM[sp+1] = pc[15:8]
+		297: oUop = { `op , `spc,    `hl  };
+		298: oUop = { `op, `srx16,  `hl  };
+		299: oUop = { `eof ,`sma,   `pc   };
+//DECr_b
+		300:	oUop = { `update_flags, `dec16,    `b  };
+		301:  oUop = { `inc_eof, `nop, `null};
+//INCr_a
+		302: oUop = { `update_flags, `inc16, `a };
+		303:  oUop = { `inc_eof, `nop, `null};
+//INCSP
+		304: oUop = { `op, `inc16, `sp };  //increment SP
+		305:  oUop = { `inc_eof, `nop, `null};
+//DECSP
+		306: oUop = { `update_flags, `dec16, `sp };
+		307:  oUop = { `inc_eof, `nop, `null};
+//INCr_l
+		308: oUop = { `update_flags, `inc16, `l };
+		309:  oUop = { `inc_eof, `nop, `null};
+//DECr_l
+		310: oUop = { `update_flags, `dec16, `l };
+		311:  oUop = { `inc_eof, `nop, `null};
+//INCr_h
+    312: oUop = { `update_flags, `inc16, `h };
+		313:  oUop = { `inc_eof, `nop, `null};
+
 //DECBC
 	//	247: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
-//LDBCnn
-		247: oUop = { `inc, `sma, `pc   };
-		248: oUop = { `inc, `nop, `null };
-		249: oUop = { `op , `srm, `c    };
-		250: oUop = { `inc_eof , `srm, `b    };
+
 
 
 //FLOW_ID_INT_VBLANK
