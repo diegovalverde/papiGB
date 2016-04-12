@@ -112,8 +112,8 @@ begin
 	`LDHLmr_b: oUopFlowIdx = 8'd238;
 	`LDHLmr_c: oUopFlowIdx = 8'd241;
 	`LDHLmr_d: oUopFlowIdx = 8'd244;
-	`DECBC:  oUopFlowIdx = 8'd247; //OK
-	`LDBCnn: oUopFlowIdx = 8'd248;
+	//`DECBC:  oUopFlowIdx = 8'd247; //OK
+	`LDBCnn: oUopFlowIdx = 8'd247;
 	default:
 			 oUopFlowIdx = 8'd0;
 	endcase
@@ -496,10 +496,10 @@ begin
 //DECBC
 	//	247: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
 //LDBCnn
-		248: oUop = { `inc, `sma, `pc   };
-		249: oUop = { `inc, `nop, `null };
-		250: oUop = { `op , `srm, `c    };
-		251: oUop = { `inc_eof , `srm, `b    };
+		247: oUop = { `inc, `sma, `pc   };
+		248: oUop = { `inc, `nop, `null };
+		249: oUop = { `op , `srm, `c    };
+		250: oUop = { `inc_eof , `srm, `b    };
 
 
 //FLOW_ID_INT_VBLANK
