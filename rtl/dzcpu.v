@@ -243,7 +243,7 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFD (   iClock, iReset, rFlowEnable & rRegW
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFE (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[3], rUopDstRegData[7:0], wE );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFH (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[4], (( rRegWriteSelect[4] &  rRegWriteSelect[5])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wH );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFL (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[5], rUopDstRegData[7:0], wL );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFA (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[6], rUopDstRegData[7:0], wA );
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 ) FFA (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[6], 8'h11, rUopDstRegData[7:0], wA );
 FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 )FFSPL(   iClock, iReset,  rFlowEnable & rRegWe & rRegWriteSelect[7], 8'hfe, rUopDstRegData[7:0], wSpL );
 FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 )FFSPH(   iClock, iReset,  rFlowEnable & rRegWe & rRegWriteSelect[8], 8'hff, (( rRegWriteSelect[7] &  rRegWriteSelect[8])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wSpH );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX8 (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[9], rUopDstRegData[7:0], wX8 );
@@ -284,7 +284,7 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REGDATA
   .I12({8'b0,wSpL}),        .I13( {8'b0,wSpH} ),      .I14( wY16 ),      .I15( wZ16 ),
   .I16({8'b0,wX8 }),        .I17( wX16),              .I18({8'hff,wC}),  .I19({wD,wE}),
   .I20({8'b0,wF }),         .I21({wB,wC}),            .I22({wA,wF}),     .I23(iMCUData),
-  .I24(16'b0), .I25(16'b0), .I26(16'b0), .I27(16'b0),
+  .I24({15'b0,wCarry}), .I25(16'b0), .I26(16'b0), .I27(16'b0),
   .I28(16'b0), .I29(16'b0), .I30(16'b0), .I31(16'b0),
   .O( wRegData )
 );
@@ -298,7 +298,7 @@ MUXFULLPARALELL_5SEL_GENERIC # (8) MUX_MCUDATA_OUT
   .I12(wSpL),        .I13( wSpH ),      .I14( wY16[7:0] ),      .I15( wZ16[7:0] ),
   .I16(wX8 ),        .I17( wX16[7:0]),  .I18(wC),               .I19(wE),
   .I20(wF ),         .I21(wC),          .I22(wF),     .I23(8'b0),
-  .I24(8'b0), .I25(8'b0), .I26(8'b0), .I27(8'b0),
+  .I24({7'b0,wCarry}), .I25(8'b0), .I26(8'b0), .I27(8'b0),
   .I28(8'b0), .I29(8'b0), .I30(8'b0), .I31(8'b0),
   .O( oMCUData )
 );

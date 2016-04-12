@@ -462,11 +462,15 @@ end //always
 			331: $fwrite(log,"=== LDrHLm_c === %h\n",uut.DZCPU.iMCUData );
 			335: $fwrite(log,"=== LDrHLm_d === %h\n",uut.DZCPU.iMCUData );
 			339: $fwrite(log,"=== XORHL === %h\n",uut.DZCPU.iMCUData );
+			345: $fwrite(log,"=== ADCn === %h\n",uut.DZCPU.iMCUData );
+			351: $fwrite(log,"=== ADDHLDE === %h\n",uut.DZCPU.iMCUData );
+			354: $fwrite(log,"=== JRNCn === %h\n",uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
 							`LDrr_ha: $fwrite(log,"=== LDrr_ha  === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_da: $fwrite(log,"=== LDrr_da  === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ea: $fwrite(log,"=== LDrr_ea  === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ae: $fwrite(log,"=== LDrr_ae  === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ca: $fwrite(log,"=== LDrr_ca  === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ah: $fwrite(log,"=== LDrr_ah  === %h \n", uut.DZCPU.iMCUData );
@@ -483,6 +487,7 @@ end //always
 							begin
 									if (rResetDone)
 									begin
+											$display("=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
 											$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
 											rSimulationDone = 1'b1;
 									end
@@ -529,6 +534,7 @@ end //always
 				`jint: $fwrite(log,"jint %h\n", uut.DZCPU.wRegData);
 				`seti: $fwrite(log,"set %h\n", uut.DZCPU.wRegData);
 				`anda: $fwrite(log,"anda %h\n", uut.DZCPU.wRegData);
+				`xorx16: $fwrite(log,"xorx16 %h\n", uut.DZCPU.wRegData);
 				`z801bop:
 				begin
 					case (uut.DZCPU.iMCUData[7:3])

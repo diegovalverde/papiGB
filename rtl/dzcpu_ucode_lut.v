@@ -127,6 +127,9 @@ begin
 	`LDrHLm_c: oUopFlowIdx = 9'd331;
 	`LDrHLm_d: oUopFlowIdx = 9'd335;
 	`XORHL:    oUopFlowIdx = 9'd339;
+	`ADCn:     oUopFlowIdx = 9'd345;
+	`ADDHLDE:  oUopFlowIdx = 9'd351;
+	`JRNCn:    oUopFlowIdx = 9'd354;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 
 	default:
@@ -158,6 +161,7 @@ begin
 	case ( iMop )
 		8'h7C: oUopFlowIdx = 9'd16;		//BIT7
 		8'h11: oUopFlowIdx = 9'd69;		//RLr_b
+
 	default:
 			oUopFlowIdx = 9'd0;
 	endcase
@@ -632,6 +636,23 @@ begin
 		342:  oUop = { `update_flags, `xorx16, `pc};
 		343:  oUop = { `op, `srx16, `a};
 		344:  oUop = { `inc_eof, `sma, `pc};
+//ADCn
+		345:  oUop = { `inc,  `sma,   `pc   };
+		346:  oUop = { `op,  `nop,   `null };
+		347:  oUop = { `op,  `srm,   `x16  };
+		348:  oUop = { `op,  `addx16,   `a  };
+		349:  oUop = { `update_flags,  `addx16,   `carry  };
+		350:  oUop = { `inc_eof, `sma, `pc};
+//ADDHLDE
+		351:  oUop = { `inc,  `sx16r,   `hl   };
+		352:  oUop = { `update_flags,  `addx16,   `de   };
+		353:  oUop = { `eof,  `srx16,   `hl   };
+//JRNCn
+		354:  oUop = { `inc,  `sma,   `pc   };
+		355:  oUop = { `op, `xorx16, `x16 };
+		356:  oUop = { `update_flags,  `addx16,   `carry  };
+		357:  oUop = { `inc_eof_nz,  `srm, `x16 };
+		358:  oUop = { `eof,  `sp, `x16 };
 
 //FLOW_ID_INT_VBLANK
 /*

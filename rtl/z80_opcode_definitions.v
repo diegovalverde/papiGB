@@ -31,7 +31,7 @@
   `define  LDrn_d 8'h16
   `define  RLA 8'h17
   `define  JRn 8'h18
-//  `define  ADDHLDE;
+  `define  ADDHLDE 8'h19
   `define  LDADEm 8'h1A
   `define  DECDE 8'h1b
   `define  INCr_e 8'h1c
@@ -260,7 +260,7 @@
 
 //  //  `define  CALLZnn;
   `define  CALLnn 8'hCD
-//  //  `define  ADCn;
+  `define  ADCn   8'hCe
 //  //  `define  RST08;
 //  //  `define
 //  D0
@@ -391,12 +391,10 @@
 //  //  `define  SWAPr_c;
 //  //  `define  SWAPr_d;
 //  //  `define  SWAPr_e;
-//  //  `define
 //  //  `define  SWAPr_h;
 //  //  `define  SWAPr_l;
 //  //  `define  XX;
 //  //  `define  SWAPr_a;
-//  //  `define
 //  //  `define  SRLr_b;
 //  //  `define  SRLr_c;
 //  //  `define  SRLr_d;
@@ -739,6 +737,7 @@
 `define bc    5'd21
 `define af    5'd22
 `define idata 5'd23
+`define carry 5'd24
 
 `define DZCPU_AFTER_RESET 0
 `define DZCPU_START_FLOW  1
