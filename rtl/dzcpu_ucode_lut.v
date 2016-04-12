@@ -130,6 +130,7 @@ begin
 	`ADCn:     oUopFlowIdx = 9'd345;
 	`ADDHLDE:  oUopFlowIdx = 9'd351;
 	`JRNCn:    oUopFlowIdx = 9'd354;
+	`XORn:     oUopFlowIdx = 9'd359;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 
 	default:
@@ -653,6 +654,11 @@ begin
 		356:  oUop = { `update_flags,  `addx16,   `carry  };
 		357:  oUop = { `inc_eof_nz,  `srm, `x16 };
 		358:  oUop = { `eof,  `sp, `x16 };
+//XORn
+		359: oUop = { `inc, `sma,  `pc };
+		360: oUop = { `op, `sx16r , `a };
+		361: oUop = { `update_flags ,`xorx16, `idata  };
+		362: oUop = { `inc_eof ,`srx16,  `a  };
 
 //FLOW_ID_INT_VBLANK
 /*

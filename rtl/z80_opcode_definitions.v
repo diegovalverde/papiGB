@@ -87,15 +87,15 @@
 //  `define  LDrr_bh;
 //  `define  LDrr_bl;
 `define  LDrHLm_b 8'h46
-//  `define  LDrr_ba;
-//  `define
-//  `define  LDrr_cb;
-//  `define  LDrr_cc;
-//  `define  LDrr_cd;
-//  `define  LDrr_ce;
+`define  LDrr_ba  8'h47
+`define  LDrr_cb  8'h48
+`define  LDrr_cc  8'h49
+`define  LDrr_cd  8'h4a
+`define  LDrr_ce  8'h4b
 
-//  `define  LDrr_ch;
-//  `define  LDrr_cl;
+  `define  LDrr_ch  8'h4d
+  `define  LDrr_cl  8'h4c
+
   `define  LDrHLm_c 8'h4e
   `define  LDrr_ca 8'h4f
 
@@ -299,10 +299,8 @@
 //  //  `define  JPHL;
   `define  LDmmA  8'hEA
 //  //  `define  XX;
-//  //  `define
 //  //  `define  XX;
-//  //  `define  XX;
-//  //  `define  XORn;
+   `define  XORn 8'hee
 //  //  `define  RST28;
 //  //  `define
 //  F0

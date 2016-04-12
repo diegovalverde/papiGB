@@ -465,13 +465,23 @@ end //always
 			345: $fwrite(log,"=== ADCn === %h\n",uut.DZCPU.iMCUData );
 			351: $fwrite(log,"=== ADDHLDE === %h\n",uut.DZCPU.iMCUData );
 			354: $fwrite(log,"=== JRNCn === %h\n",uut.DZCPU.iMCUData );
+			359: $fwrite(log,"=== XORn === %h\n",uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
+							`LDrr_ba: $fwrite(log,"=== LDrr_ba === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_cb: $fwrite(log,"=== LDrr_cb === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_cc: $fwrite(log,"=== LDrr_cc === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_cd: $fwrite(log,"=== LDrr_cd === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ce: $fwrite(log,"=== LDrr_ce === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ch: $fwrite(log,"=== LDrr_ch === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_cl: $fwrite(log,"=== LDrr_cl === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ac: $fwrite(log,"=== LDrr_ac === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ad: $fwrite(log,"=== LDrr_ad === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ae: $fwrite(log,"=== LDrr_ae === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ha: $fwrite(log,"=== LDrr_ha  === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_da: $fwrite(log,"=== LDrr_da  === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ea: $fwrite(log,"=== LDrr_ea  === %h \n", uut.DZCPU.iMCUData );
-							`LDrr_ae: $fwrite(log,"=== LDrr_ae  === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ca: $fwrite(log,"=== LDrr_ca  === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ah: $fwrite(log,"=== LDrr_ah  === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_al: $fwrite(log,"=== LDrr_al  === %h \n", uut.DZCPU.iMCUData );
