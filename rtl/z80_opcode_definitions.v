@@ -37,7 +37,7 @@
   `define  INCr_e 8'h1c
   `define  DECr_e 8'h1d
   `define  LDrn_e 8'h1e
-//  `define  RRA;
+  `define  RRA    8'h1f
 //  `define
 //  20
   `define  JRNZn  8'h20
@@ -706,6 +706,7 @@
 `define jint     5'h14
 `define anda     5'h15
 `define xorx16   5'h17
+`define rrot     5'h18
 
 `define null 5'h0
 

@@ -466,6 +466,7 @@ end //always
 			351: $fwrite(log,"=== ADDHLDE === %h\n",uut.DZCPU.iMCUData );
 			354: $fwrite(log,"=== JRNCn === %h\n",uut.DZCPU.iMCUData );
 			359: $fwrite(log,"=== XORn === %h\n",uut.DZCPU.iMCUData );
+			363: $fwrite(log,"=== RRA === %h\n",uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
@@ -545,6 +546,7 @@ end //always
 				`seti: $fwrite(log,"set %h\n", uut.DZCPU.wRegData);
 				`anda: $fwrite(log,"anda %h\n", uut.DZCPU.wRegData);
 				`xorx16: $fwrite(log,"xorx16 %h\n", uut.DZCPU.wRegData);
+				`rrot:   $fwrite(log,"rrot %h\n", uut.DZCPU.wRegData);
 				`z801bop:
 				begin
 					case (uut.DZCPU.iMCUData[7:3])

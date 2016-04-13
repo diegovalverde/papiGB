@@ -131,6 +131,7 @@ begin
 	`ADDHLDE:  oUopFlowIdx = 9'd351;
 	`JRNCn:    oUopFlowIdx = 9'd354;
 	`XORn:     oUopFlowIdx = 9'd359;
+	`RRA:     oUopFlowIdx = 9'd363;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 
 	default:
@@ -659,7 +660,9 @@ begin
 		360: oUop = { `op, `sx16r , `a };
 		361: oUop = { `update_flags ,`xorx16, `idata  };
 		362: oUop = { `inc_eof ,`srx16,  `a  };
-
+//RRA
+		363: oUop = { `update_flags, `rrot,  `null  };
+		364: oUop = { `inc_eof, `nop,  `null  };
 //FLOW_ID_INT_VBLANK
 /*
         163: oUop = { `op, `ceti, `null};  //Disable interruption
