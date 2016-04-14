@@ -132,6 +132,8 @@ begin
 	`JRNCn:    oUopFlowIdx = 9'd354;
 	`XORn:     oUopFlowIdx = 9'd359;
 	`RRA:     oUopFlowIdx = 9'd363;
+	`RETNC:   oUopFlowIdx = 9'd365;
+	`RETZ:    oUopFlowIdx = 9'd377;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 
 	default:
@@ -663,6 +665,31 @@ begin
 //RRA
 		363: oUop = { `update_flags, `rrot,  `null  };
 		364: oUop = { `inc_eof, `nop,  `null  };
+//RETNC
+		365:  oUop = { `op, `xorx16, `x16 };
+		366:  oUop = { `update_flags,  `addx16,   `carry  };
+		367:  oUop = { `inc_eof_nz,  `srm, `x16 };
+		368: oUop = {`op ,`sma,  `sp   };
+		369: oUop = {`op, `sx16r,  `hl };
+		370: oUop = {`op, `inc16, `sp  };
+		371: oUop = {`op,   `srm,   `l  };
+		372: oUop = {`op,   `srm,   `h  };
+		373: oUop = {`op,   `spc,   `hl  };
+		374: oUop = {`op,  `srx16, `hl };
+		375: oUop = {`op, `inc16, `sp  };
+		376: oUop = { `eof ,`sma,  `pc   };
+
+	//RETZ
+		377: oUop = { `inc_eof_z,  `nop, `null };
+		378: oUop = {`op ,`sma,  `sp   };
+		379: oUop = {`op, `sx16r,  `hl };
+		380: oUop = {`op, `inc16, `sp  };
+		381: oUop = {`op,   `srm,   `l  };
+		382: oUop = {`op,   `srm,   `h  };
+		383: oUop = {`op,   `spc,   `hl  };
+		384: oUop = {`op,  `srx16, `hl };
+		385: oUop = {`op, `inc16, `sp  };
+		386: oUop = { `eof ,`sma,  `pc   };
 //FLOW_ID_INT_VBLANK
 /*
         163: oUop = { `op, `ceti, `null};  //Disable interruption

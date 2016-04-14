@@ -264,7 +264,7 @@
 //  //  `define  RST08;
 //  //  `define
 //  D0
-//  //  `define  RETNC;
+  `define  RETNC 8'hd0
   `define  POPDE 8'hD1
 //  //  `define  JPNCnn;
 //  //  `define  XX;
