@@ -229,7 +229,7 @@
 
 //  `define  ORr_h;
 //  `define  ORr_l;
-//  `define  ORHL;
+  `define  ORHL  8'hb6
   `define  ORr_a 8'hb7
 
 //  `define  CPr_b;
@@ -707,6 +707,7 @@
 `define anda     5'h15
 `define xorx16   5'h17
 `define rrot     5'h18
+`define xora     5'h19
 
 `define null 5'h0
 

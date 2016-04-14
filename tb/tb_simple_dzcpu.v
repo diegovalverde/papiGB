@@ -469,6 +469,7 @@ end //always
 			363: $fwrite(log,"=== RRA === %h\n",uut.DZCPU.iMCUData );
 			365: $fwrite(log,"=== RETNC === %h\n",uut.DZCPU.iMCUData );
 			377: $fwrite(log,"=== RETZ === %h\n",uut.DZCPU.iMCUData );
+			387: $fwrite(log,"=== ORHL === %h\n",uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
