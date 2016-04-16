@@ -550,6 +550,7 @@ end //always
 				`anda: $fwrite(log,"anda %h\n", uut.DZCPU.wRegData);
 				`xorx16: $fwrite(log,"xorx16 %h\n", uut.DZCPU.wRegData);
 				`rrot:   $fwrite(log,"rrot %h\n", uut.DZCPU.wRegData);
+				`xora:   $fwrite(log,"xora %h\n", uut.DZCPU.wRegData);
 				`z801bop:
 				begin
 					case (uut.DZCPU.iMCUData[7:3])
