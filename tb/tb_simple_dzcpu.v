@@ -427,7 +427,7 @@ end //always
 			304: $fwrite(log,"=== INCSP === %h \n", uut.DZCPU.iMCUData ); //Increment SP
 			306: $fwrite(log,"=== DECSP === %h \n", uut.DZCPU.iMCUData );
 			308: $fwrite(log,"=== INCr_l  === %h \n", uut.DZCPU.iMCUData );
-			174: $fwrite(log,"=== DECr_l  === %h \n", uut.DZCPU.iMCUData );
+			310: $fwrite(log,"=== DECr_l  === %h \n", uut.DZCPU.iMCUData );
 			175: $fwrite(log,"=== ADDr_a  === %h \n", uut.DZCPU.iMCUData );
 			178: $fwrite(log,"=== ADDr_b  === %h \n", uut.DZCPU.iMCUData );
 			181: $fwrite(log,"=== SUBr_c  === %h \n", uut.DZCPU.iMCUData );
@@ -456,24 +456,53 @@ end //always
 			280: $fwrite(log,"=== LDAmm === %h \n", uut.DZCPU.iMCUData );
 			85:  $fwrite(log,"=== ANDn === %h\n", uut.DZCPU.iMCUData );
 			289: $fwrite(log,"=== CALLNZnn === %h\n",uut.DZCPU.iMCUData );
+			314: $fwrite(log,"=== ADDn === %h\n",uut.DZCPU.iMCUData );
+			319: $fwrite(log,"=== SUBn === %h\n",uut.DZCPU.iMCUData );
+			324: $fwrite(log,"=== CPr_c === %h\n",uut.DZCPU.iMCUData );
+			327: $fwrite(log,"=== LDrHLm_b === %h\n",uut.DZCPU.iMCUData );
+			331: $fwrite(log,"=== LDrHLm_c === %h\n",uut.DZCPU.iMCUData );
+			335: $fwrite(log,"=== LDrHLm_d === %h\n",uut.DZCPU.iMCUData );
+			339: $fwrite(log,"=== XORHL === %h\n",uut.DZCPU.iMCUData );
+			345: $fwrite(log,"=== ADCn === %h\n",uut.DZCPU.iMCUData );
+			351: $fwrite(log,"=== ADDHLDE === %h\n",uut.DZCPU.iMCUData );
+			354: $fwrite(log,"=== JRNCn === %h\n",uut.DZCPU.iMCUData );
+			359: $fwrite(log,"=== XORn === %h\n",uut.DZCPU.iMCUData );
+			363: $fwrite(log,"=== RRA === %h\n",uut.DZCPU.iMCUData );
+			365: $fwrite(log,"=== RETNC === %h\n",uut.DZCPU.iMCUData );
+			377: $fwrite(log,"=== RETZ === %h\n",uut.DZCPU.iMCUData );
+			387: $fwrite(log,"=== ORHL === %h\n",uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
+							`LDrr_ba: $fwrite(log,"=== LDrr_ba === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_cb: $fwrite(log,"=== LDrr_cb === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_cc: $fwrite(log,"=== LDrr_cc === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_cd: $fwrite(log,"=== LDrr_cd === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ce: $fwrite(log,"=== LDrr_ce === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ch: $fwrite(log,"=== LDrr_ch === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_cl: $fwrite(log,"=== LDrr_cl === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ac: $fwrite(log,"=== LDrr_ac === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ad: $fwrite(log,"=== LDrr_ad === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ae: $fwrite(log,"=== LDrr_ae === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ha: $fwrite(log,"=== LDrr_ha  === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_da: $fwrite(log,"=== LDrr_da  === %h \n", uut.DZCPU.iMCUData );
-							`LDrr_ae: $fwrite(log,"=== LDrr_ae  === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ea: $fwrite(log,"=== LDrr_ea  === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ca: $fwrite(log,"=== LDrr_ca  === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ah: $fwrite(log,"=== LDrr_ah  === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_al: $fwrite(log,"=== LDrr_al  === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ab: $fwrite(log,"=== LDrr_ab  === %h \n", uut.DZCPU.iMCUData );
 							`XORr_a: $fwrite(log,"=== XORr_a  === %h \n", uut.DZCPU.iMCUData );
+							`XORr_b: $fwrite(log,"=== XORr_b  === %h \n", uut.DZCPU.iMCUData );
+							`XORr_c: $fwrite(log,"=== XORr_c  === %h \n", uut.DZCPU.iMCUData );
 							`ORr_b: $fwrite(log,"=== ORr_a  === %h \n", uut.DZCPU.iMCUData );
 							`ORr_c: $fwrite(log,"=== ORr_c  === %h \n", uut.DZCPU.iMCUData );
+							`ORr_a: $fwrite(log,"=== ORr_c  === %h \n", uut.DZCPU.iMCUData );
 							`NOP: $fwrite(log,"=== NOP  === %h \n", uut.DZCPU.iMCUData );
 							default:
 							begin
 									if (rResetDone)
 									begin
+											$display("=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
 											$fwrite(log,"=== Unknown Flow. Insns %h\n",uut.DZCPU.iMCUData);
 											rSimulationDone = 1'b1;
 									end
@@ -520,6 +549,9 @@ end //always
 				`jint: $fwrite(log,"jint %h\n", uut.DZCPU.wRegData);
 				`seti: $fwrite(log,"set %h\n", uut.DZCPU.wRegData);
 				`anda: $fwrite(log,"anda %h\n", uut.DZCPU.wRegData);
+				`xorx16: $fwrite(log,"xorx16 %h\n", uut.DZCPU.wRegData);
+				`rrot:   $fwrite(log,"rrot %h\n", uut.DZCPU.wRegData);
+				`xora:   $fwrite(log,"xora %h\n", uut.DZCPU.wRegData);
 				`z801bop:
 				begin
 					case (uut.DZCPU.iMCUData[7:3])
