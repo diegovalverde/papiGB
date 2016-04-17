@@ -475,15 +475,16 @@ end //always
 			401: $fwrite(log,"=== RETNZ === %h\n",uut.DZCPU.iMCUData );
 			default:
 				  case (uut.DZCPU.iMCUData)
+
 							`LDrr_ed: $fwrite(log,"=== LDrr_ed === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ec: $fwrite(log,"=== LDrr_ec === %h \n", uut.DZCPU.iMCUData );
-							`LDrr_ba: $fwrite(log,"=== LDrr_la === %h \n", uut.DZCPU.iMCUData );
-							`LDrr_ba: $fwrite(log,"=== LDrr_ll === %h \n", uut.DZCPU.iMCUData );
-							`LDrr_ba: $fwrite(log,"=== LDrr_lh === %h \n", uut.DZCPU.iMCUData );
-							`LDrr_ba: $fwrite(log,"=== LDrr_le === %h \n", uut.DZCPU.iMCUData );
-							`LDrr_ba: $fwrite(log,"=== LDrr_ld === %h \n", uut.DZCPU.iMCUData );
-						  `LDrr_ba: $fwrite(log,"=== LDrr_lc === %h \n", uut.DZCPU.iMCUData );
-						  `LDrr_ba: $fwrite(log,"=== LDrr_lb === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_la: $fwrite(log,"=== LDrr_la === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ll: $fwrite(log,"=== LDrr_ll === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_lh: $fwrite(log,"=== LDrr_lh === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_le: $fwrite(log,"=== LDrr_le === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ld: $fwrite(log,"=== LDrr_ld === %h \n", uut.DZCPU.iMCUData );
+						  `LDrr_lc: $fwrite(log,"=== LDrr_lc === %h \n", uut.DZCPU.iMCUData );
+						  `LDrr_lb: $fwrite(log,"=== LDrr_lb === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ba: $fwrite(log,"=== LDrr_ba === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_cb: $fwrite(log,"=== LDrr_cb === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_cc: $fwrite(log,"=== LDrr_cc === %h \n", uut.DZCPU.iMCUData );
