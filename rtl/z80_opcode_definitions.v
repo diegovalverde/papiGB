@@ -65,7 +65,7 @@
   `define  INCSP   8'h33
 
 //  `define  INCHLm;
-//  `define  DECHLm;
+  `define  DECHLm 8'h35
   `define  LDHLmn 8'h36
 //  `define  SCF;
 

@@ -135,6 +135,7 @@ begin
 	`RETNC:   oUopFlowIdx = 9'd365;
 	`RETZ:    oUopFlowIdx = 9'd377;
 	`ORHL:    oUopFlowIdx = 9'd387;
+	`DECHLm:  oUopFlowIdx = 9'd391;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 
 	default:
@@ -696,7 +697,13 @@ begin
 		388: oUop = {`op,  `nop,   `null };
 		389: oUop = {`update_flags,   `xora,   `idata  };
 		390: oUop = { `inc_eof ,`sma,  `pc   };
-
+//DECHLm
+		391: oUop = {`op ,`sma,  `hl   };
+		392: oUop = {`op,  `nop,   `null };
+		393: oUop = {`op,  `srm,   `x16  };
+		394: oUop = {`update_flags,  `dec16,   `x16 };
+		395: oUop = {`nop,  `smw,   `x16 };
+		396: oUop = {`inc_eof,  `sma,   `pc };
 //FLOW_ID_INT_VBLANK
 /*
         163: oUop = { `op, `ceti, `null};  //Disable interruption

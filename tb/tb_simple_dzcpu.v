@@ -470,6 +470,7 @@ end //always
 			365: $fwrite(log,"=== RETNC === %h\n",uut.DZCPU.iMCUData );
 			377: $fwrite(log,"=== RETZ === %h\n",uut.DZCPU.iMCUData );
 			387: $fwrite(log,"=== ORHL === %h\n",uut.DZCPU.iMCUData );
+			391: $fwrite(log,"=== DECHLm === %h\n",uut.DZCPU.iMCUData );
 			default:
 			  case (uut.DZCPU.iMCUData)
 
