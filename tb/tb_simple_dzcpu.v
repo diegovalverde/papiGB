@@ -472,8 +472,11 @@ end //always
 			387: $fwrite(log,"=== ORHL === %h\n",uut.DZCPU.iMCUData );
 			391: $fwrite(log,"=== DECHLm === %h\n",uut.DZCPU.iMCUData );
 		  397: $fwrite(log,"=== LDrHLm_l === %h\n",uut.DZCPU.iMCUData );
+			401: $fwrite(log,"=== RETNZ === %h\n",uut.DZCPU.iMCUData );
 			default:
 				  case (uut.DZCPU.iMCUData)
+							`LDrr_ed: $fwrite(log,"=== LDrr_ed === %h \n", uut.DZCPU.iMCUData );
+							`LDrr_ec: $fwrite(log,"=== LDrr_ec === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ba: $fwrite(log,"=== LDrr_la === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ba: $fwrite(log,"=== LDrr_ll === %h \n", uut.DZCPU.iMCUData );
 							`LDrr_ba: $fwrite(log,"=== LDrr_lh === %h \n", uut.DZCPU.iMCUData );

@@ -137,6 +137,7 @@ begin
 	`ORHL:    oUopFlowIdx = 9'd387;
 	`DECHLm:  oUopFlowIdx = 9'd391;
 	`LDrHLm_l: oUopFlowIdx = 9'd397;
+	`RETNZ:    oUopFlowIdx = 9'd401;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 
 	default:
@@ -710,6 +711,17 @@ begin
 		398: oUop = {`op,  `nop,   `null };
 		399: oUop = {`op,  `srm,   `l  };
 		400: oUop = {`inc_eof,  `sma,   `pc };
+//RETNZ
+		401: oUop = { `inc_eof_nz,  `nop, `null };
+		402: oUop = {`op ,`sma,  `sp   };
+		403: oUop = {`op, `sx16r,  `hl };
+		404: oUop = {`op, `inc16, `sp  };
+		405: oUop = {`op,   `srm,   `l  };
+		406: oUop = {`op,   `srm,   `h  };
+		407: oUop = {`op,   `spc,   `hl  };
+		408: oUop = {`op,  `srx16, `hl };
+		409: oUop = {`op, `inc16, `sp  };
+		410: oUop = { `eof ,`sma,  `pc   };
 
 //FLOW_ID_INT_VBLANK
 /*
