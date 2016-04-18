@@ -138,6 +138,7 @@ begin
 	`DECHLm:  oUopFlowIdx = 9'd391;
 	`LDrHLm_l: oUopFlowIdx = 9'd397;
 	`RETNZ:    oUopFlowIdx = 9'd401;
+	`ADDHLHL:  oUopFlowIdx = 9'd411;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 
 	default:
@@ -722,7 +723,10 @@ begin
 		408: oUop = {`op,  `srx16, `hl };
 		409: oUop = {`op, `inc16, `sp  };
 		410: oUop = { `eof ,`sma,  `pc   };
-
+//ADDHLHL
+		411: oUop = {`op, `sx16r,  `hl   };
+		412: oUop = {`update_flags, `addx16r16,  `x16 };
+		413: oUop = {`inc_eof, `srx16,  `hl   };
 //FLOW_ID_INT_VBLANK
 /*
         163: oUop = { `op, `ceti, `null};  //Disable interruption

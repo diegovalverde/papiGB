@@ -1,3 +1,4 @@
+
 `timescale 1ns / 1ps
 `include "collaterals.v"
 `include "z80_opcode_definitions.v"
@@ -518,6 +519,23 @@ begin
       rFlagsWe            = 1'b0;
       rFlags              = 8'b0;
       rUopDstRegData      = wX16 + {{8{wRegData[7]}},wRegData[7:0]};  //sign extended 2'complement
+      rOverWritePc        = 1'b0;
+      rMcuReadRequest     = 1'b0;
+      rSetiWe             = 1'b0;
+      rSetiVal            = 1'b0;
+      rClearIntLatch      = 1'b0;
+    end
+
+    `addx16r16:
+    begin
+      oMCUwe              = 1'b0;
+      rRegSelect          = wUop[4:0];
+      rSetMCOAddr         = 1'b0;
+      rRegWe              = 1'b1;
+      rWriteSelect        = `x16;
+      rFlagsWe            = 1'b0;
+      rFlags              = 8'b0;
+      rUopDstRegData      = wX16 + wRegData;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;

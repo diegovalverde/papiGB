@@ -48,9 +48,9 @@
   `define  DECr_h 8'h25
   `define  LDrn_h 8'h26
 //  `define  DAA;
-//  `define
+
   `define  JRZn 8'h28
-//  `define  ADDHLHL;
+  `define  ADDHLHL 8'h29
   `define  LDAHLI 8'h2A
   `define  DECHL  8'h2b
   `define  INCr_l 8'h2c
@@ -706,6 +706,7 @@
 `define xorx16   5'h17
 `define rrot     5'h18
 `define xora     5'h19
+`define addx16r16 5'h20
 
 `define null 5'h0
 
