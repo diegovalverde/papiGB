@@ -706,7 +706,7 @@
 `define xorx16   5'h17
 `define rrot     5'h18
 `define xora     5'h19
-`define addx16r16 5'h20
+`define addx16r16 5'h1a
 
 `define null 5'h0
 
