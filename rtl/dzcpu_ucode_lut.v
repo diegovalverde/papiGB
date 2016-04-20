@@ -661,7 +661,7 @@ begin
 		355:  oUop = { `op, `xorx16, `x16 };
 		356:  oUop = { `update_flags,  `addx16,   `carry  };
 		357:  oUop = { `inc_eof_nz,  `srm, `x16 };
-		358:  oUop = { `eof,  `sp, `x16 };
+		358:  oUop = { `eof,  `spc, `x16 };
 //XORn
 		359: oUop = { `inc, `sma,  `pc };
 		360: oUop = { `op, `sx16r , `a };
@@ -674,7 +674,7 @@ begin
 		365:  oUop = { `op, `xorx16, `x16 };
 		366:  oUop = { `update_flags,  `addx16,   `carry  };
 		367:  oUop = { `inc_eof_nz,  `srm, `x16 };
-		368: oUop = {`op ,`sma,  `sp   };
+		368: oUop = {`op ,`sma,  `sp   }; 
 		369: oUop = {`op, `sx16r,  `hl };
 		370: oUop = {`op, `inc16, `sp  };
 		371: oUop = {`op,   `srm,   `l  };
