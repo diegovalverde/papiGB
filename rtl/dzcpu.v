@@ -240,14 +240,14 @@ reg [13:0] rRegWriteSelect;
 
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFB (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[0], (( rRegWriteSelect[1] &  rRegWriteSelect[0])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wB );
-FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 ) FFC (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[1], 8'h13, rUopDstRegData[7:0], wC );
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 ) FFC (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[1], 8'h0, rUopDstRegData[7:0], wC );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFD (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[2], (( rRegWriteSelect[2] &  rRegWriteSelect[3])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wD );
-FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 ) FFE (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[3],  8'hd8, rUopDstRegData[7:0], wE );
-FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 ) FFH (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[4],  8'h01, (( rRegWriteSelect[4] &  rRegWriteSelect[5])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wH );
-FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 ) FFL (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[5],  8'h4d,rUopDstRegData[7:0], wL );
-FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 ) FFA (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[6],  8'h01, rUopDstRegData[7:0], wA );
-FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 )FFSPL(   iClock, iReset,  rFlowEnable & rRegWe & rRegWriteSelect[7], 8'hfe, rUopDstRegData[7:0], wSpL );
-FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 )FFSPH(   iClock, iReset,  rFlowEnable & rRegWe & rRegWriteSelect[8], 8'hff, (( rRegWriteSelect[7] &  rRegWriteSelect[8])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wSpH );
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 ) FFE (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[3],  8'h0, rUopDstRegData[7:0], wE );
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 ) FFH (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[4],  8'h0, (( rRegWriteSelect[4] &  rRegWriteSelect[5])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wH );
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 ) FFL (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[5],  8'h0,rUopDstRegData[7:0], wL );
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 ) FFA (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[6],  8'h0, rUopDstRegData[7:0], wA );
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 )FFSPL(   iClock, iReset,  rFlowEnable & rRegWe & rRegWriteSelect[7], 8'h0, rUopDstRegData[7:0], wSpL );
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 )FFSPH(   iClock, iReset,  rFlowEnable & rRegWe & rRegWriteSelect[8], 8'h0, (( rRegWriteSelect[7] &  rRegWriteSelect[8])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wSpH );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX8 (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[9], rUopDstRegData[7:0], wX8 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFX16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[10], rUopDstRegData[15:0], wX16 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFY16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[11], rUopDstRegData[15:0], wY16 );
@@ -272,7 +272,7 @@ assign wFlagsUpdate[`flag_n ] = ( rFlagsN[1] == 1'b1 ) ? rFlagsN[0] : wFlags[`fl
 assign wFlagsUpdate[`flag_c ] = ( rFlagsC[1] == 1'b1 ) ? rFlagsC[0] : wFlags[`flag_c ] ;
 assign wFlagsUpdate[3:0] = 4'b0;
 
-FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 )FFFLAGS( iClock, iReset, wFlagsWe , 8'hb0,wFlagsUpdate, wFlags );
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 )FFFLAGS( iClock, iReset, wFlagsWe , 8'h0,wFlagsUpdate, wFlags );
 FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 5 )FFMCUADR( iClock, iReset, rFlowEnable & rSetMCOAddr, `pc , wUop[4:0], wMcuAdrrSel );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FF_RREQ( iClock, iReset, rFlowEnable & ~oMCUwe, rMcuReadRequest, oMcuReadRequest );
 
