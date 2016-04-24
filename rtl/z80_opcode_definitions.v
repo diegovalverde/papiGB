@@ -48,9 +48,9 @@
   `define  DECr_h 8'h25
   `define  LDrn_h 8'h26
 //  `define  DAA;
-//  `define
+
   `define  JRZn 8'h28
-//  `define  ADDHLHL;
+  `define  ADDHLHL 8'h29
   `define  LDAHLI 8'h2A
   `define  DECHL  8'h2b
   `define  INCr_l 8'h2c
@@ -65,7 +65,7 @@
   `define  INCSP   8'h33
 
 //  `define  INCHLm;
-//  `define  DECHLm;
+  `define  DECHLm 8'h35
   `define  LDHLmn 8'h36
 //  `define  SCF;
 
@@ -129,16 +129,14 @@
   `define  LDrr_hl 8'h65
 //  `define  LDrHLm_h
   `define  LDrr_ha 8'h67
-
-//  `define  LDrr_lb;
-//  `define  LDrr_lc;
-//  `define  LDrr_ld;
-//  `define  LDrr_le;
-//  `define
-//  `define  LDrr_lh;
-//  `define  LDrr_ll;
-//  `define  LDrHLm_l;
-//  `define  LDrr_la;
+  `define  LDrr_lb 8'h68
+  `define  LDrr_lc 8'h69
+  `define  LDrr_ld 8'h6a
+  `define  LDrr_le 8'h6b
+  `define  LDrr_lh 8'h6c
+  `define  LDrr_ll 8'h6d
+  `define  LDrHLm_l 8'h6e
+  `define  LDrr_la 8'h6f
 
 //  70
   `define  LDHLmr_b 8'h70
@@ -201,34 +199,34 @@
 //  `define  SBCr_a;
 //  `define
 //  A0
-//  `define  ANDr_b;
-//  `define  ANDr_c;
-//  `define  ANDr_d;
-//  `define  ANDr_e;
+  `define  ANDr_b 8'hA0
+  `define  ANDr_c 8'hA1
+  `define  ANDr_d 8'hA2
+  `define  ANDr_e 8'hA3
 
-//  `define  ANDr_h;
-//  `define  ANDr_l;
-//  `define  ANDHL;
-//  `define  ANDr_a;
+  `define  ANDr_h 8'hA4
+  `define  ANDr_l 8'hA5
+  `define  ANDHL  8'hA6
+  `define  ANDr_a 8'hA7
 
   `define  XORr_b 8'ha8
   `define  XORr_c 8'ha9
-//  `define  XORr_d;
-//  `define  XORr_e;
+  `define  XORr_d 8'haa
+  `define  XORr_e 8'hab
 
-//  `define  XORr_h;
-//  `define  XORr_l;
+  `define  XORr_h 8'hac
+  `define  XORr_l 8'had
   `define  XORHL  8'hAE
   `define  XORr_a 8'hAF
 
 //  B0
   `define  ORr_b 8'hb0
   `define  ORr_c 8'hb1
-//  `define  ORr_d;
-//  `define  ORr_e;
+  `define  ORr_d 8'hb2
+  `define  ORr_e 8'hb3
 
-//  `define  ORr_h;
-//  `define  ORr_l;
+  `define  ORr_h 8'hb4
+  `define  ORr_l 8'hb5
   `define  ORHL  8'hb6
   `define  ORr_a 8'hb7
 
@@ -343,25 +341,24 @@
 //  //  `define  RRCr_a;
 //  //  `define
 //  CB10
-//  //  `define  RLr_b;
-//  //  `define  RLr_c;
-//  //  `define  RLr_d;
-//  //  `define  RLr_e;
-//  //  `define
-//  //  `define  RLr_h;
-//  //  `define  RLr_l;
-//  //  `define  RLHL;
-//  //  `define  RLr_a;
-//  //  `define
-//  //  `define  RRr_b;
-//  //  `define  RRr_c;
-//  //  `define  RRr_d;
-//  //  `define  RRr_e;
-//  //  `define
-//  //  `define  RRr_h;
-//  //  `define  RRr_l;
-//  //  `define  RRHL;
-//  //  `define  RRr_a;
+`define  RLr_b 8'h10
+`define  RLr_c 8'h11
+`define  RLr_d 8'h12
+`define  RLr_e 8'h13
+`define  RLr_h 8'h14
+`define  RLr_l 8'h15
+`define  RLHL  8'h16
+`define  RLr_a 8'h17
+
+`define  RRr_b 8'h18
+`define  RRr_c 8'h19
+`define  RRr_d 8'h1a
+`define  RRr_e 8'h1b
+
+`define  RRr_h  8'h1c
+`define  RRr_l  8'h1d
+`define  RRHL  8'h1e
+`define  RRr_a  8'h1f
 //  //  `define
 //  CB20
 //  //  `define  SLAr_b;
@@ -471,22 +468,20 @@
 //  //  `define  BIT6c;
 //  //  `define  BIT6d;
 //  //  `define  BIT6e;
-//  //  `define
 //  //  `define  BIT6h;
 //  //  `define  BIT6l;
 //  //  `define  BIT6m;
 //  //  `define  BIT6a;
-//  //  `define
 //  //  `define  BIT7b;
 //  //  `define  BIT7c;
 //  //  `define  BIT7d;
 //  //  `define  BIT7e;
-//  //  `define
-//  //  `define  BIT7h;
-//  //  `define  BIT7l;
-//  //  `define  BIT7m;
-//  //  `define  BIT7a;
-//  //  `define
+
+`define  BIT7h 8'h7c
+`define  BIT7l 8'h7d
+`define  BIT7m 8'h7e
+`define  BIT7a 8'h7F
+
 //  CB80
 //  //  `define  RES0b;
 //  //  `define  RES0c;
@@ -708,6 +703,7 @@
 `define xorx16   5'h17
 `define rrot     5'h18
 `define xora     5'h19
+`define addx16r16 5'h1a
 
 `define null 5'h0
 

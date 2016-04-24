@@ -1,3 +1,4 @@
+
 `timescale 1ns / 1ps
 `include "collaterals.v"
 `include "z80_opcode_definitions.v"
@@ -43,16 +44,16 @@ wire [13:0] wUop;
 wire [4:0 ] wuCmd;
 wire [4:0]  wMcuAdrrSel;
 wire [2:0]  wUopRegReadAddr0, wUopRegReadAddr1, rUopRegWriteAddr;
-wire [7:0]  wB,wC,wD, wE, wH,wL,wA, wF, wSpL, wSpH, wFlags, wUopSrcRegData0;
+wire [7:0]  wB,wC,wD, wE, wH,wL,wA, wSpL, wSpH, wFlags, wUopSrcRegData0;
 wire [7:0]  wSHR_RegData, wUopSrcRegData1, wNextUopFlowIdx;
 wire [3:0]  wInterruptRequestBitMap, wInterruptRequestBitMaps_pre;
 wire       wInterruptsEnabled;
 wire [8:0]   wNextFlow; //output of Interruption MUX
 reg     rSetiWe,rSetiVal; // set FF_INTENABLE
 reg        rClearIntLatch; // clean FF_INTSIGNAL
-reg         rResetFlow,rFlowEnable, rRegWe, rSetMCOAddr, rFlagsWe,  rOverWritePc, rCarry, rMcuReadRequest;
+reg         rResetFlow,rFlowEnable, rRegWe, rSetMCOAddr, rOverWritePc, rCarry, rMcuReadRequest;
 reg [4:0]   rRegSelect;
-reg [7:0]   rZ80Result, rFlags, rWriteSelect;
+reg [7:0]   rZ80Result, rWriteSelect;
 reg [15:0]  rUopDstRegData;
 
 assign wUopSrc = wUop[4:0];
@@ -236,15 +237,15 @@ endcase
 end
 
 reg [13:0] rRegWriteSelect;
-wire wFlowEnable_Delay;
+
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFB (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[0], (( rRegWriteSelect[1] &  rRegWriteSelect[0])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wB );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFC (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[1], rUopDstRegData[7:0], wC );
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 ) FFC (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[1], 8'h13, rUopDstRegData[7:0], wC );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFD (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[2], (( rRegWriteSelect[2] &  rRegWriteSelect[3])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wD );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFE (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[3], rUopDstRegData[7:0], wE );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFH (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[4], (( rRegWriteSelect[4] &  rRegWriteSelect[5])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wH );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFL (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[5], rUopDstRegData[7:0], wL );
-FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 ) FFA (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[6], 8'h11, rUopDstRegData[7:0], wA );
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 ) FFE (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[3],  8'hd8, rUopDstRegData[7:0], wE );
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 ) FFH (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[4],  8'h01, (( rRegWriteSelect[4] &  rRegWriteSelect[5])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wH );
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 ) FFL (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[5],  8'h4d,rUopDstRegData[7:0], wL );
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 ) FFA (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[6],  8'h01, rUopDstRegData[7:0], wA );
 FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 )FFSPL(   iClock, iReset,  rFlowEnable & rRegWe & rRegWriteSelect[7], 8'hfe, rUopDstRegData[7:0], wSpL );
 FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 )FFSPH(   iClock, iReset,  rFlowEnable & rRegWe & rRegWriteSelect[8], 8'hff, (( rRegWriteSelect[7] &  rRegWriteSelect[8])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wSpH );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX8 (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[9], rUopDstRegData[7:0], wX8 );
@@ -252,11 +253,26 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFX16 (  iClock, iReset, rFlowEnable & rRegW
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFY16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[11], rUopDstRegData[15:0], wY16 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFZ16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[12], rUopDstRegData[15:0], wZ16 );
 
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8)FFF (     iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[13], rUopDstRegData[7:0], wF );
+reg [1:0] rFlagsZ, rFlagsN, rFlagsH, rFlagsC;
+wire wFlagsWe;
+wire wHalfCarry, wCarry, wCarry16, wCarry12;
+wire [7:0] wFlagsUpdate;
+assign wHalfCarry = rUopDstRegData[4];
+assign wCarry     = rUopDstRegData[8];
+assign wCarry16   = rUopDstRegData[15];
+assign wCarry12   = rUopDstRegData[12];
 
 
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFFLAGS( iClock, iReset, (rFlowEnable /*| wFlowEnable_Delay*/) & rFlagsWe & wUop[ `uop_flags_update_enable ], rFlags, wFlags );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FFFLOW_EN_DELAY( iClock, iReset, wUop[ `uop_flags_update_enable ], rFlowEnable, wFlowEnable_Delay );
+assign wFlagsWe = rFlowEnable & (wUop[ `uop_flags_update_enable ] == 1'b1 || wuCmd == `z801bop )
+  & ( rFlagsZ[1]  | rFlagsN[1] | rFlagsH[1] | rFlagsC[1] );
+
+assign wFlagsUpdate[`flag_z ] = ( rFlagsZ[1] == 1'b1 ) ? rFlagsZ[0] : wFlags[`flag_z ] ;
+assign wFlagsUpdate[`flag_h ] = ( rFlagsH[1] == 1'b1 ) ? rFlagsH[0] : wFlags[`flag_h ] ;
+assign wFlagsUpdate[`flag_n ] = ( rFlagsN[1] == 1'b1 ) ? rFlagsN[0] : wFlags[`flag_n ] ;
+assign wFlagsUpdate[`flag_c ] = ( rFlagsC[1] == 1'b1 ) ? rFlagsC[0] : wFlags[`flag_c ] ;
+assign wFlagsUpdate[3:0] = 4'b0;
+
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 )FFFLAGS( iClock, iReset, wFlagsWe , 8'hb0,wFlagsUpdate, wFlags );
 FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 5 )FFMCUADR( iClock, iReset, rFlowEnable & rSetMCOAddr, `pc , wUop[4:0], wMcuAdrrSel );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FF_RREQ( iClock, iReset, rFlowEnable & ~oMCUwe, rMcuReadRequest, oMcuReadRequest );
 
@@ -270,7 +286,7 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_MCUADR
   .I8(wPc),                 .I9({8'b0,wPc[15:8]}),    .I10({wSpH,wSpL}), .I11({8'b0,wFlags})  ,
   .I12({8'b0,wSpL}),        .I13( {8'b0,wSpH} ),      .I14( wY16 ),      .I15( wZ16 ),
   .I16({8'b0,wX8 }),        .I17( wX16),              .I18({8'hff,wC}),  .I19({wD,wE}),
-  .I20({8'b0,wF }),         .I21({wB,wC}),            .I22({wA,wF}),     .I23(16'b0),
+  .I20({8'b0,wFlags }),         .I21({wB,wC}),            .I22({wA,wFlags}),     .I23(16'b0),
   .I24(16'b0), .I25(16'b0), .I26(16'b0), .I27(16'b0),
   .I28(16'b0), .I29(16'b0), .I30(16'b0), .I31(16'b0),
   .O( oMCUAddr )
@@ -284,7 +300,7 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REGDATA
   .I8(wPc),                 .I9({8'b0,wPc[15:8]}),    .I10({wSpH,wSpL}), .I11({8'b0,wFlags})  ,
   .I12({8'b0,wSpL}),        .I13( {8'b0,wSpH} ),      .I14( wY16 ),      .I15( wZ16 ),
   .I16({8'b0,wX8 }),        .I17( wX16),              .I18({8'hff,wC}),  .I19({wD,wE}),
-  .I20({8'b0,wF }),         .I21({wB,wC}),            .I22({wA,wF}),     .I23({8'b0,iMCUData}),
+  .I20({8'b0,wFlags }),         .I21({wB,wC}),            .I22({wA,wFlags}),     .I23({8'b0,iMCUData}),
   .I24({15'b0,wFlags[`flag_c]}), .I25(16'b0), .I26(16'b0), .I27(16'b0),
   .I28(16'b0), .I29(16'b0), .I30(16'b0), .I31(16'b0),
   .O( wRegData )
@@ -298,7 +314,7 @@ MUXFULLPARALELL_5SEL_GENERIC # (8) MUX_MCUDATA_OUT
   .I8(wPc[7:0]),     .I9(wPc[15:8]),    .I10(wSpL),             .I11(wFlags)  ,
   .I12(wSpL),        .I13( wSpH ),      .I14( wY16[7:0] ),      .I15( wZ16[7:0] ),
   .I16(wX8 ),        .I17( wX16[7:0]),  .I18(wC),               .I19(wE),
-  .I20(wF ),         .I21(wC),          .I22(wF),     .I23(8'b0),
+  .I20(wFlags ),         .I21(wC),          .I22(wFlags),     .I23(8'b0),
   .I24({7'b0,wFlags[`flag_c]}), .I25(8'b0), .I26(8'b0), .I27(8'b0),
   .I28(8'b0), .I29(8'b0), .I30(8'b0), .I31(8'b0),
   .O( oMCUData )
@@ -345,8 +361,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b0;
       rWriteSelect        = wUopSrc[7:0];
-      rFlagsWe            = 1'b0;
-      rFlags              = 8'b0;
       rUopDstRegData      = 16'b0;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -361,8 +375,6 @@ begin
       rSetMCOAddr         = 1'b1;
       rRegWe              = 1'b0;
       rWriteSelect        = wUopSrc[7:0];
-      rFlagsWe            = 1'b0;
-      rFlags              = 8'b0;
       rUopDstRegData      = 16'b0;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b1;
@@ -378,8 +390,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = wUopSrc[7:0];
-      rFlagsWe            = 1'b0;
-      rFlags              = 8'b0;
       rUopDstRegData      = iMCUData;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -395,8 +405,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b0;
       rWriteSelect        = wUopSrc[7:0];
-      rFlagsWe            = 1'b0;
-      rFlags              = 8'b0;
       rUopDstRegData      = 16'b0;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -411,9 +419,7 @@ begin
       rRegSelect          = wUop[4:0];
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
-      rFlagsWe            = 1'b1;
       rWriteSelect        = wUopSrc[7:0];
-      rFlags              = {wZ,wN,6'b0};
       rUopDstRegData      = wRegData - 16'd1;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -429,8 +435,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = wUopSrc[7:0];
-      rFlagsWe            = 1'b1;
-      rFlags              = {wZ,7'b0};
       rUopDstRegData      = wRegData  + 1'b1;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -446,8 +450,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = `x16;
-      rFlagsWe            = 1'b1;
-      rFlags              = {wZ,wN,6'b0};
       rUopDstRegData      = wX16 ^ {8'b0,wRegData[7:0]};
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -463,8 +465,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = `x16;
-      rFlagsWe            = 1'b1;
-      rFlags              = {wZ,wN,6'b0};
       rUopDstRegData      = wX16 - {8'b0,wRegData[7:0]};
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -481,8 +481,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = `a;
-      rFlagsWe            = 1'b1;
-      rFlags              = {wZ,wN,6'b0};
       rUopDstRegData      = {8'b0,wA} ^ {8'b0,wRegData[7:0]};
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -498,8 +496,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = `a;
-      rFlagsWe            = 1'b1;
-      rFlags              = {wZ,wN,6'b0};
       rUopDstRegData      = {8'b0,wA} & {8'b0,wRegData[7:0]};
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -515,9 +511,22 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = `x16;
-      rFlagsWe            = 1'b0;
-      rFlags              = 8'b0;
       rUopDstRegData      = wX16 + {{8{wRegData[7]}},wRegData[7:0]};  //sign extended 2'complement
+      rOverWritePc        = 1'b0;
+      rMcuReadRequest     = 1'b0;
+      rSetiWe             = 1'b0;
+      rSetiVal            = 1'b0;
+      rClearIntLatch      = 1'b0;
+    end
+
+    `addx16r16:
+    begin
+      oMCUwe              = 1'b0;
+      rRegSelect          = wUop[4:0];
+      rSetMCOAddr         = 1'b0;
+      rRegWe              = 1'b1;
+      rWriteSelect        = `x16;
+      rUopDstRegData      = wX16 + wRegData;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -532,8 +541,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b0;
       rWriteSelect        = wUopSrc[7:0];
-      rFlagsWe            = 1'b0;
-      rFlags              = 8'b0;
       rUopDstRegData      = wRegData;
       rOverWritePc        = 1'b1;
       rMcuReadRequest     = 1'b0;
@@ -549,8 +556,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b0;
       rWriteSelect        = `pc;
-      rFlagsWe            = 1'b0;
-      rFlags              = 8'b0;
       rUopDstRegData      = wInterruptVectorAddress;
       rOverWritePc        = 1'b1;
       rMcuReadRequest     = 1'b0;
@@ -566,8 +571,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b0;
       rWriteSelect        = wUopSrc[7:0];
-      rFlagsWe            = 1'b0;
-      rFlags              = 8'b0;
       rUopDstRegData      = 16'b0;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -583,8 +586,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = wUopSrc[7:0];
-      rFlagsWe            = 1'b0;
-      rFlags              = 8'b0;
       rUopDstRegData      = wX8;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -600,8 +601,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = wUopSrc[7:0];
-      rFlagsWe            = 1'b0;
-      rFlags              = 8'b0;
       rUopDstRegData      = wX16;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -616,8 +615,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = ( iMCUData[7:6] == 2'b01  ) ? iMCUData[5:3] : wUopSrc[7:0];
-      rFlagsWe            = 1'b1;
-      rFlags              = {wZ,wN,6'b0};
       rUopDstRegData      = rZ80Result;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -633,8 +630,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = {5'b0,iMCUData[2:0]};
-      rFlagsWe            = 1'b1;
-      rFlags              = {wZ, 1'b0, 1'b0, wRegData[7], 4'b0};
       rUopDstRegData      = (wRegData << 1) + wFlags[`flag_c];
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -650,8 +645,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = {5'b0,iMCUData[2:0]};
-      rFlagsWe            = 1'b1;
-      rFlags              = {wZ, 1'b0, 1'b0, wRegData[0], 4'b0};
       rUopDstRegData      = {wFlags[`flag_c], wSHR_RegData[6:0] };
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -669,8 +662,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b0;
       rWriteSelect        = wUopSrc[7:0];
-      rFlagsWe            = 1'b1;
-      rFlags              = {wZ,7'b0};
       rUopDstRegData      = wRegData & wBitMask;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -686,8 +677,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = `x8;
-      rFlagsWe            = 1'b0;
-      rFlags              = 8'b0;
       rUopDstRegData      = wRegData;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -703,8 +692,6 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = `x16;
-      rFlagsWe            = 1'b0;
-      rFlags              = 8'b0;
       rUopDstRegData      = wRegData;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -720,8 +707,6 @@ begin
         rSetMCOAddr         = 1'b0;
         rRegWe              = 1'b0;
         rWriteSelect        = 8'b0;
-        rFlagsWe            = 1'b0;
-        rFlags              = 8'b0;
         rUopDstRegData      = 16'b0;
         rOverWritePc        = 1'b0;
         rMcuReadRequest     = 1'b0;
@@ -737,8 +722,6 @@ begin
         rSetMCOAddr         = 1'b0;
         rRegWe              = 1'b0;
         rWriteSelect        = 8'b0;
-        rFlagsWe            = 1'b0;
-        rFlags              = 8'b0;
         rUopDstRegData      = 16'b0;
         rOverWritePc        = 1'b0;
         rMcuReadRequest     = 1'b0;
@@ -754,8 +737,6 @@ begin
         rSetMCOAddr         = 1'b0;
         rRegWe              = 1'b0;
         rWriteSelect        = 8'b0;
-        rFlagsWe            = 1'b0;
-        rFlags              = 8'b0;
         rUopDstRegData      = 16'b0;
         rOverWritePc        = 1'b0;
         rMcuReadRequest     = 1'b0;
@@ -771,14 +752,149 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b0;
       rWriteSelect        = wUopSrc[7:0];
-      rFlagsWe            = 1'b0;
-      rFlags              = 8'b0;
       rUopDstRegData      = 16'b0;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+    end
+  endcase
+end
+
+//Flags
+// +----+-----+----+----+---------+
+// | Z  |  N  | H  |  C | 4'b0    |
+// +----+-----+----+----+---------+
+
+wire [7:0] wCurrentFlow;
+wire       wCBFlow, wIsCBFlow;
+assign wIsCBFlow = (wuCmd == `jcb) ? 1'b1 : 1'b0;
+
+
+FFD_POSEDGE_SYNCRONOUS_RESET # (8) FFD_CURFLOW (
+  iClock, iReset, (rResetFlow | wIsCBFlow),iMCUData, wCurrentFlow);
+
+FFD_POSEDGE_SYNCRONOUS_RESET # (1) FFD_CBFLOW (
+  iClock, iReset, 1'b1 ,wIsCBFlow, wCBFlow);
+
+always @ ( * )
+begin
+  case ({wCBFlow,wCurrentFlow})
+
+    {1'b0,`INCr_a},{1'b0,`INCr_b},{1'b0,`INCr_c},{1'b0,`INCr_d},
+    {1'b0,`INCr_e},{1'b0,`INCr_h},{1'b0,`INCr_l},{1'b0,`DECr_a},
+    {1'b0,`DECr_b},{1'b0,`DECr_c},{1'b0,`DECr_d},{1'b0,`DECr_e},
+    {1'b0,`DECr_h},{1'b0,`DECr_l}:
+     begin
+        rFlagsZ              = {1'b1,wZ};
+        rFlagsN              = {1'b1,wN};
+        rFlagsH              = {1'b1,wHalfCarry};
+        rFlagsC              = {1'b1,1'b0};   //This is needed to make BIOS work...
+     end
+
+    {1'b0,`LDrr_ab}, {1'b0,`LDrr_ac, `LDrr_ad},
+    {1'b0,`LDrr_ah}, {1'b0,`LDrr_al,`LDrr_ae}:
+    begin
+       rFlagsZ              = {1'b1,wZ};
+       rFlagsN              = {1'b1,wN};
+       rFlagsH              = {1'b1,1'b0};
+       rFlagsC              = {1'b0,1'b0};
+    end
+
+
+    {1'b0,`ADDHLHL}, {1'b0,`ADDHLDE}:
+    begin
+       rFlagsZ              = {1'b0,1'b0};
+       rFlagsN              = {1'b0,1'b0};
+       rFlagsH              = {1'b1,wCarry12};
+       rFlagsC              = {1'b0,wCarry16};
+    end
+
+
+
+    {1'b0,`ADDr_a}, {1'b0,`ADDr_b}, {1'b0,`ADDr_c},{1'b0, `ADDr_d},
+    {1'b0,`ADDr_h}, {1'b0,`ADDr_l}, {1'b0,`ADDr_e},{1'b0, `ADDn},
+    {1'b0,`SUBr_a}, {1'b0,`SUBr_b}, {1'b0,`SUBr_e},{1'b0, `SUBr_d},
+    {1'b0,`SUBr_h}, {1'b0,`SUBr_l}, {1'b0,`CPn}:
+    begin
+       rFlagsZ              = {1'b1,wZ};
+       rFlagsN              = {1'b1,wN};
+       rFlagsH              = {1'b1,wHalfCarry};
+       rFlagsC              = {1'b0,wCarry};
+    end
+
+    {1'b0,`ANDr_a},{1'b0,`ANDr_b},
+    {1'b0,`ANDr_d},{1'b0,`ANDr_e},
+    {1'b0,`ANDr_h},{1'b0,`ANDr_l}:
+    begin
+       rFlagsZ              = {1'b1,wZ};
+       rFlagsN              = {1'b1,wN};
+       rFlagsH              = {1'b1,1'b0};  //H is reset
+       rFlagsC              = {1'b1,1'b0};  //C is reset
+    end
+
+    {1'b0,`RLA}:
+    begin
+       rFlagsZ              = {1'b0,1'b0};
+       rFlagsN              = {1'b0,1'b0};
+       rFlagsH              = {1'b1,1'b0};  //H is reset
+       rFlagsC              = {1'b1,wA[7]};
+    end
+
+
+    {1'b0,`RRA}:
+    begin
+       rFlagsZ              = {1'b0,1'b0};
+       rFlagsN              = {1'b0,1'b0};
+       rFlagsH              = {1'b1,1'b0};  //H is reset
+       rFlagsC              = {1'b1,wA[0]};
+    end
+
+    {1'b1,`RLr_a},{1'b1,`RLr_b},{1'b1,`RLr_d},{1'b1,`RLr_e},
+    {1'b1,`RLr_h},{1'b1,`RLr_l},{1'b1,`RLr_c}:
+    begin
+       rFlagsZ              = {1'b1,wZ};
+       rFlagsN              = {1'b1,wN};
+       rFlagsH              = {1'b1,1'b0};  //H is reset
+       rFlagsC              = {1'b1,wRegData[7]};
+    end
+
+
+    {1'b0,`ORr_a}, {1'b0,`ORr_b}, {1'b0,`ORr_d},
+    {1'b0,`ORr_e}, {1'b0,`ORr_h}, {1'b0,`ORr_l},
+    {1'b0,`XORr_a},{1'b0,`XORr_b},{1'b0,`XORr_d},
+    {1'b0,`XORr_e},{1'b0,`XORr_h},{1'b0,`XORr_l}:
+    begin
+       rFlagsZ              = {1'b1,wZ};
+       rFlagsN              = {1'b1,wN};
+       rFlagsH              = {1'b1,1'b0};  //H is reset
+       rFlagsC              = {1'b1,1'b0};  //C is reset
+    end
+
+
+    {1'b0,`LDrn_a}:
+    begin
+       rFlagsZ              = {1'b1,wZ};
+       rFlagsN              = {1'b1,wN};
+       rFlagsH              = {1'b1,1'b0};
+       rFlagsC              = {1'b0,1'b0};
+    end
+
+    {1'b1, `BIT7h },  {1'b1, `BIT7l },  {1'b1, `BIT7m }, {1'b1, `BIT7a }:
+    begin
+       rFlagsZ              = {1'b1,wZ};
+       rFlagsN              = {1'b0,1'b0};
+       rFlagsH              = {1'b0,1'b0};
+       rFlagsC              = {1'b0,1'b0};
+    end
+
+    default:
+    begin
+        rFlagsZ              = {1'b0,1'b0};
+        rFlagsN              = {1'b0,1'b0};
+        rFlagsH              = {1'b0,1'b0};
+        rFlagsC              = {1'b0,1'b0};
     end
   endcase
 end

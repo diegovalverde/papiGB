@@ -129,12 +129,16 @@ begin
 	`XORHL:    oUopFlowIdx = 9'd339;
 	`ADCn:     oUopFlowIdx = 9'd345;
 	`ADDHLDE:  oUopFlowIdx = 9'd351;
-	`JRNCn:    oUopFlowIdx = 9'd354;
+	`JRNCn:    oUopFlowIdx = 9'd414;
 	`XORn:     oUopFlowIdx = 9'd359;
 	`RRA:     oUopFlowIdx = 9'd363;
 	`RETNC:   oUopFlowIdx = 9'd365;
 	`RETZ:    oUopFlowIdx = 9'd377;
 	`ORHL:    oUopFlowIdx = 9'd387;
+	`DECHLm:  oUopFlowIdx = 9'd391;
+	`LDrHLm_l: oUopFlowIdx = 9'd397;
+	`RETNZ:    oUopFlowIdx = 9'd401;
+	`ADDHLHL:  oUopFlowIdx = 9'd411;
 	//`DECBC:  oUopFlowIdx = 8'd164; //OK
 
 	default:
@@ -651,12 +655,12 @@ begin
 		351:  oUop = { `inc,  `sx16r,   `hl   };
 		352:  oUop = { `update_flags,  `addx16,   `de   };
 		353:  oUop = { `eof,  `srx16,   `hl   };
-//JRNCn
+//UNUSED
 		354:  oUop = { `inc,  `sma,   `pc   };
 		355:  oUop = { `op, `xorx16, `x16 };
 		356:  oUop = { `update_flags,  `addx16,   `carry  };
 		357:  oUop = { `inc_eof_nz,  `srm, `x16 };
-		358:  oUop = { `eof,  `sp, `x16 };
+		358:  oUop = { `eof,  `addx16, `x16 };
 //XORn
 		359: oUop = { `inc, `sma,  `pc };
 		360: oUop = { `op, `sx16r , `a };
@@ -695,6 +699,42 @@ begin
 		388: oUop = {`op,  `nop,   `null };
 		389: oUop = {`update_flags,   `xora,   `idata  };
 		390: oUop = { `inc_eof ,`sma,  `pc   };
+//DECHLm
+		391: oUop = {`op ,`sma,  `hl   };
+		392: oUop = {`op,  `nop,   `null };
+		393: oUop = {`op,  `srm,   `x16  };
+		394: oUop = {`update_flags,  `dec16,   `x16 };
+		395: oUop = {`nop,  `smw,   `x16 };
+		396: oUop = {`inc_eof,  `sma,   `pc };
+//LDrHLm_l
+		397: oUop = {`op ,`sma,  `hl   };
+		398: oUop = {`op,  `nop,   `null };
+		399: oUop = {`op,  `srm,   `l  };
+		400: oUop = {`inc_eof,  `sma,   `pc };
+//RETNZ
+		401: oUop = { `inc_eof_nz,  `nop, `null };
+		402: oUop = {`op ,`sma,  `sp   };
+		403: oUop = {`op, `sx16r,  `hl };
+		404: oUop = {`op, `inc16, `sp  };
+		405: oUop = {`op,   `srm,   `l  };
+		406: oUop = {`op,   `srm,   `h  };
+		407: oUop = {`op,   `spc,   `hl  };
+		408: oUop = {`op,  `srx16, `hl };
+		409: oUop = {`op, `inc16, `sp  };
+		410: oUop = { `eof ,`sma,  `pc   };
+//ADDHLHL
+		411: oUop = {`op, `sx16r,  `hl   };
+		412: oUop = {`update_flags, `addx16r16,  `x16 };
+		413: oUop = {`inc_eof, `srx16,  `hl   };
+
+//JRNCn
+		414:  oUop = { `inc,  `sma,   `pc   };
+		415:  oUop = { `op, `xorx16, `x16 };
+		416:  oUop = { `update_flags,  `addx16,   `carry  };
+		417:  oUop = { `inc_eof_nz,  `srm, `x16 };
+		418:  oUop = { `nop,  `addx16, `pc };
+		419:  oUop = { `eof,  `spc, `x16 };
+
 
 //DECBC
 	//	247: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
