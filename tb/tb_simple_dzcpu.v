@@ -50,7 +50,7 @@ module tb_simple_dzcpu;
 //Instantiate a dummy frame buffer. In real life this goes in the LCD board
 
 reg [15:0] rFrameBuffer[8191:0];
-integer log, glog, i,Pc, vram_log_8000_8fff, vram_log_9800_9bff;
+integer log, glog, trace, i,Pc, vram_log_8000_8fff, vram_log_9800_9bff;
 integer frame_count = 0, k, frame;
 reg rSimulationDone;
 
@@ -135,6 +135,7 @@ end //always
 			vram_log_8000_8fff = $fopen("papi_vram_8000_8fff.dump");
 			vram_log_9800_9bff = $fopen("papi_vram_9800_9bff.dump");
 
+
 			$display("Stopping Simulation and dumping memory");
 
 			$fwrite(log, "=== WORK MEMORY C000 - DFFFF ===\n");
@@ -208,6 +209,8 @@ end //always
 		glog = $fopen("pgb_gpu.log");
 `endif
 
+
+trace = $fopen("pgb_trace.dump");
 
 `ifdef VMEM_DUMP_PATH
 $readmemh(
@@ -366,13 +369,24 @@ end //always
 	begin
 		wait(iReset != 1);
 
-		//if (uut.DZCPU.wPc == 16'he0)//16'h0fc // || uut.GPU.oLY == 8'hff)	//This instructrion finishes copying the little (R)
+		//if (uut.DZCPU.wPc == 16'h204)//16'h0fc // || uut.GPU.oLY == 8'hff)	//This instructrion finishes copying the little (R)
 			//rSimulationDone = 1;
 
 
 		if (uut.DZCPU.rCurrentState == `DZCPU_START_FLOW)
 		begin
+
+			$fwrite(trace,"pc: %04x opcode: %x sp: %x HL: %04x AF: %04x BC: %04x DE: %04x\n",
+			uut.DZCPU.wPc, uut.DZCPU.iMCUData, {uut.DZCPU.wSpH,uut.DZCPU.wSpL},
+			{uut.DZCPU.wH,uut.DZCPU.wL},
+			{uut.DZCPU.wA,uut.DZCPU.wFlags},
+			{uut.DZCPU.wB,uut.DZCPU.wC},
+			{uut.DZCPU.wD,uut.DZCPU.wE}
+			 );
+
 			Pc = uut.DZCPU.wPc;
+			if (uut.DZCPU.wFlagsWe == 1'b1)
+				$fwrite(log,"* ");
 			case (uut.DZCPU.wuOpFlowIdx)
 			1:  $fwrite(log,"=== LDSPnn === %h \n", uut.DZCPU.iMCUData );
 			5:  $fwrite(log,"=== LDHLnn === %h \n", uut.DZCPU.iMCUData );
@@ -464,7 +478,7 @@ end //always
 			339: $fwrite(log,"=== XORHL === %h\n",uut.DZCPU.iMCUData );
 			345: $fwrite(log,"=== ADCn === %h\n",uut.DZCPU.iMCUData );
 			351: $fwrite(log,"=== ADDHLDE === %h\n",uut.DZCPU.iMCUData );
-			354: $fwrite(log,"=== JRNCn === %h\n",uut.DZCPU.iMCUData );
+			414: $fwrite(log,"=== JRNCn === %h\n",uut.DZCPU.iMCUData );
 			359: $fwrite(log,"=== XORn === %h\n",uut.DZCPU.iMCUData );
 			363: $fwrite(log,"=== RRA === %h\n",uut.DZCPU.iMCUData );
 			365: $fwrite(log,"=== RETNC === %h\n",uut.DZCPU.iMCUData );
@@ -619,7 +633,7 @@ end //always
 		if (uut.DZCPU.wEof )
 		begin
 			$fwrite(log,"\n             %04s %04s %02s %02s %02s %02s %02s %02s %02s %02s %02s %02s\n", "PC", "SP", "B", "C", "D" ,"E", "H", "L", "A", "F", "Flags", "x8", "x16");
-			$fwrite(log,"[regs] %04x %04x %02x %02x %02x %02x %02x %02x %02x %02x %b %02x %02x\n", Pc, {uut.DZCPU.wSpH,uut.DZCPU.wSpL}, uut.DZCPU.wB, uut.DZCPU.wC, uut.DZCPU.wD, uut.DZCPU.wE ,uut.DZCPU.wH, uut.DZCPU.wL, uut.DZCPU.wA,uut.DZCPU.wF, uut.DZCPU.wFlags, uut.DZCPU.wX8, uut.DZCPU.wX16);
+			$fwrite(log,"[regs] %04x %04x %02x %02x %02x %02x %02x %02x %02x %02x %b %02x %02x\n", Pc, {uut.DZCPU.wSpH,uut.DZCPU.wSpL}, uut.DZCPU.wB, uut.DZCPU.wC, uut.DZCPU.wD, uut.DZCPU.wE ,uut.DZCPU.wH, uut.DZCPU.wL, uut.DZCPU.wA,uut.DZCPU.wFlags, uut.DZCPU.wFlags, uut.DZCPU.wX8, uut.DZCPU.wX16);
 
 
 			$fwrite(log,"\n\n         %05s %05s %05s %05s %05s %05s %05s %05s %05s %05s %05s %05s\n",

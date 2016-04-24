@@ -129,7 +129,7 @@ begin
 	`XORHL:    oUopFlowIdx = 9'd339;
 	`ADCn:     oUopFlowIdx = 9'd345;
 	`ADDHLDE:  oUopFlowIdx = 9'd351;
-	`JRNCn:    oUopFlowIdx = 9'd354;
+	`JRNCn:    oUopFlowIdx = 9'd414;
 	`XORn:     oUopFlowIdx = 9'd359;
 	`RRA:     oUopFlowIdx = 9'd363;
 	`RETNC:   oUopFlowIdx = 9'd365;
@@ -656,12 +656,12 @@ begin
 		351:  oUop = { `inc,  `sx16r,   `hl   };
 		352:  oUop = { `update_flags,  `addx16,   `de   };
 		353:  oUop = { `eof,  `srx16,   `hl   };
-//JRNCn
+//UNUSED
 		354:  oUop = { `inc,  `sma,   `pc   };
 		355:  oUop = { `op, `xorx16, `x16 };
 		356:  oUop = { `update_flags,  `addx16,   `carry  };
 		357:  oUop = { `inc_eof_nz,  `srm, `x16 };
-		358:  oUop = { `eof,  `spc, `x16 };
+		358:  oUop = { `eof,  `addx16, `x16 };
 //XORn
 		359: oUop = { `inc, `sma,  `pc };
 		360: oUop = { `op, `sx16r , `a };
@@ -674,7 +674,7 @@ begin
 		365:  oUop = { `op, `xorx16, `x16 };
 		366:  oUop = { `update_flags,  `addx16,   `carry  };
 		367:  oUop = { `inc_eof_nz,  `srm, `x16 };
-		368: oUop = {`op ,`sma,  `sp   }; 
+		368: oUop = {`op ,`sma,  `sp   };
 		369: oUop = {`op, `sx16r,  `hl };
 		370: oUop = {`op, `inc16, `sp  };
 		371: oUop = {`op,   `srm,   `l  };
@@ -727,6 +727,16 @@ begin
 		411: oUop = {`op, `sx16r,  `hl   };
 		412: oUop = {`update_flags, `addx16r16,  `x16 };
 		413: oUop = {`inc_eof, `srx16,  `hl   };
+
+//JRNCn
+		414:  oUop = { `inc,  `sma,   `pc   };
+		415:  oUop = { `op, `xorx16, `x16 };
+		416:  oUop = { `update_flags,  `addx16,   `carry  };
+		417:  oUop = { `inc_eof_nz,  `srm, `x16 };
+		418:  oUop = { `nop,  `addx16, `pc };
+		419:  oUop = { `eof,  `spc, `x16 };
+
+
 //FLOW_ID_INT_VBLANK
 /*
         163: oUop = { `op, `ceti, `null};  //Disable interruption
