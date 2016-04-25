@@ -85,6 +85,7 @@ begin
   `INCr_e: oUopFlowIdx = 9'd250; //8'd165;
   `DECr_e: oUopFlowIdx = 9'd166;
   `DECDE:  oUopFlowIdx = 9'd168;
+	`DECBC:  oUopFlowIdx = 9'd169; //OK
   `DECr_h: oUopFlowIdx = 9'd170;
   `DECHL:  oUopFlowIdx = 9'd172;
   `INCr_a: oUopFlowIdx = 9'd302;
@@ -139,7 +140,7 @@ begin
 	`LDrHLm_l: oUopFlowIdx = 9'd397;
 	`RETNZ:    oUopFlowIdx = 9'd401;
 	`ADDHLHL:  oUopFlowIdx = 9'd411;
-	//`DECBC:  oUopFlowIdx = 8'd164; //OK
+
 
 	default:
 			 oUopFlowIdx = 9'd278;
@@ -413,8 +414,8 @@ begin
 		167: oUop = { `inc_eof,  `nop, `null };
 //DECDE
 		168: oUop = { `inc_eof, `dec16, `de };
-//UNUSED
-		169: oUop = { `inc_eof,  `nop, `null };
+//DECBC
+		169: oUop = { `inc_eof,  `dec16, `bc};
 //DECr_h
 		170: oUop = { `update_flags, `dec16, `h };
 		171: oUop = { `inc_eof,  `nop, `null };
@@ -738,9 +739,6 @@ begin
 		418:  oUop = { `nop,  `addx16, `pc };
 		419:  oUop = { `eof,  `spc, `x16 };
 
-
-//DECBC
-	//	247: oUop = { `inc_eof_fu, `dec16, `bc };  //Decrement BC register
 
 
 
