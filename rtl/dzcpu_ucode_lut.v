@@ -596,7 +596,8 @@ begin
 		304: oUop = { `op, `inc16, `sp };  //increment SP
 		305:  oUop = { `inc_eof, `nop, `null};
 //DECSP
-		306: oUop = { `update_flags, `dec16, `sp };
+		306: oUop = { `inc_eof, `dec16, `sp };
+//UNUSED
 		307:  oUop = { `inc_eof, `nop, `null};
 //INCr_l
 		308: oUop = { `update_flags, `inc16, `l };
