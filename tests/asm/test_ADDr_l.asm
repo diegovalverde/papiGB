@@ -1,5 +1,6 @@
 SECTION "sec", ROM0
 DS $100
+        ld sp, $FFFE
         ld  a, $81
         ld  l, $0F
         add a, l
