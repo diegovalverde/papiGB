@@ -418,7 +418,8 @@ begin
 		170: oUop = { `update_flags, `dec16, `h };
 		171: oUop = { `inc_eof,  `nop, `null };
 //DECHL
-		172: oUop = { `update_flags, `dec16, `hl };
+		172: oUop = { `inc_eof, `dec16, `hl };
+//UNUSED
 		173: oUop = { `inc_eof,  `nop, `null };
 //UNUSED
 		174: oUop = { `inc_eof,  `nop, `null };
