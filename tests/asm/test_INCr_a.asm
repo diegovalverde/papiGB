@@ -1,6 +1,9 @@
 SECTION "sec", ROM0
 DS $100
-        ld  a, 0
+        jp  $200
+DS $100
+        ld  sp, $FFFE
+        ld  a, $FF
         inc a
-        ;the value expected is 1
+        ; a = 0, Flags Z=1
         push af
