@@ -85,6 +85,7 @@ begin
   `INCr_e: oUopFlowIdx = 9'd250; //8'd165;
   `DECr_e: oUopFlowIdx = 9'd166;
   `DECDE:  oUopFlowIdx = 9'd168;
+	`DECBC:  oUopFlowIdx = 9'd169; //OK
   `DECr_h: oUopFlowIdx = 9'd170;
   `DECHL:  oUopFlowIdx = 9'd172;
   `INCr_a: oUopFlowIdx = 9'd302;
@@ -139,7 +140,7 @@ begin
 	`LDrHLm_l: oUopFlowIdx = 9'd397;
 	`RETNZ:    oUopFlowIdx = 9'd401;
 	`ADDHLHL:  oUopFlowIdx = 9'd411;
-	//`DECBC:  oUopFlowIdx = 8'd164; //OK
+
 
 	default:
 			 oUopFlowIdx = 9'd278;
@@ -412,13 +413,15 @@ begin
 		166: oUop = { `update_flags, `dec16, `e };
 		167: oUop = { `inc_eof,  `nop, `null };
 //DECDE
-		168: oUop = { `update_flags, `dec16, `de };
-		169: oUop = { `inc_eof,  `nop, `null };
+		168: oUop = { `inc_eof, `dec16, `de };
+//DECBC
+		169: oUop = { `inc_eof,  `dec16, `bc};
 //DECr_h
 		170: oUop = { `update_flags, `dec16, `h };
 		171: oUop = { `inc_eof,  `nop, `null };
 //DECHL
-		172: oUop = { `update_flags, `dec16, `hl };
+		172: oUop = { `inc_eof, `dec16, `hl };
+//UNUSED
 		173: oUop = { `inc_eof,  `nop, `null };
 //UNUSED
 		174: oUop = { `inc_eof,  `nop, `null };
@@ -588,7 +591,6 @@ begin
 //DECr_b
 		300:	oUop = { `update_flags, `dec16,    `b  };
 		301:  oUop = { `inc_eof, `nop, `null};
-
 //INCr_a
 		302: oUop = { `update_flags, `inc16, `a };
 		303:  oUop = { `inc_eof, `nop, `null};
@@ -596,7 +598,8 @@ begin
 		304: oUop = { `op, `inc16, `sp };  //increment SP
 		305:  oUop = { `inc_eof, `nop, `null};
 //DECSP
-		306: oUop = { `update_flags, `dec16, `sp };
+		306: oUop = { `inc_eof, `dec16, `sp };
+//UNUSED
 		307:  oUop = { `inc_eof, `nop, `null};
 //INCr_l
 		308: oUop = { `update_flags, `inc16, `l };
@@ -735,6 +738,8 @@ begin
 		417:  oUop = { `inc_eof_nz,  `srm, `x16 };
 		418:  oUop = { `nop,  `addx16, `pc };
 		419:  oUop = { `eof,  `spc, `x16 };
+
+
 
 
 //FLOW_ID_INT_VBLANK

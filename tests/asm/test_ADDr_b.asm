@@ -1,7 +1,8 @@
 SECTION "sec", ROM0
 DS $100
-        ld  a, 5
-        ld  b, 7
+        ld sp, $FFFE
+        ld  a, $ff
+        ld  b, $01
         add a, b
-        ;the value expected is 12
+        ;the value expected is 00 - with Flags Z-H-C = 1
         push af
