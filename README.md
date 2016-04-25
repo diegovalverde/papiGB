@@ -39,13 +39,11 @@ To control additional simulation options, use the SIMFLAGS flag. Valid values ar
 * ``-DSTOP_AFTER_FIRST_FRAME`` : The simulation will stop once the first frame has been generated under the sim/generated_frames/ folder
 * ``-DENABLE_CPU_LOG`` : Enables pgb_cpu.log generation (enabled by default)
 * ``-DENABLE_GPU_LOG`` : Enables pgb_cpu.log generation (enabled by default)
-* ``-DLOAD_CARTRIDGE_FROM_FILE`` : Enables Loading a cartridge from a file into the testbench
 * ``-DCARTRIGDE_DUMP_PATH`` : When LOAD_CARTRIDGE_FROM_FILE is set, then this flag specifies the path to the dump file
 * ``-DSKIP_BIOS`` : Skips the BIOS code, first 256 instructions, effectively jumping directly to 0x100
-*  ``-DDISABLE_CPU``: Disables the CPU from running
-*  ``-DLOAD_VMEM_DUMP``: Enables loading a vmem area from a ASCII hex dump file.
-*  ``-DVMEM_DUMP_PATH``: When LOAD_VMEM_DUMP is set, then this flag specifies the path to the VMEME dump file.
-*  ``-DSIMULATION_TIME_OUT``: Specify a simulation timeout in nanoseconds
+* ``-DDISABLE_CPU``: Disables the CPU from running
+* ``-DVMEM_DUMP_PATH``: When LOAD_VMEM_DUMP is set, then this flag specifies the path to the VMEME dump file.
+* ``-DSIMULATION_TIME_OUT``: Specify a simulation timeout in nanoseconds
 Example:
 
 The following command will stop the simulation after the first frame, will generate GPU log, but will not generate CPU log.
@@ -54,11 +52,11 @@ The following command will stop the simulation after the first frame, will gener
 
 The following command will simulate RTL using a cartrigde file:
 
-`make SIMFLAGS="-DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"resources/tetris.dump\"'"`
+`make SIMFLAGS=" -DCARTRIGDE_DUMP_PATH='\"resources/tetris.dump\"'"`
 
 The following command will disable the CPU and load VMEM data from a dump file:
 
-`make SIMFLAGS="-DDISABLE_CPU -DLOAD_VMEM_DUMP -DVMEM_DUMP_PATH='\"resources/tetris_vmem_8000_9fff.dump\"' -DENABLE_GPU_LOG -DSTOP_AFTER_FIRST_FRAME"`
+`make SIMFLAGS="-DDISABLE_CPU -DVMEM_DUMP_PATH='\"resources/tetris_vmem_8000_9fff.dump\"' -DENABLE_GPU_LOG -DSTOP_AFTER_FIRST_FRAME"`
 
 
 ##Looking at simulation results

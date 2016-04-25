@@ -253,11 +253,14 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFX16 (  iClock, iReset, rFlowEnable & rRegW
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFY16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[11], rUopDstRegData[15:0], wY16 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFZ16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[12], rUopDstRegData[15:0], wZ16 );
 
+wire[15:0] wUopDstRegData_Prev;
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FF_RESULT_PREV (  iClock, iReset, 1'b1, rUopDstRegData, wUopDstRegData_Prev);
+
 reg [1:0] rFlagsZ, rFlagsN, rFlagsH, rFlagsC;
 wire wFlagsWe;
 wire wHalfCarry, wCarry, wCarry16, wCarry12;
 wire [7:0] wFlagsUpdate;
-assign wHalfCarry = rUopDstRegData[4];
+assign wHalfCarry = wUopDstRegData_Prev[4];  //Need value from prev CC
 assign wCarry     = rUopDstRegData[8];
 assign wCarry16   = rUopDstRegData[15];
 assign wCarry12   = rUopDstRegData[12];
@@ -821,7 +824,7 @@ begin
        rFlagsZ              = {1'b1,wZ};
        rFlagsN              = {1'b1,wN};
        rFlagsH              = {1'b1,wHalfCarry};
-       rFlagsC              = {1'b0,wCarry};
+       rFlagsC              = {1'b1,wCarry};
     end
 
     {1'b0,`ANDr_a},{1'b0,`ANDr_b},
