@@ -435,6 +435,7 @@ end //always
 			250/*165*/: $fwrite(log,"=== INCr_e  === %h \n", uut.DZCPU.iMCUData );
 			166: $fwrite(log,"=== DECr_e  === %h \n", uut.DZCPU.iMCUData );
 			168: $fwrite(log,"=== DECDE  === %h \n", uut.DZCPU.iMCUData );
+			169: $fwrite(log,"=== DECBC === %h \n", uut.DZCPU.iMCUData );
 			170: $fwrite(log,"=== DECr_h  === %h \n", uut.DZCPU.iMCUData );
 			172: $fwrite(log,"=== DECHL  === %h \n", uut.DZCPU.iMCUData );
 			302: $fwrite(log,"=== INCr_a  === %h \n", uut.DZCPU.iMCUData );
