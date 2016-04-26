@@ -7,5 +7,5 @@ DS $100
         ld  c, $05
         add a, c
         ;the value expected is D-20 H-$14 with flags H = 1
-        ;af=$1402
+        ;af=$1420
         push af
