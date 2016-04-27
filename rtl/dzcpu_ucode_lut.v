@@ -301,7 +301,8 @@ begin
 	//INCHL
 		82: oUop = { `inc_eof ,`inc16,  `hl };
 	//INCBC
-	  83: oUop = { `update_flags ,`inc16,  `bc   };		//flags might be wrong for 16bits
+	  83: oUop = { `inc_eof ,`inc16,  `bc   };		//flags might be wrong for 16bits
+  //UNUSED
 		84: oUop = { `inc_eof, `nop, `null  };
 
 	//ANDn
