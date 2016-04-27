@@ -73,7 +73,16 @@ else
 	exit 1
 fi
 
+#INCDE
+make clean && make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_INCDE.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
+if grep -q "TEST_RET_VAL 0000" pgb_cpu.log
+then
+	echo "Test test_INCDE.dump passed"
+else
+	echo "Test test_INCDE.dump failed"
+	exit 1
+fi
 
 make clean  >/dev/null 2>&1
 echo "-I- Running simulation test1 BIOS (be patient...) "
