@@ -62,8 +62,49 @@ else
 	exit 1
 fi
 
+#INCBC
+make clean && make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_INCBC.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
+if grep -q "TEST_RET_VAL cafe" pgb_cpu.log
+then
+	echo "Test test_INCBC.dump passed"
+else
+	echo "Test test_INCBC.dump failed"
+	exit 1
+fi
 
+#INCDE
+make clean && make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_INCDE.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 0000" pgb_cpu.log
+then
+	echo "Test test_INCDE.dump passed"
+else
+	echo "Test test_INCDE.dump failed"
+	exit 1
+fi
+
+#INCHL
+make clean && make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_INCHL.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 0100" pgb_cpu.log
+then
+	echo "Test test_INCHL.dump passed"
+else
+	echo "Test test_INCHL.dump failed"
+	exit 1
+fi
+
+#INCSP
+make clean && make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_INCSP.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL ffff" pgb_cpu.log
+then
+	echo "Test test_INCSP.dump passed"
+else
+	echo "Test test_INCSP.dump failed"
+	exit 1
+fi
 
 make clean  >/dev/null 2>&1
 echo "-I- Running simulation test1 BIOS (be patient...) "
