@@ -53,6 +53,7 @@ reg [15:0] rFrameBuffer[8191:0];
 integer log, glog, trace, i,Pc, vram_log_8000_8fff, vram_log_9800_9bff;
 integer frame_count = 0, k, frame;
 reg rSimulationDone;
+reg [63:0] InstCount;
 
 
 	//---------------------------------------------
@@ -116,9 +117,10 @@ end //always
 					FrameDumpCount = FrameDumpCount + 1;
 
 					`ifdef STOP_AFTER_FIRST_FRAME
-							$fwrite(log,"**** First fram complete. Stopping Simulation **** \n");
+							$fwrite(log,"**** First frame complete. Stopping Simulation **** \n");
 				  		rSimulationDone = 1;
 					`endif
+
 			end
   end
 
@@ -200,6 +202,7 @@ end //always
 //-----------------------------------------------------------------
 	initial begin
 		// Initialize Inputs
+InstCount = 64'b0;
 
 `ifdef ENABLE_CPU_LOG
 		log = $fopen("pgb_cpu.log");
@@ -209,8 +212,9 @@ end //always
 		glog = $fopen("pgb_gpu.log");
 `endif
 
-
-trace = $fopen("pgb_trace.dump");
+`ifdef ENABLE_INSN_TRACE
+	trace = $fopen("pgb_trace.dump");
+`endif
 
 `ifdef VMEM_DUMP_PATH
 $readmemh(
@@ -375,7 +379,7 @@ end //always
 
 		if (uut.DZCPU.rCurrentState == `DZCPU_START_FLOW)
 		begin
-
+`ifdef ENABLE_INSN_TRACE
 			$fwrite(trace,"pc: %04x opcode: %x sp: %x HL: %04x AF: %04x BC: %04x DE: %04x\n",
 			uut.DZCPU.wPc, uut.DZCPU.iMCUData, {uut.DZCPU.wSpH,uut.DZCPU.wSpL},
 			{uut.DZCPU.wH,uut.DZCPU.wL},
@@ -383,10 +387,10 @@ end //always
 			{uut.DZCPU.wB,uut.DZCPU.wC},
 			{uut.DZCPU.wD,uut.DZCPU.wE}
 			 );
-
+`endif
 			Pc = uut.DZCPU.wPc;
-			if (uut.DZCPU.wFlagsWe == 1'b1)
-				$fwrite(log,"* ");
+
+			$fwrite(log,"InsnCount: %d\n ", InstCount);
 			case (uut.DZCPU.wuOpFlowIdx)
 			1:  $fwrite(log,"=== LDSPnn === %h \n", uut.DZCPU.iMCUData );
 			5:  $fwrite(log,"=== LDHLnn === %h \n", uut.DZCPU.iMCUData );
@@ -537,6 +541,17 @@ end //always
 				endcase
 
 			endcase
+
+			InstCount = InstCount + 64'b1;
+
+
+			`ifdef STOP_AFTER_INSN_COUNT
+				if (InstCount >= `STOP_AFTER_INSN_COUNT)
+				begin
+					rSimulationDone = 1;
+					$fwrite(log,"**** InsnCount = %d. Stopping Simulation **** \n", InstCount);
+				end
+			`endif
 		end
 
 
