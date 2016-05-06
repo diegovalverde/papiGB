@@ -129,12 +129,11 @@ begin
 //Fetch sprite tile number
   35: oUop = {`gaddl, `vmem_addr, 12'd1};//get next byte sprite index
   36: oUop = {`grvmem, `gnull,`gnull,`gnull};
-  37: oUop = {`gadd, `r4 ,`vmem_data_shl_4, `tile_row };//`sprite_current_row_offset}; //define sprite tile index shifted by 4 to the left would get added with bgomffset for tile memory read
+  37: oUop = {`gadd, `r4 ,`vmem_data_shl_4, `sprite_current_row_offset}; //define sprite tile index shifted by 4 to the left would get added with bgomffset for tile memory read
   38: oUop = {`gaddl, `vmem_addr, 12'd1};//get next byte sprite options
   39: oUop = {`grvmem, `gnull,`gnull,`gnull};
   40: oUop = {`gwrr, `sprite_info,`vmem_data}; //define `sprite_info bits are important for effects flips and flashes
-//TODO DEFINE LOGIC FOR SpriteOPTIONS (LA FLECHA DE TETRIS NO TIENE OPTIONS ENTONCES QUIERO PROBAR DIBUJARLA SIN HACER LA PARTE
-//DE OPTIONS)
+//TODO DEFINE LOGIC FOR SpriteOPTIONS
 //GO read tile memory
 
   41: oUop = {`gadd, `vmem_addr,`bgtoffset,`r4}; //by adding this two you get the address of the tile memory
@@ -151,12 +150,12 @@ begin
 
   50: oUop = {`gaddl,`r6, 12'd4};
   51: oUop = {`gsubl,`r6, 12'd156};//39*4 = 156
-  52:  begin
+  52: oUop = {`gnop,  `gnull, `gnull, `gnull};//begin
   //$display("DRAW THE ARROW PLZ \n");
   //oUop = {`gjnz, 15'd20}; // end of sprites go to next tile
-    oUop = {`gwrr,  `sprite_current_row_offset, `tile_row, `gnull};           //Each sprite row is 2Bytes (8 pixles). Increment the sprite row offset by 2 for next iteration
+  //  oUop = {`gwrr,  `sprite_current_row_offset, `tile_row, `gnull};           //Each sprite row is 2Bytes (8 pixles). Increment the sprite row offset by 2 for next iteration
 //  $finish();
-end
+//end
 ////////////////End of ucode for sprite loop////////////////////////////
 //skip_sprites
 //defines loop for getting the same row for the next tile
@@ -170,7 +169,8 @@ end
   //end
   57: oUop = { `gsub, `r1, `fbuffer_addr, `r8191};          //Did we painted all of the 32x32 tiles?
   58: oUop = { `gjz, 18'h2};                                //Yes, ok restart the loop for next frame
-  59: oUop = { `gwrl,`sprite_current_row_offset, 12'd0};    //Reset the sprite roww offset to zero since we will start with a fresh tile now
+  59: oUop = {`gnop,  `gnull, `gnull, `gnull};
+  //oUop = { `gwrl,`sprite_current_row_offset, 12'd0};    //Reset the sprite roww offset to zero since we will start with a fresh tile now
   60: oUop = {  `gaddl, `cur_tile, 12'd1  };                //Time to take care of the next tile
   61: oUop = {  `gsubl, `r2, 12'd1 };                       //Is this tile the last of the 2 tiles in a tile row?
   62: oUop = {  `gjnz ,  18'd5 };                           //No, Keep rendering the  remaining rows of the current tile

@@ -86,7 +86,7 @@ wire[15:0] wTileLeft   ;
 wire[15:0] wTileRight  ;
 wire[15:0] wTileTop    ;
 wire[15:0] wTileBottom ;
-
+wire signed [15:0] wTemp;
 
 
 
@@ -135,8 +135,8 @@ assign wTileLeft   = wTileCoordX;
 assign wTileRight  = wTileCoordX + 8'd8;
 assign wTileTop    = wTileCoordY;
 assign wTileBottom = wTileCoordY + 16'd8;
-
-
+assign wTemp = wSpriteCoordX - wTileCoordX;
+assign wSprite_tile_offset = wCurrentTileRow + wTemp;// if sprite is not entirely on top of Tile
 assign wIsSpriteInCurrentTile =
    (
 
@@ -183,7 +183,7 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_13(    iClock, iReset, wRegWe  & wGpuReg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_14(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[14], rResult[7:0], wBl );//tile low byte
 UPCOUNTER_POSEDGE            # ( 16 )UP_15(    iClock, iReset,  13'b0, wGpuActive  & rIncFBufferAddr,          wFrameBufferAddress );// where to write on framebuffer
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_16(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[16], rResult,      wCurrentTile );// gp registers
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_17(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[17], rResult,      wSprite_tile_offset );// tile indx for sprite
+//FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_17(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[17], rResult,      wSprite_tile_offset );// tile indx for sprite
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_18(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[18], rResult,      wSpriteCoordX );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_19(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[19], rResult,      wSpriteCoordY );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_20(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[20], rResult,      wCurrentTileRow );//which tile row am I on
