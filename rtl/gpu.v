@@ -183,7 +183,6 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_13(    iClock, iReset, wRegWe  & wGpuReg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_14(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[14], rResult[7:0], wBl );//tile low byte
 UPCOUNTER_POSEDGE            # ( 16 )UP_15(    iClock, iReset,  13'b0, wGpuActive  & rIncFBufferAddr,          wFrameBufferAddress );// where to write on framebuffer
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_16(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[16], rResult,      wCurrentTile );// gp registers
-//FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_17(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[17], rResult,      wSprite_tile_offset );// tile indx for sprite
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_18(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[18], rResult,      wSpriteCoordX );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_19(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[19], rResult,      wSpriteCoordY );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_20(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[20], rResult,      wCurrentTileRow );//which tile row am I on
@@ -665,17 +664,6 @@ begin
       oMcuReadRequest = 1'b0;
       rIncFBufferAddr = 1'b0;
     end
-
-   `gsprtt:
-    begin
-      rResult     = {15'b0,wIsSpriteInCurrentRow};
-      rRegWe      = 1'b1;
-      rBgBufferWe = 1'b0;
-      rJump       = 1'b0;
-      oMcuReadRequest = 1'b0;
-      rIncFBufferAddr = 1'b0;
-    end
-
 
     default://default case for error
     begin
