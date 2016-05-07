@@ -69,7 +69,7 @@ wire [1:0] wBgPixel0,wBgPixel1,wBgPixel2,wBgPixel3,wBgPixel4,wBgPixel5,wBgPixel6
 wire [1:0] wSprtPixel0,wSprtPixel1,wSprtPixel2,wSprtPixel3,wSprtPixel4,wSprtPixel5,wSprtPixel6,wSprtPixel7;
 wire [`GPU_UOP_SZ-1:0] wUop;
 wire [5:0] wOp1Sel;
-wire wZ, wRegWe, wGpuActive, wIsSpriteInCurrentTile,wIsSpriteInCurrentRow;
+wire wZ, wRegWe, wGpuActive, wIsSpriteInCurrentTile;
 wire [15:0] wSpriteWidth, wSpriteHeight, wTileCoordX, wTileCoordY,wSprite_tile_offset,wSprite_info;
 reg [15:0] rResult;
 reg rRegWe, rBgBufferWe, rJump, rIncFBufferAddr;
@@ -155,8 +155,6 @@ assign wIsSpriteInCurrentTile =
     (wSpriteBottomLeftY  > wTileTop  && wSpriteBottomLeftY < wTileBottom))
    ) ? 1'b1 : 1'b0;
 
-assign wIsSpriteInCurrentRow = (wCurrentTileRow + wTileCoordY >= wSpriteCoordY &&
-wCurrentTileRow + wTileCoordY <= wSpriteCoordY + wSpriteHeight) ? 1'b1 : 1'b0;
 
 assign oSTAT = { 6'b0, wState };
 
