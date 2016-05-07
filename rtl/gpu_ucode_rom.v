@@ -96,7 +96,7 @@ begin
 
 /////////////////////////uCode for sprite loop/////////////////////////////////////
 
-  16: oUop = {`gwrl, `r6, 12'b100};                     // set bit 3 as 1 for next oUopp
+  16: oUop = {`gwrl, `r6, 12'b10};                     // set bit 1 as 1 for next oUopp
   17: oUop = {`gand, `r3, `r6, `lcdc};                  //and bitwise for r6 and lcd if bit 2 = 1 sprites are on
   18: oUop = {`gjz,`skip_the_sprites};
   19: oUop = {`gwrl, `r6, 12'd0}; //we have a maximum of 40 sprites x= 39*4 because if 4 byte descriptors
