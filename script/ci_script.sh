@@ -4,7 +4,7 @@
 # Do not allow pushing unless the memory checks are passing
 #
 
-cd sim/
+cd ../sim/
 make clean  >/dev/null 2>&1
 echo "-I- Running simulation test1 BIOS (be patient...) "
 make DUMPTYPE=none SIMFLAGS="-DSTOP_AFTER_FIRST_FRAME -DLCD_SCXY_DISABLED" >/dev/null 2>&1
