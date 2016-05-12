@@ -384,12 +384,11 @@ begin
 
     if (uut.MMU.iCpuWe)
     begin
-        //$display("Write %h",uut.MMU.iCpuAddr);
-
-                if (uut.MMU.iCpuAddr >= 16'hff10 && uut.MMU.iCpuAddr <= 16'hff23 )
-                begin
-                        $fwrite(sound_trace,"%dns %04x @ %04x \n",  $time, uut.MMU.iCpuData,uut.MMU.iCpuAddr   );
-                end
+          if (uut.MMU.iCpuAddr >= 16'hff10 && uut.MMU.iCpuAddr <= 16'hff23 )
+          begin
+                  $fwrite(sound_trace,"%dns %04x @ %04x \n",  $time, uut.MMU.iCpuData,uut.MMU.iCpuAddr   );
+                  $display("%dns %04x @ %04x \n",  $time, uut.MMU.iCpuData,uut.MMU.iCpuAddr   );
+          end
 
     end
 end //always
@@ -480,6 +479,7 @@ end //always
       310: $fwrite(log,"=== DECr_l  === %h \n", uut.DZCPU.iMCUData );
       175: $fwrite(log,"=== ADDr_a  === %h \n", uut.DZCPU.iMCUData );
       178: $fwrite(log,"=== ADDr_b  === %h \n", uut.DZCPU.iMCUData );
+      184: $fwrite(log,"=== ADDr_c  === %h \n", uut.DZCPU.iMCUData );
       181: $fwrite(log,"=== SUBr_c  === %h \n", uut.DZCPU.iMCUData );
       187: $fwrite(log,"=== ADDr_d  === %h \n", uut.DZCPU.iMCUData );
       190: $fwrite(log,"=== ADDr_e  === %h \n", uut.DZCPU.iMCUData );
@@ -608,7 +608,7 @@ end //always
         `jcb:
          begin
               $fwrite(log,"jcb %h \n", uut.DZCPU.iMCUData);
-         end      
+         end
         `smw: $fwrite(log,"smw %h %h\n", uut.DZCPU.oMCUAddr, uut.DZCPU.oMCUData);
         `bit: $fwrite(log,"bit %h & %b\n", uut.DZCPU.wRegData, uut.DZCPU.wBitMask);
         `addx16:$fwrite(log,"addx16 %h += %h\n", uut.DZCPU.wX16, uut.DZCPU.wRegData);
