@@ -6,6 +6,6 @@ DS $100
         ld  a, $29
         ld  b, $a8
         and a, b
-        ;the value expected is $20 flasgs Z=0 N=0 H=1 C=0
-        ;af=$2840
+        ;the value expected is $28 with flasgs Z=0 N=0 H=1 C=0
+        ;af=$2820
         push af
