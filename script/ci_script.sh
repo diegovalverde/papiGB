@@ -17,6 +17,18 @@ else
 	exit 1
 fi
 
+#ADDr_e
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDr_e.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 0090" pgb_cpu.log
+then
+	echo "Test test_ADDr_e.dump passed"
+else
+	echo "Test test_ADDr_e.dump failed"
+	exit 1
+fi
+
 
 #INCr_b
 make clean >/dev/null 2>&1
