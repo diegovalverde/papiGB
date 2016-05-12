@@ -36,8 +36,8 @@ module dzcpu
   output reg         oMCUwe
 
 );
-wire[15:0]  wPc, wRegData, wUopSrc, wX16, wY16, wZ16, wInitialPc, wInterruptVectorAddress ;
-wire [7:0]  wBitMask, wX8;
+wire[15:0]  wPc, wRegData, wUopSrc, wX16, wY16, wZ16, wInitialPc, wInterruptVectorAddress, wXY16 ;
+wire [7:0]  wBitMask, wX8, wY8;
 wire [8:0]  wuOpBasicFlowIdx,wuOpExtendedFlowIdx, wuOpFlowIdx, wuPc;
 wire        wIPC,wEof, wZ, wN;
 wire [13:0] wUop;
@@ -253,14 +253,23 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFX16 (  iClock, iReset, rFlowEnable & rRegW
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFY16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[11], rUopDstRegData[15:0], wY16 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFZ16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[12], rUopDstRegData[15:0], wZ16 );
 
-wire[15:0] wUopDstRegData_Prev;
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FF_RESULT_PREV (  iClock, iReset, 1'b1, rUopDstRegData, wUopDstRegData_Prev);
+//wire[15:0] wUopDstRegData_Prev;
+//FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FF_RESULT_PREV (  iClock, iReset, 1'b1, rUopDstRegData, wUopDstRegData_Prev);
 
 reg [1:0] rFlagsZ, rFlagsN, rFlagsH, rFlagsC;
 wire wFlagsWe;
-wire wHalfCarry, wCarry, wCarry16, wCarry12;
+wire wHalfCarry, wCarry, wCarry16, wCarry12, wHalfCarry_Inc, wHalfCarry_Dec;
 wire [7:0] wFlagsUpdate;
-assign wHalfCarry = wUopDstRegData_Prev[4];  //Need value from prev CC
+reg rSubFlags;
+
+//wire [3:0] wNibble;
+//assign {wHalfCarry,wNibble} = (rSubFlags ==1'b0) ? wRegData[3:0] + 1'b1 :  wRegData[3:0] - 1'b1;
+
+assign wHalfCarry_Inc = ((rUopDstRegData & 16'hf) == 16'h0) ? 1'b1 : 1'b0;
+assign wHalfCarry_Dec = ((rUopDstRegData & 16'hf) == 16'hf) ? 1'b1 : 1'b0;
+assign wHalfCarry = (rSubFlags ==1'b0) ? wHalfCarry_Inc : wHalfCarry_Dec;
+
+//assign wHalfCarry = wUopDstRegData_Prev[4];  //Need value from prev CC
 assign wCarry     = rUopDstRegData[8];
 assign wCarry16   = rUopDstRegData[15];
 assign wCarry12   = rUopDstRegData[12];
@@ -275,7 +284,7 @@ assign wFlagsUpdate[`flag_n ] = ( rFlagsN[1] == 1'b1 ) ? rFlagsN[0] : wFlags[`fl
 assign wFlagsUpdate[`flag_c ] = ( rFlagsC[1] == 1'b1 ) ? rFlagsC[0] : wFlags[`flag_c ] ;
 assign wFlagsUpdate[3:0] = 4'b0;
 
-FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 )FFFLAGS( iClock, iReset, wFlagsWe , 8'h0,wFlagsUpdate, wFlags );
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 )FFFLAGS( iClock, iReset, wFlagsWe , 8'hb0,wFlagsUpdate, wFlags );
 FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 5 )FFMCUADR( iClock, iReset, rFlowEnable & rSetMCOAddr, `pc , wUop[4:0], wMcuAdrrSel );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FF_RREQ( iClock, iReset, rFlowEnable & ~oMCUwe, rMcuReadRequest, oMcuReadRequest );
 
@@ -290,7 +299,7 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_MCUADR
   .I12({8'b0,wSpL}),        .I13( {8'b0,wSpH} ),      .I14( wY16 ),      .I15( wZ16 ),
   .I16({8'b0,wX8 }),        .I17( wX16),              .I18({8'hff,wC}),  .I19({wD,wE}),
   .I20({8'b0,wFlags }),         .I21({wB,wC}),            .I22({wA,wFlags}),     .I23(16'b0),
-  .I24(16'b0), .I25(16'b0), .I26(16'b0), .I27(16'b0),
+  .I24(16'b0), .I25({8'b0,wY8} ), .I26({wX8,wY8 }), .I27(16'b0),
   .I28(16'b0), .I29(16'b0), .I30(16'b0), .I31(16'b0),
   .O( oMCUAddr )
 );
@@ -304,7 +313,7 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REGDATA
   .I12({8'b0,wSpL}),        .I13( {8'b0,wSpH} ),      .I14( wY16 ),      .I15( wZ16 ),
   .I16({8'b0,wX8 }),        .I17( wX16),              .I18({8'hff,wC}),  .I19({wD,wE}),
   .I20({8'b0,wFlags }),         .I21({wB,wC}),            .I22({wA,wFlags}),     .I23({8'b0,iMCUData}),
-  .I24({15'b0,wFlags[`flag_c]}), .I25(16'b0), .I26(16'b0), .I27(16'b0),
+  .I24({15'b0,wFlags[`flag_c]}), .I25( {8'b0,wY8 } ), .I26( {wX8,wY8 }), .I27(16'b0),
   .I28(16'b0), .I29(16'b0), .I30(16'b0), .I31(16'b0),
   .O( wRegData )
 );
@@ -318,7 +327,7 @@ MUXFULLPARALELL_5SEL_GENERIC # (8) MUX_MCUDATA_OUT
   .I12(wSpL),        .I13( wSpH ),      .I14( wY16[7:0] ),      .I15( wZ16[7:0] ),
   .I16(wX8 ),        .I17( wX16[7:0]),  .I18(wC),               .I19(wE),
   .I20(wFlags ),         .I21(wC),          .I22(wFlags),     .I23(8'b0),
-  .I24({7'b0,wFlags[`flag_c]}), .I25(8'b0), .I26(8'b0), .I27(8'b0),
+  .I24({7'b0,wFlags[`flag_c]}), .I25( wY8  ), .I26( wX8 ), .I27(8'b0),
   .I28(8'b0), .I29(8'b0), .I30(8'b0), .I31(8'b0),
   .O( oMCUData )
 );
@@ -342,8 +351,8 @@ begin
     `sp:   rRegWriteSelect = 14'b00000110000000;
     `x8:   rRegWriteSelect = 14'b00001000000000;
     `x16:  rRegWriteSelect = 14'b00010000000000;
-    `y16:  rRegWriteSelect = 14'b00100000000000;
-    `z16:  rRegWriteSelect = 14'b01000000000000;
+    `y8:   rRegWriteSelect = 14'b00100000000000;
+    `xy16: rRegWriteSelect = 14'b01000000000000;
     `f:    rRegWriteSelect = 14'b10000000000000;
 
     default: rRegWriteSelect = 13'b0;
@@ -786,16 +795,25 @@ begin
   case ({wCBFlow,wCurrentFlow})
 
     {1'b0,`INCr_a},{1'b0,`INCr_b},{1'b0,`INCr_c},{1'b0,`INCr_d},
-    {1'b0,`INCr_e},{1'b0,`INCr_h},{1'b0,`INCr_l},{1'b0,`DECr_a},
+    {1'b0,`INCr_e},{1'b0,`INCr_h},{1'b0,`INCr_l}:
+    begin
+       rFlagsZ              = {1'b1,wZ};
+       rFlagsN              = {1'b1,1'b0};  //Can never be neg
+       rFlagsH              = {1'b1,wHalfCarry};
+       rFlagsC              = {1'b0,1'b0};
+       rSubFlags            = 1'b0;
+    end
+
     {1'b0,`DECr_b},{1'b0,`DECr_c},{1'b0,`DECr_d},{1'b0,`DECr_e},
-    {1'b0,`DECr_h},{1'b0,`DECr_l}:
+    {1'b0,`DECr_h},{1'b0,`DECr_l},{1'b0,`DECr_a}:
      begin
         rFlagsZ              = {1'b1,wZ};
-        rFlagsN              = {1'b1,wN};
+        rFlagsN              = {1'b1,1'b1};   //Gearboy behaves like this
         rFlagsH              = {1'b1,wHalfCarry};
-        rFlagsC              = {1'b1,1'b0};   //This is needed to make BIOS work...
+        rFlagsC              = {1'b0,1'b0};   //This is needed to make BIOS work...
+        rSubFlags            = 1'b1;
      end
-
+/*
     {1'b0,`LDrr_ab}, {1'b0,`LDrr_ac, `LDrr_ad},
     {1'b0,`LDrr_ah}, {1'b0,`LDrr_al,`LDrr_ae}:
     begin
@@ -803,8 +821,9 @@ begin
        rFlagsN              = {1'b1,wN};
        rFlagsH              = {1'b1,1'b0};
        rFlagsC              = {1'b0,1'b0};
+       rSubFlags            = 1'b0;
     end
-
+*/
 
     {1'b0,`ADDHLHL}, {1'b0,`ADDHLDE}:
     begin
@@ -812,6 +831,7 @@ begin
        rFlagsN              = {1'b0,1'b0};
        rFlagsH              = {1'b1,wCarry12};
        rFlagsC              = {1'b0,wCarry16};
+       rSubFlags            = 1'b0;
     end
 
 
@@ -819,12 +839,22 @@ begin
     {1'b0,`ADDr_a}, {1'b0,`ADDr_b}, {1'b0,`ADDr_c},{1'b0, `ADDr_d},
     {1'b0,`ADDr_h}, {1'b0,`ADDr_l}, {1'b0,`ADDr_e},{1'b0, `ADDn},
     {1'b0,`SUBr_a}, {1'b0,`SUBr_b}, {1'b0,`SUBr_e},{1'b0, `SUBr_d},
-    {1'b0,`SUBr_h}, {1'b0,`SUBr_l}, {1'b0,`CPn}:
+    {1'b0,`SUBr_h}, {1'b0,`SUBr_l}:
     begin
        rFlagsZ              = {1'b1,wZ};
        rFlagsN              = {1'b1,wN};
        rFlagsH              = {1'b1,wHalfCarry};
        rFlagsC              = {1'b1,wCarry};
+       rSubFlags            = 1'b0;
+    end
+
+    {1'b0,`CPn}:
+    begin
+       rFlagsZ              = {1'b1,wZ};   // A == n
+       rFlagsN              = {1'b1,1'b1};
+       rFlagsH              = {1'b1,~wN};   //A > n
+       rFlagsC              = {1'b1,wN};   //A < n
+       rSubFlags            = 1'b0;
     end
 
     {1'b0,`ANDr_a},{1'b0,`ANDr_b},
@@ -835,6 +865,7 @@ begin
        rFlagsN              = {1'b1,wN};
        rFlagsH              = {1'b1,1'b0};  //H is reset
        rFlagsC              = {1'b1,1'b0};  //C is reset
+       rSubFlags            = 1'b0;
     end
 
     {1'b0,`RLA}:
@@ -843,6 +874,7 @@ begin
        rFlagsN              = {1'b0,1'b0};
        rFlagsH              = {1'b1,1'b0};  //H is reset
        rFlagsC              = {1'b1,wA[7]};
+       rSubFlags            = 1'b0;
     end
 
 
@@ -852,6 +884,7 @@ begin
        rFlagsN              = {1'b0,1'b0};
        rFlagsH              = {1'b1,1'b0};  //H is reset
        rFlagsC              = {1'b1,wA[0]};
+       rSubFlags            = 1'b0;
     end
 
     {1'b1,`RLr_a},{1'b1,`RLr_b},{1'b1,`RLr_d},{1'b1,`RLr_e},
@@ -861,35 +894,39 @@ begin
        rFlagsN              = {1'b1,wN};
        rFlagsH              = {1'b1,1'b0};  //H is reset
        rFlagsC              = {1'b1,wRegData[7]};
+       rSubFlags            = 1'b0;
     end
 
 
-    {1'b0,`ORr_a}, {1'b0,`ORr_b}, {1'b0,`ORr_d},
+    {1'b0,`ORr_a}, {1'b0,`ORr_b}, {1'b0,`ORr_d},{1'b0,`ORr_c},
     {1'b0,`ORr_e}, {1'b0,`ORr_h}, {1'b0,`ORr_l},
-    {1'b0,`XORr_a},{1'b0,`XORr_b},{1'b0,`XORr_d},
-    {1'b0,`XORr_e},{1'b0,`XORr_h},{1'b0,`XORr_l}:
+    {1'b0,`XORr_a},{1'b0,`XORr_b},{1'b0,`XORr_d},{1'b0,`XORr_c},
+    {1'b0,`XORr_e},{1'b0,`XORr_h},{1'b0,`XORr_l},{1'b0,`XORHL}:
     begin
        rFlagsZ              = {1'b1,wZ};
-       rFlagsN              = {1'b1,wN};
+       rFlagsN              = {1'b1,1'b0};
        rFlagsH              = {1'b1,1'b0};  //H is reset
        rFlagsC              = {1'b1,1'b0};  //C is reset
+       rSubFlags            = 1'b0;
     end
 
-
+/*
     {1'b0,`LDrn_a}:
     begin
-       rFlagsZ              = {1'b1,wZ};
-       rFlagsN              = {1'b1,wN};
-       rFlagsH              = {1'b1,1'b0};
+       rFlagsZ              = {1'b0,wZ};
+       rFlagsN              = {1'b0,wN};
+       rFlagsH              = {1'b0,1'b0};
        rFlagsC              = {1'b0,1'b0};
+       rSubFlags            = 1'b0;
     end
-
+*/
     {1'b1, `BIT7h },  {1'b1, `BIT7l },  {1'b1, `BIT7m }, {1'b1, `BIT7a }:
     begin
        rFlagsZ              = {1'b1,wZ};
        rFlagsN              = {1'b0,1'b0};
        rFlagsH              = {1'b0,1'b0};
        rFlagsC              = {1'b0,1'b0};
+       rSubFlags            = 1'b0;
     end
 
     default:
@@ -898,6 +935,7 @@ begin
         rFlagsN              = {1'b0,1'b0};
         rFlagsH              = {1'b0,1'b0};
         rFlagsC              = {1'b0,1'b0};
+        rSubFlags            = 1'b0;
     end
   endcase
 end

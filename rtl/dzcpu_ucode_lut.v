@@ -578,16 +578,16 @@ begin
 		287: oUop = { `op, `srx16,  `hl };
 		288: oUop = { `inc_eof, `sma , `pc };
 //CALLNZnn
-		289: oUop = { `inc_eof_z, `dec16,  `sp  };
-		290: oUop = { `inc, `sx16r,  `hl  };
-		291: oUop = { `op , `srm,    `l   }; //l = MEM[pc] = literal
-		292: oUop = { `inc, `srm,    `h   }; //l = MEM[pc] = literal
+		289: oUop = { `inc,  `nop,  `null  };
+		290: oUop = { `inc,  `nop,  `null  };
+		291: oUop = { `op , `srm,    `y8   }; //l = MEM[pc] = literal
+		292: oUop = { `inc_eof_z, `srm, `x8   }; //l = MEM[pc] = literal
 		293: oUop = { `op,  `sma,    `sp  };
 		294: oUop = { `op,  `smw,    `pch };	//MEM[sp] = pc[7:0]
 		295: oUop = { `op,  `dec16,  `sp  };
 		296: oUop = { `op , `smw,    `pc  };	//MEM[sp+1] = pc[15:8]
-		297: oUop = { `op , `spc,    `hl  };
-		298: oUop = { `op, `srx16,  `hl  };
+		297: oUop = { `op,  `dec16,  `sp  };
+		298: oUop = { `op , `spc,    `xy16  };
 		299: oUop = { `eof ,`sma,   `pc   };
 //DECr_b
 		300:	oUop = { `update_flags, `dec16,    `b  };
@@ -646,7 +646,7 @@ begin
 		339:  oUop = { `op,  `sma,   `hl   };
 		340:  oUop = { `op,  `nop,   `null };
 		341:  oUop = { `op,  `srm,   `x16  };
-		342:  oUop = { `update_flags, `xorx16, `pc};
+		342:  oUop = { `update_flags, `xorx16, `a};
 		343:  oUop = { `op, `srx16, `a};
 		344:  oUop = { `inc_eof, `sma, `pc};
 //ADCn
