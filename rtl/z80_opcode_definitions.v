@@ -382,24 +382,22 @@
 //  //  `define  SRAr_a;
 //  //  `define
 //  CB30
-//  //  `define  SWAPr_b;
-//  //  `define  SWAPr_c;
-//  //  `define  SWAPr_d;
-//  //  `define  SWAPr_e;
-//  //  `define  SWAPr_h;
-//  //  `define  SWAPr_l;
-//  //  `define  XX;
-//  //  `define  SWAPr_a;
-//  //  `define  SRLr_b;
-//  //  `define  SRLr_c;
-//  //  `define  SRLr_d;
-//  //  `define  SRLr_e;
-//  //  `define
-//  //  `define  SRLr_h;
-//  //  `define  SRLr_l;
-//  //  `define  XX;
-//  //  `define  SRLr_a;
-//  //  `define
+`define  SWAPr_b 8'h30
+`define  SWAPr_d 8'h31
+`define  SWAPr_e 8'h32
+`define  SWAPr_c 8'h33
+`define  SWAPr_h 8'h34
+`define  SWAPr_l 8'h35
+
+`define  SWAPr_a  8'h36
+`define  SRLr_b  8'h37
+`define  SRLr_c  8'h38
+`define  SRLr_d  8'h39
+`define  SRLr_e  8'h3a
+`define  SRLr_h  8'h3b
+`define  SRLr_l  8'h3c
+`define  SRLr_a  8'h3d
+
 //  CB40
 //  //  `define  BIT0b;
 //  //  `define  BIT0c;
