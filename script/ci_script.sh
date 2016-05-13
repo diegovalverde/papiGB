@@ -139,6 +139,116 @@ else
 	exit 1
 fi
 
+#ORr_a
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_a.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 8000" pgb_cpu.log
+then
+	echo "Test test_ORr_a.dump passed"
+else
+	echo "Test test_ORr_a.dump failed"
+	exit 1
+fi
+
+#ORr_b
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL bb00" pgb_cpu.log
+then
+	echo "Test test_ORr_b.dump passed"
+else
+	echo "Test test_ORr_b.dump failed"
+	exit 1
+fi
+
+#ORr_c
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_c.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL ff00" pgb_cpu.log
+then
+	echo "Test test_ORr_c.dump passed"
+else
+	echo "Test test_ORr_c.dump failed"
+	exit 1
+fi
+
+#ORr_d
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_d.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 0080" pgb_cpu.log
+then
+	echo "Test test_ORr_d.dump passed"
+else
+	echo "Test test_ORr_d.dump failed"
+	exit 1
+fi
+
+#ORr_e
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_e.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 1100" pgb_cpu.log
+then
+	echo "Test test_ORr_e.dump passed"
+else
+	echo "Test test_ORr_e.dump failed"
+	exit 1
+fi
+
+
+#ORr_h
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_h.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL ef00" pgb_cpu.log
+then
+	echo "Test test_ORr_h.dump passed"
+else
+	echo "Test test_ORr_h.dump failed"
+	exit 1
+fi
+
+#ORr_l
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_l.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 0080" pgb_cpu.log
+then
+	echo "Test test_ORr_l.dump passed"
+else
+	echo "Test test_ORr_l.dump failed"
+	exit 1
+fi
+
+#XORr_a
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORr_a.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 0080" pgb_cpu.log
+then
+	echo "Test test_XORr_a.dump passed"
+else
+	echo "Test test_XORr_a.dump failed"
+	exit 1
+fi
+
+#XORr_a
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 9300" pgb_cpu.log
+then
+	echo "Test test_XORr_b.dump passed"
+else
+	echo "Test test_XORr_b.dump failed"
+	exit 1
+fi
+
+
 make clean  >/dev/null 2>&1
 echo "-I- Running simulation test1 BIOS (be patient...) "
 make DUMPTYPE=none SIMFLAGS="-DSTOP_AFTER_FIRST_FRAME -DLCD_SCXY_DISABLED -DENABLE_CPU_LOG -DENABLE_GPU_LOG" >/dev/null 2>&1
