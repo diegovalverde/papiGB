@@ -275,8 +275,46 @@ $readmemh(
     iReset = 0;
 
     `ifdef REG_A
-        uut.DZCPU.FFD_A.
+        uut.DZCPU.FFA.Q = `REG_A;
     `endif
+
+    `ifdef REG_F
+        uut.DZCPU.FFFLAGS.Q = `REG_F;
+    `endif
+
+    `ifdef REG_B
+        uut.DZCPU.FFB.Q = `REG_B;
+    `endif
+
+    `ifdef REG_C
+        uut.DZCPU.FFC.Q = `REG_C;
+    `endif
+
+    `ifdef REG_H
+        uut.DZCPU.FFH.Q = `REG_H;
+    `endif
+
+    `ifdef REG_L
+        uut.DZCPU.FFL.Q = `REG_L;
+    `endif
+
+    `ifdef REG_D
+        uut.DZCPU.FFD.Q = `REG_D;
+    `endif
+
+    `ifdef REG_E
+        uut.DZCPU.FFE.Q = `REG_E;
+    `endif
+
+    `ifdef REG_SPL
+        uut.DZCPU.FFSPL.Q = `REG_SPL;
+    `endif
+
+    `ifdef REG_SPH
+        uut.DZCPU.FFSPH.Q = `REG_SPH;
+    `endif
+
+
 
     `ifdef DISABLE_CPU
       //Force GPU to start
