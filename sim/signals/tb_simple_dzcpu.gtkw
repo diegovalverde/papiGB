@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.58 (w)1999-2014 BSI
-[*] Thu Mar 24 19:14:55 2016
+[*] Thu May 12 15:16:51 2016
 [*]
-[dumpfile] "/opt/hdd2/workspace/projects/papiGB/sim/tb_simple_dzcpu.vcd"
-[dumpfile_mtime] "Thu Mar 24 19:12:25 2016"
-[dumpfile_size] 59390
-[savefile] "/opt/hdd2/workspace/projects/papiGB/sim/signals/tb_simple_dzcpu.gtkw"
-[timestart] 38200
+[dumpfile] "/home/diego/workspace/projects/papiGB/sim/tb_simple_dzcpu.vcd"
+[dumpfile_mtime] "Thu May 12 15:13:38 2016"
+[dumpfile_size] 119935
+[savefile] "/home/diego/workspace/projects/papiGB/sim/signals/tb_simple_dzcpu.gtkw"
+[timestart] 404600
 [size] 1366 744
 [pos] -1 -1
-*-16.813875 325000 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-14.813875 451700 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb_simple_dzcpu.
 [treeopen] tb_simple_dzcpu.uut.
 [treeopen] tb_simple_dzcpu.uut.MMU.
@@ -22,7 +22,7 @@ tb_simple_dzcpu.uut.iClock
 tb_simple_dzcpu.uut.iReset
 @200
 -dzCPU
-@c00200
+@800200
 -dzCPU
 @24
 tb_simple_dzcpu.uut.DZCPU.rCurrentState[7:0]
@@ -33,16 +33,14 @@ tb_simple_dzcpu.uut.DZCPU.oMCUData[7:0]
 tb_simple_dzcpu.uut.DZCPU.oMCUwe
 @22
 tb_simple_dzcpu.uut.DZCPU.oMCUAddr[15:0]
-tb_simple_dzcpu.uut.DZCPU.wMcuAdrrSel[3:0]
 tb_simple_dzcpu.uut.DZCPU.wPc[15:0]
-@24
-tb_simple_dzcpu.uut.DZCPU.wuPc[7:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.wJcbDetected
+@2025
+^1 /home/diego/workspace/projects/papiGB/sim/signals/flow_ids
+tb_simple_dzcpu.uut.DZCPU.wuOpFlowIdx[8:0]
 @2024
-^1 /opt/hdd2/workspace/projects/papiGB/sim/signals/flow_ids
-tb_simple_dzcpu.uut.DZCPU.wuOpFlowIdx[7:0]
-^2 /opt/hdd2/workspace/projects/papiGB/sim/signals/dzcpu_uop_cmd
+^2 /home/diego/workspace/projects/papiGB/sim/signals/dzcpu_uop_cmd
 tb_simple_dzcpu.uut.DZCPU.wuCmd[4:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.wIPC
@@ -50,10 +48,6 @@ tb_simple_dzcpu.uut.DZCPU.wIPC
 tb_simple_dzcpu.uut.DZCPU.wEof
 [color] 3
 tb_simple_dzcpu.uut.DZCPU.rFlowEnable
-tb_simple_dzcpu.uut.DZCPU.rFlagsWe
-@22
-tb_simple_dzcpu.uut.DZCPU.rFlags[7:0]
-@28
 tb_simple_dzcpu.uut.DZCPU.wZ
 @22
 tb_simple_dzcpu.uut.DZCPU.wRegData[15:0]
@@ -76,10 +70,8 @@ tb_simple_dzcpu.uut.DZCPU.rUopDstRegData[15:0]
 @200
 -Registers
 @2024
-^3 /opt/hdd2/workspace/projects/papiGB/sim/signals/dzcpu_reg_select
+^3 /home/diego/workspace/projects/papiGB/sim/signals/dzcpu_reg_select
 tb_simple_dzcpu.uut.DZCPU.wUopSrc[15:0]
-^3 /opt/hdd2/workspace/projects/papiGB/sim/signals/dzcpu_reg_select
-tb_simple_dzcpu.uut.DZCPU.rRegSelect[3:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.rRegWe
 @22
@@ -108,12 +100,12 @@ tb_simple_dzcpu.uut.DZCPU.wL[7:0]
 tb_simple_dzcpu.uut.DZCPU.wA[7:0]
 tb_simple_dzcpu.uut.DZCPU.wX8[7:0]
 tb_simple_dzcpu.uut.DZCPU.wX16[15:0]
-@1401200
+@1000200
 -dzCPU
 @800200
 -MMU
 @2024
-^4 /opt/hdd2/workspace/projects/papiGB/sim/signals/mmu_cpu_gpu_sel
+^4 /home/diego/workspace/projects/papiGB/sim/signals/mmu_cpu_gpu_sel
 tb_simple_dzcpu.uut.MMU.wCPU_GPU_Sel
 @28
 tb_simple_dzcpu.uut.MMU.iCpuReadRequest
@@ -121,9 +113,7 @@ tb_simple_dzcpu.uut.MMU.iGpuReadRequest
 @22
 tb_simple_dzcpu.uut.MMU.iCpuAddr[15:0]
 tb_simple_dzcpu.uut.MMU.iGpuAddr[15:0]
-@23
 tb_simple_dzcpu.uut.MMU.oGpuVmemReadData[7:0]
-@22
 tb_simple_dzcpu.uut.MMU.wVmemReadAddr[15:0]
 tb_simple_dzcpu.uut.MMU.wOAMData[7:0]
 tb_simple_dzcpu.uut.MMU.wReadVmem[7:0]
@@ -147,129 +137,10 @@ tb_simple_dzcpu.uut.GPU.wIp[7:0]
 @22
 tb_simple_dzcpu.uut.GPU.wOp0[15:0]
 tb_simple_dzcpu.uut.GPU.wOp1[15:0]
-@800022
-tb_simple_dzcpu.uut.GPU.wUop[19:0]
-@c02024
-^5 /opt/hdd2/workspace/projects/papiGB/sim/signals/gpu_uop
-#{operation} (0)tb_simple_dzcpu.uut.GPU.wUop[19:0] (1)tb_simple_dzcpu.uut.GPU.wUop[19:0] (2)tb_simple_dzcpu.uut.GPU.wUop[19:0] (3)tb_simple_dzcpu.uut.GPU.wUop[19:0] (4)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-@28
-(0)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(1)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(2)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(3)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(4)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-@1401200
--group_end
-@c02024
-^6 /opt/hdd2/workspace/projects/papiGB/sim/signals/gpu_src
-#{dst} (5)tb_simple_dzcpu.uut.GPU.wUop[19:0] (6)tb_simple_dzcpu.uut.GPU.wUop[19:0] (7)tb_simple_dzcpu.uut.GPU.wUop[19:0] (8)tb_simple_dzcpu.uut.GPU.wUop[19:0] (9)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-@28
-(5)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(6)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(7)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(8)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(9)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-@1401200
--group_end
-@c02024
-^6 /opt/hdd2/workspace/projects/papiGB/sim/signals/gpu_src
-#{op1} (10)tb_simple_dzcpu.uut.GPU.wUop[19:0] (11)tb_simple_dzcpu.uut.GPU.wUop[19:0] (12)tb_simple_dzcpu.uut.GPU.wUop[19:0] (13)tb_simple_dzcpu.uut.GPU.wUop[19:0] (14)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-@28
-(10)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(11)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(12)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(13)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(14)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-@1401200
--group_end
-@c02024
-^6 /opt/hdd2/workspace/projects/papiGB/sim/signals/gpu_src
-#{op0} (15)tb_simple_dzcpu.uut.GPU.wUop[19:0] (16)tb_simple_dzcpu.uut.GPU.wUop[19:0] (17)tb_simple_dzcpu.uut.GPU.wUop[19:0] (18)tb_simple_dzcpu.uut.GPU.wUop[19:0] (19)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-@28
-(15)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(16)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(17)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(18)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(19)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-@1401200
--group_end
-@1001200
--group_end
-@c00022
-#{literal} (10)tb_simple_dzcpu.uut.GPU.wUop[19:0] (11)tb_simple_dzcpu.uut.GPU.wUop[19:0] (12)tb_simple_dzcpu.uut.GPU.wUop[19:0] (13)tb_simple_dzcpu.uut.GPU.wUop[19:0] (14)tb_simple_dzcpu.uut.GPU.wUop[19:0] (15)tb_simple_dzcpu.uut.GPU.wUop[19:0] (16)tb_simple_dzcpu.uut.GPU.wUop[19:0] (17)tb_simple_dzcpu.uut.GPU.wUop[19:0] (18)tb_simple_dzcpu.uut.GPU.wUop[19:0] (19)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-@28
-(10)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(11)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(12)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(13)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(14)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(15)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(16)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(17)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(18)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-(19)tb_simple_dzcpu.uut.GPU.wUop[19:0]
-@1401200
--group_end
-@22
-tb_simple_dzcpu.uut.GPU.rResult[15:0]
-@28
-tb_simple_dzcpu.uut.GPU.rJump
-@200
--
--IO
-@28
-tb_simple_dzcpu.uut.GPU.iMcuWe
-@24
-tb_simple_dzcpu.uut.GPU.wRegSelect[7:0]
-@22
-[color] 2
-tb_simple_dzcpu.uut.GPU.oMcuAddr[15:0]
-@28
-tb_simple_dzcpu.uut.GPU.oMcuReadRequest
-@22
-tb_simple_dzcpu.uut.GPU.iMcuReadData[7:0]
-@200
--
--Registers
-@22
-tb_simple_dzcpu.uut.GPU.iMcuRegSelect[3:0]
-@c00200
--tb_simple_dzcpu.uut.GPU.wRegWriteSelect
-@1401200
--group_end
-@c00022
-tb_simple_dzcpu.uut.GPU.oLCDC[7:0]
-@28
-(0)tb_simple_dzcpu.uut.GPU.oLCDC[7:0]
-(1)tb_simple_dzcpu.uut.GPU.oLCDC[7:0]
-(2)tb_simple_dzcpu.uut.GPU.oLCDC[7:0]
-(3)tb_simple_dzcpu.uut.GPU.oLCDC[7:0]
-(4)tb_simple_dzcpu.uut.GPU.oLCDC[7:0]
-(5)tb_simple_dzcpu.uut.GPU.oLCDC[7:0]
-(6)tb_simple_dzcpu.uut.GPU.oLCDC[7:0]
-(7)tb_simple_dzcpu.uut.GPU.oLCDC[7:0]
-@1401200
--group_end
-@22
-tb_simple_dzcpu.uut.GPU.oSTAT[7:0]
-tb_simple_dzcpu.uut.GPU.oLY[7:0]
-tb_simple_dzcpu.uut.GPU.rResult[15:0]
-tb_simple_dzcpu.uut.GPU.wState[7:0]
-tb_simple_dzcpu.uut.GPU.oMcuAddr[15:0]
-tb_simple_dzcpu.uut.GPU.wR0[15:0]
-tb_simple_dzcpu.uut.GPU.wR1[15:0]
-tb_simple_dzcpu.uut.GPU.wR3[15:0]
-tb_simple_dzcpu.uut.GPU.wBh[7:0]
-tb_simple_dzcpu.uut.GPU.wBl[7:0]
-@1401200
--GPU
 @800200
--OAM
-@22
-tb_simple_dzcpu.uut.MMU.OAM.iDataIn[7:0]
-tb_simple_dzcpu.uut.MMU.OAM.iReadAddress0[7:0]
-tb_simple_dzcpu.uut.MMU.OAM.oDataOut0[7:0]
-@1000200
--OAM
+-tb_simple_dzcpu.uut.GPU.wUop
+@1401200
+-group_end
+-group_end
 [pattern_trace] 1
 [pattern_trace] 0
