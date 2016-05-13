@@ -562,6 +562,7 @@ end //always
       397: $fwrite(log,"=== LDrHLm_l === %h\n",uut.DZCPU.iMCUData );
       401: $fwrite(log,"=== RETNZ === %h\n",uut.DZCPU.iMCUData );
       411: $fwrite(log,"=== ADDHLHL === %h\n",uut.DZCPU.iMCUData );
+      420: $fwrite(log,"=== ANDHL === %h\n",uut.DZCPU.iMCUData );
       default:
           case (uut.DZCPU.iMCUData)
 
