@@ -140,7 +140,7 @@ begin
 	`LDrHLm_l: oUopFlowIdx = 9'd397;
 	`RETNZ:    oUopFlowIdx = 9'd401;
 	`ADDHLHL:  oUopFlowIdx = 9'd411;
-
+  `ANDHL:    oUopFlowIdx = 9'd420;
 
 	default:
 			 oUopFlowIdx = 9'd278;
@@ -739,6 +739,11 @@ begin
 		417:  oUop = { `inc_eof_nz,  `srm, `x16 };
 		418:  oUop = { `nop,  `addx16, `pc };
 		419:  oUop = { `eof,  `spc, `x16 };
+//ANDHL
+			420: oUop = { `inc, `sma,  `hl };
+			421: oUop = { `op, `nop , `null };
+			422: oUop = { `update_flags ,`anda,    `idata  };
+			423: oUop = { `inc_eof ,`nop,    `null  };
 
 
 
