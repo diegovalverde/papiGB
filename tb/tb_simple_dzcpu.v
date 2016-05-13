@@ -602,7 +602,7 @@ end //always
 							`ORr_e: $fwrite(log,"=== ORr_e  === %h \n", uut.DZCPU.iMCUData );
 							`ORr_h: $fwrite(log,"=== ORr_h  === %h \n", uut.DZCPU.iMCUData );
 							`ORr_l: $fwrite(log,"=== ORr_l  === %h \n", uut.DZCPU.iMCUData );
-							`ORn: $fwrite(log,"=== ORn  === %h \n", uut.DZCPU.iMCUData );
+							//`ORn: $fwrite(log,"=== ORn  === %h \n", uut.DZCPU.iMCUData );
 							`ANDr_b: $fwrite(log,"=== ANDr_b  === %h \n", uut.DZCPU.iMCUData );
 							`ANDr_c: $fwrite(log,"=== ANDr_c  === %h \n", uut.DZCPU.iMCUData );
 							`ANDr_a: $fwrite(log,"=== ANDr_a  === %h \n", uut.DZCPU.iMCUData );
