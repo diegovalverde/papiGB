@@ -521,9 +521,13 @@ end //always
 							`XORr_a: $fwrite(log,"=== XORr_a  === %h \n", uut.DZCPU.iMCUData );
 							`XORr_b: $fwrite(log,"=== XORr_b  === %h \n", uut.DZCPU.iMCUData );
 							`XORr_c: $fwrite(log,"=== XORr_c  === %h \n", uut.DZCPU.iMCUData );
-							`ORr_b: $fwrite(log,"=== ORr_a  === %h \n", uut.DZCPU.iMCUData );
+							`ORr_b: $fwrite(log,"=== ORr_b  === %h \n", uut.DZCPU.iMCUData );
 							`ORr_c: $fwrite(log,"=== ORr_c  === %h \n", uut.DZCPU.iMCUData );
-							`ORr_a: $fwrite(log,"=== ORr_c  === %h \n", uut.DZCPU.iMCUData );
+							`ORr_a: $fwrite(log,"=== ORr_a  === %h \n", uut.DZCPU.iMCUData );
+							`ORr_d: $fwrite(log,"=== ORr_d  === %h \n", uut.DZCPU.iMCUData );
+							`ORr_e: $fwrite(log,"=== ORr_e  === %h \n", uut.DZCPU.iMCUData );
+							`ORr_h: $fwrite(log,"=== ORr_h  === %h \n", uut.DZCPU.iMCUData );
+							`ORr_l: $fwrite(log,"=== ORr_l  === %h \n", uut.DZCPU.iMCUData );
 							`NOP: $fwrite(log,"=== NOP  === %h \n", uut.DZCPU.iMCUData );
 							default:
 							begin
