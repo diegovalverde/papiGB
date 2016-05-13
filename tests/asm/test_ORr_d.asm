@@ -4,8 +4,8 @@ DS $100
 DS $100
         ld sp, $FFFE
         ld  a, $00
-        ld  d, $ff
+        ld  d, $00
         or a, d
         ;the value expected is $67 with flasgs Z=1
-        ;af=$ff00
+        ;af=$0080
         push af
