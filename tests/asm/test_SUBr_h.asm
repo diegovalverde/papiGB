@@ -2,6 +2,7 @@ SECTION "sec", ROM0
 DS $100
         jp  $200
 DS $100
+        ld sp, $FFFE
         ld  a, $A
         ld 	h, 0
         sub a, h
