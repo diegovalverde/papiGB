@@ -262,13 +262,13 @@ wire wCarry, wCarry16, wCarry12, wHalfCarry_Inc, wHalfCarry_Add, wHalfCarry_Dec;
 wire [7:0] wFlagsUpdate;
 
 
-//wire [3:0] wNibble;
+wire [3:0] wNibble;
 //assign {wHalfCarry,wNibble} = (rSubFlags ==1'b0) ? wRegData[3:0] + 1'b1 :  wRegData[3:0] - 1'b1;
 
 assign wHalfCarry_Inc = ((rUopDstRegData & 16'hf) == 16'h0) ? 1'b1 : 1'b0;
 assign wHalfCarry_Dec = ((rUopDstRegData & 16'hf) == 16'hf) ? 1'b1 : 1'b0;
-assign wHalfCarry_Add = rUopDstRegData[4];
-
+//assign wHalfCarry_Add = rUopDstRegData[4];
+assign {wHalfCarry_Add, wNibble} = wRegData[3:0] + wX16[3:0];
 
 //assign wHalfCarry = wUopDstRegData_Prev[4];  //Need value from prev CC
 assign wCarry     = rUopDstRegData[8];
@@ -829,7 +829,7 @@ begin
     {1'b0,`SUBr_h}, {1'b0,`SUBr_l}:
     begin
        rFlagsZ              = {1'b1,wZ};
-       rFlagsN              = {1'b1,wN};
+       rFlagsN              = {1'b0,1'b0};
        rFlagsH              = {1'b1,wHalfCarry_Add};
        rFlagsC              = {1'b1,wCarry};
     end
@@ -843,13 +843,14 @@ begin
     end
 
     {1'b0,`ANDr_a},{1'b0,`ANDr_b},
+    {1'b0,`ANDr_c},
     {1'b0,`ANDr_d},{1'b0,`ANDr_e},
     {1'b0,`ANDr_h},{1'b0,`ANDr_l}:
     begin
        rFlagsZ              = {1'b1,wZ};
-       rFlagsN              = {1'b1,wN};
-       rFlagsH              = {1'b1,1'b0};  //H is reset
-       rFlagsC              = {1'b1,1'b0};  //C is reset
+       rFlagsN              = {1'b0,1'b0};
+       rFlagsH              = {1'b1,1'b1};  //H is set
+       rFlagsC              = {1'b1,1'b0};
     end
 
     {1'b0,`RLA}:

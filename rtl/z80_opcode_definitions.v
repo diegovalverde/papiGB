@@ -12,7 +12,7 @@
 
 //  `define  LDmmSP;
 //  `define  ADDHLBC;
-//  `define  LDABCm;
+  `define  LDABCm 8'ha
   `define  DECBC 8'hb
 
   `define  INCr_c 8'hc
@@ -79,19 +79,18 @@
 //  `define  CCF;
 
 //  40
-//  `define  LDrr_bb;
-//  `define  LDrr_bc;
-//  `define  LDrr_bd;
-//  `define  LDrr_be;
-
-//  `define  LDrr_bh;
-//  `define  LDrr_bl;
-`define  LDrHLm_b 8'h46
-`define  LDrr_ba  8'h47
-`define  LDrr_cb  8'h48
-`define  LDrr_cc  8'h49
-`define  LDrr_cd  8'h4a
-`define  LDrr_ce  8'h4b
+  `define  LDrr_bb 8'h40
+  `define  LDrr_bc 8'h41
+  `define  LDrr_bd 8'h42
+  `define  LDrr_be 8'h43
+  `define  LDrr_bh 8'h44
+  `define  LDrr_bl 8'h45
+  `define  LDrHLm_b 8'h46
+  `define  LDrr_ba  8'h47
+  `define  LDrr_cb  8'h48
+  `define  LDrr_cc  8'h49
+  `define  LDrr_cd  8'h4a
+  `define  LDrr_ce  8'h4b
 
   `define  LDrr_ch  8'h4d
   `define  LDrr_cl  8'h4c
@@ -116,7 +115,7 @@
 
   `define  LDrr_eh 8'h5c
   `define  LDrr_el 8'h5d
-//  `define  LDrHLm_e;
+  `define  LDrHLm_e 8'h5e
   `define  LDrr_ea 8'h5f
 
 //  60
@@ -127,7 +126,7 @@
 
 //  `define  LDrr_hh;
   `define  LDrr_hl 8'h65
-//  `define  LDrHLm_h
+  `define  LDrHLm_h 8'h66
   `define  LDrr_ha 8'h67
   `define  LDrr_lb 8'h68
   `define  LDrr_lc 8'h69
@@ -142,10 +141,9 @@
   `define  LDHLmr_b 8'h70
   `define  LDHLmr_c 8'h71
   `define  LDHLmr_d 8'h72
-//  `define  LDHLmr_e;
-//  `define
-//  `define  LDHLmr_h;
-//  `define  LDHLmr_l;
+  `define  LDHLmr_e 8'h73
+  `define  LDHLmr_h 8'h74
+  `define  LDHLmr_l 8'h75
 //  `define  HALT;
   `define  LDHLmr_a 8'h77
   `define  LDrr_ab 8'h78
@@ -154,8 +152,8 @@
   `define  LDrr_ae 8'h7b
   `define  LDrr_ah 8'h7c
   `define  LDrr_al 8'h7d
-//  `define  LDrHLm_a;
-//  `define  LDrr_aa;
+  `define  LDrHLm_a 8'h7e
+  `define  LDrr_aa 8'h7f
 //  `define
 //  80
   `define  ADDr_b 8'h80

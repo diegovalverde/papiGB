@@ -563,6 +563,30 @@ end //always
       401: $fwrite(log,"=== RETNZ === %h\n",uut.DZCPU.iMCUData );
       411: $fwrite(log,"=== ADDHLHL === %h\n",uut.DZCPU.iMCUData );
       420: $fwrite(log,"=== ANDHL === %h\n",uut.DZCPU.iMCUData );
+      424: $fwrite(log,"=== LDHLmr_e === %h \n", uut.DZCPU.iMCUData );
+      427: $fwrite(log,"=== LDHLmr_h === %h \n", uut.DZCPU.iMCUData );
+      430: $fwrite(log,"=== LDHLmr_l === %h \n", uut.DZCPU.iMCUData );
+      433: $fwrite(log,"=== LDABCm  === %h \n", uut.DZCPU.iMCUData );
+      437: $fwrite(log,"=== LDrHLm_a  === %h \n", uut.DZCPU.iMCUData );
+      441: $fwrite(log,"=== LDrHLm_e  === %h \n", uut.DZCPU.iMCUData );
+      445: $fwrite(log,"=== LDrHLm_h  === %h \n", uut.DZCPU.iMCUData );
+      449: $fwrite(log,"=== LDrr_ab  === %h \n", uut.DZCPU.iMCUData );
+      452: $fwrite(log,"=== LDrr_aa  === %h \n", uut.DZCPU.iMCUData );
+      455: $fwrite(log,"=== LDrr_ac  === %h \n", uut.DZCPU.iMCUData );
+      458: $fwrite(log,"=== LDrr_ad  === %h \n", uut.DZCPU.iMCUData );
+      461: $fwrite(log,"=== LDrr_ae  === %h \n", uut.DZCPU.iMCUData );
+      464: $fwrite(log,"=== LDrr_ah  === %h \n", uut.DZCPU.iMCUData );
+      467: $fwrite(log,"=== LDrr_al  === %h \n", uut.DZCPU.iMCUData );
+      470: $fwrite(log,"=== LDrr_bb  === %h \n", uut.DZCPU.iMCUData );
+      473: $fwrite(log,"=== LDrr_bc  === %h \n", uut.DZCPU.iMCUData );
+      476: $fwrite(log,"=== LDrr_bd  === %h \n", uut.DZCPU.iMCUData );
+      479: $fwrite(log,"=== LDrr_be  === %h \n", uut.DZCPU.iMCUData );
+      482: $fwrite(log,"=== LDrr_bh  === %h \n", uut.DZCPU.iMCUData );
+      485: $fwrite(log,"=== LDrr_bl  === %h \n", uut.DZCPU.iMCUData );
+      488: $fwrite(log,"=== LDrr_ba  === %h \n", uut.DZCPU.iMCUData );
+      491: $fwrite(log,"=== LDrr_cb  === %h \n", uut.DZCPU.iMCUData );
+      494: $fwrite(log,"=== LDrr_cc  === %h \n", uut.DZCPU.iMCUData );
+      497: $fwrite(log,"=== LDrr_cd  === %h \n", uut.DZCPU.iMCUData );
       default:
           case (uut.DZCPU.iMCUData)
 
@@ -595,6 +619,10 @@ end //always
               `XORr_a: $fwrite(log,"=== XORr_a  === %h \n", uut.DZCPU.iMCUData );
               `XORr_b: $fwrite(log,"=== XORr_b  === %h \n", uut.DZCPU.iMCUData );
               `XORr_c: $fwrite(log,"=== XORr_c  === %h \n", uut.DZCPU.iMCUData );
+              `XORr_d: $fwrite(log,"=== XORr_d  === %h \n", uut.DZCPU.iMCUData );
+              `XORr_e: $fwrite(log,"=== XORr_e  === %h \n", uut.DZCPU.iMCUData );
+              `XORr_l: $fwrite(log,"=== XORr_l  === %h \n", uut.DZCPU.iMCUData );
+              `XORr_h: $fwrite(log,"=== XORr_h  === %h \n", uut.DZCPU.iMCUData );
               `ORr_b: $fwrite(log,"=== ORr_b  === %h \n", uut.DZCPU.iMCUData );
               `ORr_c: $fwrite(log,"=== ORr_c  === %h \n", uut.DZCPU.iMCUData );
               `ORr_a: $fwrite(log,"=== ORr_a  === %h \n", uut.DZCPU.iMCUData );

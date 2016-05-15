@@ -51,7 +51,10 @@ module mmu
 	input wire [7:0]  iGPU_OBP0,
 	input wire [7:0]  iGPU_OBP1,
 	input wire [7:0]  iGPU_WY,
-	input wire [7:0]  iGPU_WX
+	input wire [7:0]  iGPU_WX,
+
+	//IO
+	input wire [7:0] iButtonRegister
 
 
 );
@@ -155,6 +158,8 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_LCD_REGISTERS
 	.O( wLCDRegisters )
 );
 
+
+
 MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_REGISTERS
 (
 	.Sel( wAddr[6:4]),                    //FF00-FF7F
@@ -169,6 +174,20 @@ MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_REGISTERS
 	.O( wIORegisters )
 );
 
+
+MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_BUTTON
+(
+	.Sel( wAddr[3:0]),
+	.I0( iButtonRegister            ),   //FF00 P1 register
+	.I1(8'b0  ),
+	.I2(8'b0  ),
+	.I3(8'b0  ),
+	.I4(8'b0  ),
+	.I5(8'b0  ),
+	.I6(8'b0  ),
+	.I7(8'b0  ),
+	.O( wJoyPadAndTimers  )
+);
 
 
 MUXFULLPARALELL_2SEL_GENERIC # (8) MUX_MEMREAD_IO_ZERPAGE_INTERRUPTS
