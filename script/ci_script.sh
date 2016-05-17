@@ -296,6 +296,19 @@ else
 	exit 1
 fi
 
+#XORr_d
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORr_l.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 0080" pgb_cpu.log
+then
+	echo "Test test_XORr_l.dump passed"
+else
+	echo "Test test_XORr_l.dump failed"
+	exit 1
+fi
+
+
 
 
 make clean  >/dev/null 2>&1
