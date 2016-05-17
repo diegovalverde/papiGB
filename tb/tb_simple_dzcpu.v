@@ -595,6 +595,10 @@ end //always
               `XORr_a: $fwrite(log,"=== XORr_a  === %h \n", uut.DZCPU.iMCUData );
               `XORr_b: $fwrite(log,"=== XORr_b  === %h \n", uut.DZCPU.iMCUData );
               `XORr_c: $fwrite(log,"=== XORr_c  === %h \n", uut.DZCPU.iMCUData );
+              `XORr_d: $fwrite(log,"=== XORr_d  === %h \n", uut.DZCPU.iMCUData );
+              `XORr_e: $fwrite(log,"=== XORr_e  === %h \n", uut.DZCPU.iMCUData );
+              `XORr_l: $fwrite(log,"=== XORr_l  === %h \n", uut.DZCPU.iMCUData );
+              `XORr_h: $fwrite(log,"=== XORr_h  === %h \n", uut.DZCPU.iMCUData );
               `ORr_b: $fwrite(log,"=== ORr_b  === %h \n", uut.DZCPU.iMCUData );
               `ORr_c: $fwrite(log,"=== ORr_c  === %h \n", uut.DZCPU.iMCUData );
               `ORr_a: $fwrite(log,"=== ORr_a  === %h \n", uut.DZCPU.iMCUData );
