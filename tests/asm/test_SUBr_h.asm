@@ -1,7 +1,11 @@
 SECTION "sec", ROM0
 DS $100
-        ld  a, 23
-        ld 	h, 3
+        jp  $200
+DS $100
+        ld sp, $FFFE
+        ld  a, $A
+        ld 	h, 0
         sub a, h
-        ;the value expected is 20
+        ;Expected: A = $0A, Flags Z=0, N=1, H=1, C=1
+        ; AF = $0A70
         push af

@@ -8,5 +8,5 @@ DS $100
 				ld  b, $00
         ld  c, $00
         inc b
-        ;Expected BC = $0100
-        push bc			; Tests BC
+				;Expected Flags Z=0 N=0 H=0 C=0, AF = $0000
+        push af			; Tests Flags
