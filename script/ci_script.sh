@@ -6,7 +6,65 @@
 
 cd sim/
 
+#ANDr_a
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_a.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
+if grep -q "TEST_RET_VAL 2020" pgb_cpu.log
+then
+	echo "Test test_ANDr_a.dump passed"
+else
+	echo "Test test_ANDr_a.dump failed"
+	exit 1
+fi
+
+#ANDr_b
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 2820" pgb_cpu.log
+then
+	echo "Test test_ANDr_b.dump passed"
+else
+	echo "Test test_ANDr_b.dump failed"
+	exit 1
+fi
+
+#ANDr_c
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_c.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 5220" pgb_cpu.log
+then
+	echo "Test test_ANDr_c.dump passed"
+else
+	echo "Test test_ANDr_c.dump failed"
+	exit 1
+fi
+
+#ANDr_d
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_d.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 6720" pgb_cpu.log
+then
+	echo "Test test_ANDr_d.dump passed"
+else
+	echo "Test test_ANDr_d.dump failed"
+	exit 1
+fi
+
+#ANDr_b
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_e.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 00a0" pgb_cpu.log
+then
+	echo "Test test_ANDr_e.dump passed"
+else
+	echo "Test test_ANDr_e.dump failed"
+	exit 1
+fi
 
 #ADDr_h
 make clean >/dev/null 2>&1
