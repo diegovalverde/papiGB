@@ -443,7 +443,7 @@ else
 	exit 1
 fi
 
-#LDHLmr_b
+#LDHLmr_c
 make clean >/dev/null 2>&1
 make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_c.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
@@ -455,7 +455,17 @@ else
 	exit 1
 fi
 
+#LDHLmr_d
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_d.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
+if grep -q "TEST_RET_VAL 1110" pgb_cpu.log
+then
+	echo "Test test_LDHLmr_d.dump passed"
+else
+	echo "Test test_LDHLmr_d.dump failed"
+	exit 1
+fi
 
 
 
