@@ -4,9 +4,7 @@ DS $100
 DS $100
         ld hl, $FFFD
         ld a,  $15
-
-
+        
         ldd [hl],a
         ldd [hl],a
-        ;the value expected is 4
-        ;push af
+        ;the value expected is $1515
