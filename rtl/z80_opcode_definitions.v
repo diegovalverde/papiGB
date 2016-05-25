@@ -116,7 +116,7 @@
 
   `define  LDrr_eh 8'h5c
   `define  LDrr_el 8'h5d
-//  `define  LDrHLm_e;
+  `define  LDrHLm_e 8'h5e
   `define  LDrr_ea 8'h5f
 
 //  60
