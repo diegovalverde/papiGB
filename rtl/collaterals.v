@@ -48,6 +48,22 @@ end//always
 
 endmodule
 //----------------------------------------------------
+module XNOR # (parameter SIZE=8)
+(
+	input wire [SIZE-1:0]	inA,
+	input wire [SIZE-1:0]	inB,
+	output reg [SIZE-1:0]	out
+);
+
+always @ (*)
+begin
+  out <= ~(inA ^ inB);
+end//always
+
+endmodule
+
+
+//----------------------------------------------------
 module FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( parameter SIZE=`WIDTH )
 (
 	input wire				Clock,
@@ -146,6 +162,21 @@ begin
 	endcase
 
 end
+endmodule
+//---------------------------------------------------------------------------
+module MUX2 # (parameter SIZE=8)
+(
+	input wire select,
+	input wire [SIZE-1:0] inA,
+	input wire [SIZE-1:0] inB,
+	output reg [SIZE-1:0] out
+);
+
+always @ (*)
+begin
+  out <= (select == 0)? inA : inB;
+end
+
 endmodule
 
 //----------------------------------------------------------------------

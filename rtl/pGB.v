@@ -34,6 +34,10 @@ output wire       oVgaHsync,
 output wire       oVgaVsync,
 `endif
 
+//IO input ports
+//ASCII IMAGE BUTTON MATRIX
+input wire [5:0]  iButtonRegister,    //Pressed button
+
 
 `ifndef XILINX_IP
 output wire       oFrameBufferWe,
@@ -61,10 +65,11 @@ wire[7:0] wGPU_2_MCU_OBP0;
 wire[7:0] wGPU_2_MCU_OBP1;
 wire[7:0] wGPU_2_MCU_WY;
 wire[7:0] wGPU_2_MCU_WX, wGPU_RegData, wMMU_2_GPU_VmemReadData;
+wire[7:0] wButtonRegister;
 wire[15:0] wGpuAddr;
 wire[3:0] wGpu_RegSelect;
 wire wGpu_RegWe, wGPU_2_MCU_ReadRequest;
-
+wire wIOInterruptTrigger;
 
 
 dzcpu  DZCPU
@@ -76,6 +81,18 @@ dzcpu  DZCPU
 	.oMCUwe( wdZCPU_2_MMU_We ),
 	.oMCUData( wdZCPU_2_MMU_WriteData ),
 	.oMcuReadRequest( wdZCPU_2_MMU_ReadRequest )
+);
+
+assign wButtonRegister[7:6] = 2'b0;
+//IO unit is in charge of marshalling the GameBoy push butons
+io IO
+(
+	.Clock( iClock ),
+	.Reset( iReset ),
+	.iP( iButtonRegister ),
+	.oP( wButtonRegister[5:0] ),
+	.oIE( wIOInterruptTrigger )
+
 );
 
 
@@ -110,7 +127,10 @@ mmu MMU
 	.iGPU_OBP0( wGPU_2_MCU_OBP0 ),
 	.iGPU_OBP1( wGPU_2_MCU_OBP1 ),
 	.iGPU_WY(   wGPU_2_MCU_WY   ),
-	.iGPU_WX(   wGPU_2_MCU_WX   )
+	.iGPU_WX(   wGPU_2_MCU_WX   ),
+
+	//IO
+	.iButtonRegister( wButtonRegister )
 );
 
 
