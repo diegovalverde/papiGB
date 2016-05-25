@@ -12,7 +12,7 @@
 
 //  `define  LDmmSP;
 //  `define  ADDHLBC;
-//  `define  LDABCm;
+  `define  LDABCm 8'ha
   `define  DECBC 8'hb
 
   `define  INCr_c 8'hc

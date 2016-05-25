@@ -144,6 +144,7 @@ begin
 	`LDHLmr_e: oUopFlowIdx = 9'd424;
 	`LDHLmr_h: oUopFlowIdx = 9'd427;
 	`LDHLmr_l: oUopFlowIdx = 9'd430;
+	`LDABCm: oUopFlowIdx 	 = 9'd433;
 
 	default:
 			 oUopFlowIdx = 9'd278;
@@ -759,6 +760,11 @@ begin
 			430: oUop = {`inc, `sma, `hl  };
 			431: oUop = {`op, `smw, `l    };
 			432: oUop = {`eof, `sma, `pc  };
+//LDABCm
+			433: oUop = {`inc, `sma, `bc  };
+			434: oUop = {`op, `nop, `null };
+			435: oUop = {`op, `srm, `a    };
+			436: oUop = {`eof, `sma, `pc  };
 
 
 //FLOW_ID_INT_VBLANK
