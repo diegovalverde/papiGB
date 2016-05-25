@@ -503,6 +503,20 @@ else
 	exit 1
 fi
 
+#LDIOnA
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDIOnA.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 3534" pgb_cpu.log
+then
+	echo "Test test_LDIOnA.dump passed"
+else
+	echo "Test test_LDIOnA.dump failed"
+	exit 1
+fi
+
+
+
 
 
 
