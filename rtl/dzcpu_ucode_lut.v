@@ -144,6 +144,10 @@ begin
 	`LDHLmr_e: oUopFlowIdx = 9'd424;
 	`LDHLmr_h: oUopFlowIdx = 9'd427;
 	`LDHLmr_l: oUopFlowIdx = 9'd430;
+	`LDABCm:   oUopFlowIdx = 9'd433;
+	`LDrHLm_a: oUopFlowIdx = 9'd437;
+	`LDrHLm_e: oUopFlowIdx = 9'd441;
+	`LDrHLm_h: oUopFlowIdx = 9'd445;
 
 	default:
 			 oUopFlowIdx = 9'd278;
@@ -759,6 +763,26 @@ begin
 			430: oUop = {`inc, `sma, `hl  };
 			431: oUop = {`op, `smw, `l    };
 			432: oUop = {`eof, `sma, `pc  };
+//LDABCm
+			433: oUop = {`inc, `sma, `bc  };
+			434: oUop = {`op, `nop, `null };
+			435: oUop = {`op, `srm, `a    };
+			436: oUop = {`eof, `sma, `pc  };
+//LDrHLm_a
+			437: oUop = {`inc, `sma, `hl  };
+			438: oUop = {`op, `nop, `null };
+			439: oUop = {`op, `srm, `a    };
+			440: oUop = {`eof, `sma, `pc  };
+//LDrHLm_e
+			441: oUop = {`inc, `sma, `hl  };
+			442: oUop = {`op, `nop, `null };
+			443: oUop = {`op, `srm, `e    };
+			444: oUop = {`eof, `sma, `pc  };
+//LDrHLm_e
+			445: oUop = {`inc, `sma, `hl  };
+			446: oUop = {`op, `nop, `null };
+			447: oUop = {`op, `srm, `h    };
+			448: oUop = {`eof, `sma, `pc  };
 
 
 //FLOW_ID_INT_VBLANK
