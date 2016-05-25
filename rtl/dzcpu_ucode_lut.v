@@ -141,6 +141,7 @@ begin
 	`RETNZ:    oUopFlowIdx = 9'd401;
 	`ADDHLHL:  oUopFlowIdx = 9'd411;
   `ANDHL:    oUopFlowIdx = 9'd420;
+	`LDHLmr_e: oUopFlowIdx = 9'd424;
 
 	default:
 			 oUopFlowIdx = 9'd278;
@@ -744,7 +745,10 @@ begin
 			421: oUop = { `op, `nop , `null };
 			422: oUop = { `update_flags ,`anda,    `idata  };
 			423: oUop = { `inc_eof ,`nop,    `null  };
-
+//LDHLmr_e
+			424: oUop = {`inc, `sma, `hl  };
+			425: oUop = {`op, `smw, `e    };
+			426: oUop = {`eof, `sma, `pc  };
 
 
 
