@@ -395,6 +395,115 @@ else
 	exit 1
 fi
 
+#LDHLDA
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLDA.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 1515" pgb_cpu.log
+then
+	echo "Test test_LDHLDA.dump passed"
+else
+	echo "Test test_LDHLDA.dump failed"
+	exit 1
+fi
+
+#LDIOCA
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDIOCA.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 8525" pgb_cpu.log
+then
+	echo "Test test_LDIOCA.dump passed"
+else
+	echo "Test test_LDIOCA.dump failed"
+	exit 1
+fi
+
+#LDHLmr_a
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_a.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 9594" pgb_cpu.log
+then
+	echo "Test test_LDHLmr_a.dump passed"
+else
+	echo "Test test_LDHLmr_a.dump failed"
+	exit 1
+fi
+
+#LDHLmr_b
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 504f" pgb_cpu.log
+then
+	echo "Test test_LDHLmr_b.dump passed"
+else
+	echo "Test test_LDHLmr_b.dump failed"
+	exit 1
+fi
+
+#LDHLmr_c
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_c.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL f2f1" pgb_cpu.log
+then
+	echo "Test test_LDHLmr_c.dump passed"
+else
+	echo "Test test_LDHLmr_c.dump failed"
+	exit 1
+fi
+
+#LDHLmr_d
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_d.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 1110" pgb_cpu.log
+then
+	echo "Test test_LDHLmr_d.dump passed"
+else
+	echo "Test test_LDHLmr_d.dump failed"
+	exit 1
+fi
+
+#LDHLmr_e
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_e.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 2322" pgb_cpu.log
+then
+	echo "Test test_LDHLmr_e.dump passed"
+else
+	echo "Test test_LDHLmr_e.dump failed"
+	exit 1
+fi
+
+#LDHLmr_h
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_h.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL ffff" pgb_cpu.log
+then
+	echo "Test test_LDHLmr_h.dump passed"
+else
+	echo "Test test_LDHLmr_h.dump failed"
+	exit 1
+fi
+
+#LDHLmr_l
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_l.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL fdfc" pgb_cpu.log
+then
+	echo "Test test_LDHLmr_l.dump passed"
+else
+	echo "Test test_LDHLmr_l.dump failed"
+	exit 1
+fi
+
+
 
 
 
