@@ -775,7 +775,7 @@ begin
 //LDrHLm_e
 			441: oUop = {`inc, `sma, `hl  };
 			442: oUop = {`op, `nop, `null };
-			443: oUop = {`op, `srm, `a    };
+			443: oUop = {`op, `srm, `e    };
 			444: oUop = {`eof, `sma, `pc  };
 
 //FLOW_ID_INT_VBLANK
