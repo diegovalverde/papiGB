@@ -624,7 +624,7 @@ else
 	exit 1
 fi
 
-#LDrHLm_l
+#LDrr_ab
 make clean >/dev/null 2>&1
 make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ab.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
@@ -635,6 +635,20 @@ else
 	echo "Test test_LDrr_ab.dump failed"
 	exit 1
 fi
+
+#LDrr_aa
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_aa.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 1200" pgb_cpu.log
+then
+	echo "Test test_LDrr_aa.dump passed"
+else
+	echo "Test test_LDrr_aa.dump failed"
+	exit 1
+fi
+
+
 
 
 
