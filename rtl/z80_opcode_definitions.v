@@ -82,7 +82,7 @@
   `define  LDrr_bb 8'h40
   `define  LDrr_bc 8'h41
   `define  LDrr_bd 8'h42
-//  `define  LDrr_be;
+  `define  LDrr_be 8'h43
 
 //  `define  LDrr_bh;
 //  `define  LDrr_bl;

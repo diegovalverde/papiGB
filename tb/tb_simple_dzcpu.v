@@ -580,6 +580,7 @@ end //always
       470: $fwrite(log,"=== LDrr_bb  === %h \n", uut.DZCPU.iMCUData );
       473: $fwrite(log,"=== LDrr_bc  === %h \n", uut.DZCPU.iMCUData );
       476: $fwrite(log,"=== LDrr_bd  === %h \n", uut.DZCPU.iMCUData );
+      479: $fwrite(log,"=== LDrr_be  === %h \n", uut.DZCPU.iMCUData );
       default:
           case (uut.DZCPU.iMCUData)
 
