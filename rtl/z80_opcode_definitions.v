@@ -79,19 +79,19 @@
 //  `define  CCF;
 
 //  40
-//  `define  LDrr_bb;
+  `define  LDrr_bb 8'h40
 //  `define  LDrr_bc;
 //  `define  LDrr_bd;
 //  `define  LDrr_be;
 
 //  `define  LDrr_bh;
 //  `define  LDrr_bl;
-`define  LDrHLm_b 8'h46
-`define  LDrr_ba  8'h47
-`define  LDrr_cb  8'h48
-`define  LDrr_cc  8'h49
-`define  LDrr_cd  8'h4a
-`define  LDrr_ce  8'h4b
+  `define  LDrHLm_b 8'h46
+  `define  LDrr_ba  8'h47
+  `define  LDrr_cb  8'h48
+  `define  LDrr_cc  8'h49
+  `define  LDrr_cd  8'h4a
+  `define  LDrr_ce  8'h4b
 
   `define  LDrr_ch  8'h4d
   `define  LDrr_cl  8'h4c
