@@ -154,7 +154,7 @@
   `define  LDrr_ah 8'h7c
   `define  LDrr_al 8'h7d
   `define  LDrHLm_a 8'h7e
-//  `define  LDrr_aa;
+  `define  LDrr_aa 8'h7f
 //  `define
 //  80
   `define  ADDr_b 8'h80
