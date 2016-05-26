@@ -150,6 +150,7 @@ begin
 	`LDrHLm_h: oUopFlowIdx = 9'd445;
 	`LDrr_ab:  oUopFlowIdx = 9'd449;
 	`LDrr_aa:  oUopFlowIdx = 9'd452;
+	`LDrr_ac:  oUopFlowIdx = 9'd455;
 
 	default:
 			 oUopFlowIdx = 9'd278;
@@ -793,6 +794,10 @@ begin
 			452: oUop = {`op, `sx8r, `a  };
 			453: oUop = {`op, `srx8, `a    };
 			454: oUop = {`inc_eof, `sma, `pc  };
+//LDrr_ac
+			455: oUop = {`op, `sx8r, `c  };
+			456: oUop = {`op, `srx8, `a    };
+			457: oUop = {`inc_eof, `sma, `pc  };
 
 
 //FLOW_ID_INT_VBLANK
