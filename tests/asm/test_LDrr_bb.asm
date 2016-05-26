@@ -4,10 +4,10 @@ DS $100
 DS $100
         ld sp, $FFFE
         ld a, $15
-        ld b, $15
+        ld bc, $9745
         or a,a ;borra las banderas
 
         ld b, b
-        push af
+        push bc
 
-        ;the value expected is $1500
+        ;the value expected is $4545
