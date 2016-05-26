@@ -84,7 +84,7 @@
   `define  LDrr_bd 8'h42
   `define  LDrr_be 8'h43
   `define  LDrr_bh 8'h44
-//  `define  LDrr_bl;
+  `define  LDrr_bl 8'h45
   `define  LDrHLm_b 8'h46
   `define  LDrr_ba  8'h47
   `define  LDrr_cb  8'h48
