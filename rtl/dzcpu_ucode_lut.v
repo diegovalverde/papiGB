@@ -623,7 +623,7 @@ begin
 		314: oUop = { `inc, `sma, `pc   };
 		315: oUop = { `op,  `nop, `null };
 		316: oUop = { `op,  `srm, `x16 };
-		317: oUop = { `update_flags,  `addx16, `a };
+		317: oUop = { `update_flags,  `addx16u, `a };
 		318: oUop = { `inc_eof, `srx16, `a};
 //SUBn
 		319: oUop = { `inc, `sma, `pc   };
