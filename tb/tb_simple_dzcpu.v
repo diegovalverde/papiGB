@@ -677,6 +677,7 @@ end //always
         `smw: $fwrite(log,"smw %h %h\n", uut.DZCPU.oMCUAddr, uut.DZCPU.oMCUData);
         `bit: $fwrite(log,"bit %h & %b\n", uut.DZCPU.wRegData, uut.DZCPU.wBitMask);
         `addx16:$fwrite(log,"addx16 %h += %h\n", uut.DZCPU.wX16, uut.DZCPU.wRegData);
+        `addx16u:$fwrite(log,"addx16u %h += %h\n", uut.DZCPU.wX16, uut.DZCPU.wRegData);
         `spc: $fwrite(log,"spc %h\n", uut.DZCPU.wRegData);
         `sx16r: $fwrite(log,"sx16r %h\n", uut.DZCPU.wRegData);
         `sx8r: $fwrite(log,"sx8r %h\n", uut.DZCPU.wRegData);
