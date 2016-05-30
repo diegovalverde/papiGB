@@ -102,7 +102,7 @@
 //  `define  LDrr_db;
 //  `define  LDrr_dc;
 //  `define  LDrr_dd;
-//  `define  LDrr_de;
+  `define  LDrr_de 8'h53;
 //  `define
 //  `define  LDrr_dh;
 //  `define  LDrr_dl;
