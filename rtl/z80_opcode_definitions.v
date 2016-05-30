@@ -99,7 +99,7 @@
   `define  LDrr_ca 8'h4f
 
 //  50
-//  `define  LDrr_db;
+  `define  LDrr_db 8'h50
 //  `define  LDrr_dc;
 //  `define  LDrr_dd;
   `define  LDrr_de 8'h53
