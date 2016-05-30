@@ -691,7 +691,7 @@ echo "-I- Running simulation test3 Tetris Main Menu (be patient...) "
 
 
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DDISABLE_CPU -DLOAD_VMEM_DUMP -DVMEM_DUMP_PATH='\"resources/tetris_vmem_8000_9fff.dump\"' -DSTOP_AFTER_FIRST_FRAME -DFORCE_LCDC=8\'b10010000"  >/dev/null 2>&1
+make SIMFLAGS="-DDISABLE_CPU -DVMEM_DUMP_PATH='\"resources/tetris_vmem_8000_9fff.dump\"' -DSTOP_AFTER_FIRST_FRAME -DFORCE_LCDC=8\'b10010000"  >/dev/null 2>&1
 
 echo "-I- Checking Frame buffer PPM "
 
