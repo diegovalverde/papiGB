@@ -103,8 +103,7 @@
   `define  LDrr_dc 8'h51
   `define  LDrr_dd 8'h52
   `define  LDrr_de 8'h53
-//  `define
-//  `define  LDrr_dh;
+  `define  LDrr_dh 8'h54
 //  `define  LDrr_dl;
   `define  LDrHLm_d 8'h56
   `define  LDrr_da 8'h57
