@@ -92,8 +92,8 @@
   `define  LDrr_cd  8'h4a
   `define  LDrr_ce  8'h4b
 
-  `define  LDrr_ch  8'h4d
-  `define  LDrr_cl  8'h4c
+  `define  LDrr_ch  8'h4c
+  `define  LDrr_cl  8'h4d
 
   `define  LDrHLm_c 8'h4e
   `define  LDrr_ca 8'h4f
