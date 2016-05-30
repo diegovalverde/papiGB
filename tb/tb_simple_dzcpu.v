@@ -314,20 +314,22 @@ $readmemh(
         uut.DZCPU.FFSPH.Q = `REG_SPH;
     `endif
 
+    `ifdef REG_LCDC
+        uut.GPU.FF_LCDC.Q = `REG_LCDC;
+    `endif
+
+
+    `ifdef REG_BGP
+        uut.GPU.FFS_BGP.Q = `REG_BGP;
+    `endif
 
 
     `ifdef DISABLE_CPU
       //Force GPU to start
-      `ifdef FORCE_LCDC
-        uut.GPU.FF_LCDC.Q = `FORCE_LCDC;
-      `else
-        //uut.GPU.FF_LCDC.Q = 8'b10010000;//tetris
-        uut.GPU.FF_LCDC.Q = 8'b10000000;//zelda
-      `endif
+
       uut.GPU.FF_SCX.Q = 8'h0;
       uut.GPU.FF_SCY.Q = 8'h0;
       uut.GPU.FF_LY.Q = 8'h0;
-      uut.GPU.FFS_BGP.Q = 8'h27;
       uut.GPU.FFS_OBP0.Q = 8'he4;
       uut.GPU.FFS_OBP1.Q = 8'hc4;
     `endif

@@ -676,7 +676,7 @@ fi
 echo "-I- Running simulation test2 Zelda Main Menu (be patient...) "
 
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DDISABLE_CPU -DLOAD_VMEM_DUMP -DVMEM_DUMP_PATH='\"resources/zelda_menu_vmem_8000_9fff.dump\"' -DSTOP_AFTER_FIRST_FRAME -DFORCE_LCDC=8\'b10000000" >/dev/null 2>&1
+make SIMFLAGS="-DDISABLE_CPU -DLOAD_VMEM_DUMP -DVMEM_DUMP_PATH='\"resources/zelda_menu_vmem_8000_9fff.dump\"' -DSTOP_AFTER_FIRST_FRAME -DREG_LCDC=8\'b10000000 -DREG_BGP=8\'h27" >/dev/null 2>&1
 
 echo "-I- Checking Frame buffer PPM "
 
@@ -691,7 +691,7 @@ echo "-I- Running simulation test3 Tetris Main Menu (be patient...) "
 
 
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DDISABLE_CPU -DVMEM_DUMP_PATH='\"resources/tetris_vmem_8000_9fff.dump\"' -DSTOP_AFTER_FIRST_FRAME -DFORCE_LCDC=8\'b10010000"  >/dev/null 2>&1
+make SIMFLAGS="-DDISABLE_CPU -DVMEM_DUMP_PATH='\"resources/tetris_vmem_8000_9fff.dump\"' -DSTOP_AFTER_FIRST_FRAME -DREG_LCDC=8\'b10010000 -DREG_BGP=8\'h27"  >/dev/null 2>&1
 
 echo "-I- Checking Frame buffer PPM "
 
@@ -705,7 +705,7 @@ echo "-I- Running Simulation test4 Tetris Main Menu Sprites..."
 
 
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DDISABLE_CPU  -DVMEM_DUMP_PATH='\"resources/tetris_vmem_8000_9fff.dump\"'  -DOAM_DUMP_PATH='\"resources/tetris_oam_fe00_fe9f.dump\"'  -DENABLE_GPU_LOG -DENABLE_CPU_LOG -DSTOP_AFTER_FIRST_FRAME -DFORCE_LCDC=8\'b10011100" >/dev/null 2>&1
+make SIMFLAGS="-DDISABLE_CPU  -DVMEM_DUMP_PATH='\"resources/tetris_vmem_8000_9fff.dump\"'  -DOAM_DUMP_PATH='\"resources/tetris_oam_fe00_fe9f.dump\"'  -DENABLE_GPU_LOG -DENABLE_CPU_LOG -DSTOP_AFTER_FIRST_FRAME -DREG_LCDC=8\'b10011100 -DREG_BGP=8\'h27" >/dev/null 2>&1
 
 echo "-I- Checking Frame buffer PPM "
 
