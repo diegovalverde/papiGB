@@ -149,7 +149,23 @@ begin
 	`LDrHLm_e: oUopFlowIdx = 9'd441;
 	`LDrHLm_h: oUopFlowIdx = 9'd445;
 	`LDrr_ab:  oUopFlowIdx = 9'd449;
-
+	`LDrr_aa:  oUopFlowIdx = 9'd452;
+	`LDrr_ac:  oUopFlowIdx = 9'd455;
+	`LDrr_ad:  oUopFlowIdx = 9'd458;
+  `LDrr_ae:  oUopFlowIdx = 9'd461;
+	`LDrr_ah:  oUopFlowIdx = 9'd464;
+	`LDrr_al:  oUopFlowIdx = 9'd467;
+	`LDrr_bb:  oUopFlowIdx = 9'd470;
+	`LDrr_bc:  oUopFlowIdx = 9'd473;
+	`LDrr_bd:  oUopFlowIdx = 9'd476;
+	`LDrr_be:  oUopFlowIdx = 9'd479;
+	`LDrr_bh:  oUopFlowIdx = 9'd482;
+	`LDrr_bl:  oUopFlowIdx = 9'd485;
+	`LDrr_ba:  oUopFlowIdx = 9'd488;
+	`LDrr_cb:  oUopFlowIdx = 9'd491;
+	`LDrr_cc:  oUopFlowIdx = 9'd494;
+	`LDrr_cd:  oUopFlowIdx = 9'd497;
+	`LDrr_ce:  oUopFlowIdx = 9'd500;
 	default:
 			 oUopFlowIdx = 9'd278;
 	endcase
@@ -788,7 +804,74 @@ begin
 			449: oUop = {`op, `sx8r, `b  };
 			450: oUop = {`op, `srx8, `a    };
 			451: oUop = {`inc_eof, `sma, `pc  };
-
+//LDrr_aa
+			452: oUop = {`op, `sx8r, `a  };
+			453: oUop = {`op, `srx8, `a    };
+			454: oUop = {`inc_eof, `sma, `pc  };
+//LDrr_ac
+			455: oUop = {`op, `sx8r, `c  };
+			456: oUop = {`op, `srx8, `a    };
+			457: oUop = {`inc_eof, `sma, `pc  };
+//LDrr_ad
+			458: oUop = {`op, `sx8r, `d  };
+			459: oUop = {`op, `srx8, `a    };
+			460: oUop = {`inc_eof, `sma, `pc  };
+//LDrr_ae
+			461: oUop = {`op, `sx8r, `e  };
+			462: oUop = {`op, `srx8, `a    };
+			463: oUop = {`inc_eof, `sma, `pc  };
+//LDrr_ah
+			464: oUop = {`op, `sx8r, `h  };
+			465: oUop = {`op, `srx8, `a    };
+			466: oUop = {`inc_eof, `sma, `pc  };
+//LDrr_al
+			467: oUop = {`op, `sx8r, `l  };
+			468: oUop = {`op, `srx8, `a    };
+			469: oUop = {`inc_eof, `sma, `pc  };
+//LDrr_bb
+			470: oUop = {`op, `sx8r, `b  };
+			471: oUop = {`op, `srx8, `b    };
+			472: oUop = {`inc_eof, `sma, `pc  };
+//LDrr_bc
+			473: oUop = {`op, `sx8r, `c  };
+			474: oUop = {`op, `srx8, `b    };
+			475: oUop = {`inc_eof, `sma, `pc  };
+//LDrr_bd
+			476: oUop = {`op, `sx8r, `d  };
+			477: oUop = {`op, `srx8, `b    };
+			478: oUop = {`inc_eof, `sma, `pc  };
+//LDrr_be
+			479: oUop = {`op, `sx8r, `e  };
+			480: oUop = {`op, `srx8, `b    };
+			481: oUop = {`inc_eof, `sma, `pc  };
+//LDrr_bh
+			482: oUop = {`op, `sx8r, `h  };
+			483: oUop = {`op, `srx8, `b    };
+			484: oUop = {`inc_eof, `sma, `pc  };
+//LDrr_bl
+			485: oUop = {`op, `sx8r, `l  };
+			486: oUop = {`op, `srx8, `b    };
+			487: oUop = {`inc_eof, `sma, `pc  };
+//LDrr_ba
+			488: oUop = {`op, `sx8r, `a  };
+			489: oUop = {`op, `srx8, `b    };
+			490: oUop = {`inc_eof, `sma, `pc  };
+//LDrr_cb
+			491: oUop = {`op, `sx8r, `b  };
+			492: oUop = {`op, `srx8, `c    };
+			493: oUop = {`inc_eof, `sma, `pc  };
+//LDrr_cc
+			494: oUop = {`op, `sx8r, `c  };
+			495: oUop = {`op, `srx8, `c    };
+			496: oUop = {`inc_eof, `sma, `pc  };
+//LDrr_cd
+			497: oUop = {`op, `sx8r, `d  };
+			498: oUop = {`op, `srx8, `c    };
+			499: oUop = {`inc_eof, `sma, `pc  };
+//LDrr_ce
+			500: oUop = {`op, `sx8r, `e  };
+			501: oUop = {`op, `srx8, `c    };
+			502: oUop = {`inc_eof, `sma, `pc  };
 
 //FLOW_ID_INT_VBLANK
 /*
