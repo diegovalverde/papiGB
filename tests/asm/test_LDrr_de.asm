@@ -10,4 +10,4 @@ DS $100
 
         ld d, e
         push de
-        ;the value expected is $3636
+        ;the value expected is $3434
