@@ -9,5 +9,5 @@ DS $100
         or a,a ;borra las banderas
 
         ld l, b
-        push de
+        push hl
         ;the value expected is $6460
