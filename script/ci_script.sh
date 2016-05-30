@@ -938,6 +938,19 @@ else
 	exit 1
 fi
 
+#LDrr_dh
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_dh.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 3334" pgb_cpu.log
+then
+	echo "Test test_LDrr_dh.dump passed"
+else
+	echo "Test test_LDrr_dh.dump failed"
+	exit 1
+fi
+
+
 make clean  >/dev/null 2>&1
 echo "-I- Running simulation test1 BIOS (be patient...) "
 make DUMPTYPE=none SIMFLAGS="-DSTOP_AFTER_FIRST_FRAME -DLCD_SCXY_DISABLED -DENABLE_CPU_LOG -DENABLE_GPU_LOG" >/dev/null 2>&1
