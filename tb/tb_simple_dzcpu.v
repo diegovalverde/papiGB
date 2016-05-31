@@ -581,6 +581,7 @@ end //always
               `LDrr_be: $fwrite(log,"=== LDrr_be  === %h \n", uut.DZCPU.iMCUData );
               `LDrr_bh: $fwrite(log,"=== LDrr_bh  === %h \n", uut.DZCPU.iMCUData );
               `LDrr_bl: $fwrite(log,"=== LDrr_bl  === %h \n", uut.DZCPU.iMCUData );
+              `LDrr_eb: $fwrite(log,"=== LDrr_eb === %h \n", uut.DZCPU.iMCUData );
               `LDrr_ed: $fwrite(log,"=== LDrr_ed === %h \n", uut.DZCPU.iMCUData );
               `LDrr_ec: $fwrite(log,"=== LDrr_ec === %h \n", uut.DZCPU.iMCUData );
               `LDrr_la: $fwrite(log,"=== LDrr_la === %h \n", uut.DZCPU.iMCUData );
