@@ -182,7 +182,7 @@
   `define  SUBr_a 8'h97
 //  `define
   `define  SBCr_b 8'h98
-//  `define  SBCr_c;
+  `define  SBCr_c 8'h99
 //  `define  SBCr_d;
 //  `define  SBCr_e;
 //  `define
