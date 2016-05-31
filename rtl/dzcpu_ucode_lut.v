@@ -132,11 +132,11 @@ begin
 	`ADDHLDE:  oUopFlowIdx = 9'd351;
 	`JRNCn:    oUopFlowIdx = 9'd414;
 	`XORn:     oUopFlowIdx = 9'd359;
-	`RRA:     oUopFlowIdx = 9'd363;
-	`RETNC:   oUopFlowIdx = 9'd365;
-	`RETZ:    oUopFlowIdx = 9'd377;
-	`ORHL:    oUopFlowIdx = 9'd387;
-	`DECHLm:  oUopFlowIdx = 9'd391;
+	`RRA:      oUopFlowIdx = 9'd363;
+	`RETNC:    oUopFlowIdx = 9'd365;
+	`RETZ:     oUopFlowIdx = 9'd377;
+	`ORHL:     oUopFlowIdx = 9'd387;
+	`DECHLm:   oUopFlowIdx = 9'd391;
 	`LDrHLm_l: oUopFlowIdx = 9'd397;
 	`RETNZ:    oUopFlowIdx = 9'd401;
 	`ADDHLHL:  oUopFlowIdx = 9'd411;
@@ -148,6 +148,7 @@ begin
 	`LDrHLm_a: oUopFlowIdx = 9'd437;
 	`LDrHLm_e: oUopFlowIdx = 9'd441;
 	`LDrHLm_h: oUopFlowIdx = 9'd445;
+	`ADCr_a:   oUopFlowIdx = 9'd449;
 	default:
 			 oUopFlowIdx = 9'd278;
 	endcase
@@ -782,7 +783,11 @@ begin
 			446: oUop = {`op, `nop, `null };
 			447: oUop = {`op, `srm, `h    };
 			448: oUop = {`eof, `sma, `pc  };
-
+//ADCr_a
+			449: oUop = { `op, `sx16r, `a  };
+			450: oUop = { `op, `addx16, `carry };
+			451: oUop = { `update_flags, `addx16, `a};
+			452: oUop = { `inc_eof, `srx16, `a  };
 
 //FLOW_ID_INT_VBLANK
 /*

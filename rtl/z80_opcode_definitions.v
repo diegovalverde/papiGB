@@ -170,7 +170,7 @@
 //  `define  ADCr_h;
 //  `define  ADCr_l;		************
 //  `define  ADCHL;
-//  `define  ADCr_a;
+  `define  ADCr_a 8'h8f
 //  `define
 //  90
   `define  SUBr_b 8'h90
