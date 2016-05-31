@@ -230,7 +230,7 @@ assign wGpuActive = (oLCDC[7]) ? 1'b1 : 1'b0;
 assign wRegSelect = ( wGpuActive ) ? wUop[14:10] : iMcuRegSelect ;
 assign wRegWe     = ( wGpuActive ) ? rRegWe : iMcuWe ;
 
-//Generally speaking the tiles are addressing like so:
+//Generally speaking the tiles are addressed like so:
 //             0                  1
 //LCDC[6]  9800-9BFF        9C00-9FFF       Tile MapCB
 //LCDC[4]  8800-97FF        8000-8FFF       Background
