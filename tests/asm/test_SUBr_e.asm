@@ -6,6 +6,6 @@ DS $100
         ld  a, $00 ; 0000 0000
         ld 	e, $80 ; 1000 0000
         sub a, e
-        ;Expected: A=$80, Flags Z=0, N=1, H=1, C=0
-        ;AF = $8060
+        ;Expected: A=$80, Flags Z=0, N=1, H=0, C=1
+        ;AF = $8050
         push af
