@@ -184,7 +184,7 @@
   `define  SBCr_b 8'h98
   `define  SBCr_c 8'h99
   `define  SBCr_d 8'h9A
-//  `define  SBCr_e;
+  `define  SBCr_e 8'h9B
 //  `define
 //  `define  SBCr_h;
   `define  SBCr_l 8'h9D
