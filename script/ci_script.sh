@@ -637,7 +637,7 @@ else
 	exit 1
 fi
 
-#LDrHLm_l
+#LDrr_ab
 make clean >/dev/null 2>&1
 make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ab.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
@@ -648,6 +648,418 @@ else
 	echo "Test test_LDrr_ab.dump failed"
 	exit 1
 fi
+
+#LDrr_aa
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_aa.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 1200" pgb_cpu.log
+then
+	echo "Test test_LDrr_aa.dump passed"
+else
+	echo "Test test_LDrr_aa.dump failed"
+	exit 1
+fi
+
+#LDrr_ac
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ac.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 9000" pgb_cpu.log
+then
+	echo "Test test_LDrr_ac.dump passed"
+else
+	echo "Test test_LDrr_ac.dump failed"
+	exit 1
+fi
+
+#LDrr_ad
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ad.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 1300" pgb_cpu.log
+then
+	echo "Test test_LDrr_ad.dump passed"
+else
+	echo "Test test_LDrr_ad.dump failed"
+	exit 1
+fi
+
+#LDrr_ae
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ae.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 3300" pgb_cpu.log
+then
+	echo "Test test_LDrr_ae.dump passed"
+else
+	echo "Test test_LDrr_ae.dump failed"
+	exit 1
+fi
+
+#LDrr_ah
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ah.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 7700" pgb_cpu.log
+then
+	echo "Test test_LDrr_ah.dump passed"
+else
+	echo "Test test_LDrr_ah.dump failed"
+	exit 1
+fi
+
+#LDrr_al
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_al.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 2600" pgb_cpu.log
+then
+	echo "Test test_LDrr_al.dump passed"
+else
+	echo "Test test_LDrr_al.dump failed"
+	exit 1
+fi
+
+#LDrr_bb
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_bb.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 9745" pgb_cpu.log
+then
+	echo "Test test_LDrr_bb.dump passed"
+else
+	echo "Test test_LDrr_bb.dump failed"
+	exit 1
+fi
+
+#LDrr_bc
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_bc.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 9595" pgb_cpu.log
+then
+	echo "Test test_LDrr_bc.dump passed"
+else
+	echo "Test test_LDrr_bc.dump failed"
+	exit 1
+fi
+
+#LDrr_bd
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_bd.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 4097" pgb_cpu.log
+then
+	echo "Test test_LDrr_bd.dump passed"
+else
+	echo "Test test_LDrr_bd.dump failed"
+	exit 1
+fi
+
+#LDrr_be
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_be.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 3597" pgb_cpu.log
+then
+	echo "Test test_LDrr_be.dump passed"
+else
+	echo "Test test_LDrr_be.dump failed"
+	exit 1
+fi
+
+#LDrr_bh
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_bh.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 1797" pgb_cpu.log
+then
+	echo "Test test_LDrr_bh.dump passed"
+else
+	echo "Test test_LDrr_bh.dump failed"
+	exit 1
+fi
+
+#LDrr_bl
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_bl.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 6597" pgb_cpu.log
+then
+	echo "Test test_LDrr_bl.dump passed"
+else
+	echo "Test test_LDrr_bl.dump failed"
+	exit 1
+fi
+
+#LDrr_ba
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ba.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 1597" pgb_cpu.log
+then
+	echo "Test test_LDrr_ba.dump passed"
+else
+	echo "Test test_LDrr_ba.dump failed"
+	exit 1
+fi
+
+#LDrr_cb
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_cb.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 8888" pgb_cpu.log
+then
+	echo "Test test_LDrr_cb.dump passed"
+else
+	echo "Test test_LDrr_cb.dump failed"
+	exit 1
+fi
+
+#LDrr_cc
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_cc.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 1587" pgb_cpu.log
+then
+	echo "Test test_LDrr_cc.dump passed"
+else
+	echo "Test test_LDrr_cc.dump failed"
+	exit 1
+fi
+
+#LDrr_cd
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_cd.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 8871" pgb_cpu.log
+then
+	echo "Test test_LDrr_cd.dump passed"
+else
+	echo "Test test_LDrr_cd.dump failed"
+	exit 1
+fi
+
+
+#LDrr_ce
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ce.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 3671" pgb_cpu.log
+then
+	echo "Test test_LDrr_ce.dump passed"
+else
+	echo "Test test_LDrr_ce.dump failed"
+	exit 1
+fi
+
+#LDrr_ch
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ch.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 3652" pgb_cpu.log
+then
+	echo "Test test_LDrr_ch.dump passed"
+else
+	echo "Test test_LDrr_ch.dump failed"
+	exit 1
+fi
+
+#LDrr_cl
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_cl.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 3612" pgb_cpu.log
+then
+	echo "Test test_LDrr_cl.dump passed"
+else
+	echo "Test test_LDrr_cl.dump failed"
+	exit 1
+fi
+
+#LDrr_ca
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ca.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 3615" pgb_cpu.log
+then
+	echo "Test test_LDrr_ca.dump passed"
+else
+	echo "Test test_LDrr_ca.dump failed"
+	exit 1
+fi
+
+#LDrr_de
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_de.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 3434" pgb_cpu.log
+then
+	echo "Test test_LDrr_de.dump passed"
+else
+	echo "Test test_LDrr_de.dump failed"
+	exit 1
+fi
+
+#LDrr_db
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_db.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 1182" pgb_cpu.log
+then
+	echo "Test test_LDrr_db.dump passed"
+else
+	echo "Test test_LDrr_db.dump failed"
+	exit 1
+fi
+
+#LDrr_dc
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_dc.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 4734" pgb_cpu.log
+then
+	echo "Test test_LDrr_dc.dump passed"
+else
+	echo "Test test_LDrr_dc.dump failed"
+	exit 1
+fi
+
+#LDrr_dd
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_dd.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 5234" pgb_cpu.log
+then
+	echo "Test test_LDrr_dd.dump passed"
+else
+	echo "Test test_LDrr_dd.dump failed"
+	exit 1
+fi
+
+#LDrr_dh
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_dh.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 3334" pgb_cpu.log
+then
+	echo "Test test_LDrr_dh.dump passed"
+else
+	echo "Test test_LDrr_dh.dump failed"
+	exit 1
+fi
+
+#LDrr_dl
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_dl.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 6634" pgb_cpu.log
+then
+	echo "Test test_LDrr_dl.dump passed"
+else
+	echo "Test test_LDrr_dl.dump failed"
+	exit 1
+fi
+
+#LDrr_da
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_da.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 1513" pgb_cpu.log
+then
+	echo "Test test_LDrr_da.dump passed"
+else
+	echo "Test test_LDrr_da.dump failed"
+	exit 1
+fi
+
+#LDrr_la
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_la.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 2115" pgb_cpu.log
+then
+	echo "Test test_LDrr_la.dump passed"
+else
+	echo "Test test_LDrr_la.dump failed"
+	exit 1
+fi
+
+#LDrr_lb
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_lb.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 6460" pgb_cpu.log
+then
+	echo "Test test_LDrr_lb.dump passed"
+else
+	echo "Test test_LDrr_lb.dump failed"
+	exit 1
+fi
+
+#LDrr_lc
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_lc.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 6470" pgb_cpu.log
+then
+	echo "Test test_LDrr_lc.dump passed"
+else
+	echo "Test test_LDrr_lc.dump failed"
+	exit 1
+fi
+
+#LDrr_ld
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ld.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 6480" pgb_cpu.log
+then
+	echo "Test test_LDrr_ld.dump passed"
+else
+	echo "Test test_LDrr_ld.dump failed"
+	exit 1
+fi
+
+#LDrr_le
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_le.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 6485" pgb_cpu.log
+then
+	echo "Test test_LDrr_le.dump passed"
+else
+	echo "Test test_LDrr_le.dump failed"
+	exit 1
+fi
+
+#LDrr_lh
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_lh.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 6464" pgb_cpu.log
+then
+	echo "Test test_LDrr_lh.dump passed"
+else
+	echo "Test test_LDrr_lh.dump failed"
+	exit 1
+fi
+
+#LDrr_ll
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ll.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 7902" pgb_cpu.log
+then
+	echo "Test test_LDrr_ll.dump passed"
+else
+	echo "Test test_LDrr_ll.dump failed"
+	exit 1
+fi
+
+
+
 
 
 

@@ -148,8 +148,6 @@ begin
 	`LDrHLm_a: oUopFlowIdx = 9'd437;
 	`LDrHLm_e: oUopFlowIdx = 9'd441;
 	`LDrHLm_h: oUopFlowIdx = 9'd445;
-	`LDrr_ab:  oUopFlowIdx = 9'd449;
-
 	default:
 			 oUopFlowIdx = 9'd278;
 	endcase
@@ -784,10 +782,6 @@ begin
 			446: oUop = {`op, `nop, `null };
 			447: oUop = {`op, `srm, `h    };
 			448: oUop = {`eof, `sma, `pc  };
-//LDrr_ab
-			449: oUop = {`op, `sx8r, `b  };
-			450: oUop = {`op, `srx8, `a    };
-			451: oUop = {`inc_eof, `sma, `pc  };
 
 
 //FLOW_ID_INT_VBLANK
