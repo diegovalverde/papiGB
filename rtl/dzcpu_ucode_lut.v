@@ -161,6 +161,7 @@ begin
 	`SBCr_d:   oUopFlowIdx = 9'd489;
 	`SBCr_e:   oUopFlowIdx = 9'd493;
 	`SBCr_h:   oUopFlowIdx = 9'd497;
+	`SBCr_l:   oUopFlowIdx = 9'd501;
 	default:
 			 oUopFlowIdx = 9'd278;
 	endcase
@@ -860,6 +861,11 @@ begin
 			498: oUop = { `op, `subx16, `carry };
 			499: oUop = { `update_flags, `subx16, `h};
 			500: oUop = { `inc_eof, `srx16, `a  };
+//SBCr_l
+			501: oUop = { `op, `sx16r, `a  };
+			502: oUop = { `op, `subx16, `carry };
+			503: oUop = { `update_flags, `subx16, `l};
+			504: oUop = { `inc_eof, `srx16, `a  };
 
 
 //FLOW_ID_INT_VBLANK
