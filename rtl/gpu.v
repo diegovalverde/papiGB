@@ -69,7 +69,7 @@ wire [1:0] wBgPixel0,wBgPixel1,wBgPixel2,wBgPixel3,wBgPixel4,wBgPixel5,wBgPixel6
 wire [1:0] wSprtPixel0,wSprtPixel1,wSprtPixel2,wSprtPixel3,wSprtPixel4,wSprtPixel5,wSprtPixel6,wSprtPixel7;
 wire [`GPU_UOP_SZ-1:0] wUop;
 wire [5:0] wOp1Sel;
-wire wZ, wRegWe, wGpuActive, wIsSpriteInCurrentTile,wIsSpriteInCurrentRow;
+wire wZ, wRegWe, wGpuActive, wIsSpriteInCurrentTile;
 wire [15:0] wSpriteWidth, wSpriteHeight, wTileCoordX, wTileCoordY,wSprite_tile_offset,wSprite_info;
 reg [15:0] rResult;
 reg rRegWe, rBgBufferWe, rJump, rIncFBufferAddr;
@@ -86,7 +86,7 @@ wire[15:0] wTileLeft   ;
 wire[15:0] wTileRight  ;
 wire[15:0] wTileTop    ;
 wire[15:0] wTileBottom ;
-
+wire signed [15:0] wTemp;
 
 
 
@@ -111,7 +111,7 @@ assign oFramBufferWe   = rBgBufferWe; // write enable
 assign wSpriteWidth  = 16'h8;
 assign wSpriteHeight = ( oLCDC[2] == 1'b1) ? 16'd16 : 16'd8;
 
-//wTileCoordX =  8*(wCurrentTile % 32)
+//wTileCoordX =  8*(wCurrentTile mod 32)
 assign wTileCoordX =  wCurrentTile[4:0] << 3;
 
 //wTileCoordY = (wCurrentTile / 32)*8
@@ -135,8 +135,8 @@ assign wTileLeft   = wTileCoordX;
 assign wTileRight  = wTileCoordX + 8'd8;
 assign wTileTop    = wTileCoordY;
 assign wTileBottom = wTileCoordY + 16'd8;
-
-
+assign wTemp = wSpriteCoordX - wTileCoordX;
+assign wSprite_tile_offset = wCurrentTileRow + wTemp;// if sprite is not entirely on top of Tile
 assign wIsSpriteInCurrentTile =
    (
 
@@ -155,8 +155,6 @@ assign wIsSpriteInCurrentTile =
     (wSpriteBottomLeftY  > wTileTop  && wSpriteBottomLeftY < wTileBottom))
    ) ? 1'b1 : 1'b0;
 
-assign wIsSpriteInCurrentRow = (wCurrentTileRow + wTileCoordY >= wSpriteCoordY &&
-wCurrentTileRow + wTileCoordY <= wSpriteCoordY + wSpriteHeight) ? 1'b1 : 1'b0;
 
 assign oSTAT = { 6'b0, wState };
 
@@ -183,7 +181,6 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_13(    iClock, iReset, wRegWe  & wGpuReg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_14(    iClock, iReset, wRegWe  & wGpuRegWriteSelect[14], rResult[7:0], wBl );//tile low byte
 UPCOUNTER_POSEDGE            # ( 16 )UP_15(    iClock, iReset,  13'b0, wGpuActive  & rIncFBufferAddr,          wFrameBufferAddress );// where to write on framebuffer
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_16(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[16], rResult,      wCurrentTile );// gp registers
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_17(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[17], rResult,      wSprite_tile_offset );// tile indx for sprite
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_18(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[18], rResult,      wSpriteCoordX );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_19(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[19], rResult,      wSpriteCoordY );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_20(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[20], rResult,      wCurrentTileRow );//which tile row am I on
@@ -665,17 +662,6 @@ begin
       oMcuReadRequest = 1'b0;
       rIncFBufferAddr = 1'b0;
     end
-
-   `gsprtt:
-    begin
-      rResult     = {15'b0,wIsSpriteInCurrentRow};
-      rRegWe      = 1'b1;
-      rBgBufferWe = 1'b0;
-      rJump       = 1'b0;
-      oMcuReadRequest = 1'b0;
-      rIncFBufferAddr = 1'b0;
-    end
-
 
     default://default case for error
     begin
