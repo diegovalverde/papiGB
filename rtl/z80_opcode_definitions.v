@@ -161,16 +161,14 @@
   `define  ADDr_l 8'h85
 //  `define  ADDHL;
   `define  ADDr_a 8'h87
-//  `define
-//  `define  ADCr_b;
-//  `define  ADCr_c;
-//  `define  ADCr_d;
-//  `define  ADCr_e;
-//  `define
-//  `define  ADCr_h;
-//  `define  ADCr_l;		************
+  `define  ADCr_b 8'h88
+  `define  ADCr_c 8'h89
+  `define  ADCr_d 8'h8a
+  `define  ADCr_e 8'h8b
+  `define  ADCr_h 8'h8c
+  `define  ADCr_l 8'h8d
 //  `define  ADCHL;
-//  `define  ADCr_a;
+  `define  ADCr_a 8'h8f
 //  `define
 //  90
   `define  SUBr_b 8'h90

@@ -5,7 +5,8 @@ DS $100
         ld sp, $FFFE
         ld	a, $00
         or	a, a		; Clears all flags
-        ld  d, $0F
-        ld  e, $00
-        inc d        ;Expected: DE = $1000, Flags Z=0, N=0, H=1, C=0
-        push de
+        ld  b, $00
+        ld  c, $00
+        dec c
+        ;Expected BC = $00FF, Flags Z=0, N=1, H=1, C=0
+        push bc

@@ -6,6 +6,6 @@ DS $100
         ld	a, $80
         add a		; Sets carry flag  <---OJO
         ld  h, $00
-        ld  l, $FF
-        inc l        ;Expected: HL = $0011, Flags Z=1, N=0, H=1, C=1
+        ld  l, $00
+        dec l        ;Expected: HL = $0011, Flags Z=0, N=1, H=1, C=1
         push hl

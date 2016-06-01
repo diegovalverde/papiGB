@@ -132,11 +132,11 @@ begin
 	`ADDHLDE:  oUopFlowIdx = 9'd351;
 	`JRNCn:    oUopFlowIdx = 9'd414;
 	`XORn:     oUopFlowIdx = 9'd359;
-	`RRA:     oUopFlowIdx = 9'd363;
-	`RETNC:   oUopFlowIdx = 9'd365;
-	`RETZ:    oUopFlowIdx = 9'd377;
-	`ORHL:    oUopFlowIdx = 9'd387;
-	`DECHLm:  oUopFlowIdx = 9'd391;
+	`RRA:      oUopFlowIdx = 9'd363;
+	`RETNC:    oUopFlowIdx = 9'd365;
+	`RETZ:     oUopFlowIdx = 9'd377;
+	`ORHL:     oUopFlowIdx = 9'd387;
+	`DECHLm:   oUopFlowIdx = 9'd391;
 	`LDrHLm_l: oUopFlowIdx = 9'd397;
 	`RETNZ:    oUopFlowIdx = 9'd401;
 	`ADDHLHL:  oUopFlowIdx = 9'd411;
@@ -148,6 +148,13 @@ begin
 	`LDrHLm_a: oUopFlowIdx = 9'd437;
 	`LDrHLm_e: oUopFlowIdx = 9'd441;
 	`LDrHLm_h: oUopFlowIdx = 9'd445;
+	`ADCr_a:   oUopFlowIdx = 9'd449;
+	`ADCr_b:   oUopFlowIdx = 9'd453;
+	`ADCr_c:   oUopFlowIdx = 9'd457;
+	`ADCr_d:   oUopFlowIdx = 9'd461;
+	`ADCr_e:   oUopFlowIdx = 9'd465;
+	`ADCr_h:   oUopFlowIdx = 9'd469;
+	`ADCr_l:   oUopFlowIdx = 9'd473;
 	default:
 			 oUopFlowIdx = 9'd278;
 	endcase
@@ -782,8 +789,41 @@ begin
 			446: oUop = {`op, `nop, `null };
 			447: oUop = {`op, `srm, `h    };
 			448: oUop = {`eof, `sma, `pc  };
-
-
+//ADCr_a
+			449: oUop = { `op, `sx16r, `a  };
+			450: oUop = { `op, `addx16, `carry };
+			451: oUop = { `update_flags, `addx16, `a};
+			452: oUop = { `inc_eof, `srx16, `a  };
+//ADCr_b
+			453: oUop = { `op, `sx16r, `a  };
+			454: oUop = { `op, `addx16, `carry };
+			455: oUop = { `update_flags, `addx16, `b};
+			456: oUop = { `inc_eof, `srx16, `a  };
+//ADCr_c
+			457: oUop = { `op, `sx16r, `a  };
+			458: oUop = { `op, `addx16, `carry };
+			459: oUop = { `update_flags, `addx16, `c};
+			460: oUop = { `inc_eof, `srx16, `a  };
+//ADCr_d
+			461: oUop = { `op, `sx16r, `a  };
+			462: oUop = { `op, `addx16, `carry };
+			463: oUop = { `update_flags, `addx16, `d};
+			464: oUop = { `inc_eof, `srx16, `a  };
+//ADCr_e
+			465: oUop = { `op, `sx16r, `a  };
+			466: oUop = { `op, `addx16, `carry };
+			467: oUop = { `update_flags, `addx16, `e};
+			468: oUop = { `inc_eof, `srx16, `a  };
+//ADCr_h
+			469: oUop = { `op, `sx16r, `a  };
+			470: oUop = { `op, `addx16, `carry };
+			471: oUop = { `update_flags, `addx16, `h};
+			472: oUop = { `inc_eof, `srx16, `a  };
+//ADCr_l
+			473: oUop = { `op, `sx16r, `a  };
+			474: oUop = { `op, `addx16, `carry };
+			475: oUop = { `update_flags, `addx16, `l};
+			476: oUop = { `inc_eof, `srx16, `a  };
 //FLOW_ID_INT_VBLANK
 /*
         163: oUop = { `op, `ceti, `null};  //Disable interruption
