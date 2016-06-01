@@ -180,9 +180,9 @@ module dzcpu_ucode_cblut
 always @ ( iMop )
 begin
 	case ( iMop )
-		8'h7C: oUopFlowIdx = 9'd16;		//BIT7
-		8'h11: oUopFlowIdx = 9'd69;		//RLr_b
-		8'h38: oUopFlowIdx = 9'd69;		//SRL_b
+		8'h7C: oUopFlowIdx = 9'd16;		  //BIT7
+		8'h11: oUopFlowIdx = 9'd69;		  //RLr_b
+		8'h38: oUopFlowIdx = 9'd477;		//SRL_b
 
 	default:
 			oUopFlowIdx = 9'd0;
@@ -823,6 +823,11 @@ begin
 			474: oUop = { `op, `addx16, `carry };
 			475: oUop = { `update_flags, `addx16, `l};
 			476: oUop = { `inc_eof, `srx16, `a  };
+
+//SHR
+		  477: oUop = { `update_flags, `shr,  `null  };
+			478: oUop = { `inc_eof, `nop, `null  };
+
 //FLOW_ID_INT_VBLANK
 /*
         163: oUop = { `op, `ceti, `null};  //Disable interruption

@@ -683,6 +683,20 @@ begin
       rClearIntLatch      = 1'b0;
     end
 
+    `shr:
+    begin
+      oMCUwe              = 1'b0;
+      rRegSelect          = {1'b0,iMCUData[2:0]};
+      rSetMCOAddr         = 1'b0;
+      rRegWe              = 1'b1;
+      rWriteSelect        = {5'b0,iMCUData[2:0]};
+      rUopDstRegData      = wSHR_RegData[7:0];
+      rOverWritePc        = 1'b0;
+      rMcuReadRequest     = 1'b0;
+      rSetiWe             = 1'b0;
+      rSetiVal            = 1'b0;
+      rClearIntLatch      = 1'b0;
+    end
 
     `bit:
     begin
