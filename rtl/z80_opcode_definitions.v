@@ -164,7 +164,7 @@
   `define  ADCr_b 8'h88
   `define  ADCr_c 8'h89
   `define  ADCr_d 8'h90
-//  `define  ADCr_e;
+  `define  ADCr_e 8'h91
 //  `define
 //  `define  ADCr_h;
 //  `define  ADCr_l;		************
