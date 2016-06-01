@@ -153,6 +153,7 @@ begin
 	`ADCr_c:   oUopFlowIdx = 9'd457;
 	`ADCr_d:   oUopFlowIdx = 9'd461;
 	`ADCr_e:   oUopFlowIdx = 9'd465;
+	`ADCr_h:   oUopFlowIdx = 9'd469;
 	default:
 			 oUopFlowIdx = 9'd278;
 	endcase
@@ -812,6 +813,11 @@ begin
 			466: oUop = { `op, `addx16, `carry };
 			467: oUop = { `update_flags, `addx16, `e};
 			468: oUop = { `inc_eof, `srx16, `a  };
+//ADCr_h
+			469: oUop = { `op, `sx16r, `a  };
+			470: oUop = { `op, `addx16, `carry };
+			471: oUop = { `update_flags, `addx16, `h};
+			472: oUop = { `inc_eof, `srx16, `a  };
 //FLOW_ID_INT_VBLANK
 /*
         163: oUop = { `op, `ceti, `null};  //Disable interruption
