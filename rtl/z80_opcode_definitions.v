@@ -163,10 +163,10 @@
   `define  ADDr_a 8'h87
   `define  ADCr_b 8'h88
   `define  ADCr_c 8'h89
-  `define  ADCr_d 8'h90
-  `define  ADCr_e 8'h91
-  `define  ADCr_h 8'h92
-//  `define  ADCr_l;		************
+  `define  ADCr_d 8'h8a
+  `define  ADCr_e 8'h8b
+  `define  ADCr_h 8'h8c
+  `define  ADCr_l 8'h8d
 //  `define  ADCHL;
   `define  ADCr_a 8'h8f
 //  `define
