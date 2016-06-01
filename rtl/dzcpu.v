@@ -250,7 +250,7 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFSPL(   iClock, iReset, rFlowEnable & rRegW
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFSPH(   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[8],  (( rRegWriteSelect[7] &  rRegWriteSelect[8])? rUopDstRegData[15:8] : rUopDstRegData[7:0]), wSpH );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX8 (   iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[9],  rUopDstRegData[7:0], wX8 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFX16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[10], rUopDstRegData[15:0], wX16 );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFY16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[11], rUopDstRegData[15:0], wY16 );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFY16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[11], rUopDstRegData[15:0], wY8 );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFZ16 (  iClock, iReset, rFlowEnable & rRegWe & rRegWriteSelect[12], rUopDstRegData[15:0], wZ16 );
 
 //wire[15:0] wUopDstRegData_Prev;
