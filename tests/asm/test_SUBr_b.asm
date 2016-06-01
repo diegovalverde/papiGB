@@ -6,6 +6,6 @@ DS $100
         ld  a, 0
         ld 	b, 1
         sub a, b
-        ;Expected A =-1. Flags Z=0, H=0, C=0.
-        ; AF = FF40
+        ;Expected A =-1. Flags Z=0, N=1, H=1, C=1.
+        ; AF = FF70
         push af
