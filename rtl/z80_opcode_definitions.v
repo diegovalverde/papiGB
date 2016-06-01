@@ -162,7 +162,7 @@
 //  `define  ADDHL;
   `define  ADDr_a 8'h87
   `define  ADCr_b 8'h88
-//  `define  ADCr_c;
+  `define  ADCr_c 8'h89
 //  `define  ADCr_d;
 //  `define  ADCr_e;
 //  `define

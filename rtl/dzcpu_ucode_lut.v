@@ -150,6 +150,7 @@ begin
 	`LDrHLm_h: oUopFlowIdx = 9'd445;
 	`ADCr_a:   oUopFlowIdx = 9'd449;
 	`ADCr_b:   oUopFlowIdx = 9'd453;
+	`ADCr_c:   oUopFlowIdx = 9'd457;
 	default:
 			 oUopFlowIdx = 9'd278;
 	endcase
@@ -794,6 +795,11 @@ begin
 			454: oUop = { `op, `addx16, `carry };
 			455: oUop = { `update_flags, `addx16, `b};
 			456: oUop = { `inc_eof, `srx16, `a  };
+//ADCr_c
+			457: oUop = { `op, `sx16r, `a  };
+			458: oUop = { `op, `addx16, `carry };
+			459: oUop = { `update_flags, `addx16, `c};
+			460: oUop = { `inc_eof, `srx16, `a  };
 
 //FLOW_ID_INT_VBLANK
 /*
