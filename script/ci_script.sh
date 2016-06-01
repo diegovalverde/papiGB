@@ -1208,6 +1208,7 @@ else
 fi
 
 
+
 make clean  >/dev/null 2>&1
 echo "-I- Running simulation test1 BIOS (be patient...) "
 make DUMPTYPE=none SIMFLAGS="-DSTOP_AFTER_FIRST_FRAME -DLCD_SCXY_DISABLED -DENABLE_CPU_LOG -DENABLE_GPU_LOG" >/dev/null 2>&1
