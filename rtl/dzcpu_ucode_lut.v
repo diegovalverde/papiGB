@@ -440,11 +440,11 @@ begin
 		174: oUop = { `inc_eof,  `nop, `null };
 //ADDr_a
 		175: oUop = { `op, `sx16r, `a       };
-		176: oUop = { `update_flags, `addx16, `a };
+		176: oUop = { `update_flags, `addx16u, `a };
 		177: oUop = { `inc_eof, `srx16, `a  };
 //ADDr_b
 		178: oUop = { `op, `sx16r, `a       };
-		179: oUop = { `update_flags, `addx16, `b };
+		179: oUop = { `update_flags, `addx16u, `b };
 		180: oUop = { `inc_eof, `srx16, `a  };
 //SUBr_c
 		181: oUop = { `op, `sx16r, `a       };
@@ -453,27 +453,27 @@ begin
 
 //ADDr_c
 		184: oUop = { `op, `sx16r, `a       };
-		185: oUop = { `update_flags, `addx16, `c };
+		185: oUop = { `update_flags, `addx16u, `c };
 		186: oUop = { `inc_eof, `srx16, `a  };
 
 //ADDr_d
 		187: oUop = { `op, `sx16r, `a       };
-		188: oUop = { `update_flags, `addx16, `d };
+		188: oUop = { `update_flags, `addx16u, `d };
 		189: oUop = { `inc_eof, `srx16, `a  };
 
 //ADDr_e
 		190: oUop = { `op, `sx16r, `a       };
-		191: oUop = { `update_flags, `addx16, `e };
+		191: oUop = { `update_flags, `addx16u, `e };
 		192: oUop = { `inc_eof, `srx16, `a  };
 
 //ADDr_h
 		193: oUop = { `op, `sx16r, `a       };
-		194: oUop = { `update_flags, `addx16, `h };
+		194: oUop = { `update_flags, `addx16u, `h };
 		195: oUop = { `inc_eof, `srx16, `a  };
 
 //ADDr_l
 		196: oUop = { `op, `sx16r, `a       };
-		197: oUop = { `update_flags, `addx16, `l };
+		197: oUop = { `update_flags, `addx16u, `l };
 		198: oUop = { `inc_eof, `srx16, `a  };
 //SUBr_d
 		199: oUop = { `op, `sx16r, `a       };
