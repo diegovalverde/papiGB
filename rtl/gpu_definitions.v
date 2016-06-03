@@ -63,7 +63,8 @@
 `define gand       5'd13
 `define gsprtt     5'd14   //Test if sprite is within (or partially in) current tile rectangle
 `define ginfbaddr  5'd16   //Increment the FrameBuffer write pointer
-
+`define gwx        5'd17
+`define gwy        5'd18
 //Registers
 `define gnull                      6'd0
 
@@ -116,5 +117,5 @@
 //Jump labels
 `define get_next_sprite     18'd50
 `define skip_the_sprites	  18'd53 //remember to change during testing of new uop
-
+`define skip_the_window     18'd60
 `endif

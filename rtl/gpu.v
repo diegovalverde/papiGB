@@ -61,7 +61,7 @@ wire [7:0] wR2;
 wire [15:0]  wCurrentTile;  //Only support up to 32*32 = 1024 tiles
 wire [7:0] wBh, wBl, wState, wIp, wInitialPc, wSC_Tile_Row;
 wire [15:0] wBGTileOffset, wBGTileMapOffset, wBGRowOffset, wFrameBufferAddress, wCurrentTileRow,wOAMOffset;
-wire [15:0] wTile1_Bg_Offset, wTile0_Bg_Offset;
+wire [15:0] wTile1_Bg_Offset, wTile0_Bg_Offset,wWinTileMapOffset;
 wire [15:0] wSC_Tile;
 wire [7:0] wRegSelect, wSh, wSl;
 wire [1:0] wPixel0,wPixel1,wPixel2,wPixel3,wPixel4,wPixel5,wPixel6,wPixel7;
@@ -69,7 +69,7 @@ wire [1:0] wBgPixel0,wBgPixel1,wBgPixel2,wBgPixel3,wBgPixel4,wBgPixel5,wBgPixel6
 wire [1:0] wSprtPixel0,wSprtPixel1,wSprtPixel2,wSprtPixel3,wSprtPixel4,wSprtPixel5,wSprtPixel6,wSprtPixel7;
 wire [`GPU_UOP_SZ-1:0] wUop;
 wire [5:0] wOp1Sel;
-wire wZ, wRegWe, wGpuActive, wIsSpriteInCurrentTile,wIsSpriteInCurrentRow;
+wire wZ, wRegWe, wGpuActive, wIsSpriteInCurrentTile,wIsSpriteInCurrentRow,wIsWyOnScreen,wIsWxOnScreen;
 wire [15:0] wSpriteWidth, wSpriteHeight, wTileCoordX, wTileCoordY,wSprite_tile_offset,wSprite_info;
 reg [15:0] rResult;
 reg rRegWe, rBgBufferWe, rJump, rIncFBufferAddr;
@@ -158,6 +158,10 @@ assign wIsSpriteInCurrentTile =
 assign wIsSpriteInCurrentRow = (wCurrentTileRow + wTileCoordY >= wSpriteCoordY &&
 wCurrentTileRow + wTileCoordY <= wSpriteCoordY + wSpriteHeight) ? 1'b1 : 1'b0;
 
+assign wIsWyOnScreen = (0 <= oWY <= 3'd143) ? 1'b1:1'b0;
+
+assign wIsWxOnScreen = (0 <= oWX <= 3'd166) ? 1'b1:1'b0;
+
 assign oSTAT = { 6'b0, wState };
 
 
@@ -172,8 +176,8 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_DMA(  iClock, iReset, iMcuWe  & wMcuRegW
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_BGP(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[7], iMcuWriteData, oBGP );// bg pallete
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_OBP0( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[8], iMcuWriteData, oOBP0 );// sprite pallet 1
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_OBP1( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[9], iMcuWriteData, oOBP1 );// sprite pallet 2
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_WY(   iClock, iReset, iMcuWe  & wMcuRegWriteSelect[10],iMcuWriteData, oWX );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_WX(   iClock, iReset, iMcuWe  & wMcuRegWriteSelect[11],iMcuWriteData, oWY );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_WY(   iClock, iReset, iMcuWe  & wMcuRegWriteSelect[10],iMcuWriteData, oWY );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_WX(   iClock, iReset, iMcuWe  & wMcuRegWriteSelect[11],iMcuWriteData, oWX );
 
 
 
@@ -230,18 +234,18 @@ assign wGpuActive = (oLCDC[7]) ? 1'b1 : 1'b0;
 assign wRegSelect = ( wGpuActive ) ? wUop[14:10] : iMcuRegSelect ;
 assign wRegWe     = ( wGpuActive ) ? rRegWe : iMcuWe ;
 
-//Generally speaking the tiles are addressed like so:
+//Generally speaking the tiles are addressed like this:
 //             0                  1
-//LCDC[6]  9800-9BFF        9C00-9FFF       Tile MapCB
-//LCDC[4]  8800-97FF        8000-8FFF       Background
-
+//LCDC[6]  9800-9BFF        9C00-9FFF       Window tile map display
+//LCDC[4]  8800-97FF        8000-8FFF       Background and window tile data
+//LCDC[3]  9800-9BFF        9C00-9FFF       Background tile map display
 //However, there is an additional detail, tile1 index can be greater than 127,
 //while tile0 index can be negative
 //This is done to share some tiles across the two otherwise separate regions
 //Let's assume that the tile number is held in iMcuReadData
 //if the tile number is greater than 128 (if the bit 7 is set)
 //the use 8800-8FFF
-//Like so:
+//Like this:
 
 //+-----------+------------------------------+
 //| Region    |	Usage                        |
@@ -266,7 +270,8 @@ assign wTile1_Bg_Offset = (iMcuReadData[7] == 1'b1) ? 16'h8000 : 16'h8000;
 assign wTile0_Bg_Offset = (iMcuReadData[7] == 1'b1) ? 16'h8000 : 16'h9000;
 
 assign wBGTileOffset    = ( oLCDC[4] ) ? wTile1_Bg_Offset : wTile0_Bg_Offset;
-assign wBGTileMapOffset = ( oLCDC[6] ) ? 16'h9c00 : 16'h9800;
+assign wBGTileMapOffset = ( oLCDC[3] ) ? 16'h9c00 : 16'h9800;
+assign wWinTileMapOffset = ( oLCDC[6] ) ? 16'h9c00 : 16'h9800;
 assign wBGRowOffset     = wCurrentTileRow;
 
 assign wOAMOffset = 16'hFE00; //Sprite Attribute Table (OAM - Object Attribute Memory) at $FE00-FE9F.
@@ -666,9 +671,9 @@ begin
       rIncFBufferAddr = 1'b0;
     end
 
-   `gsprtt:
+   `gwx:
     begin
-      rResult     = {15'b0,wIsSpriteInCurrentRow};
+      rResult     = {15'b0,wIsWyOnScreen};
       rRegWe      = 1'b1;
       rBgBufferWe = 1'b0;
       rJump       = 1'b0;
@@ -676,6 +681,15 @@ begin
       rIncFBufferAddr = 1'b0;
     end
 
+    `gwy:
+     begin
+       rResult     = {15'b0,wIsWyOnScreen};
+       rRegWe      = 1'b1;
+       rBgBufferWe = 1'b0;
+       rJump       = 1'b0;
+       oMcuReadRequest = 1'b0;
+       rIncFBufferAddr = 1'b0;
+     end
 
     default://default case for error
     begin
