@@ -183,6 +183,7 @@ begin
 		8'h7C: oUopFlowIdx = 9'd16;		  //BIT7
 		8'h11: oUopFlowIdx = 9'd69;		  //RLr_b
 		8'h38: oUopFlowIdx = 9'd477;		//SRL_b
+		`RRr_b, `RRr_c, `RRr_d, `RRr_e, `RRr_h,	`RRr_l: oUopFlowIdx = 9'd481;		//RR
 
 	default:
 			oUopFlowIdx = 9'd0;
@@ -824,13 +825,16 @@ begin
 			475: oUop = { `update_flags, `addx16, `l};
 			476: oUop = { `inc_eof, `srx16, `a  };
 
-//SHR
+//CB SHR
 		  477: oUop = { `update_flags, `shr,  `null  };
 			478: oUop = { `eof, `nop, `null  };
 
-//SHL
+//CB SHL
 		  479: oUop = { `update_flags, `shl,  `null  };
 			480: oUop = { `eof, `nop, `null  };
+//CB RROT
+			481: oUop = { `update_flags, `rrot,  `null  };
+			482: oUop = { `eof, `nop,  `null  };
 
 //FLOW_ID_INT_VBLANK
 /*
