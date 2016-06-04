@@ -1,18 +1,17 @@
 [*]
 [*] GTKWave Analyzer v3.3.58 (w)1999-2014 BSI
-[*] Thu May 12 15:16:51 2016
+[*] Sat Jun  4 19:27:13 2016
 [*]
 [dumpfile] "/home/diego/workspace/projects/papiGB/sim/tb_simple_dzcpu.vcd"
-[dumpfile_mtime] "Thu May 12 15:13:38 2016"
-[dumpfile_size] 119935
+[dumpfile_mtime] "Sat Jun  4 19:20:04 2016"
+[dumpfile_size] 119979
 [savefile] "/home/diego/workspace/projects/papiGB/sim/signals/tb_simple_dzcpu.gtkw"
-[timestart] 404600
+[timestart] 449400
 [size] 1366 744
 [pos] -1 -1
-*-14.813875 451700 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-14.813875 486900 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb_simple_dzcpu.
 [treeopen] tb_simple_dzcpu.uut.
-[treeopen] tb_simple_dzcpu.uut.MMU.
 [sst_width] 260
 [signals_width] 418
 [sst_expanded] 1
@@ -36,9 +35,11 @@ tb_simple_dzcpu.uut.DZCPU.oMCUAddr[15:0]
 tb_simple_dzcpu.uut.DZCPU.wPc[15:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.wJcbDetected
-@2025
+@2024
 ^1 /home/diego/workspace/projects/papiGB/sim/signals/flow_ids
 tb_simple_dzcpu.uut.DZCPU.wuOpFlowIdx[8:0]
+@25
+tb_simple_dzcpu.uut.DZCPU.wuPc[8:0]
 @2024
 ^2 /home/diego/workspace/projects/papiGB/sim/signals/dzcpu_uop_cmd
 tb_simple_dzcpu.uut.DZCPU.wuCmd[4:0]
