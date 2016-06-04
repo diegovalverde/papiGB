@@ -118,6 +118,7 @@ end //always
 
           `ifdef STOP_AFTER_FIRST_FRAME
               $fwrite(log,"**** First frame complete. Stopping Simulation **** \n");
+              $display("**** First frame complete. Stopping Simulation **** \n");
               rSimulationDone = 1;
           `endif
 
@@ -347,6 +348,7 @@ $readmemh(
   `endif
 
     $fwrite(log, "Simulation reached MAX time %hns",$time);
+    $display( "Simulation reached MAX time %hns",$time);
     rSimulationDone = 1;
   end
 
@@ -668,6 +670,7 @@ end //always
         if (InstCount >= `STOP_AFTER_INSN_COUNT)
         begin
           rSimulationDone = 1;
+          $display("**** InsnCount = %d. Stopping Simulation **** \n", InstCount);
           $fwrite(log,"**** InsnCount = %d. Stopping Simulation **** \n", InstCount);
         end
       `endif
@@ -718,6 +721,8 @@ end //always
         `rrot:   $fwrite(log,"rrot %h\n", uut.DZCPU.wRegData);
         `xora:   $fwrite(log,"xora %h\n", uut.DZCPU.wRegData);
         `addx16r16: $fwrite(log,"addx16r16 %h + %h = %h\n", uut.DZCPU.wX16, uut.DZCPU.wRegData, uut.DZCPU.rUopDstRegData);
+        `shr: $fwrite(log,"shr %h >> 1 + %h\n", uut.DZCPU.wRegData, uut.DZCPU.wFlags[`flag_c] );
+
         `z801bop:
         begin
           case (uut.DZCPU.iMCUData[7:3])
@@ -729,6 +734,9 @@ end //always
         default:
         begin
           $fwrite(log,"unknow uop %d Stopping Simulation\n", uut.DZCPU.wuCmd);
+          $display( "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+          $display("\n===== ERROR: unknow uop %d Stopping Simulation\n", uut.DZCPU.wuCmd);
+          $display( "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
           rSimulationDone = 1;
         end
       endcase

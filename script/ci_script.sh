@@ -18,6 +18,18 @@ else
 	exit 1
 fi
 
+#testtest_CB_SHL_b.dump_CB_SHL_b.dump
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_CB_SHL_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 0700" pgb_cpu.log
+then
+	echo "Test test_CB_SHL_b.dump passed"
+else
+	echo "Test test_CB_SHL_b.dump failed"
+	exit 1
+fi
+
 #ANDr_b
 make clean >/dev/null 2>&1
 make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1

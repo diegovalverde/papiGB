@@ -826,7 +826,11 @@ begin
 
 //SHR
 		  477: oUop = { `update_flags, `shr,  `null  };
-			478: oUop = { `inc_eof, `nop, `null  };
+			478: oUop = { `eof, `nop, `null  };
+
+//SHL
+		  479: oUop = { `update_flags, `shl,  `null  };
+			480: oUop = { `eof, `nop, `null  };
 
 //FLOW_ID_INT_VBLANK
 /*
