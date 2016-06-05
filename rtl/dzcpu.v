@@ -362,7 +362,7 @@ begin
 end
 
 assign wZ = (rUopDstRegData[7:0] ==8'b0) ? 1'b1 : 1'b0;
-assign wN = (rUopDstRegData[7] == 1'b1) ? 1'b1 : 1'b0;
+assign wN = (rUopDstRegData[15] == 1'b1) ? 1'b1 : 1'b0;
 assign wSHR_RegData = wRegData >> 1;
 
 always @ ( * )
