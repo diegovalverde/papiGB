@@ -919,6 +919,16 @@ begin
     end
 
 
+    {1'b1,`SRLr_a},{1'b1,`SRLr_b},{1'b1,`SRLr_d},{1'b1,`SRLr_e},
+    {1'b1,`SRLr_h},{1'b1,`SRLr_l},{1'b1,`SRLr_c}:
+    begin
+       rFlagsZ              = {1'b1,wZ};
+       rFlagsN              = {1'b1,wN};
+       rFlagsH              = {1'b1,1'b0};  //H is reset
+       rFlagsC              = {1'b1,wRegData[0]};
+    end
+
+
     {1'b0,`ORr_a}, {1'b0,`ORr_b}, {1'b0,`ORr_d},{1'b0,`ORr_c},
     {1'b0,`ORr_e}, {1'b0,`ORr_h}, {1'b0,`ORr_l},
     {1'b0,`XORr_a},{1'b0,`XORr_b},{1'b0,`XORr_d},{1'b0,`XORr_c},
