@@ -362,7 +362,7 @@ begin
 end
 
 assign wZ = (rUopDstRegData[7:0] ==8'b0) ? 1'b1 : 1'b0;
-assign wN = (rUopDstRegData[7] == 1'b1) ? 1'b1 : 1'b0;
+assign wN = (rUopDstRegData[15] == 1'b1) ? 1'b1 : 1'b0;
 assign wSHR_RegData = wRegData >> 1;
 
 always @ ( * )
@@ -916,6 +916,16 @@ begin
        rFlagsN              = {1'b1,wN};
        rFlagsH              = {1'b1,1'b0};  //H is reset
        rFlagsC              = {1'b1,wRegData[7]};
+    end
+
+
+    {1'b1,`SRLr_a},{1'b1,`SRLr_b},{1'b1,`SRLr_d},{1'b1,`SRLr_e},
+    {1'b1,`SRLr_h},{1'b1,`SRLr_l},{1'b1,`SRLr_c}:
+    begin
+       rFlagsZ              = {1'b1,wZ};
+       rFlagsN              = {1'b1,wN};
+       rFlagsH              = {1'b1,1'b0};  //H is reset
+       rFlagsC              = {1'b1,wRegData[0]};
     end
 
 
