@@ -696,6 +696,7 @@
 `define xora     5'h19
 `define addx16r16 5'h1a
 `define addx16u   5'h1b
+`define shr       5'h1c
 
 `define null 5'h0
 

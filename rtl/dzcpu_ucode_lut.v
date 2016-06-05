@@ -172,7 +172,11 @@ end
 endmodule
 
 
-
+////////////////////////////////////////////////////////
+//
+//   MAP CB -- EXTENDED OPERATIONS
+//
+////////////////////////////////////////////////////////
 
 module dzcpu_ucode_cblut
 (
@@ -180,17 +184,13 @@ module dzcpu_ucode_cblut
 	output reg [8:0]  oUopFlowIdx
 );
 
-
-
-
-
-
-
 always @ ( iMop )
 begin
 	case ( iMop )
-		8'h7C: oUopFlowIdx = 9'd16;		//BIT7
-		8'h11: oUopFlowIdx = 9'd69;		//RLr_b
+		8'h7C: oUopFlowIdx = 9'd16;		  //BIT7
+		8'h11: oUopFlowIdx = 9'd69;		  //RLr_b
+		8'h38: oUopFlowIdx = 9'd505;		//SRL_b
+		`RRr_b, `RRr_c, `RRr_d, `RRr_e, `RRr_h,	`RRr_l: oUopFlowIdx = 9'd509;		//RR
 
 	default:
 			oUopFlowIdx = 9'd0;
@@ -448,11 +448,11 @@ begin
 		174: oUop = { `inc_eof,  `nop, `null };
 //ADDr_a
 		175: oUop = { `op, `sx16r, `a       };
-		176: oUop = { `update_flags, `addx16, `a };
+		176: oUop = { `update_flags, `addx16u, `a };
 		177: oUop = { `inc_eof, `srx16, `a  };
 //ADDr_b
 		178: oUop = { `op, `sx16r, `a       };
-		179: oUop = { `update_flags, `addx16, `b };
+		179: oUop = { `update_flags, `addx16u, `b };
 		180: oUop = { `inc_eof, `srx16, `a  };
 //SUBr_c
 		181: oUop = { `op, `sx16r, `a       };
@@ -461,27 +461,27 @@ begin
 
 //ADDr_c
 		184: oUop = { `op, `sx16r, `a       };
-		185: oUop = { `update_flags, `addx16, `c };
+		185: oUop = { `update_flags, `addx16u, `c };
 		186: oUop = { `inc_eof, `srx16, `a  };
 
 //ADDr_d
 		187: oUop = { `op, `sx16r, `a       };
-		188: oUop = { `update_flags, `addx16, `d };
+		188: oUop = { `update_flags, `addx16u, `d };
 		189: oUop = { `inc_eof, `srx16, `a  };
 
 //ADDr_e
 		190: oUop = { `op, `sx16r, `a       };
-		191: oUop = { `update_flags, `addx16, `e };
+		191: oUop = { `update_flags, `addx16u, `e };
 		192: oUop = { `inc_eof, `srx16, `a  };
 
 //ADDr_h
 		193: oUop = { `op, `sx16r, `a       };
-		194: oUop = { `update_flags, `addx16, `h };
+		194: oUop = { `update_flags, `addx16u, `h };
 		195: oUop = { `inc_eof, `srx16, `a  };
 
 //ADDr_l
 		196: oUop = { `op, `sx16r, `a       };
-		197: oUop = { `update_flags, `addx16, `l };
+		197: oUop = { `update_flags, `addx16u, `l };
 		198: oUop = { `inc_eof, `srx16, `a  };
 //SUBr_d
 		199: oUop = { `op, `sx16r, `a       };
@@ -831,6 +831,7 @@ begin
 			474: oUop = { `op, `addx16, `carry };
 			475: oUop = { `update_flags, `addx16, `l};
 			476: oUop = { `inc_eof, `srx16, `a  };
+
 //SBCr_a
 			477: oUop = { `op, `sx16r, `a  };
 			478: oUop = { `op, `subx16, `carry };
@@ -866,6 +867,17 @@ begin
 			502: oUop = { `op, `subx16, `carry };
 			503: oUop = { `update_flags, `subx16, `l};
 			504: oUop = { `inc_eof, `srx16, `a  };
+
+//CB SHR
+		  505: oUop = { `update_flags, `shr,  `null  };
+			506: oUop = { `eof, `nop, `null  };
+
+//CB SHL
+		  507: oUop = { `update_flags, `shl,  `null  };
+			508: oUop = { `eof, `nop, `null  };
+//CB RROT
+			509: oUop = { `update_flags, `rrot,  `null  };
+			510: oUop = { `eof, `nop,  `null  };
 
 
 //FLOW_ID_INT_VBLANK
