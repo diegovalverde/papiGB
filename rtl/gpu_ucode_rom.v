@@ -79,78 +79,77 @@ begin
 
 //Frame buffer render main loop. Ie. current_tile = 0
   2: oUop = { `gwrr, `cur_tile, `scy_shl_5__plus_scx, `gnull };//which tile am I on, (oScy >>3) <<5 + oScx)
-
+  3: oUop = { `gwrr, `WinTile, `Win_index, `gnull };  // set up window tile index
 //Next tile loop
-  3: oUop = { `gwrr, `tile_row, `scy_tile_row_offset, `gnull}; // which tile row am I on
+  4: oUop = { `gwrr, `tile_row, `scy_tile_row_offset, `gnull}; // which tile row am I on
 //
-  4: oUop = { `gwrl,  `r2, 12'd32 };//assign a literal to r2, 32 tiles
+  5: oUop = { `gwrl,  `r2, 12'd32 };//assign a literal to r2, 32 tiles
 
 //Current tile render loop
-  5: oUop = { `gadd,  `vmem_addr, `bgmoffset, `cur_tile };// adds current tile with bg offset to get vmem adress to know where to read
-  6: oUop = { `grvmem, `gnull, `gnull, `gnull };//reads vmem and stores in vmem_data
-  7: oUop = { `gwrr, `r3, `vmem_addr, `gnull };// store vmem adress in r3
-  8: oUop = { `gadd,  `r1,`vmem_data_shl_4, `tile_row };//add tile row with vmem data shifted left by 4
-  9: oUop = { `gadd,  `vmem_addr, `r1, `bgtoffset };// get address for tile memory with r1 and BG tile offset
-  10: oUop = { `grvmem, `gnull, `gnull, `gnull };//read from tile memory stores in vmem data
-  11: oUop = {  `gwrr,   `bh, `vmem_data, `gnull };// save in BH for high byte
-  12: oUop = {  `gaddl,  `vmem_addr, 12'd1  };// get adress for BL adding one to current adress, reads next byte
-  13: oUop = {  `grvmem, `gnull, `gnull, `gnull }; // save in vmem data
-  14: oUop = {  `gwrr,   `bl, `vmem_data, `gnull };//save in BL for low byte
-  15: oUop = {  `gwfbuffer,   `gnull,`gnull, `gnull};// BH and BL go through bg pallete and result gets saved in framebuffer
+  6: oUop = { `gadd,  `vmem_addr, `bgmoffset, `cur_tile };// adds current tile with bg offset to get vmem adress to know where to read
+  7: oUop = { `grvmem, `gnull, `gnull, `gnull };//reads vmem and stores in vmem_data
+  8: oUop = { `gwrr, `r3, `vmem_addr, `gnull };// store vmem adress in r3
+  9: oUop = { `gadd,  `r1,`vmem_data_shl_4, `tile_row };//add tile row with vmem data shifted left by 4
+  10: oUop = { `gadd,  `vmem_addr, `r1, `bgtoffset };// get address for tile memory with r1 and BG tile offset
+  11: oUop = { `grvmem, `gnull, `gnull, `gnull };//read from tile memory stores in vmem data
+  12: oUop = {  `gwrr,   `bh, `vmem_data, `gnull };// save in BH for high byte
+  13: oUop = {  `gaddl,  `vmem_addr, 12'd1  };// get adress for BL adding one to current adress, reads next byte
+  14: oUop = {  `grvmem, `gnull, `gnull, `gnull }; // save in vmem data
+  15: oUop = {  `gwrr,   `bl, `vmem_data, `gnull };//save in BL for low byte
+  16: oUop = {  `gwfbuffer,   `gnull,`gnull, `gnull};// BH and BL go through bg pallete and result gets saved in framebuffer
 
 /////////////////////////uCode for sprite loop/////////////////////////////////////
 
-  16: oUop = {`gwrl, `r6, 12'b10};                     // set bit 2 as 1 for next oUopp
-  17: oUop = {`gand, `r3, `r6, `lcdc};                  //and bitwise for r6 and lcdc[1] = 1 sprites are on
-  18: oUop = {`gjz,`skip_the_sprites};
-  19:
+  17: oUop = {`gwrl, `r6, 12'b10};                     // set bit 2 as 1 for next oUopp
+  18: oUop = {`gand, `r3, `r6, `lcdc};                  //and bitwise for r6 and lcdc[1] = 1 sprites are on
+  19: oUop = {`gjz,`skip_the_sprites};
+  20:
   begin
    oUop = {`gwrl, `r6, 12'd0};                       //we have a maximum of 40 sprites x= 39*4 because if 4 byte descriptors
 
   end
 
-
-  20: oUop = {`gadd, `vmem_addr, `r6, `oam_offset};     //get address of sprite
-  21: oUop = {`grvmem, `gnull, `gnull, `gnull};               //store vmem data loads first byte of sprite  descriptor
-  22: oUop = {`gsubl,  `vmem_data, 12'd0};               //Test to see if the sprite_y_coord is zero
-  23: oUop = {`gjz, `get_next_sprite};                     //if y coord is zero jump to next sprite
-  24: oUop = {`gwrl,`r4 , 12'd16};                            //Since the sprite_y_coord was no zero, we need to substract 16 in order to obtain the real sprite_y_coord
-  25: oUop = {`gsub,`sprite_y_coord ,`vmem_data,`r4};         //get y coord of the sprite
-  26: oUop = {`gaddl, `vmem_addr, 12'd1};                     //get address for next byte of sprite descriptor
-  27: oUop = {`grvmem, `gnull,`gnull,`gnull};
-  28: oUop = {`gsubl,  `vmem_data, 12'd0};               //Test to see if the sprite_x_coord is zero
-  29: oUop = {`gjz,    `get_next_sprite};                     //if x coord is zero jump to next sprite
-  30: oUop = {`gwrl,`r4 , 12'd8};
-  31: oUop = {`gsub, `sprite_x_coord ,`vmem_data ,`r4 };    //get x coord
-  32: oUop = {`gnop,  `gnull, `gnull, `gnull};  //{`gsub, `r5, `tile_column, `vmem_data};
-  33: oUop = {`gsprtt,  `r4, `sprite_x_coord, `sprite_y_coord};     //Test if the sprite is in the current tile
-  34: oUop = {`gjz,    `get_next_sprite};
+  21: oUop = {`gadd, `vmem_addr, `r6, `oam_offset};     //get address of sprite
+  22: oUop = {`grvmem, `gnull, `gnull, `gnull};               //store vmem data loads first byte of sprite  descriptor
+  23: oUop = {`gsubl,  `vmem_data, 12'd0};               //Test to see if the sprite_y_coord is zero
+  24: oUop = {`gjz, `get_next_sprite};                     //if y coord is zero jump to next sprite
+  25: oUop = {`gwrl,`r4 , 12'd16};                            //Since the sprite_y_coord was no zero, we need to substract 16 in order to obtain the real sprite_y_coord
+  26: oUop = {`gsub,`sprite_y_coord ,`vmem_data,`r4};         //get y coord of the sprite
+  27: oUop = {`gaddl, `vmem_addr, 12'd1};                     //get address for next byte of sprite descriptor
+  28: oUop = {`grvmem, `gnull,`gnull,`gnull};
+  29: oUop = {`gsubl,  `vmem_data, 12'd0};               //Test to see if the sprite_x_coord is zero
+  30: oUop = {`gjz,    `get_next_sprite};                     //if x coord is zero jump to next sprite
+  31: oUop = {`gwrl,`r4 , 12'd8};
+  32: oUop = {`gsub, `sprite_x_coord ,`vmem_data ,`r4 };    //get x coord
+  33: oUop = {`gnop,  `gnull, `gnull, `gnull};  //{`gsub, `r5, `tile_column, `vmem_data};
+  34: oUop = {`gsprtt,  `r4, `sprite_x_coord, `sprite_y_coord};     //Test if the sprite is in the current tile
+  35: oUop = {`gjz,    `get_next_sprite};
 //Fetch sprite tile number
-  35: oUop = {`gaddl, `vmem_addr, 12'd1};//get next byte sprite index
-  36: oUop = {`grvmem, `gnull,`gnull,`gnull};
-  37: oUop = {`gadd, `r4 ,`vmem_data_shl_4, `tile_row };//`sprite_current_row_offset}; //define sprite tile index shifted by 4 to the left would get added with bgomffset for tile memory read
-  38: oUop = {`gaddl, `vmem_addr, 12'd1};//get next byte sprite options
-  39: oUop = {`grvmem, `gnull,`gnull,`gnull};
-  40: oUop = {`gwrr, `sprite_info,`vmem_data}; //define `sprite_info bits are important for effects flips and flashes
+  36: oUop = {`gaddl, `vmem_addr, 12'd1};//get next byte sprite index
+  37: oUop = {`grvmem, `gnull,`gnull,`gnull};
+  38: oUop = {`gadd, `r4 ,`vmem_data_shl_4, `tile_row };//`sprite_current_row_offset}; //define sprite tile index shifted by 4 to the left would get added with bgomffset for tile memory read
+  39: oUop = {`gaddl, `vmem_addr, 12'd1};//get next byte sprite options
+  40: oUop = {`grvmem, `gnull,`gnull,`gnull};
+  41: oUop = {`gwrr, `sprite_info,`vmem_data}; //define `sprite_info bits are important for effects flips and flashes
 //TODO DEFINE LOGIC FOR SpriteOPTIONS (LA FLECHA DE TETRIS NO TIENE OPTIONS ENTONCES QUIERO PROBAR DIBUJARLA SIN HACER LA PARTE
 //DE OPTIONS)
 //GO read tile memory
 
-  41: oUop = {`gadd, `vmem_addr,`bgtoffset,`r4}; //by adding this two you get the address of the tile memory
-  42: oUop = {`grvmem,`gnull,`gnull,`gnull};
-  43: oUop = {`gwrr, `sh, `vmem_data, `gnull};                           //first tile high byte for current sprite
-  44: oUop = {`gaddl, `vmem_addr, 12'd1};
-  45: oUop = {`grvmem, `gnull,`gnull,`gnull};
-  46: oUop = {`gwrr, `sl,`vmem_data, `gnull};                            //second tile low byte for current sprite
-  47: oUop = {`gnop,  `gnull, `gnull, `gnull};//{`glsprtt, `gnull, `tile_row,`sprite_y_coord}; //test if sprite is in current row
-  48: oUop = {`gnop,  `gnull, `gnull, `gnull};//{`gjz,`get_next_sprite};
+  42: oUop = {`gadd, `vmem_addr,`bgtoffset,`r4}; //by adding this two you get the address of the tile memory
+  43: oUop = {`grvmem,`gnull,`gnull,`gnull};
+  44: oUop = {`gwrr, `sh, `vmem_data, `gnull};                           //first tile high byte for current sprite
+  45: oUop = {`gaddl, `vmem_addr, 12'd1};
+  46: oUop = {`grvmem, `gnull,`gnull,`gnull};
+  47: oUop = {`gwrr, `sl,`vmem_data, `gnull};                            //second tile low byte for current sprite
+  48: oUop = {`gnop,  `gnull, `gnull, `gnull};//{`glsprtt, `gnull, `tile_row,`sprite_y_coord}; //test if sprite is in current row
+  49: oUop = {`gnop,  `gnull, `gnull, `gnull};//{`gjz,`get_next_sprite};
   //TODO LOGIC FOR BACKGROUND AND FOREGROUND display for sprites
   //sprite palette logic
-  49: oUop = {`gwfbuffer, `gnull,`gnull, `gnull};// SH and SL go through sprite palletes and result gets saved in framebuffer
-
-  50: oUop = {`gaddl,`r6, 12'd4};
-  51: oUop = {`gsubl,`r6, 12'd156};//39*4 = 156
-  52:  begin
+  50: oUop = {`gwfbuffer, `gnull,`gnull, `gnull};// SH and SL go through sprite palletes and result gets saved in framebuffer
+//get_next_sprite
+  51: oUop = {`gaddl,`r6, 12'd4};
+  52: oUop = {`gsubl,`r6, 12'd156};//39*4 = 156
+  53:  begin
   //$display("DRAW THE ARROW PLZ \n");
   //oUop = {`gjnz, 15'd20}; // end of sprites go to next tile
     oUop = {`gwrr,  `sprite_current_row_offset, `tile_row, `gnull};           //Each sprite row is 2Bytes (8 pixles). Increment the sprite row offset by 2 for next iteration
@@ -160,42 +159,69 @@ end
 
 /************** Start of ucode for window **********************************/
 //skip_the_sprites
- 53: oUop = {`gwrl, `r6, 12'b00100001}; //set 1 on pos[5] of a temporal register
- 54: oUop = {`gand, `r3, `r6, `lcdc}; // and with lcdc and save in r3
- 55: oUop = {`gjz,`skip_the_window}; // if lcdc[5] and lcdc[0] not 1 then window display is off
- 56: oUop = {`gwx,  `gnull, `gnull, `gnull};
- 57: oUop = {`gjz,`skip_the_window};
- 58: oUop = {`gwy,  `gnull, `gnull, `gnull}; //check if wx and wy are on screen
- 59: //begin
-// $display("I would check for window tiles...if i had one !!!");
+ 54: oUop = {`gwrl, `r6, 12'b00100001}; //set 1 on pos[5] of a temporal register
+ 55: oUop = {`gand, `r3, `r6, `lcdc}; // and with lcdc and save in r3
+ 56: oUop = {`gjz,`skip_the_window}; // if lcdc[5] and lcdc[0] not 1 then window display is off
+ 57: oUop = {`gwx,  `gnull, `gnull, `gnull};
+ 58: oUop = {`gjz,`skip_the_window};
+ 59: oUop = {`gwy,  `gnull, `gnull, `gnull}; //check if wx and wy are on screen
+ 60: //begin
+// $display("I would check for a window tile...if i had one !!!");
  oUop = {`gjz,`skip_the_window};
  //end
- //60: oUop = {}; //at this point window is on therefore we ask if tile coords match window coords
+ ///////at this point ,window is on  and wx and wy are inside screen////////////////
+61: oUop = {`gsubl, `IsThisTileWin, 12'b0 }; //first we ask if current tile is a window tile
+62: oUop = {`gjnz,`initialize_window}; // if Isthistilewin is 0 background tile isn't inside of window
+63: oUop = {`gsubl,`Window_render,12'b0};
+64: oUop = {`gjnz,`render_window};
+65: oUop = {`ggoto,`skip_the_window};
+//initialize_window
+66: oUop = {`gwrr,`WinTile,`Win_index, `gnull};
+67: oUop = {`gwrl,`Window_render, 12'b1};
+///render_window
+68: oUop = { `gadd,  `vmem_addr, `Winmoffset, `r4 };//r4 is 0 so this would get the mem adress 9C00//{ `gadd,  `vmem_addr, `Winmoffset, `WinTile }//this one is not working
+69: oUop = { `grvmem, `gnull, `gnull, `gnull };//reads vmem and stores in vmem_data
+70: oUop = { `gwrr, `r3, `vmem_addr, `gnull };// store vmem adress in r3
+71: oUop = { `gadd,  `r1,`vmem_data_shl_4, `tile_row };//add tile row with vmem data shifted left by 4
+72: oUop = { `gadd,  `vmem_addr, `r1, `bgtoffset };// get address for tile memory with r1 and BG tile offset which is the same for window
+73: oUop = { `grvmem, `gnull, `gnull, `gnull };//read from tile memory stores in vmem data
+74: oUop = { `gwrr,   `bh, `vmem_data, `gnull };// save in BH for high byte
+75: oUop = { `gaddl,  `vmem_addr, 12'd1  };// get adress for BL adding one to current address, reads next byte
+76: oUop = { `grvmem, `gnull, `gnull, `gnull }; // save in vmem data
+77: oUop = { `gwrr,   `bl, `vmem_data, `gnull };//save in BL for low byte
+78: oUop = { `gwfbuffer,   `gnull,`gnull, `gnull};// BH and BL go through bg pallete  which work for window and result gets saved in framebuffer
+///Update win tile index
+79: oUop = { `gaddl, `WinTile, 12'd1  }; //set up WinTile register for next iteration
+80: oUop = { `gsubl, `WinTile, 12'd255  }; // are we going out off screen boundaries
+81: oUop = {`gaddl,  `r4, 12'd1};// add 1 to r4, take in account this has to be changed for r4 its actually used in most logic..dedicate a register to this 
+82: oUop = { `gjnz, `skip_the_window };
+83: oUop = { `gwrl, `Window_render, 12'd0 };
+ //////////////////////////////end of window ucode//////////////////////////////////////////////////
 //defines loop for getting the same row for the next tile//
 //skip_the_window
-  60: oUop = {`ginfbaddr, `gnull, `gnull, `gnull};        //Increment the framebuffer write pointer
-  61: oUop = {`gwrl, `sl, 12'd0};
-  62: oUop = {`gwrl, `sh, 12'd0};
-  63: //begin
+  84: oUop = {`ginfbaddr, `gnull, `gnull, `gnull};        //Increment the framebuffer write pointer
+  85: oUop = {`gwrl, `sl, 12'd0};
+  86: oUop = {`gwrl, `sh, 12'd0};
+  87: //begin
   // $display("No more GPU code, stop here I say!\n");
    oUop = { `gsubl, `r1, 12'd8191}; //limit 0x1FFF or d 8191
    //$finish();
   //end
-  64: oUop = { `gsub, `r1, `fbuffer_addr, `r8191};          //Did we painted all of the 32x32 tiles?
-  65: oUop = { `gjz, 18'h2};                                //Yes, ok restart the loop for next frame
-  66: oUop = { `gwrl,`sprite_current_row_offset, 12'd0};    //Reset the sprite roww offset to zero since we will start with a fresh tile now
-  67: oUop = {  `gaddl, `cur_tile, 12'd1  };                //Time to take care of the next tile
-  68: oUop = {  `gsubl, `r2, 12'd1 };                       //Is this tile the last of the 2 tiles in a tile row?
-  69: oUop = {  `gjnz ,  18'd5 };                           //No, Keep rendering the  remaining rows of the current tile
-  70: oUop = {  `gaddl,  `tile_row, 12'd2  };
-  71: oUop = {  `gaddl , `ly, 12'd1 };
-  72: oUop = {  `gwrr,  `r1, `tile_row, `gnull };
-  73: oUop = {  `gsubl,  `r1, 12'h10 };
-  74: oUop = {  `gjz , 18'd3  };                           //Move to next tile
+  88: oUop = { `gsub, `r1, `fbuffer_addr, `r8191};          //Did we painted all of the 32x32 tiles?
+  89: oUop = { `gjz, 18'h2};                                //Yes, ok restart the loop for next frame
+  90: oUop = { `gwrl,`sprite_current_row_offset, 12'd0};    //Reset the sprite roww offset to zero since we will start with a fresh tile now
+  91: oUop = {  `gaddl, `cur_tile, 12'd1  };                //Time to take care of the next tile
+  92: oUop = {  `gsubl, `r2, 12'd1 };                       //Is this tile the last of the 2 tiles in a tile row?
+  93: oUop = {  `gjnz ,  18'd6};                           //No, Keep rendering the  remaining rows of the current tile
+  94: oUop = {  `gaddl,  `tile_row, 12'd2  };
+  95: oUop = {  `gaddl , `ly, 12'd1 };
+  96: oUop = {  `gwrr,  `r1, `tile_row, `gnull };
+  97: oUop = {  `gsubl,  `r1, 12'h10 };
+  98: oUop = {  `gjz , 18'd4  };                           //Move to next tile
 
    //defines jump to next row of pixels
-  75: oUop = {  `gsubl,  `cur_tile, 12'd32 };  //Reset the tile index to the first tile index in the row of tiles, this is because we always start a a row of tiles from left to right (like a typewritting machine)
-  76: oUop = {  `ggoto,  18'd4 };              //Move down one row
+  99: oUop = {  `gsubl,  `cur_tile, 12'd32 };  //Reset the tile index to the first tile index in the row of tiles, this is because we always start a a row of tiles from left to right (like a typewritting machine)
+  100: oUop = {  `ggoto,  18'd5 };              //Move down one row
 
   endcase
 end

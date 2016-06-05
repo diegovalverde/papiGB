@@ -56,20 +56,20 @@ module gpu
 
 wire [20:0] wMcuRegWriteSelect;
 wire [31:0] wGpuRegWriteSelect;
-wire [15:0] wOp0, wOp1, wR0, wR1, wR3,wR4, wR5, wR6, wR7,  wSpriteCoordX,wSpriteCoordY, wOp0_Pre_B, wOp0_Pre_A, wOp1_Pre_B, wOp1_Pre_A;
+wire [15:0] wOp0, wOp1, wR0, wR1, wR3,wR4, wR5, wR6,  wSpriteCoordX,wSpriteCoordY, wOp0_Pre_B, wOp0_Pre_A, wOp1_Pre_B, wOp1_Pre_A;
 wire [7:0] wR2;
-wire [15:0]  wCurrentTile;  //Only support up to 32*32 = 1024 tiles
+wire [15:0]  wCurrentTile,wWinTile;  //Only support up to 32*32 = 1024 tiles
 wire [7:0] wBh, wBl, wState, wIp, wInitialPc, wSC_Tile_Row;
 wire [15:0] wBGTileOffset, wBGTileMapOffset, wBGRowOffset, wFrameBufferAddress, wCurrentTileRow,wOAMOffset;
 wire [15:0] wTile1_Bg_Offset, wTile0_Bg_Offset,wWinTileMapOffset;
-wire [15:0] wSC_Tile;
+wire [15:0] wSC_Tile,wWinTileindex;
 wire [7:0] wRegSelect, wSh, wSl;
 wire [1:0] wPixel0,wPixel1,wPixel2,wPixel3,wPixel4,wPixel5,wPixel6,wPixel7;
 wire [1:0] wBgPixel0,wBgPixel1,wBgPixel2,wBgPixel3,wBgPixel4,wBgPixel5,wBgPixel6,wBgPixel7;
 wire [1:0] wSprtPixel0,wSprtPixel1,wSprtPixel2,wSprtPixel3,wSprtPixel4,wSprtPixel5,wSprtPixel6,wSprtPixel7;
 wire [`GPU_UOP_SZ-1:0] wUop;
 wire [5:0] wOp1Sel;
-wire wZ, wRegWe, wGpuActive, wIsSpriteInCurrentTile,wIsSpriteInCurrentRow,wIsWyOnScreen,wIsWxOnScreen;
+wire wZ, wRegWe, wGpuActive, wIsSpriteInCurrentTile,wIsSpriteInCurrentRow,wIsWyOnScreen,wIsWxOnScreen,wWinEnabled, wIsWininBG;
 wire [15:0] wSpriteWidth, wSpriteHeight, wTileCoordX, wTileCoordY,wSprite_tile_offset,wSprite_info;
 reg [15:0] rResult;
 reg rRegWe, rBgBufferWe, rJump, rIncFBufferAddr;
@@ -158,9 +158,9 @@ assign wIsSpriteInCurrentTile =
 assign wIsSpriteInCurrentRow = (wCurrentTileRow + wTileCoordY >= wSpriteCoordY &&
 wCurrentTileRow + wTileCoordY <= wSpriteCoordY + wSpriteHeight) ? 1'b1 : 1'b0;
 
-assign wIsWyOnScreen = (0 <= oWY <= 3'd143) ? 1'b1:1'b0;
+assign wIsWyOnScreen = (0 <= oWY <= 8'd143) ? 1'b1:1'b0;
 
-assign wIsWxOnScreen = (0 <= oWX <= 3'd166) ? 1'b1:1'b0;
+assign wIsWxOnScreen = (0 <= oWX <= 8'd166) ? 1'b1:1'b0;
 
 assign oSTAT = { 6'b0, wState };
 
@@ -200,8 +200,10 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_26(   iClock, iReset, wRegWe  & wGpuReg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_27(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[27], rResult,      wR4 );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_28(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[28], rResult,      wR5 );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_29(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[29], rResult,      wR6 );// gp reg
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_30(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[30], rResult,      wR7 );// gp reg
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_30(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[30], rResult,      wWinTile );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16  )FFX_31(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[31], rResult,      wSprite_info );
+
+
 
 //                                                                                          32 is wBGTileMapOffset
 //                                                                                          33 is wBGTileOffset
@@ -271,10 +273,17 @@ assign wTile0_Bg_Offset = (iMcuReadData[7] == 1'b1) ? 16'h8000 : 16'h9000;
 
 assign wBGTileOffset    = ( oLCDC[4] ) ? wTile1_Bg_Offset : wTile0_Bg_Offset;
 assign wBGTileMapOffset = ( oLCDC[3] ) ? 16'h9c00 : 16'h9800;
-assign wWinTileMapOffset = ( oLCDC[6] ) ? 16'h9c00 : 16'h9800;
+assign wWinTileMapOffset = ( oLCDC[5] ) ? 16'h9c00 : 16'h9800;
 assign wBGRowOffset     = wCurrentTileRow;
 
 assign wOAMOffset = 16'hFE00; //Sprite Attribute Table (OAM - Object Attribute Memory) at $FE00-FE9F.
+
+assign wWinTileindex = ((oWY >> 3) << 5) + (oWX -3'd7) ;
+assign wWinEnabled = (oLCDC[0]  &  oLCDC[5]);
+assign wIsWininBG = ((wWinTile == wCurrentTile) && wWinEnabled == 1)? 1'b1: 1'b0;
+
+
+
 
 `ifdef LCD_SCXY_DISABLED
   assign wSC_Tile = 16'b0;
@@ -309,10 +318,10 @@ MUXFULLPARALELL_4SEL_GENERIC # (16) MUX_REG0_A
   .I7( {4'b0,iMcuReadData,4'b0}  ), //vmem_data_shl_4
   .I8( wSC_Tile                  ), //scy_shl_5__plus_scx
   .I9( {8'b0,wSC_Tile_Row}       ), //scy_tile_row_offset
-  .I10( 16'h0                    ),
-  .I11( 16'h0                    ),
-  .I12( 16'h0                    ),
-  .I13( 16'h0                    ),
+  .I10( {15'b0,wIsWininBG}       ),
+  .I11( wWinTileindex            ),
+  .I12(wWinTileMapOffset         ),
+  .I13( 16'b0    ),
   .I14( 16'h0                    ),
   .I15( 16'h0                    ),
 
@@ -354,7 +363,7 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG0_B
   .I27( wR4 ),
   .I28( wR5 ),      //scy_tile_row_offset
   .I29( wR6 ),
-  .I30( wR7 ),
+  .I30( wWinTile ),
   .I31( wSprite_info  ),
 
   .O( wOp0_Pre_B )
@@ -382,10 +391,10 @@ MUXFULLPARALELL_4SEL_GENERIC # (16) MUX_REG1_A
   .I7( {4'b0,iMcuReadData,4'b0}  ), //vmem_data_shl_4
   .I8( wSC_Tile                  ), //scy_shl_5__plus_scx
   .I9( {8'b0,wSC_Tile_Row}       ), //scy_tile_row_offset
-  .I10( 16'h0                    ),
-  .I11( 16'h0                    ),
-  .I12( 16'h0                    ),
-  .I13( 16'h0                    ),
+  .I10( {14'b0,wIsWininBG}       ),
+  .I11( wWinTileindex            ),
+  .I12( wWinTileMapOffset        ),
+  .I13( 16'b0      ),
   .I14( 16'h0                    ),
   .I15( 16'h0                    ),
 
@@ -427,7 +436,7 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG1_B
   .I27( wR4 ),
   .I28( wR5 ),
   .I29( wR6 ),
-  .I30( wR7 ),
+  .I30( wWinTile ),
   .I31( wSprite_info  ),
 
   .O( wOp1_Pre_B )
