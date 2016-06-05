@@ -313,26 +313,26 @@
 //  //  `define  RST38
 
 //  CB00
-//  //  `define  RLCr_b;
-//  //  `define  RLCr_c;
-//  //  `define  RLCr_d;
-//  //  `define  RLCr_e;
-//  //  `define
-//  //  `define  RLCr_h;
-//  //  `define  RLCr_l;
-//  //  `define  RLCHL;
-//  //  `define  RLCr_a;
-//  //  `define
-//  //  `define  RRCr_b;
-//  //  `define  RRCr_c;
-//  //  `define  RRCr_d;
-//  //  `define  RRCr_e;
-//  //  `define
-//  //  `define  RRCr_h;
-//  //  `define  RRCr_l;
-//  //  `define  RRCHL;
-//  //  `define  RRCr_a;
-//  //  `define
+`define  RLCr_b 8'h00
+`define  RLCr_c 8'h01
+`define  RLCr_d 8'h02
+`define  RLCr_e 8'h03
+
+`define  RLCr_h  8'h4
+`define  RLCr_l  8'h5
+`define  RLCHL  8'h6
+`define  RLCr_a  8'h7
+
+`define  RRCr_b 8'h8
+`define  RRCr_c 8'h9
+`define  RRCr_d 8'ha
+`define  RRCr_e 8'hb
+
+`define  RRCr_h 8'hc
+`define  RRCr_l 8'hd
+`define  RRCHL 8'he
+`define  RRCr_a 8'hf
+`define
 //  CB10
 `define  RLr_b 8'h10
 `define  RLr_c 8'h11

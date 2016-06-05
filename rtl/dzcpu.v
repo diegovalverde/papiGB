@@ -940,6 +940,27 @@ begin
        rFlagsC              = {1'b1,1'b0};  //C is reset
     end
 
+
+    {1'b1,  `RLCr_b}, {1'b1, `RLCr_c}, {1'b1,`RLCr_d}, {1'b1,`RLCr_e},
+    {1'b1,  `RLCr_h}, {1'b1, `RLCr_l}, {1'b1,`RLCr_a}:
+    begin
+       rFlagsZ              = {1'b1,wZ};
+       rFlagsN              = {1'b1,1'b0};
+       rFlagsH              = {1'b1,1'b0};
+       rFlagsC              = {1'b1,wRegData[7]};
+    end
+
+    {1'b1,  `RRCr_b}, {1'b1,  `RRCr_c}, {1'b1, `RRCr_d}, {1'b1,  `RRCr_e},
+    {1'b1,  `RRCr_h}, {1'b1,  `RRCr_l},
+    {1'b1,  `RRr_b}, {1'b1,  `RRr_c}, {1'b1, `RRr_d}, {1'b1,  `RRr_e},
+    {1'b1,  `RRr_h}, {1'b1,  `RRr_l}:
+    begin
+       rFlagsZ              = {1'b1,wZ};
+       rFlagsN              = {1'b1,1'b0};
+       rFlagsH              = {1'b1,1'b0};
+       rFlagsC              = {1'b1,wRegData[0]};
+    end
+
     {1'b1, `BIT7h },  {1'b1, `BIT7l },  {1'b1, `BIT7m }, {1'b1, `BIT7a }:
     begin
        rFlagsZ              = {1'b1,wZ};
