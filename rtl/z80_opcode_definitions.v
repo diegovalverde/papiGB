@@ -181,15 +181,15 @@
 //  `define  SUBHL;
   `define  SUBr_a 8'h97
 //  `define
-//  `define  SBCr_b;
-//  `define  SBCr_c;
-//  `define  SBCr_d;
-//  `define  SBCr_e;
+  `define  SBCr_b 8'h98
+  `define  SBCr_c 8'h99
+  `define  SBCr_d 8'h9A
+  `define  SBCr_e 8'h9B
 //  `define
-//  `define  SBCr_h;
-//  `define  SBCr_l;
+  `define  SBCr_h 8'h9C
+  `define  SBCr_l 8'h9D
 //  `define  SBCHL;
-//  `define  SBCr_a;
+  `define  SBCr_a 8'h9F
 //  `define
 //  A0
   `define  ANDr_b 8'hA0

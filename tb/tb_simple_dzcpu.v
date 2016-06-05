@@ -581,6 +581,13 @@ end //always
       465: $fwrite(log,"=== ADCr_e  === %h \n", uut.DZCPU.iMCUData );
       469: $fwrite(log,"=== ADCr_h  === %h \n", uut.DZCPU.iMCUData );
       473: $fwrite(log,"=== ADCr_l  === %h \n", uut.DZCPU.iMCUData );
+      477: $fwrite(log,"=== SBCr_a  === %h \n", uut.DZCPU.iMCUData );
+      481: $fwrite(log,"=== SBCr_b  === %h \n", uut.DZCPU.iMCUData );
+      485: $fwrite(log,"=== SBCr_c  === %h \n", uut.DZCPU.iMCUData );
+      489: $fwrite(log,"=== SBCr_d  === %h \n", uut.DZCPU.iMCUData );
+      493: $fwrite(log,"=== SBCr_e  === %h \n", uut.DZCPU.iMCUData );
+      497: $fwrite(log,"=== SBCr_h  === %h \n", uut.DZCPU.iMCUData );
+      501: $fwrite(log,"=== SBCr_l  === %h \n", uut.DZCPU.iMCUData );
       default:
           case (uut.DZCPU.iMCUData)
               `LDrr_aa: $fwrite(log,"=== LDrr_aa  === %h \n", uut.DZCPU.iMCUData );
