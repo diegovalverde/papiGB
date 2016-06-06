@@ -40,7 +40,7 @@ wire[15:0]  wPc, wRegData, wUopSrc, wX16, wY16, wZ16, wInitialPc, wInterruptVect
 wire [7:0]  wBitMask, wX8, wY8;
 wire [8:0]  wuOpBasicFlowIdx,wuOpExtendedFlowIdx, wuOpFlowIdx, wuPc;
 wire        wIPC,wEof, wZ, wN;
-wire [13:0] wUop;
+wire [14:0] wUop;
 wire [4:0 ] wuCmd;
 wire [4:0]  wMcuAdrrSel;
 wire [2:0]  wUopRegReadAddr0, wUopRegReadAddr1, rUopRegWriteAddr;
@@ -60,11 +60,18 @@ assign wUopSrc = wUop[4:0];
 assign wIPC    = wUop[13];    //Increment Macro Insn program counter
 assign wuCmd   = wUop[9:5];
 
+
 MUXFULLPARALELL_3SEL_GENERIC # ( 1'b1 ) MUX_EOF
  (
  .Sel( wUop[12:10] ),
- .I0( 1'b0 ),.I1( 1'b0 ),.I2( 1'b0 ),.I3( 1'b0 ),
- .I4( 1'b1 ), .I5( wFlags[`flag_z] ), .I6( 1'b1 ), .I7( ~wFlags[`flag_z] ),
+ .I0( 1'b0 ),             //op
+ .I1( 1'b1 ),             //eof
+ .I2( wFlags[`flag_c] ),  //eof_c
+ .I3( ~wFlags[`flag_c] ), //eof_nc
+ .I4( wFlags[`flag_z] ),  //eof_z
+ .I5( ~wFlags[`flag_z] ), //eof_nz
+ .I6( 1'b0 ),             //Reserved
+ .I7( 1'b0 ),             //Reserved
  .O( wEof )
  );
 
@@ -542,7 +549,7 @@ begin
           rSetMCOAddr         = 1'b0;
           rRegWe              = 1'b1;
           rWriteSelect        = `x16;
-          rUopDstRegData      = wX16 + {8'b0,wRegData[7:0]};
+          rUopDstRegData      = wX16 + wRegData;
           rOverWritePc        = 1'b0;
           rMcuReadRequest     = 1'b0;
           rSetiWe             = 1'b0;

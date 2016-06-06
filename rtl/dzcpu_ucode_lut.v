@@ -207,7 +207,7 @@ endmodule
 module dzcpu_ucode_rom
 (
 	input  wire[8:0]  iAddr,
-	output reg [13:0]  oUop
+	output reg [14:0]  oUop
 );
 always @ ( iAddr )
 begin
@@ -754,11 +754,11 @@ begin
 
 //JRNCn
 		414:  oUop = { `inc,  `sma,   `pc   };
-		415:  oUop = { `op, `xorx16, `x16 };
-		416:  oUop = { `update_flags,  `addx16,   `carry  };
-		417:  oUop = { `inc_eof_nz,  `srm, `x16 };
-		418:  oUop = { `nop,  `addx16, `pc };
-		419:  oUop = { `eof,  `spc, `x16 };
+		415:  oUop = { `inc_eof_c, `nop, `null };
+		416:  oUop = { `op,  `srm, `x16 };
+		417:  oUop = { `op,  `addx16u, `pc };
+		418:  oUop = { `op,  `spc, `x16 }; //this is only low part of pc
+		419:  oUop = { `eof,  `nop, `null };
 //ANDHL
 			420: oUop = { `inc, `sma,  `hl };
 			421: oUop = { `op, `nop , `null };

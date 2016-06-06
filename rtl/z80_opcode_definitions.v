@@ -332,7 +332,7 @@
 `define  RRCr_l 8'hd
 `define  RRCHL 8'he
 `define  RRCr_a 8'hf
-`define
+
 //  CB10
 `define  RLr_b 8'h10
 `define  RLr_c 8'h11
@@ -648,25 +648,37 @@
 `define flag_c 4  //carry
 
 //+------------+-----------+-------------+
-//|   13:10         9:5         4:0     |
+//|   14:10         9:5         4:0     |
 //+------------+-----------+-------------+
 //| Predicate  | Operation |  Operand    |
 //+------------+-----------+-------------+
 
 //Prefixed
-`define op              4'b0000
-`define pred_z          4'b0001
-`define update_flags    4'b0010
-`define inc             4'b1000
-`define inc_eof         4'b1100
-`define inc_eof_z       4'b1101
-`define inc_eof_fu      4'b1110 //increment PC , flow finish and flag update
-`define inc_eof_nz      4'b1111
-`define eof             4'b0100
-`define eof_z           4'b0101	//finish flow if zero flag is 1
-`define eof_fu          4'b0110
+`define op              5'b00000
+`define eof             5'b00001
+`define eof_c           5'b00010
+`define eof_nc          5'b00011
+`define eof_z           5'b00100
+`define eof_nz          5'b00101
 
-`define uop_flags_update_enable 11
+`define inc             5'b01000
+`define inc_eof         5'b01001
+`define inc_eof_c       5'b01010
+`define inc_eof_nc      5'b01011
+`define inc_eof_z       5'b01100
+`define inc_eof_nz      5'b01101
+
+`define update_flags    5'b10000
+`define eof_fu          5'b10001
+`define inc_fu          5'b11000
+`define inc_eof_fu      5'b11001
+`define inc_eof_c_fu    5'b11010
+`define inc_eof_nc_fu   5'b11011
+`define inc_eof_z_fu    5'b11100
+`define inc_eof_nz_fu   5'b11101
+
+
+`define uop_flags_update_enable 14
 `define uop_flags_eof           12
 
 `define nop      5'h0
