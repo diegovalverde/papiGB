@@ -953,7 +953,7 @@ begin
     {1'b1,  `RRCr_b}, {1'b1,  `RRCr_c}, {1'b1, `RRCr_d}, {1'b1,  `RRCr_e},
     {1'b1,  `RRCr_h}, {1'b1,  `RRCr_l},
     {1'b1,  `RRr_b}, {1'b1,  `RRr_c}, {1'b1, `RRr_d}, {1'b1,  `RRr_e},
-    {1'b1,  `RRr_h}, {1'b1,  `RRr_l}:
+    {1'b1,  `RRr_h}, {1'b1,  `RRr_l},{1'b1,  `RRr_a}:
     begin
        rFlagsZ              = {1'b1,wZ};
        rFlagsN              = {1'b1,1'b0};

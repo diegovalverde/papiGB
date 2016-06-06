@@ -190,7 +190,7 @@ begin
 		8'h7C: oUopFlowIdx = 9'd16;		  //BIT7
 		8'h11: oUopFlowIdx = 9'd69;		  //RLr_b
 		8'h38: oUopFlowIdx = 9'd505;		//SRL_b
-		`RRr_b, `RRr_c, `RRr_d, `RRr_e, `RRr_h,	`RRr_l: oUopFlowIdx = 9'd509;		//RR
+		`RRr_a,`RRr_b, `RRr_c, `RRr_d, `RRr_e, `RRr_h,	`RRr_l: oUopFlowIdx = 9'd509;		//RR
 
 	default:
 			oUopFlowIdx = 9'd0;
