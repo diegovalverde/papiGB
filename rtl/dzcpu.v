@@ -872,7 +872,7 @@ begin
     end
 
     {1'b0,`SUBr_a}, {1'b0,`SUBr_b}, {1'b0,`SUBr_e},{1'b0, `SUBr_d},
-    {1'b0,`SUBr_h}, {1'b0,`SUBr_l}:
+    {1'b0,`SUBr_h}, {1'b0,`SUBr_l},{1'b0,`SUBn}:
     begin
        rFlagsZ              = {1'b1,wZ};
        rFlagsN              = {1'b1,wN};

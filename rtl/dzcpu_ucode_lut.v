@@ -639,9 +639,9 @@ begin
 		318: oUop = { `inc_eof, `srx16, `a};
 //SUBn
 		319: oUop = { `inc, `sma, `pc   };
-		320: oUop = { `op,  `nop, `null };
-		321: oUop = { `op,  `srm, `x16 };
-		322: oUop = { `update_flags,  `subx16, `a };
+		320: oUop = { `op,  `srx16, `a };
+		321: oUop = { `op,  `srm, `x8 };
+		322: oUop = { `update_flags,  `subx16, `x8 };
 		323: oUop = { `inc_eof, `srx16, `a};
 //CPr_c
 		324: oUop = { `op,  `sx16r, `a };
