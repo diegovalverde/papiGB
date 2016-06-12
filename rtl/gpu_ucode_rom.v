@@ -80,7 +80,7 @@ begin
 //Frame buffer render main loop. Ie. current_tile = 0
   2: oUop = { `gwrr, `cur_tile, `scy_shl_5__plus_scx, `gnull };//which tile am I on, (oScy >>3) <<5 + oScx)
   3: oUop = { `gwrr, `WinTile, `Win_index, `gnull };  // set up window tile index
-//Next tile loop
+//Next tile row loop
   4: oUop = { `gwrr, `tile_row, `scy_tile_row_offset, `gnull}; // which tile row am I on
 //
   5: oUop = { `gwrl,  `r2, 12'd32 };//assign a literal to r2, 32 tiles
@@ -176,10 +176,10 @@ end
 64: oUop = {`gjnz,`render_window};
 65: oUop = {`ggoto,`skip_the_window};
 //initialize_window
-66: oUop = {`gwrr,`WinTile,`Win_index, `gnull};
+66: oUop = {`gwrl,`r5, 12'b0};
 67: oUop = {`gwrl,`Window_render, 12'b1};
 ///render_window
-68: oUop = { `gadd,  `vmem_addr, `Winmoffset, `r4 };//r4 is 0 so this would get the mem adress 9C00//{ `gadd,  `vmem_addr, `Winmoffset, `WinTile }//this one is not working
+68: oUop = { `gadd,  `vmem_addr, `Winmoffset, `r5 };//r5 is 0 so this would get the mem adress 9C00//{ `gadd,  `vmem_addr, `Winmoffset, `WinTile }//this one is not working
 69: oUop = { `grvmem, `gnull, `gnull, `gnull };//reads vmem and stores in vmem_data
 70: oUop = { `gwrr, `r3, `vmem_addr, `gnull };// store vmem adress in r3
 71: oUop = { `gadd,  `r1,`vmem_data_shl_4, `tile_row };//add tile row with vmem data shifted left by 4
@@ -191,9 +191,9 @@ end
 77: oUop = { `gwrr,   `bl, `vmem_data, `gnull };//save in BL for low byte
 78: oUop = { `gwfbuffer,   `gnull,`gnull, `gnull};// BH and BL go through bg pallete  which work for window and result gets saved in framebuffer
 ///Update win tile index
-79: oUop = { `gaddl, `WinTile, 12'd1  }; //set up WinTile register for next iteration
-80: oUop = { `gsubl, `WinTile, 12'd255  }; // are we going out off screen boundaries
-81: oUop = {`gaddl,  `r4, 12'd1};// add 1 to r4, take in account this has to be changed for r4 its actually used in most logic..dedicate a register to this 
+79: oUop = {`gaddl,  `r5, 12'd1};// add 1 to r5, take in account this has to be changed for r5 its actually used in most logic..dedicate a reg
+80: oUop = { `gaddl, `WinTile, 12'd1  }; //set up WinTile register for next iteration
+81: oUop = { `gsubl, `WinTile, 12'd255  }; // are we going out off screen boundaries
 82: oUop = { `gjnz, `skip_the_window };
 83: oUop = { `gwrl, `Window_render, 12'd0 };
  //////////////////////////////end of window ucode//////////////////////////////////////////////////
@@ -202,26 +202,24 @@ end
   84: oUop = {`ginfbaddr, `gnull, `gnull, `gnull};        //Increment the framebuffer write pointer
   85: oUop = {`gwrl, `sl, 12'd0};
   86: oUop = {`gwrl, `sh, 12'd0};
-  87: //begin
-  // $display("No more GPU code, stop here I say!\n");
-   oUop = { `gsubl, `r1, 12'd8191}; //limit 0x1FFF or d 8191
-   //$finish();
-  //end
+  87: oUop = { `gsubl, `r1, 12'd8191}; //limit 0x1FFF or d 8191
   88: oUop = { `gsub, `r1, `fbuffer_addr, `r8191};          //Did we painted all of the 32x32 tiles?
   89: oUop = { `gjz, 18'h2};                                //Yes, ok restart the loop for next frame
-  90: oUop = { `gwrl,`sprite_current_row_offset, 12'd0};    //Reset the sprite roww offset to zero since we will start with a fresh tile now
-  91: oUop = {  `gaddl, `cur_tile, 12'd1  };                //Time to take care of the next tile
-  92: oUop = {  `gsubl, `r2, 12'd1 };                       //Is this tile the last of the 2 tiles in a tile row?
-  93: oUop = {  `gjnz ,  18'd6};                           //No, Keep rendering the  remaining rows of the current tile
-  94: oUop = {  `gaddl,  `tile_row, 12'd2  };
-  95: oUop = {  `gaddl , `ly, 12'd1 };
-  96: oUop = {  `gwrr,  `r1, `tile_row, `gnull };
-  97: oUop = {  `gsubl,  `r1, 12'h10 };
-  98: oUop = {  `gjz , 18'd4  };                           //Move to next tile
+  90: oUop = {  `gaddl, `r5, 12'd0 };                      //increment window tile
+  91: oUop = { `gwrl,`sprite_current_row_offset, 12'd0};    //Reset the sprite roww offset to zero since we will start with a fresh tile now
+  92: oUop = {  `gaddl, `cur_tile, 12'd1  };                //Time to take care of the next tile
+  93: oUop = {  `gsubl, `r2, 12'd1 };                       //Is this tile the last of the 2 tiles in a tile row?
+  94: oUop = {  `gjnz ,  18'd6};                           //No, Keep rendering the  remaining rows of the current tile line
+  95: oUop = {  `gaddl,  `tile_row, 12'd2  };
+  96: oUop = {  `gaddl , `ly, 12'd1 };
+  97: oUop = {  `gwrr,  `r1, `tile_row, `gnull };
+  98: oUop = {  `gsubl,  `r1, 12'h10 };
+  99: oUop = {  `gjz , 18'd4  };                           //Move to next tile row 0
 
    //defines jump to next row of pixels
-  99: oUop = {  `gsubl,  `cur_tile, 12'd32 };  //Reset the tile index to the first tile index in the row of tiles, this is because we always start a a row of tiles from left to right (like a typewritting machine)
-  100: oUop = {  `ggoto,  18'd5 };              //Move down one row
+  100: oUop = {  `gsubl, `r5, 12'd32 };
+  101: oUop = {  `gsubl, `cur_tile, 12'd32 };  //Reset the tile index to the first tile index in the row of tiles, this is because we always start a a row of tiles from left to right (like a typewritting machine)
+  102: oUop = {  `ggoto,  18'd5 };              //Move down one row
 
   endcase
 end

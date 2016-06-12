@@ -278,7 +278,7 @@ assign wBGRowOffset     = wCurrentTileRow;
 
 assign wOAMOffset = 16'hFE00; //Sprite Attribute Table (OAM - Object Attribute Memory) at $FE00-FE9F.
 
-assign wWinTileindex = ((oWY >> 3) << 5) + (oWX -3'd7) ;
+assign wWinTileindex = ((oWY >> 3) << 5) + (oWX -3'd6) ;
 assign wWinEnabled = (oLCDC[0]  &  oLCDC[5]);
 assign wIsWininBG = ((wWinTile == wCurrentTile) && wWinEnabled == 1)? 1'b1: 1'b0;
 
@@ -361,7 +361,7 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG0_B
   .I25( {8'b0,wR2} ),
   .I26( wR3 ),
   .I27( wR4 ),
-  .I28( wR5 ),      //scy_tile_row_offset
+  .I28( wR5 ),
   .I29( wR6 ),
   .I30( wWinTile ),
   .I31( wSprite_info  ),
