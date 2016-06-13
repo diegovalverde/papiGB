@@ -63,7 +63,8 @@
 `define gand       5'd13
 `define gsprtt     5'd14   //Test if sprite is within (or partially in) current tile rectangle
 `define ginfbaddr  5'd16   //Increment the FrameBuffer write pointer
-
+`define gwx        5'd17
+`define gwy        5'd18
 //Registers
 `define gnull                      6'd0
 
@@ -97,7 +98,7 @@
 `define r4                         6'd27
 `define r5                         6'd28
 `define r6                         6'd29
-`define r7                         6'd30
+`define WinTile                    6'd30
 `define sprite_info		             6'd31
 `define bgmoffset                  6'd32
 `define bgtoffset                  6'd33
@@ -109,12 +110,14 @@
 `define vmem_data_shl_4            6'd39
 `define scy_shl_5__plus_scx        6'd40
 `define scy_tile_row_offset        6'd41
-
-
-
-
+`define IsThisTileWin              6'd42
+`define Win_index                  6'd43
+`define Winmoffset                 6'd44
+`define Window_render              6'd23 //save window render in r0
 //Jump labels
-`define get_next_sprite     18'd50
-`define skip_the_sprites	  18'd53 //remember to change during testing of new uop
-
+`define get_next_sprite     18'd51
+`define skip_the_sprites	  18'd54 //remember to change during testing of new uop
+`define skip_the_window     18'd84
+`define render_window       18'd68
+`define initialize_window   18'd66
 `endif

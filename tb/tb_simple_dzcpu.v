@@ -333,6 +333,8 @@ $readmemh(
       uut.GPU.FF_LY.Q = 8'h0;
       uut.GPU.FFS_OBP0.Q = 8'he4;
       uut.GPU.FFS_OBP1.Q = 8'hc4;
+      uut.GPU.FFS_WY.Q = 8'h80;
+      uut.GPU.FFX_WX.Q =8'h06;
     `endif
 
     // Add stimulus here

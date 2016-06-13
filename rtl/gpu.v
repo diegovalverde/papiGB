@@ -56,20 +56,20 @@ module gpu
 
 wire [20:0] wMcuRegWriteSelect;
 wire [31:0] wGpuRegWriteSelect;
-wire [15:0] wOp0, wOp1, wR0, wR1, wR3,wR4, wR5, wR6, wR7,  wSpriteCoordX,wSpriteCoordY, wOp0_Pre_B, wOp0_Pre_A, wOp1_Pre_B, wOp1_Pre_A;
+wire [15:0] wOp0, wOp1, wR0, wR1, wR3,wR4, wR5, wR6,  wSpriteCoordX,wSpriteCoordY, wOp0_Pre_B, wOp0_Pre_A, wOp1_Pre_B, wOp1_Pre_A;
 wire [7:0] wR2;
-wire [15:0]  wCurrentTile;  //Only support up to 32*32 = 1024 tiles
+wire [15:0]  wCurrentTile,wWinTile;  //Only support up to 32*32 = 1024 tiles
 wire [7:0] wBh, wBl, wState, wIp, wInitialPc, wSC_Tile_Row;
 wire [15:0] wBGTileOffset, wBGTileMapOffset, wBGRowOffset, wFrameBufferAddress, wCurrentTileRow,wOAMOffset;
-wire [15:0] wTile1_Bg_Offset, wTile0_Bg_Offset;
-wire [15:0] wSC_Tile;
+wire [15:0] wTile1_Bg_Offset, wTile0_Bg_Offset,wWinTileMapOffset;
+wire [15:0] wSC_Tile,wWinTileindex;
 wire [7:0] wRegSelect, wSh, wSl;
 wire [1:0] wPixel0,wPixel1,wPixel2,wPixel3,wPixel4,wPixel5,wPixel6,wPixel7;
 wire [1:0] wBgPixel0,wBgPixel1,wBgPixel2,wBgPixel3,wBgPixel4,wBgPixel5,wBgPixel6,wBgPixel7;
 wire [1:0] wSprtPixel0,wSprtPixel1,wSprtPixel2,wSprtPixel3,wSprtPixel4,wSprtPixel5,wSprtPixel6,wSprtPixel7;
 wire [`GPU_UOP_SZ-1:0] wUop;
 wire [5:0] wOp1Sel;
-wire wZ, wRegWe, wGpuActive, wIsSpriteInCurrentTile,wIsSpriteInCurrentRow;
+wire wZ, wRegWe, wGpuActive, wIsSpriteInCurrentTile,wIsSpriteInCurrentRow,wIsWyOnScreen,wIsWxOnScreen,wWinEnabled, wIsWininBG;
 wire [15:0] wSpriteWidth, wSpriteHeight, wTileCoordX, wTileCoordY,wSprite_tile_offset,wSprite_info;
 reg [15:0] rResult;
 reg rRegWe, rBgBufferWe, rJump, rIncFBufferAddr;
@@ -158,6 +158,10 @@ assign wIsSpriteInCurrentTile =
 assign wIsSpriteInCurrentRow = (wCurrentTileRow + wTileCoordY >= wSpriteCoordY &&
 wCurrentTileRow + wTileCoordY <= wSpriteCoordY + wSpriteHeight) ? 1'b1 : 1'b0;
 
+assign wIsWyOnScreen = (0 <= oWY <= 8'd143) ? 1'b1:1'b0;
+
+assign wIsWxOnScreen = (0 <= oWX <= 8'd166) ? 1'b1:1'b0;
+
 assign oSTAT = { 6'b0, wState };
 
 
@@ -172,8 +176,8 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_DMA(  iClock, iReset, iMcuWe  & wMcuRegW
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_BGP(  iClock, iReset, iMcuWe  & wMcuRegWriteSelect[7], iMcuWriteData, oBGP );// bg pallete
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_OBP0( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[8], iMcuWriteData, oOBP0 );// sprite pallet 1
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_OBP1( iClock, iReset, iMcuWe  & wMcuRegWriteSelect[9], iMcuWriteData, oOBP1 );// sprite pallet 2
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_WY(   iClock, iReset, iMcuWe  & wMcuRegWriteSelect[10],iMcuWriteData, oWX );
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_WX(   iClock, iReset, iMcuWe  & wMcuRegWriteSelect[11],iMcuWriteData, oWY );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFS_WY(   iClock, iReset, iMcuWe  & wMcuRegWriteSelect[10],iMcuWriteData, oWY );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FFX_WX(   iClock, iReset, iMcuWe  & wMcuRegWriteSelect[11],iMcuWriteData, oWX );
 
 
 
@@ -196,8 +200,10 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_26(   iClock, iReset, wRegWe  & wGpuReg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_27(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[27], rResult,      wR4 );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_28(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[28], rResult,      wR5 );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_29(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[29], rResult,      wR6 );// gp reg
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_30(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[30], rResult,      wR7 );// gp reg
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 )FFX_30(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[30], rResult,      wWinTile );// gp reg
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 16  )FFX_31(   iClock, iReset, wRegWe  & wGpuRegWriteSelect[31], rResult,      wSprite_info );
+
+
 
 //                                                                                          32 is wBGTileMapOffset
 //                                                                                          33 is wBGTileOffset
@@ -230,18 +236,18 @@ assign wGpuActive = (oLCDC[7]) ? 1'b1 : 1'b0;
 assign wRegSelect = ( wGpuActive ) ? wUop[14:10] : iMcuRegSelect ;
 assign wRegWe     = ( wGpuActive ) ? rRegWe : iMcuWe ;
 
-//Generally speaking the tiles are addressed like so:
+//Generally speaking the tiles are addressed like this:
 //             0                  1
-//LCDC[6]  9800-9BFF        9C00-9FFF       Tile MapCB
-//LCDC[4]  8800-97FF        8000-8FFF       Background
-
+//LCDC[6]  9800-9BFF        9C00-9FFF       Window tile map display
+//LCDC[4]  8800-97FF        8000-8FFF       Background and window tile data
+//LCDC[3]  9800-9BFF        9C00-9FFF       Background tile map display
 //However, there is an additional detail, tile1 index can be greater than 127,
 //while tile0 index can be negative
 //This is done to share some tiles across the two otherwise separate regions
 //Let's assume that the tile number is held in iMcuReadData
 //if the tile number is greater than 128 (if the bit 7 is set)
 //the use 8800-8FFF
-//Like so:
+//Like this:
 
 //+-----------+------------------------------+
 //| Region    |	Usage                        |
@@ -266,10 +272,18 @@ assign wTile1_Bg_Offset = (iMcuReadData[7] == 1'b1) ? 16'h8000 : 16'h8000;
 assign wTile0_Bg_Offset = (iMcuReadData[7] == 1'b1) ? 16'h8000 : 16'h9000;
 
 assign wBGTileOffset    = ( oLCDC[4] ) ? wTile1_Bg_Offset : wTile0_Bg_Offset;
-assign wBGTileMapOffset = ( oLCDC[6] ) ? 16'h9c00 : 16'h9800;
+assign wBGTileMapOffset = ( oLCDC[3] ) ? 16'h9c00 : 16'h9800;
+assign wWinTileMapOffset = ( oLCDC[5] ) ? 16'h9c00 : 16'h9800;
 assign wBGRowOffset     = wCurrentTileRow;
 
 assign wOAMOffset = 16'hFE00; //Sprite Attribute Table (OAM - Object Attribute Memory) at $FE00-FE9F.
+
+assign wWinTileindex = ((oWY >> 3) << 5) + (oWX -3'd6) ;
+assign wWinEnabled = (oLCDC[0]  &  oLCDC[5]);
+assign wIsWininBG = ((wWinTile == wCurrentTile) && wWinEnabled == 1)? 1'b1: 1'b0;
+
+
+
 
 `ifdef LCD_SCXY_DISABLED
   assign wSC_Tile = 16'b0;
@@ -304,10 +318,10 @@ MUXFULLPARALELL_4SEL_GENERIC # (16) MUX_REG0_A
   .I7( {4'b0,iMcuReadData,4'b0}  ), //vmem_data_shl_4
   .I8( wSC_Tile                  ), //scy_shl_5__plus_scx
   .I9( {8'b0,wSC_Tile_Row}       ), //scy_tile_row_offset
-  .I10( 16'h0                    ),
-  .I11( 16'h0                    ),
-  .I12( 16'h0                    ),
-  .I13( 16'h0                    ),
+  .I10( {15'b0,wIsWininBG}       ),
+  .I11( wWinTileindex            ),
+  .I12(wWinTileMapOffset         ),
+  .I13( 16'b0    ),
   .I14( 16'h0                    ),
   .I15( 16'h0                    ),
 
@@ -347,9 +361,9 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG0_B
   .I25( {8'b0,wR2} ),
   .I26( wR3 ),
   .I27( wR4 ),
-  .I28( wR5 ),      //scy_tile_row_offset
+  .I28( wR5 ),
   .I29( wR6 ),
-  .I30( wR7 ),
+  .I30( wWinTile ),
   .I31( wSprite_info  ),
 
   .O( wOp0_Pre_B )
@@ -377,10 +391,10 @@ MUXFULLPARALELL_4SEL_GENERIC # (16) MUX_REG1_A
   .I7( {4'b0,iMcuReadData,4'b0}  ), //vmem_data_shl_4
   .I8( wSC_Tile                  ), //scy_shl_5__plus_scx
   .I9( {8'b0,wSC_Tile_Row}       ), //scy_tile_row_offset
-  .I10( 16'h0                    ),
-  .I11( 16'h0                    ),
-  .I12( 16'h0                    ),
-  .I13( 16'h0                    ),
+  .I10( {14'b0,wIsWininBG}       ),
+  .I11( wWinTileindex            ),
+  .I12( wWinTileMapOffset        ),
+  .I13( 16'b0      ),
   .I14( 16'h0                    ),
   .I15( 16'h0                    ),
 
@@ -422,7 +436,7 @@ MUXFULLPARALELL_5SEL_GENERIC # (16) MUX_REG1_B
   .I27( wR4 ),
   .I28( wR5 ),
   .I29( wR6 ),
-  .I30( wR7 ),
+  .I30( wWinTile ),
   .I31( wSprite_info  ),
 
   .O( wOp1_Pre_B )
@@ -666,9 +680,9 @@ begin
       rIncFBufferAddr = 1'b0;
     end
 
-   `gsprtt:
+   `gwx:
     begin
-      rResult     = {15'b0,wIsSpriteInCurrentRow};
+      rResult     = {15'b0,wIsWyOnScreen};
       rRegWe      = 1'b1;
       rBgBufferWe = 1'b0;
       rJump       = 1'b0;
@@ -676,6 +690,15 @@ begin
       rIncFBufferAddr = 1'b0;
     end
 
+    `gwy:
+     begin
+       rResult     = {15'b0,wIsWyOnScreen};
+       rRegWe      = 1'b1;
+       rBgBufferWe = 1'b0;
+       rJump       = 1'b0;
+       oMcuReadRequest = 1'b0;
+       rIncFBufferAddr = 1'b0;
+     end
 
     default://default case for error
     begin
