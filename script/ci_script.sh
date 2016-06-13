@@ -1384,11 +1384,25 @@ then
         exit 1
 fi
 
-echo "-I- Running Simulation test4 Tetris Main Menu Sprites..."
+echo "-I- Running Simulation test4 Zelda Window on gameplay ..."
+
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DDISABLE_CPU -DVMEM_DUMP_PATH='\"resources/zelda_game_scene_1_8000_9fff.dump\"' -DOAM_DUMP_PATH='\"resources/zelda_game_scene_1_oam_fe00_fe9f.dump\"'  -DSTOP_AFTER_FIRST_FRAME -DREG_LCDC=8\'b11100001  -DREG_BGP=8\'h27" >/dev/null 2>&1
+
+echo "-I- Checking Frame buffer PPM "
+
+#if ! cmp generated_frames/frame.0.ppm reference/zelda_window_on_screen_buffer.ppm 
+#then
+#        echo "-E- Video PPM mismatch"
+#        exit 1
+#fi
+
+echo "-I- Running Simulation test5 Tetris Main Menu Sprites..."
+
 
 
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DDISABLE_CPU  -DVMEM_DUMP_PATH='\"resources/tetris_vmem_8000_9fff.dump\"'  -DOAM_DUMP_PATH='\"resources/tetris_oam_fe00_fe9f.dump\"'  -DENABLE_GPU_LOG -DENABLE_CPU_LOG -DSTOP_AFTER_FIRST_FRAME -DREG_LCDC=8\'b10011100 -DREG_BGP=8\'h27" >/dev/null 2>&1
+make SIMFLAGS="-DDISABLE_CPU  -DVMEM_DUMP_PATH='\"resources/tetris_vmem_8000_9fff.dump\"'  -DOAM_DUMP_PATH='\"resources/tetris_oam_fe00_fe9f.dump\"'  -DSTOP_AFTER_FIRST_FRAME -DREG_LCDC=8\'b10010010 -DREG_BGP=8\'h27" >/dev/null 2>&1
 
 echo "-I- Checking Frame buffer PPM "
 
