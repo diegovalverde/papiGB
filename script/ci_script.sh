@@ -1391,11 +1391,11 @@ make SIMFLAGS="-DDISABLE_CPU -DVMEM_DUMP_PATH='\"resources/zelda_game_scene_1_80
 
 echo "-I- Checking Frame buffer PPM "
 
-#if ! cmp generated_frames/frame.0.ppm reference/zelda_window_on_screen_buffer.ppm 
-#then
-#        echo "-E- Video PPM mismatch"
-#        exit 1
-#fi
+if ! cmp generated_frames/frame.0.ppm reference/zelda_window_video_buffer.ppm
+then
+        echo "-E- Video PPM mismatch"
+        exit 1
+fi
 
 echo "-I- Running Simulation test5 Tetris Main Menu Sprites..."
 
