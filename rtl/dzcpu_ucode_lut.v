@@ -597,16 +597,16 @@ begin
 		286: oUop = { `op ,`srm,    `a  };
 		287: oUop = { `op, `srx16,  `hl };
 		288: oUop = { `inc_eof, `sma , `pc };
-//CALLNZnn
+//CALLNZnn *** TODO BUG
 		289: oUop = { `inc,  `nop,  `null  };
 		290: oUop = { `inc,  `nop,  `null  };
 		291: oUop = { `op , `srm,    `y8   }; //l = MEM[pc] = literal
 		292: oUop = { `inc_eof_z, `srm, `x8   }; //l = MEM[pc] = literal
-		293: oUop = { `op,  `sma,    `sp  };
-		294: oUop = { `op,  `smw,    `pch };	//MEM[sp] = pc[7:0]
-		295: oUop = { `op,  `dec16,  `sp  };
-		296: oUop = { `op , `smw,    `pc  };	//MEM[sp+1] = pc[15:8]
-		297: oUop = { `op,  `dec16,  `sp  };
+		293: oUop = { `op,  `dec16,  `sp  };
+		294: oUop = { `op,  `sma,    `sp  };
+		295: oUop = { `op,  `smw,    `pch };	//MEM[sp] = pc[7:0]
+		296: oUop = { `op,  `dec16,  `sp  };
+		297: oUop = { `op , `smw,    `pc  };	//MEM[sp+1] = pc[15:8]
 		298: oUop = { `op , `spc,    `xy16  };
 		299: oUop = { `eof ,`sma,   `pc   };
 //DECr_b
