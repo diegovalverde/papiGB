@@ -14,5 +14,5 @@ label:
         ld c, a
 
         ;the value expected is bc=$0208
-        ld sp, $dff3
+        ld sp, $fffe
         push bc
