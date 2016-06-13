@@ -2,10 +2,10 @@ SECTION "sec", ROM0
 DS $100
         jp  $200
 DS $100
-        ld sp, $dff3
+        ld sp, $dfe2
+        ld hl, $dfe0
         ld a, $ff
         sub a, $1
-        ld hl, $dff1
         call nz, label
         ld a, $cc
 label:
@@ -14,4 +14,5 @@ label:
         ld c, a
 
         ;the value expected is bc=$0208
+        ld sp, $dff3
         push bc
