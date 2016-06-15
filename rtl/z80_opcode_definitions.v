@@ -287,7 +287,7 @@
 //  //  `define  RST20;
 
 //  //  `define  ADDSPn;
-//  //  `define  JPHL;
+  `define  JPHL   8'hE9
   `define  LDmmA  8'hEA
 //  //  `define  XX;
 //  //  `define  XX;

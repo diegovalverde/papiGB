@@ -162,6 +162,7 @@ begin
 	`SBCr_e:   oUopFlowIdx = 9'd493;
 	`SBCr_h:   oUopFlowIdx = 9'd497;
 	`SBCr_l:   oUopFlowIdx = 9'd501;
+	`JPHL:     oUopFlowIdx = 9'd511;
 	default:
 			 oUopFlowIdx = 9'd278;
 	endcase
@@ -878,7 +879,8 @@ begin
 //CB RROT
 			509: oUop = { `update_flags, `rrot,  `null  };
 			510: oUop = { `eof, `nop,  `null  };
-
+//JPHL
+		  511:     oUop = { `inc_eof_fu, `dec16,    `b  };
 
 //FLOW_ID_INT_VBLANK
 /*
