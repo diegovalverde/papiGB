@@ -295,7 +295,12 @@ assign wFlagsUpdate[`flag_n ] = ( rFlagsN[1] == 1'b1 ) ? rFlagsN[0] : wFlags[`fl
 assign wFlagsUpdate[`flag_c ] = ( rFlagsC[1] == 1'b1 ) ? rFlagsC[0] : wFlags[`flag_c ] ;
 assign wFlagsUpdate[3:0] = 4'b0;
 
-FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 )FFFLAGS( iClock, iReset, wFlagsWe , 8'hb0,wFlagsUpdate, wFlags );
+wire [7:0] wNewFlags;
+wire       wOverWriteFlagswithRegister;
+assign wOverWriteFlagswithRegister = (rFlowEnable & rRegWe & rRegWriteSelect[13]) ? 1'b1 : 1'b0;
+assign wNewFlags = ( wOverWriteFlagswithRegister ) ? rUopDstRegData : wFlagsUpdate;
+
+FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 )FFFLAGS( iClock, iReset, wFlagsWe | wOverWriteFlagswithRegister , 8'hb0,wNewFlags, wFlags );
 FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 5 )FFMCUADR( iClock, iReset, rFlowEnable & rSetMCOAddr, `pc , wUop[4:0], wMcuAdrrSel );
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FF_RREQ( iClock, iReset, rFlowEnable & ~oMCUwe, rMcuReadRequest, oMcuReadRequest );
 

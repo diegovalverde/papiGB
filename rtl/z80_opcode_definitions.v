@@ -725,7 +725,7 @@
 `define pc    5'd8
 `define pch   5'd9
 `define sp    5'd10
-`define flags 5'd11
+`define f     5'd11
 `define spl   5'd12
 `define sph   5'd13
 `define y16   5'd14
@@ -734,7 +734,7 @@
 `define x16   5'd17
 `define io_c  5'd18
 `define de    5'd19
-`define f     5'd20
+
 `define bc    5'd21
 `define af    5'd22
 `define idata 5'd23
