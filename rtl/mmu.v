@@ -136,6 +136,13 @@ RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(8191) ) WORK
 assign oGpu_RegSelect = wAddr[3:0];
 
 ///  READ .///
+
+`ifdef LY_OVERRIDE_PATH
+wire [7:0] wGPU_LY;
+
+ly_override lyover((iCpuReadRequest == 1'b1 && wAddr == 16'hff44) ,wGPU_LY);
+
+`endif
 MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_LCD_REGISTERS
 (
 	.Sel( wAddr[3:0]),
@@ -143,7 +150,11 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_LCD_REGISTERS
 	.I1( iGPU_STAT            ),
 	.I2( iGPU_SCY             ),
 	.I3( iGPU_SCX             ),
+`ifdef LY_OVERRIDE_PATH
+	.I4( wGPU_LY              ),
+`else
 	.I4( iGPU_LY              ),
+`endif
 	.I5( iGPU_LYC             ),
 	.I6( iGPU_DMA             ),
 	.I7( iGPU_BGP             ),
@@ -378,3 +389,35 @@ endmodule
 `endif //CARTRIGDE_DUMP_PATH
 
 `endif //REAL_CARTRIDGE_DATA
+
+
+`ifdef LY_OVERRIDE_PATH
+module ly_override
+(
+	input wire iEnable,
+	output reg [7:0] oData
+);
+
+reg [7:0] mem[65534:0];
+reg [31:0] count;
+
+
+
+always @ (posedge iEnable)
+begin
+	 $display("Reading mem[%d] = %h",count, mem[count]);
+	 #(2*`CLOCK_CYCLE) oData = mem[count];
+	 count = count + 1;
+
+end
+
+initial
+begin
+  count = 0;
+	$readmemh(
+		`LY_OVERRIDE_PATH, mem);
+
+end
+
+endmodule
+`endif

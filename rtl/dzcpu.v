@@ -265,7 +265,7 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFZ16 (  iClock, iReset, rFlowEnable & rRegW
 
 reg [1:0] rFlagsZ, rFlagsN, rFlagsH, rFlagsC;
 wire wFlagsWe;
-wire wCarry, wCarry16, wCarry12, wHalfCarry_Inc, wHalfCarry_Add, wHalfCarry_Sub, wHalfCarry_Dec;
+wire wCarry, wCarry16, wCarry12, wHalfCarry_Inc, wHalfCarry_Add, wHalfCarry_Sub, wHalfCarry_Dec, wCpnHalf;
 wire [7:0] wFlagsUpdate;
 
 
@@ -277,6 +277,8 @@ assign wHalfCarry_Dec = ((rUopDstRegData & 16'hf) == 16'hf) ? 1'b1 : 1'b0;
 //assign wHalfCarry_Add = rUopDstRegData[4];
 assign {wHalfCarry_Add, wNibble_Add} = wRegData[3:0] + wX16[3:0];
 assign {wHalfCarry_Sub, wNibble_Sub} = wX16[3:0] - wRegData[3:0];
+
+assign wCpnHalf = (rUopDstRegData[3:0] > wA[3:0]) ? 1'b1 : 1'b0;
 
 //assign wHalfCarry = wUopDstRegData_Prev[4];  //Need value from prev CC
 assign wCarry     = rUopDstRegData[8];
@@ -884,7 +886,7 @@ begin
     begin
        rFlagsZ              = {1'b1,wZ};   // A == n
        rFlagsN              = {1'b1,1'b1};
-       rFlagsH              = {1'b1,~wN};   //A > n
+       rFlagsH              = {1'b1,wCpnHalf};   //A > n
        rFlagsC              = {1'b1,wN};   //A < n
     end
 
