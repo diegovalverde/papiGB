@@ -896,12 +896,12 @@ begin
     end
 
     {1'b0,`ANDr_a},{1'b0,`ANDr_b},
-    {1'b0,`ANDr_c},
+    {1'b0,`ANDr_c},{1'b0,`ANDn},
     {1'b0,`ANDr_d},{1'b0,`ANDr_e},
     {1'b0,`ANDr_h},{1'b0,`ANDr_l}:
     begin
        rFlagsZ              = {1'b1,wZ};
-       rFlagsN              = {1'b0,1'b0};
+       rFlagsN              = {1'b1,1'b0};
        rFlagsH              = {1'b1,1'b1};  //H is set
        rFlagsC              = {1'b1,1'b0};
     end

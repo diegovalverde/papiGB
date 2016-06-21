@@ -44,6 +44,19 @@ else
 	exit 1
 fi
 
+
+#ANDn2
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DREG_F=8\'hd0 -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDn2.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 00a0" pgb_cpu.log
+then
+	echo "Test test_ANDr_a.dump passed"
+else
+	echo "Test test_ANDr_a.dump failed"
+	exit 1
+fi
+
 #ANDr_a
 make clean >/dev/null 2>&1
 make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_a.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
