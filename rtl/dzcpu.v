@@ -882,7 +882,7 @@ begin
     {1'b0,`SUBr_h}, {1'b0,`SUBr_l},{1'b0,`SUBn}:
     begin
        rFlagsZ              = {1'b1,wZ};
-       rFlagsN              = {1'b1,wN};
+       rFlagsN              = {1'b1,1'b1};
        rFlagsH              = {1'b1,wHalfCarry_Sub};
        rFlagsC              = {1'b1,wCarry};
     end

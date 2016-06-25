@@ -640,7 +640,7 @@ begin
 		318: oUop = { `inc_eof, `srx16, `a};
 //SUBn
 		319: oUop = { `inc, `sma, `pc   };
-		320: oUop = { `op,  `srx16, `a };
+		320: oUop = { `op,  `sx16r, `a };
 		321: oUop = { `op,  `srm, `x8 };
 		322: oUop = { `update_flags,  `subx16, `x8 };
 		323: oUop = { `inc_eof, `srx16, `a};
@@ -755,9 +755,9 @@ begin
 
 //JRNCn
 		414:  oUop = { `inc,  `sma,   `pc   };
-		415:  oUop = { `inc_eof_c, `nop, `null };
-		416:  oUop = { `op,  `srm, `x16 };
-		417:  oUop = { `op,  `addx16u, `pc };
+		415:  oUop = { `inc_eof_c, `sx16r, `pc };
+		416:  oUop = { `op,  `addx16, `idata };
+		417:  oUop = { `op,  `inc16, `x16 };
 		418:  oUop = { `op,  `spc, `x16 }; //this is only low part of pc
 		419:  oUop = { `eof,  `nop, `null };
 //ANDHL
