@@ -870,7 +870,7 @@ begin
 
 
     {1'b0,`ADDr_a}, {1'b0,`ADDr_b}, {1'b0,`ADDr_c},{1'b0, `ADDr_d},
-    {1'b0,`ADDr_h}, {1'b0,`ADDr_l}, {1'b0,`ADDr_e},{1'b0, `ADDn}:
+    {1'b0,`ADDr_h}, {1'b0,`ADDr_l}, {1'b0,`ADDr_e},{1'b0, `ADDn},{1'b0,`ADCn}:
     begin
        rFlagsZ              = {1'b1,wZ};
        rFlagsN              = {1'b1,1'b0};
@@ -917,8 +917,8 @@ begin
 
     {1'b0,`RRA}:
     begin
-       rFlagsZ              = {1'b0,1'b0};
-       rFlagsN              = {1'b0,1'b0};
+       rFlagsZ              = {1'b1,wZ};
+       rFlagsN              = {1'b1,1'b0};
        rFlagsH              = {1'b1,1'b0};  //H is reset
        rFlagsC              = {1'b1,wA[0]};
     end

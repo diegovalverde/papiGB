@@ -676,7 +676,7 @@ begin
 		347:  oUop = { `op,  `srm,   `x16  };
 		348:  oUop = { `op,  `addx16,   `a  };
 		349:  oUop = { `update_flags,  `addx16,   `carry  };
-		350:  oUop = { `inc_eof, `sma, `pc};
+		350:  oUop = { `inc_eof, `srx16, `a};
 //ADDHLDE
 		351:  oUop = { `inc,  `sx16r,   `hl   };
 		352:  oUop = { `update_flags,  `addx16,   `de   };
