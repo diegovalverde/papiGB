@@ -564,14 +564,14 @@ begin
           rClearIntLatch      = 1'b0;
         end
 
-    `addx16r16:
+    `addx16c:
     begin
       oMCUwe              = 1'b0;
       rRegSelect          = wUop[4:0];
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = `x16;
-      rUopDstRegData      = wX16 + wRegData;
+      rUopDstRegData      = wX16 + wRegData + wFlags[`flag_c];
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;

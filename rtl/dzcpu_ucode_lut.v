@@ -674,8 +674,8 @@ begin
 		345:  oUop = { `inc,  `sma,   `pc   };
 		346:  oUop = { `op,  `nop,   `null };
 		347:  oUop = { `op,  `srm,   `x16  };
-		348:  oUop = { `op,  `addx16,   `a  };
-		349:  oUop = { `update_flags,  `addx16,   `carry  };
+		348:  oUop = { `update_flags,  `addx16c,   `a };
+		349:  oUop = { `op,  `nop,   `null  };
 		350:  oUop = { `inc_eof, `srx16, `a};
 //ADDHLDE
 		351:  oUop = { `inc,  `sx16r,   `hl   };
@@ -750,7 +750,7 @@ begin
 		410: oUop = { `eof ,`sma,  `pc   };
 //ADDHLHL
 		411: oUop = {`op, `sx16r,  `hl   };
-		412: oUop = {`update_flags, `addx16r16,  `x16 };
+		412: oUop = {`update_flags, `addx16u,  `x16 };
 		413: oUop = {`inc_eof, `srx16,  `hl   };
 
 //JRNCn
