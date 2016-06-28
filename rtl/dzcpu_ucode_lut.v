@@ -697,8 +697,8 @@ begin
 		364: oUop = { `inc_eof, `nop,  `null  };
 //RETNC
 		365:  oUop = { `op, `xorx16, `x16 };
-		366:  oUop = { `update_flags,  `addx16,   `carry  };
-		367:  oUop = { `inc_eof_nz,  `srm, `x16 };
+		366:  oUop = { `op,  `nop,   `null  };
+		367:  oUop = { `inc_eof_c,  `srm, `x16 };
 		368: oUop = {`op ,`sma,  `sp   };
 		369: oUop = {`op, `sx16r,  `hl };
 		370: oUop = {`op, `inc16, `sp  };
@@ -710,7 +710,7 @@ begin
 		376: oUop = { `eof ,`sma,  `pc   };
 
 //RETZ
-		377: oUop = { `inc_eof_z,  `nop, `null };
+		377: oUop = { `inc_eof_nz,  `nop, `null };
 		378: oUop = {`op ,`sma,  `sp   };
 		379: oUop = {`op, `sx16r,  `hl };
 		380: oUop = {`op, `inc16, `sp  };
