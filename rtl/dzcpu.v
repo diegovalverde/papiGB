@@ -265,9 +265,9 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFZ16 (  iClock, iReset, rFlowEnable & rRegW
 
 reg [1:0] rFlagsZ, rFlagsN, rFlagsH, rFlagsC;
 wire wFlagsWe;
-wire wCarry, wCarry16, wCarry12, wHalfCarry_Inc, wHalfCarry_Add, wHalfCarry_Sub, wHalfCarry_Dec, wCpnHalf;
+wire wCarry, wCarry12, wHalfCarry_Inc, wHalfCarry_Add, wHalfCarry_Sub, wHalfCarry_Dec, wCpnHalf;
 wire [7:0] wFlagsUpdate;
-
+reg rCarry16;
 
 wire [3:0] wNibble_Add, wNibble_Sub;
 //assign {wHalfCarry,wNibble} = (rSubFlags ==1'b0) ? wRegData[3:0] + 1'b1 :  wRegData[3:0] - 1'b1;
@@ -282,7 +282,7 @@ assign wCpnHalf = (rUopDstRegData[3:0] > wA[3:0]) ? 1'b1 : 1'b0;
 
 //assign wHalfCarry = wUopDstRegData_Prev[4];  //Need value from prev CC
 assign wCarry     = rUopDstRegData[8];
-assign wCarry16   = rUopDstRegData[15];
+//assign wCarry16   = rUopDstRegData[15];
 assign wCarry12   = rUopDstRegData[12];
 
 
@@ -389,7 +389,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b0;
       rWriteSelect        = wUopSrc[7:0];
-      rUopDstRegData      = 16'b0;
+      {rCarry16,rUopDstRegData}      = 16'b0;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -403,7 +403,7 @@ begin
       rSetMCOAddr         = 1'b1;
       rRegWe              = 1'b0;
       rWriteSelect        = wUopSrc[7:0];
-      rUopDstRegData      = 16'b0;
+      {rCarry16,rUopDstRegData}      = 16'b0;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b1;
       rSetiWe             = 1'b0;
@@ -418,7 +418,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = wUopSrc[7:0];
-      rUopDstRegData      = iMCUData;
+      {rCarry16,rUopDstRegData}      = iMCUData;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -433,7 +433,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b0;
       rWriteSelect        = wUopSrc[7:0];
-      rUopDstRegData      = 16'b0;
+      {rCarry16,rUopDstRegData}      = 16'b0;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -448,7 +448,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = wUopSrc[7:0];
-      rUopDstRegData      = wRegData - 16'd1;
+      {rCarry16,rUopDstRegData}      = wRegData - 16'd1;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -463,7 +463,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = wUopSrc[7:0];
-      rUopDstRegData      = wRegData  + 1'b1;
+      {rCarry16,rUopDstRegData}      = wRegData  + 1'b1;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -478,7 +478,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = `x16;
-      rUopDstRegData      = wX16 ^ {8'b0,wRegData[7:0]};
+      {rCarry16,rUopDstRegData}      = wX16 ^ {8'b0,wRegData[7:0]};
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -493,7 +493,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = `x16;
-      rUopDstRegData      = wX16 - {8'b0,wRegData[7:0]};
+      {rCarry16,rUopDstRegData}      = wX16 - {8'b0,wRegData[7:0]};
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -509,7 +509,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = `a;
-      rUopDstRegData      = {8'b0,wA} ^ {8'b0,wRegData[7:0]};
+      {rCarry16,rUopDstRegData}      = {8'b0,wA} ^ {8'b0,wRegData[7:0]};
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -524,7 +524,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = `a;
-      rUopDstRegData      = {8'b0,wA} & {8'b0,wRegData[7:0]};
+      {rCarry16,rUopDstRegData}      = {8'b0,wA} & {8'b0,wRegData[7:0]};
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -539,7 +539,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = `x16;
-      rUopDstRegData      = wX16 + {{8{wRegData[7]}},wRegData[7:0]};  //sign extended 2'complement
+      {rCarry16,rUopDstRegData}      = wX16 + {{8{wRegData[7]}},wRegData[7:0]};  //sign extended 2'complement
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -556,7 +556,7 @@ begin
           rSetMCOAddr         = 1'b0;
           rRegWe              = 1'b1;
           rWriteSelect        = `x16;
-          rUopDstRegData      = wX16 + wRegData;
+          {rCarry16,rUopDstRegData}      = wX16 + wRegData;
           rOverWritePc        = 1'b0;
           rMcuReadRequest     = 1'b0;
           rSetiWe             = 1'b0;
@@ -571,7 +571,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = `x16;
-      rUopDstRegData      = wX16 + wRegData + wFlags[`flag_c];
+      {rCarry16,rUopDstRegData}      = wX16 + wRegData + wFlags[`flag_c];
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -586,7 +586,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b0;
       rWriteSelect        = wUopSrc[7:0];
-      rUopDstRegData      = wRegData;
+      {rCarry16,rUopDstRegData}      = wRegData;
       rOverWritePc        = 1'b1;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -601,7 +601,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b0;
       rWriteSelect        = `pc;
-      rUopDstRegData      = wInterruptVectorAddress;
+      {rCarry16,rUopDstRegData}      = wInterruptVectorAddress;
       rOverWritePc        = 1'b1;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -615,7 +615,7 @@ begin
       rRegSelect          = wUop[4:0];
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b0;
-      rWriteSelect        = wUopSrc[7:0];
+      {rCarry16,rWriteSelect}        = wUopSrc[7:0];
       rUopDstRegData      = 16'b0;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -630,7 +630,7 @@ begin
       rRegSelect          = wUop[4:0];
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
-      rWriteSelect        = wUopSrc[7:0];
+      {rCarry16,rWriteSelect}        = wUopSrc[7:0];
       rUopDstRegData      = wX8;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
@@ -646,7 +646,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = wUopSrc[7:0];
-      rUopDstRegData      = wX16;
+      {rCarry16,rUopDstRegData}      = wX16;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -660,7 +660,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = ( iMCUData[7:6] == 2'b01  ) ? iMCUData[5:3] : wUopSrc[7:0];
-      rUopDstRegData      = rZ80Result;
+      {rCarry16,rUopDstRegData}      = rZ80Result;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -675,7 +675,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = {5'b0,iMCUData[2:0]};
-      rUopDstRegData      = (wRegData << 1) + wFlags[`flag_c];
+      {rCarry16,rUopDstRegData}      = (wRegData << 1) + wFlags[`flag_c];
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -690,7 +690,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = {5'b0,iMCUData[2:0]};
-      rUopDstRegData      = {wFlags[`flag_c], wSHR_RegData[6:0] };
+      {rCarry16,rUopDstRegData}      = {wFlags[`flag_c], wSHR_RegData[6:0] };
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -705,7 +705,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = {5'b0,iMCUData[2:0]};
-      rUopDstRegData      = wSHR_RegData[7:0];
+      {rCarry16,rUopDstRegData}      = wSHR_RegData[7:0];
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -721,7 +721,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b0;
       rWriteSelect        = wUopSrc[7:0];
-      rUopDstRegData      = wRegData & wBitMask;
+      {rCarry16,rUopDstRegData}      = wRegData & wBitMask;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -736,7 +736,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = `x8;
-      rUopDstRegData      = wRegData;
+      {rCarry16,rUopDstRegData}      = wRegData;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -751,7 +751,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b1;
       rWriteSelect        = `x16;
-      rUopDstRegData      = wRegData;
+      {rCarry16,rUopDstRegData}      = wRegData;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -766,7 +766,7 @@ begin
         rSetMCOAddr         = 1'b0;
         rRegWe              = 1'b0;
         rWriteSelect        = 8'b0;
-        rUopDstRegData      = 16'b0;
+        {rCarry16,rUopDstRegData}      = 16'b0;
         rOverWritePc        = 1'b0;
         rMcuReadRequest     = 1'b0;
         rSetiWe             = 1'b1;
@@ -781,7 +781,7 @@ begin
         rSetMCOAddr         = 1'b0;
         rRegWe              = 1'b0;
         rWriteSelect        = 8'b0;
-        rUopDstRegData      = 16'b0;
+        {rCarry16,rUopDstRegData}      = 16'b0;
         rOverWritePc        = 1'b0;
         rMcuReadRequest     = 1'b0;
         rSetiWe             = 1'b1;
@@ -796,7 +796,7 @@ begin
         rSetMCOAddr         = 1'b0;
         rRegWe              = 1'b0;
         rWriteSelect        = 8'b0;
-        rUopDstRegData      = 16'b0;
+        {rCarry16,rUopDstRegData}      = 16'b0;
         rOverWritePc        = 1'b0;
         rMcuReadRequest     = 1'b0;
         rSetiWe             = 1'b0;
@@ -811,7 +811,7 @@ begin
       rSetMCOAddr         = 1'b0;
       rRegWe              = 1'b0;
       rWriteSelect        = wUopSrc[7:0];
-      rUopDstRegData      = 16'b0;
+      {rCarry16,rUopDstRegData}      = 16'b0;
       rOverWritePc        = 1'b0;
       rMcuReadRequest     = 1'b0;
       rSetiWe             = 1'b0;
@@ -862,9 +862,9 @@ begin
     {1'b0,`ADDHLHL}, {1'b0,`ADDHLDE}:
     begin
        rFlagsZ              = {1'b0,1'b0};
-       rFlagsN              = {1'b0,1'b0};
+       rFlagsN              = {1'b1,1'b0};
        rFlagsH              = {1'b1,wCarry12};
-       rFlagsC              = {1'b0,wCarry16};
+       rFlagsC              = {1'b1,rCarry16};
     end
 
 
