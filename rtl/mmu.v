@@ -405,7 +405,7 @@ reg [31:0] count;
 
 always @ (posedge iEnable)
 begin
-	 $display("Reading mem[%d] = %h",count, mem[count]);
+//	 $display("Reading mem[%d] = %h",count, mem[count]);
 	 #(2*`CLOCK_CYCLE) oData = mem[count];
 	 count = count + 1;
 

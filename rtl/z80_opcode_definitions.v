@@ -308,8 +308,8 @@
 //  //  `define  LDHLSPn;
 //  //  `define  XX;
 `define  LDAmm 8'hFA
-//  //  `define  EI;
-  `define  CPn 8'hFE
+`define  EI    8'hFB
+`define  CPn 8'hFE
 //  //  `define  RST38
 
 //  CB00

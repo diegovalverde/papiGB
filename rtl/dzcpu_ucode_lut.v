@@ -163,6 +163,7 @@ begin
 	`SBCr_h:   oUopFlowIdx = 9'd497;
 	`SBCr_l:   oUopFlowIdx = 9'd501;
 	`JPHL:     oUopFlowIdx = 9'd173;
+	`EI:       oUopFlowIdx = 9'd354;
 	default:
 			 oUopFlowIdx = 9'd278;
 	endcase
@@ -325,7 +326,7 @@ begin
 	//INCBC
 	  83: oUop = { `inc_eof ,`inc16,  `bc   };		//flags might be wrong for 16bits
   //UNUSED
-		84: oUop = { `inc_eof, `nop, `null  };
+		84: oUop = { `op, `nop, `null  };
 
 	//ANDn
 		85: oUop = { `inc, `sma,  `pc };
@@ -622,7 +623,7 @@ begin
 //DECSP
 		306: oUop = { `inc_eof, `dec16, `sp };
 //UNUSED
-		307:  oUop = { `inc_eof, `nop, `null};
+		307:  oUop = { `op, `nop, `null};
 //INCr_l
 		308: oUop = { `update_flags, `inc16, `l };
 		309:  oUop = { `inc_eof, `nop, `null};
@@ -681,9 +682,14 @@ begin
 		351:  oUop = { `inc,  `sx16r,   `hl   };
 		352:  oUop = { `update_flags,  `addx16,   `de   };
 		353:  oUop = { `eof,  `srx16,   `hl   };
+//EI
+		354:  oUop = { `op,  `nop,   `null   };
+		355:
+		begin
+	 			$display("%dns %h : INT ENABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",$time, iAddr);
+		 		oUop = { `inc_eof, `seti, `null };
+		end
 //UNUSED
-		354:  oUop = { `inc,  `sma,   `pc   };
-		355:  oUop = { `op, `xorx16, `x16 };
 		356:  oUop = { `update_flags,  `addx16,   `carry  };
 		357:  oUop = { `inc_eof_nz,  `srm, `x16 };
 		358:  oUop = { `eof,  `addx16, `x16 };
@@ -880,7 +886,8 @@ begin
 			509: oUop = { `update_flags, `rrot,  `null  };
 			510: oUop = { `eof, `nop,  `null  };
 //UNUSED
-		  511:     oUop = { `op, `nop,    `null  };
+		  511: oUop = { `op, `nop,    `null  };
+			
 
 
 //FLOW_ID_INT_VBLANK
