@@ -162,7 +162,7 @@ begin
 	`SBCr_e:   oUopFlowIdx = 9'd493;
 	`SBCr_h:   oUopFlowIdx = 9'd497;
 	`SBCr_l:   oUopFlowIdx = 9'd501;
-	`JPHL:     oUopFlowIdx = 9'd511;
+	`JPHL:     oUopFlowIdx = 9'd173;
 	default:
 			 oUopFlowIdx = 9'd278;
 	endcase
@@ -312,8 +312,9 @@ begin
 		74: oUop = { `op ,`srm,    `b    };
 		75: oUop = { `inc ,`inc16,  `sp  };
 		76: oUop = { `eof, `sma,    `pc  };
-	//UNUSED
-		77:	oUop = { `inc_eof_fu, `dec16,    `b  };
+	//UNUSED: You cannot have a eof, followed by another eof, if you do, then the second inst will
+	//also execute!!!
+		77:	oUop = { `op, `nop,    `null  };
 	//LDHLIA
 		78: oUop = {`op, `sma, `hl  };
 		79: oUop = {`op, `smw, `a    };
@@ -443,10 +444,9 @@ begin
 		171: oUop = { `inc_eof,  `nop, `null };
 //DECHL
 		172: oUop = { `inc_eof, `dec16, `hl };
-//UNUSED
-		173: oUop = { `inc_eof,  `nop, `null };
-//UNUSED
-		174: oUop = { `inc_eof,  `nop, `null };
+//JPHL
+		173: oUop = { `op,  `nop, `null };
+		174: oUop = { `eof,  `spc, `hl };
 //ADDr_a
 		175: oUop = { `op, `sx16r, `a       };
 		176: oUop = { `update_flags, `addx16u, `a };
@@ -879,8 +879,9 @@ begin
 //CB RROT
 			509: oUop = { `update_flags, `rrot,  `null  };
 			510: oUop = { `eof, `nop,  `null  };
-//JPHL
-		  511:     oUop = { `inc_eof_fu, `dec16,    `b  };
+//UNUSED
+		  511:     oUop = { `op, `nop,    `null  };
+
 
 //FLOW_ID_INT_VBLANK
 /*
