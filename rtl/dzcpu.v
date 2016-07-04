@@ -168,7 +168,7 @@ MUXFULLPARALELL_4SEL_GENERIC # (16) MUX_INTERRUPT
 UPCOUNTER_POSEDGE # (16) PC
 (
   .Clock(   iClock                ),
-  .Reset(   iReset | rOverWritePc ),
+  .Reset(   iReset | (rOverWritePc & rFlowEnable)),
   .Initial( wInitialPc            ),
   `ifdef DISABLE_CPU
           .Enable(  1'b0    ),
