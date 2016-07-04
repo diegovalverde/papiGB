@@ -265,7 +265,7 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 16)FFZ16 (  iClock, iReset, rFlowEnable & rRegW
 
 reg [1:0] rFlagsZ, rFlagsN, rFlagsH, rFlagsC;
 wire wFlagsWe;
-wire wCarry, wCarry12, wHalfCarry_Inc, wHalfCarry_Add, wHalfCarry_Sub, wHalfCarry_Dec, wCpnHalf;
+wire wCarry, wCarry12, wHalfCarry_Inc, wHalfCarry_Add, wHalfCarry_Sub, wHalfCarry_Dec, wCpnHalf, wHalfCarry_AddC;
 wire [7:0] wFlagsUpdate;
 reg rCarry16;
 
@@ -274,6 +274,7 @@ wire [3:0] wNibble_Add, wNibble_Sub;
 assign wHalfCarry_Inc = ((rUopDstRegData[3:0] ) == 4'h0) ? 1'b1 : 1'b0;
 assign wHalfCarry_Dec = ((rUopDstRegData[3:0] ) == 4'hf) ? 1'b1 : 1'b0;
 
+assign {wHalfCarry_AddC, wNibble_Add} = wRegData[3:0] + wX16[3:0] + wFlags[`flag_c];
 assign {wHalfCarry_Add, wNibble_Add} = wRegData[3:0] + wX16[3:0];
 assign {wHalfCarry_Sub, wNibble_Sub} = wX16[3:0] - wRegData[3:0];
 
@@ -869,12 +870,20 @@ begin
 
 
     {1'b0,`ADDr_a}, {1'b0,`ADDr_b}, {1'b0,`ADDr_c},{1'b0, `ADDr_d},
-    {1'b0,`ADDr_h}, {1'b0,`ADDr_l}, {1'b0,`ADDr_e},{1'b0, `ADDn},{1'b0,`ADCn}:
+    {1'b0,`ADDr_h}, {1'b0,`ADDr_l}, {1'b0,`ADDr_e},{1'b0, `ADDn}:
     begin
        rFlagsZ              = {1'b1,wZ};
        rFlagsN              = {1'b1,1'b0};
        rFlagsH              = {1'b1,wHalfCarry_Add};
        rFlagsC              = {1'b1,wCarry};
+    end
+
+    {1'b0,`ADCn}:
+    begin
+        rFlagsZ              = {1'b1,wZ};
+        rFlagsN              = {1'b1,1'b0};
+        rFlagsH              = {1'b1,wHalfCarry_AddC};
+        rFlagsC              = {1'b1,wCarry};
     end
 
     {1'b0,`SUBr_a}, {1'b0,`SUBr_b}, {1'b0,`SUBr_e},{1'b0, `SUBr_d},
