@@ -270,11 +270,10 @@ wire [7:0] wFlagsUpdate;
 reg rCarry16;
 
 wire [3:0] wNibble_Add, wNibble_Sub;
-//assign {wHalfCarry,wNibble} = (rSubFlags ==1'b0) ? wRegData[3:0] + 1'b1 :  wRegData[3:0] - 1'b1;
 
 assign wHalfCarry_Inc = ((rUopDstRegData[3:0] ) == 4'h0) ? 1'b1 : 1'b0;
 assign wHalfCarry_Dec = ((rUopDstRegData[3:0] ) == 4'hf) ? 1'b1 : 1'b0;
-//assign wHalfCarry_Add = rUopDstRegData[4];
+
 assign {wHalfCarry_Add, wNibble_Add} = wRegData[3:0] + wX16[3:0];
 assign {wHalfCarry_Sub, wNibble_Sub} = wX16[3:0] - wRegData[3:0];
 
