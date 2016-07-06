@@ -913,6 +913,16 @@ begin
        rFlagsC              = {1'b1,1'b0};
     end
 
+    {1'b0, `LDHLSPn}:
+    begin
+       rFlagsZ              = {1'b1,1'b0}; //Clear this flag
+       rFlagsN              = {1'b1,1'b0}; //Clear this flag
+       rFlagsH              = {1'b1,rUopDstRegData[3]};
+       rFlagsC              = {1'b1,wCarry};
+    end
+
+
+
     {1'b0,`RLA}:
     begin
        rFlagsZ              = {1'b0,1'b0};

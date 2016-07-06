@@ -893,7 +893,7 @@ begin
 	//LDHLSPn
 			512: oUop = { `inc, `sma, `pc   };
 			513: oUop = { `op, `sx16r, `sp  };
-			514: oUop = { `op,`addx16, `idata  };
+			514: oUop = { `update_flags,`addx16, `idata  };
 			515: oUop = { `inc_eof,`srx16, `hl   };
 
 
