@@ -305,7 +305,7 @@
 //  //  `define  ORn;
 //  //  `define  RST30;
 
-//  //  `define  LDHLSPn;
+`define  LDHLSPn  8'hf8 //TODO: Need more room to implement this guy....
 //  //  `define  XX;
 `define  LDAmm 8'hFA
 `define  EI    8'hFB
