@@ -26,7 +26,7 @@
 module dzcpu_ucode_lut
 (
 	input  wire[7:0]  iMop,
-	output reg [8:0]  oUopFlowIdx
+	output reg [9:0]  oUopFlowIdx
 );
 
 
@@ -209,7 +209,7 @@ endmodule
 
 module dzcpu_ucode_rom
 (
-	input  wire[8:0]  iAddr,
+	input  wire[9:0]  iAddr,
 	output reg [14:0]  oUop
 );
 always @ ( iAddr )

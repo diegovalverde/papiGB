@@ -38,7 +38,7 @@ module dzcpu
 );
 wire[15:0]  wPc, wRegData, wUopSrc, wX16, wY16, wZ16, wInitialPc, wInterruptVectorAddress, wXY16 ;
 wire [7:0]  wBitMask, wX8, wY8;
-wire [8:0]  wuOpBasicFlowIdx,wuOpExtendedFlowIdx, wuOpFlowIdx, wuPc;
+wire [9:0]  wuOpBasicFlowIdx,wuOpExtendedFlowIdx, wuOpFlowIdx, wuPc, wNextFlow;
 wire        wIPC,wEof, wZ, wN;
 wire [14:0] wUop;
 wire [4:0 ] wuCmd;
@@ -47,10 +47,9 @@ wire [2:0]  wUopRegReadAddr0, wUopRegReadAddr1, rUopRegWriteAddr;
 wire [7:0]  wB,wC,wD, wE, wH,wL,wA, wSpL, wSpH, wFlags, wUopSrcRegData0;
 wire [7:0]  wSHR_RegData, wUopSrcRegData1, wNextUopFlowIdx;
 wire [3:0]  wInterruptRequestBitMap, wInterruptRequestBitMaps_pre;
-wire       wInterruptsEnabled;
-wire [8:0]   wNextFlow; //output of Interruption MUX
-reg     rSetiWe,rSetiVal; // set FF_INTENABLE
-reg        rClearIntLatch; // clean FF_INTSIGNAL
+wire        wInterruptsEnabled;
+reg         rSetiWe,rSetiVal; // set FF_INTENABLE
+reg         rClearIntLatch; // clean FF_INTSIGNAL
 reg         rResetFlow,rFlowEnable, rRegWe, rSetMCOAddr, rOverWritePc, rCarry, rMcuReadRequest;
 reg [4:0]   rRegSelect;
 reg [7:0]   rZ80Result, rWriteSelect;
@@ -110,7 +109,7 @@ assign wInterruptRequestBitMap = ( wInterruptsEnabled  == 1'b1) ? wInterruptRequ
 
 
 
-UPCOUNTER_POSEDGE # (9) UPC
+UPCOUNTER_POSEDGE # (10) UPC
 (
   .Clock(   iClock                             ),
   .Reset(   iReset | rResetFlow | wJcbDetected ),
@@ -120,9 +119,9 @@ UPCOUNTER_POSEDGE # (9) UPC
 );
 
 
-assign wNextFlow = (iReset) ? 9'b0 : wuOpFlowIdx;
+assign wNextFlow = (iReset) ? 10'b0 : wuOpFlowIdx;
 
-MUXFULLPARALELL_2SEL_GENERIC # (9) MUX_NEXT_FLOW
+MUXFULLPARALELL_2SEL_GENERIC # (10) MUX_NEXT_FLOW
 (
   .Sel({wInterruptRoutineJumpDetected,wJcbDetected}),
   .I0( wuOpBasicFlowIdx     ),
