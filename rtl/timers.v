@@ -84,9 +84,10 @@ wire wBaseClockDivider[7:0];
         .I15( wClockIncrementRow[47:45]),
         .O(wClockIncrement)
     );
+wire [7:0] wDiv;
+assign wDiv = (rMTime << 2);
 
-
-  reg  [1:0]  rMTime;
+  reg  [7:0]  rMTime;
   reg         rIncrementBTime;
   wire [7:0]  wBClock; //Base clock
 
@@ -99,7 +100,7 @@ wire wBaseClockDivider[7:0];
       else
       begin
         if (iTick)
-          {rIncrementBTime,rMTime} = rMTime + {5'b0,wClockIncrement};
+          {rIncrementBTime,rMTime} = rMTime + {4'b0,wClockIncrement[2:0]};
       end
    end //always
 

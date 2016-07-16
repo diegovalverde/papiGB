@@ -453,12 +453,14 @@ end //always
     if (uut.DZCPU.rCurrentState == `DZCPU_START_FLOW)
     begin
 `ifdef ENABLE_INSN_TRACE
-      $fwrite(trace,"pc: %04x opcode: %x sp: %x HL: %04x AF: %04x BC: %04x DE: %04x\n",
+      $fwrite(trace,"pc: %04x opcode: %x sp: %x HL: %04x AF: %04x BC: %04x DE: %04x div: %04d deltaC: %04d\n",
       uut.DZCPU.wPc, uut.DZCPU.iMCUData, {uut.DZCPU.wSpH,uut.DZCPU.wSpL},
       {uut.DZCPU.wH,uut.DZCPU.wL},
       {uut.DZCPU.wA,uut.DZCPU.wFlags},
       {uut.DZCPU.wB,uut.DZCPU.wC},
-      {uut.DZCPU.wD,uut.DZCPU.wE}
+      {uut.DZCPU.wD,uut.DZCPU.wE},
+      uut.DZCPU.TIMERS.wDiv,
+      uut.DZCPU.TIMERS.wClockIncrement
        );
 `endif
 

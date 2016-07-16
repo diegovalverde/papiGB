@@ -55,6 +55,18 @@ reg [4:0]   rRegSelect;
 reg [7:0]   rZ80Result, rWriteSelect;
 reg [15:0]  rUopDstRegData;
 
+
+
+timers TIMERS
+(
+ .iClock( iClock    ),
+ .iReset( iReset    ),
+ .iOpcode( iMCUData  ),
+ .iTick( rResetFlow )
+ //output wire oInterrupt0x50
+
+);
+
 assign wUopSrc = wUop[4:0];
 assign wIPC    = wUop[13];    //Increment Macro Insn program counter
 assign wuCmd   = wUop[9:5];
