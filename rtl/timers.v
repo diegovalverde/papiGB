@@ -116,7 +116,9 @@ wire wBaseClockDivider[7:0];
 
     );
 
-wire [7:0] wDiv;
+wire [7:0] wDiv,wTima;
+assign wTima =  8'b0;  //TODO Fix this!
+
 assign wDiv = (rMTime << 2);
 
   reg  [7:0]  rMTime;
