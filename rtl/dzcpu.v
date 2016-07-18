@@ -62,7 +62,8 @@ timers TIMERS
  .iClock( iClock    ),
  .iReset( iReset    ),
  .iOpcode( iMCUData  ),
- .iTick( rResetFlow )
+ .iIsCb(  wCBFlow ),
+ .iTick( rResetFlow | wCBFlow )
  //output wire oInterrupt0x50
 
 );

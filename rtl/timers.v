@@ -28,6 +28,7 @@ module timers
  input wire iReset,
  input wire [7:0] iOpcode,
  input wire iTick,
+ input wire iIsCb,
  output wire oInterrupt0x50
 
 );
@@ -37,7 +38,7 @@ wire wBaseClockDivider[7:0];
 
 
 
-    wire [47:0] wClockIncrementRow;
+    wire [47:0] wClockIncrementRow, wClockIncrementRowCB, wClockIncrementRowBasic;
     wire [2:0]  wClockIncrement;
 
 
@@ -60,8 +61,12 @@ wire wBaseClockDivider[7:0];
     /*208*/    .I13({3'd2, 3'd3, 3'd3, 3'd0, 3'd3, 3'd4, 3'd2, 3'd4, 3'd2, 3'd4, 3'd3, 3'd0, 3'd3, 3'd0, 3'd2, 3'd4}),
     /*224*/    .I14({3'd3, 3'd3, 3'd2, 3'd0, 3'd0, 3'd4, 3'd2, 3'd4, 3'd4, 3'd1, 3'd4, 3'd0, 3'd0, 3'd0, 3'd2, 3'd4}),
     /*240*/    .I15({3'd3, 3'd3, 3'd2, 3'd1, 3'd0, 3'd4, 3'd2, 3'd4, 3'd3, 3'd2, 3'd4, 3'd1, 3'd0, 3'd0, 3'd2, 3'd4}),
-        .O(wClockIncrementRow)
+        .O(wClockIncrementRowBasic)
     );
+
+
+    assign wClockIncrementRow = (iIsCb) ? wClockIncrementRowCB : wClockIncrementRowBasic;
+
 
     MUXFULLPARALELL_4SEL_GENERIC #(3) MUX_CLOCK_STEP_2
     (
@@ -84,6 +89,33 @@ wire wBaseClockDivider[7:0];
         .I0( wClockIncrementRow[47:45]),
         .O(wClockIncrement)
     );
+
+
+
+
+    MUXFULLPARALELL_4SEL_GENERIC #(48) MUX_CLOCK_STEP_1_CB
+    (
+        .Sel(iOpcode[7:4]),
+        .I0({3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2}),
+        .I1({3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2}),
+        .I2({3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2}),
+        .I3({3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2}),
+        .I4({3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd3, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd3, 3'd2}),
+        .I5({3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd3, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd3, 3'd2}),
+        .I6({3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd3, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd3, 3'd2}),
+        .I7({3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd3, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd3, 3'd2}),
+        .I8({3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2}),
+        .I9({3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2}),
+        .I10({3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2}),
+        .I11({3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2}),
+        .I12({3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2}),
+        .I13({3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2}),
+        .I14({3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2}),
+        .I15({3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd4, 3'd2}),
+        .O(wClockIncrementRowCB)
+
+    );
+
 wire [7:0] wDiv;
 assign wDiv = (rMTime << 2);
 
