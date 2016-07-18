@@ -324,6 +324,10 @@ $readmemh(
         uut.GPU.FFS_BGP.Q = `REG_BGP;
     `endif
 
+    `ifdef REG_DIFF
+       uut.DZCPU.TIMERS.rMTime = `REG_DIFF;
+    `endif
+
 
     `ifdef DISABLE_CPU
       //Force GPU to start
@@ -461,7 +465,7 @@ end //always
       {uut.DZCPU.wD,uut.DZCPU.wE},
       uut.DZCPU.TIMERS.wDiv,
       uut.DZCPU.TIMERS.wTima,
-      uut.DZCPU.TIMERS.wClockIncrement
+      (uut.DZCPU.TIMERS.wClockIncrement*4 ) 
        );
 `endif
 
