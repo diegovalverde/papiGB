@@ -1,9 +1,9 @@
 
 //  00
-`define  NOP     8'h0
-`define  LDBCnn  8'h1
-`define  LDBCmA  8'h2
-//  `define  INCBC;
+  `define  NOP     8'h0
+  `define  LDBCnn  8'h1
+  `define  LDBCmA  8'h2
+  `define  INCBC   8'h3
 
   `define  INCr_b 8'h4
   `define  DECr_b 8'h5
@@ -12,51 +12,49 @@
 
 //  `define  LDmmSP;
 //  `define  ADDHLBC;
-//  `define  LDABCm;
-//  `define  DECBC;
+  `define  LDABCm 8'ha
+  `define  DECBC 8'hb
 
-`define  INCr_c 8'hc
-`define  DECr_c 8'hd
-`define  LDrn_c 8'he
+  `define  INCr_c 8'hc
+  `define  DECr_c 8'hd
+  `define  LDrn_c 8'he
 //  `define  RRCA;
 
 //  10
 //  `define  DJNZn;
-`define  LDDEnn 8'h11
-//  `define  LDDEmA;
+  `define  LDDEnn 8'h11
+  `define  LDDEmA 8'h12
   `define  INCDE 8'h13
 
-//  `define  INCr_d;
+  `define  INCr_d 8'h14
   `define  DECr_d 8'h15
   `define  LDrn_d 8'h16
   `define  RLA 8'h17
   `define  JRn 8'h18
-//  `define  ADDHLDE;
+  `define  ADDHLDE 8'h19
   `define  LDADEm 8'h1A
-//  `define  DECDE;
-
-//  `define  INCr_e;
-//  `define  DECr_e;
+  `define  DECDE 8'h1b
+  `define  INCr_e 8'h1c
+  `define  DECr_e 8'h1d
   `define  LDrn_e 8'h1e
-//  `define  RRA;
+  `define  RRA    8'h1f
 //  `define
 //  20
-    `define  JRNZn  8'h20
-    `define  LDHLnn 8'h21
-    `define  LDHLIA 8'h22
-    `define  INCHL  8'h23
-    `define  INCr_h 8'h24
-//  `define  DECr_h;
-    `define  LDrn_h 8'h26
+  `define  JRNZn  8'h20
+  `define  LDHLnn 8'h21
+  `define  LDHLIA 8'h22
+  `define  INCHL  8'h23
+  `define  INCr_h 8'h24
+  `define  DECr_h 8'h25
+  `define  LDrn_h 8'h26
 //  `define  DAA;
-//  `define
+
   `define  JRZn 8'h28
-//  `define  ADDHLHL;
+  `define  ADDHLHL 8'h29
   `define  LDAHLI 8'h2A
-//  `define  DECHL;
-//  `define
-//  `define  INCr_l;
-//  `define  DECr_l;
+  `define  DECHL  8'h2b
+  `define  INCr_l 8'h2c
+  `define  DECr_l 8'h2d
   `define  LDrn_l 8'h2e
 //  `define  CPL;
 //  `define
@@ -64,63 +62,58 @@
   `define  JRNCn   8'h30
   `define  LDSPnn  8'h31
   `define  LDHLDA  8'h32
-//  `define  INCSP;
+  `define  INCSP   8'h33
 
 //  `define  INCHLm;
-//  `define  DECHLm;
+  `define  DECHLm 8'h35
   `define  LDHLmn 8'h36
 //  `define  SCF;
 
 //  `define  JRCn;
 //  `define  ADDHLSP;
 //  `define  LDAHLD;
-//  `define  DECSP;
-
-//  `define  INCr_a;
-    `define  DECr_a 8'h3d
-    `define  LDrn_a 8'h3e
+  `define  DECSP  8'h3b
+  `define  INCr_a 8'h3c
+  `define  DECr_a 8'h3d
+  `define  LDrn_a 8'h3e
 //  `define  CCF;
 
 //  40
-//  `define  LDrr_bb;
-//  `define  LDrr_bc;
-//  `define  LDrr_bd;
-//  `define  LDrr_be;
-
-//  `define  LDrr_bh;
-//  `define  LDrr_bl;
-//  `define  LDrHLm_b;
-//  `define  LDrr_ba;
-//  `define
-//  `define  LDrr_cb;
-//  `define  LDrr_cc;
-//  `define  LDrr_cd;
-//  `define  LDrr_ce;
-
-//  `define  LDrr_ch;
-//  `define  LDrr_cl;
-//  `define  LDrHLm_c;
-    `define  LDrr_ca 8'h4f
+  `define  LDrr_bb 8'h40
+  `define  LDrr_bc 8'h41
+  `define  LDrr_bd 8'h42
+  `define  LDrr_be 8'h43
+  `define  LDrr_bh 8'h44
+  `define  LDrr_bl 8'h45
+  `define  LDrHLm_b 8'h46
+  `define  LDrr_ba  8'h47
+  `define  LDrr_cb  8'h48
+  `define  LDrr_cc  8'h49
+  `define  LDrr_cd  8'h4a
+  `define  LDrr_ce  8'h4b
+  `define  LDrr_ch  8'h4c
+  `define  LDrr_cl  8'h4d
+  `define  LDrHLm_c 8'h4e
+  `define  LDrr_ca 8'h4f
 
 //  50
-//  `define  LDrr_db;
-//  `define  LDrr_dc;
-//  `define  LDrr_dd;
-//  `define  LDrr_de;
-//  `define
-//  `define  LDrr_dh;
-//  `define  LDrr_dl;
-//  `define  LDrHLm_d;
-    `define  LDrr_da 8'h57
-    `define  LDrr_eb 8'h58
-    `define  LDrr_ec 8'h59
-    `define  LDrr_ed 8'h5a
-    `define  LDrr_ee 8'h5b
+  `define  LDrr_db 8'h50
+  `define  LDrr_dc 8'h51
+  `define  LDrr_dd 8'h52
+  `define  LDrr_de 8'h53
+  `define  LDrr_dh 8'h54
+  `define  LDrr_dl 8'h55
+  `define  LDrHLm_d 8'h56
+  `define  LDrr_da 8'h57
+  `define  LDrr_eb 8'h58
+  `define  LDrr_ec 8'h59
+  `define  LDrr_ed 8'h5a
+  `define  LDrr_ee 8'h5b
 
-    `define  LDrr_eh 8'h5c
-    `define  LDrr_el 8'h5d
-//  `define  LDrHLm_e;
-    `define  LDrr_ea 8'h5f
+  `define  LDrr_eh 8'h5c
+  `define  LDrr_el 8'h5d
+  `define  LDrHLm_e 8'h5e
+  `define  LDrr_ea 8'h5f
 
 //  60
   `define  LDrr_hb 8'h60
@@ -130,27 +123,24 @@
 
 //  `define  LDrr_hh;
   `define  LDrr_hl 8'h65
-//  `define  LDrHLm_h
-`define  LDrr_ha 8'h67
-
-//  `define  LDrr_lb;
-//  `define  LDrr_lc;
-//  `define  LDrr_ld;
-//  `define  LDrr_le;
-//  `define
-//  `define  LDrr_lh;
-//  `define  LDrr_ll;
-//  `define  LDrHLm_l;
-//  `define  LDrr_la;
+  `define  LDrHLm_h 8'h66
+  `define  LDrr_ha 8'h67
+  `define  LDrr_lb 8'h68
+  `define  LDrr_lc 8'h69
+  `define  LDrr_ld 8'h6a
+  `define  LDrr_le 8'h6b
+  `define  LDrr_lh 8'h6c
+  `define  LDrr_ll 8'h6d
+  `define  LDrHLm_l 8'h6e
+  `define  LDrr_la 8'h6f
 
 //  70
-//  `define  LDHLmr_b;
-//  `define  LDHLmr_c;
-//  `define  LDHLmr_d;
-//  `define  LDHLmr_e;
-//  `define
-//  `define  LDHLmr_h;
-//  `define  LDHLmr_l;
+  `define  LDHLmr_b 8'h70
+  `define  LDHLmr_c 8'h71
+  `define  LDHLmr_d 8'h72
+  `define  LDHLmr_e 8'h73
+  `define  LDHLmr_h 8'h74
+  `define  LDHLmr_l 8'h75
 //  `define  HALT;
   `define  LDHLmr_a 8'h77
   `define  LDrr_ab 8'h78
@@ -159,85 +149,82 @@
   `define  LDrr_ae 8'h7b
   `define  LDrr_ah 8'h7c
   `define  LDrr_al 8'h7d
-//  `define  LDrHLm_a;
-//  `define  LDrr_aa;
+  `define  LDrHLm_a 8'h7e
+  `define  LDrr_aa 8'h7f
 //  `define
 //  80
-//  `define  ADDr_b;
-//  `define  ADDr_c;
-//  `define  ADDr_d;
-//  `define  ADDr_e;
-//  `define
-//  `define  ADDr_h;
-//  `define  ADDr_l;
+  `define  ADDr_b 8'h80
+  `define  ADDr_c 8'h81
+  `define  ADDr_d 8'h82
+  `define  ADDr_e 8'h83
+  `define  ADDr_h 8'h84
+  `define  ADDr_l 8'h85
 //  `define  ADDHL;
-//  `define  ADDr_a;
-//  `define
-//  `define  ADCr_b;
-//  `define  ADCr_c;
-//  `define  ADCr_d;
-//  `define  ADCr_e;
-//  `define
-//  `define  ADCr_h;
-//  `define  ADCr_l;
+  `define  ADDr_a 8'h87
+  `define  ADCr_b 8'h88
+  `define  ADCr_c 8'h89
+  `define  ADCr_d 8'h8a
+  `define  ADCr_e 8'h8b
+  `define  ADCr_h 8'h8c
+  `define  ADCr_l 8'h8d
 //  `define  ADCHL;
-//  `define  ADCr_a;
+  `define  ADCr_a 8'h8f
 //  `define
 //  90
   `define  SUBr_b 8'h90
-//  `define  SUBr_c;
-//  `define  SUBr_d;
-//  `define  SUBr_e;
+  `define  SUBr_c 8'h91
+  `define  SUBr_d 8'h92
+  `define  SUBr_e 8'h93
 //  `define
-//  `define  SUBr_h;
-//  `define  SUBr_l;
+  `define  SUBr_h 8'h94
+  `define  SUBr_l 8'h95
 //  `define  SUBHL;
-//  `define  SUBr_a;
+  `define  SUBr_a 8'h97
 //  `define
-//  `define  SBCr_b;
-//  `define  SBCr_c;
-//  `define  SBCr_d;
-//  `define  SBCr_e;
+  `define  SBCr_b 8'h98
+  `define  SBCr_c 8'h99
+  `define  SBCr_d 8'h9A
+  `define  SBCr_e 8'h9B
 //  `define
-//  `define  SBCr_h;
-//  `define  SBCr_l;
+  `define  SBCr_h 8'h9C
+  `define  SBCr_l 8'h9D
 //  `define  SBCHL;
-//  `define  SBCr_a;
+  `define  SBCr_a 8'h9F
 //  `define
 //  A0
-//  `define  ANDr_b;
-//  `define  ANDr_c;
-//  `define  ANDr_d;
-//  `define  ANDr_e;
+  `define  ANDr_b 8'hA0
+  `define  ANDr_c 8'hA1
+  `define  ANDr_d 8'hA2
+  `define  ANDr_e 8'hA3
 
-//  `define  ANDr_h;
-//  `define  ANDr_l;
-//  `define  ANDHL;
-//  `define  ANDr_a;
+  `define  ANDr_h 8'hA4
+  `define  ANDr_l 8'hA5
+  `define  ANDHL  8'hA6
+  `define  ANDr_a 8'hA7
 
-//  `define  XORr_b;
-//  `define  XORr_c;
-//  `define  XORr_d;
-//  `define  XORr_e;
+  `define  XORr_b 8'ha8
+  `define  XORr_c 8'ha9
+  `define  XORr_d 8'haa
+  `define  XORr_e 8'hab
 
-//  `define  XORr_h;
-//  `define  XORr_l;
-//  `define  XORHL;
+  `define  XORr_h 8'hac
+  `define  XORr_l 8'had
+  `define  XORHL  8'hAE
   `define  XORr_a 8'hAF
 
 //  B0
-//  `define  ORr_b;
-//  `define  ORr_c;
-//  `define  ORr_d;
-//  `define  ORr_e;
+  `define  ORr_b 8'hb0
+  `define  ORr_c 8'hb1
+  `define  ORr_d 8'hb2
+  `define  ORr_e 8'hb3
 
-//  `define  ORr_h;
-//  `define  ORr_l;
-//  `define  ORHL;
-//  `define  ORr_a;
+  `define  ORr_h 8'hb4
+  `define  ORr_l 8'hb5
+  `define  ORHL  8'hb6
+  `define  ORr_a 8'hb7
 
 //  `define  CPr_b;
-//  `define  CPr_c;
+  `define  CPr_c 8'hb9
 //  `define  CPr_d;
 //  `define  CPr_e;
 
@@ -264,18 +251,18 @@
 
 //  //  `define  CALLZnn;
   `define  CALLnn 8'hCD
-//  //  `define  ADCn;
+  `define  ADCn   8'hCe
 //  //  `define  RST08;
 //  //  `define
 //  D0
-//  //  `define  RETNC;
-//  //  `define  POPDE;
+  `define  RETNC 8'hd0
+  `define  POPDE 8'hD1
 //  //  `define  JPNCnn;
 //  //  `define  XX;
 //  //  `define
 //  //  `define  CALLNCnn;
-//  //  `define  PUSHDE;
-//  //  `define  SUBn;
+  `define  PUSHDE 8'hD5
+  `define  SUBn   8'hD6
 //  //  `define  RST10;
 //  //  `define
 //  //  `define  RETC;
@@ -290,84 +277,81 @@
 //  //  `define
 
   `define  LDIOnA 8'hE0
-//  //  `define  POPHL;
+  `define  POPHL  8'hE1
   `define  LDIOCA 8'hE2
 //  //  `define  XX;
 
 //  //  `define  XX;
-//  //  `define  PUSHHL;
-//  //  `define  ANDn;
+  `define  PUSHHL 8'hE5
+  `define  ANDn   8'hE6
 //  //  `define  RST20;
 
 //  //  `define  ADDSPn;
-//  //  `define  JPHL;
-`define  LDmmA  8'hEA
-//  //  `define  XX;
-//  //  `define
+  `define  JPHL   8'hE9
+  `define  LDmmA  8'hEA
 //  //  `define  XX;
 //  //  `define  XX;
-//  //  `define  XORn;
+   `define  XORn 8'hee
 //  //  `define  RST28;
 //  //  `define
 //  F0
- `define  LDAIOn 8'hf0
-//  //  `define  POPAF;
+  `define  LDAIOn 8'hf0
+  `define  POPAF  8'hf1
 //  //  `define  LDAIOC;
-//  //  `define  DI;
-//  //  `define
+  `define  DI 8'hF3
+
 //  //  `define  XX;
-//  //  `define  PUSHAF;
+`define  PUSHAF  8'hF5
 //  //  `define  ORn;
 //  //  `define  RST30;
-//  //  `define
-//  //  `define  LDHLSPn;
+
+`define  LDHLSPn  8'hf8 //TODO: Need more room to implement this guy....
 //  //  `define  XX;
-//  //  `define  LDAmm;
-//  //  `define  EI;
- `define  CPn 8'hFE
+`define  LDAmm 8'hFA
+`define  EI    8'hFB
+`define  CPn 8'hFE
 //  //  `define  RST38
 
 //  CB00
-//  //  `define  RLCr_b;
-//  //  `define  RLCr_c;
-//  //  `define  RLCr_d;
-//  //  `define  RLCr_e;
-//  //  `define
-//  //  `define  RLCr_h;
-//  //  `define  RLCr_l;
-//  //  `define  RLCHL;
-//  //  `define  RLCr_a;
-//  //  `define
-//  //  `define  RRCr_b;
-//  //  `define  RRCr_c;
-//  //  `define  RRCr_d;
-//  //  `define  RRCr_e;
-//  //  `define
-//  //  `define  RRCr_h;
-//  //  `define  RRCr_l;
-//  //  `define  RRCHL;
-//  //  `define  RRCr_a;
-//  //  `define
+`define  RLCr_b 8'h00
+`define  RLCr_c 8'h01
+`define  RLCr_d 8'h02
+`define  RLCr_e 8'h03
+
+`define  RLCr_h  8'h4
+`define  RLCr_l  8'h5
+`define  RLCHL  8'h6
+`define  RLCr_a  8'h7
+
+`define  RRCr_b 8'h8
+`define  RRCr_c 8'h9
+`define  RRCr_d 8'ha
+`define  RRCr_e 8'hb
+
+`define  RRCr_h 8'hc
+`define  RRCr_l 8'hd
+`define  RRCHL 8'he
+`define  RRCr_a 8'hf
+
 //  CB10
-//  //  `define  RLr_b;
-//  //  `define  RLr_c;
-//  //  `define  RLr_d;
-//  //  `define  RLr_e;
-//  //  `define
-//  //  `define  RLr_h;
-//  //  `define  RLr_l;
-//  //  `define  RLHL;
-//  //  `define  RLr_a;
-//  //  `define
-//  //  `define  RRr_b;
-//  //  `define  RRr_c;
-//  //  `define  RRr_d;
-//  //  `define  RRr_e;
-//  //  `define
-//  //  `define  RRr_h;
-//  //  `define  RRr_l;
-//  //  `define  RRHL;
-//  //  `define  RRr_a;
+`define  RLr_b 8'h10
+`define  RLr_c 8'h11
+`define  RLr_d 8'h12
+`define  RLr_e 8'h13
+`define  RLr_h 8'h14
+`define  RLr_l 8'h15
+`define  RLHL  8'h16
+`define  RLr_a 8'h17
+
+`define  RRr_b 8'h18
+`define  RRr_c 8'h19
+`define  RRr_d 8'h1a
+`define  RRr_e 8'h1b
+
+`define  RRr_h  8'h1c
+`define  RRr_l  8'h1d
+`define  RRHL  8'h1e
+`define  RRr_a  8'h1f
 //  //  `define
 //  CB20
 //  //  `define  SLAr_b;
@@ -391,26 +375,22 @@
 //  //  `define  SRAr_a;
 //  //  `define
 //  CB30
-//  //  `define  SWAPr_b;
-//  //  `define  SWAPr_c;
-//  //  `define  SWAPr_d;
-//  //  `define  SWAPr_e;
-//  //  `define
-//  //  `define  SWAPr_h;
-//  //  `define  SWAPr_l;
-//  //  `define  XX;
-//  //  `define  SWAPr_a;
-//  //  `define
-//  //  `define  SRLr_b;
-//  //  `define  SRLr_c;
-//  //  `define  SRLr_d;
-//  //  `define  SRLr_e;
-//  //  `define
-//  //  `define  SRLr_h;
-//  //  `define  SRLr_l;
-//  //  `define  XX;
-//  //  `define  SRLr_a;
-//  //  `define
+`define  SWAPr_b 8'h30
+`define  SWAPr_d 8'h31
+`define  SWAPr_e 8'h32
+`define  SWAPr_c 8'h33
+`define  SWAPr_h 8'h34
+`define  SWAPr_l 8'h35
+
+`define  SWAPr_a  8'h36
+`define  SRLr_b  8'h37
+`define  SRLr_c  8'h38
+`define  SRLr_d  8'h39
+`define  SRLr_e  8'h3a
+`define  SRLr_h  8'h3b
+`define  SRLr_l  8'h3c
+`define  SRLr_a  8'h3d
+
 //  CB40
 //  //  `define  BIT0b;
 //  //  `define  BIT0c;
@@ -479,22 +459,20 @@
 //  //  `define  BIT6c;
 //  //  `define  BIT6d;
 //  //  `define  BIT6e;
-//  //  `define
 //  //  `define  BIT6h;
 //  //  `define  BIT6l;
 //  //  `define  BIT6m;
 //  //  `define  BIT6a;
-//  //  `define
 //  //  `define  BIT7b;
 //  //  `define  BIT7c;
 //  //  `define  BIT7d;
 //  //  `define  BIT7e;
-//  //  `define
-//  //  `define  BIT7h;
-//  //  `define  BIT7l;
-//  //  `define  BIT7m;
-//  //  `define  BIT7a;
-//  //  `define
+
+`define  BIT7h 8'h7c
+`define  BIT7l 8'h7d
+`define  BIT7m 8'h7e
+`define  BIT7a 8'h7F
+
 //  CB80
 //  //  `define  RES0b;
 //  //  `define  RES0c;
@@ -669,20 +647,39 @@
 `define flag_h 5  //half carry
 `define flag_c 4  //carry
 
-//Prefixed
-`define op              4'b0000
-`define pred_z          4'b0001
-`define update_flags    4'b0010
-`define inc             4'b1000
-`define inc_eof         4'b1100
-`define inc_eof_z       4'b1101
-`define inc_eof_fu      4'b1110
-`define inc_eof_nz      4'b1111
-`define eof             4'b0100
-`define eof_z           4'b0101
-`define eof_fu          4'b0110
+//+------------+-----------+-------------+
+//|   14:10         9:5         4:0     |
+//+------------+-----------+-------------+
+//| Predicate  | Operation |  Operand    |
+//+------------+-----------+-------------+
 
-`define uop_flags_update_enable 1
+//Prefixed
+`define op              5'b00000
+`define eof             5'b00001
+`define eof_c           5'b00010
+`define eof_nc          5'b00011
+`define eof_z           5'b00100
+`define eof_nz          5'b00101
+
+`define inc             5'b01000
+`define inc_eof         5'b01001
+`define inc_eof_c       5'b01010
+`define inc_eof_nc      5'b01011
+`define inc_eof_z       5'b01100
+`define inc_eof_nz      5'b01101
+
+`define update_flags    5'b10000
+`define eof_fu          5'b10001
+`define inc_fu          5'b11000
+`define inc_eof_fu      5'b11001
+`define inc_eof_c_fu    5'b11010
+`define inc_eof_nc_fu   5'b11011
+`define inc_eof_z_fu    5'b11100
+`define inc_eof_nz_fu   5'b11101
+
+
+`define uop_flags_update_enable 14
+`define uop_flags_eof           12
 
 `define nop      5'h0
 `define sma      5'h1
@@ -701,35 +698,62 @@
 `define shl      5'he
 `define subx16   5'hf
 `define srx16    5'h10
+`define seti	   5'h11
+`define cibit	   5'h12
+`define ceti	   5'h13
+`define jint     5'h14
+`define anda     5'h15
+`define xorx16   5'h17
+`define rrot     5'h18
+`define xora     5'h19
+`define addx16c 5'h1a
+`define addx16u   5'h1b
+`define shr       5'h1c
+
+`define null 5'h0
 
 
-`define null 4'h0
 
+`define b     5'd0
+`define c     5'd1
+`define d     5'd2
+`define e     5'd3
+`define h     5'd4
+`define l     5'd5
+`define hl    5'd6
+`define a     5'd7
+`define pc    5'd8
+`define pch   5'd9
+`define sp    5'd10
+`define f     5'd11
+`define spl   5'd12
+`define sph   5'd13
+`define y16   5'd14
+`define z16   5'd15
+`define x8    5'd16
+`define x16   5'd17
+`define io_c  5'd18
+`define de    5'd19
 
-
-`define b     4'h0
-`define c     4'h1
-`define d     4'h2
-`define e     4'h3
-`define h     4'h4
-`define l     4'h5
-`define hl    4'h6
-`define a     4'h7
-`define pc    4'h8
-`define pch   4'he
-`define sp    4'h9
-`define flags 4'h9
-`define spl   4'ha
-`define sph   4'hb
-`define y16   4'ha
-`define z16   4'hb
-`define x8    4'hc
-`define x16   4'hd
-`define io_c  4'he
-`define de    4'hf
-
+`define bc    5'd21
+`define af    5'd22
+`define idata 5'd23
+`define carry 5'd24
+`define y8    5'd25
+`define xy16  5'd26
 
 `define DZCPU_AFTER_RESET 0
 `define DZCPU_START_FLOW  1
 `define DZCPU_RUN_FLOW    2
 `define DZCPU_END_FLOW    3
+
+
+
+
+//this is offset interruption microflow
+`define FLOW_ID_INTERRUPT   9'd247
+
+`define INT_ADDR_VBLANK 					     16'h40
+`define INT_ADDR_LCD_STATUS_TRIGGER		 16'h48
+`define INT_ADDR_TIMER_OVERFLOW        16'h50
+`define INT_ADDR_VBLANK_JOYPAD_PRESS   16'h60

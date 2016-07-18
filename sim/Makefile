@@ -52,9 +52,9 @@ run :
 	$(VVP_CMD) ./$(TESTBENCH) -$(DUMPTYPE) $(VVP_FLAGS)
 
 view :
-	$(WAVEFORM_VIEWER)  $(SIMDIR)/$(TESTBENCH).$(DUMPTYPE) $(SIMDIR)/signals/$(TESTBENCH).gtkw
+	$(WAVEFORM_VIEWER)  $(SIMDIR)/$(TESTBENCH).vcd $(SIMDIR)/signals/$(TESTBENCH).gtkw
 
 clean :
 	rm -f $(SIMDIR)/$(TESTBENCH)
-	rm -f *.{vcd,log,dump,ppm}
+	rm -f *.vcd *.log *.dump 
 	rm -f generated_frames/*.ppm

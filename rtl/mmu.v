@@ -51,14 +51,20 @@ module mmu
 	input wire [7:0]  iGPU_OBP0,
 	input wire [7:0]  iGPU_OBP1,
 	input wire [7:0]  iGPU_WY,
-	input wire [7:0]  iGPU_WX
+	input wire [7:0]  iGPU_WX,
+
+	//IO
+	input wire [7:0] iButtonRegister
 
 
 );
-	wire [7:0] wBiosData, wZeroPageDataOut, wZIOData, wIORegisters,wLCDRegisters,wSoundRegisters_Group0,wSoundRegisters_Group1;
+	wire [7:0] wBiosData, wZeroPageDataOut, wWorkRamDataOut, wZIOData, wIORegisters,wLCDRegisters,wSoundRegisters_Group0,wSoundRegisters_Group1;
 	wire [7:0] wSoundRegisters_WavePattern, wJoyPadAndTimers;
 	wire [15:0] wAddr, wVmemReadAddr;
-	wire wInBios, wInCartridgeBank0, wWeZeroPage, wWeVRam, wCPU_GPU_Sel;
+	wire wInBios, wInCartridgeBank0, wWeZeroPage, wWeVRam, wCPU_GPU_Sel, wWeWorkRam;
+	wire [3:0] wMemSel_H, wMemSel_L;
+	wire [7:0] wReadCartridgeBank0, wReadVmem, wReadData_L, wOAMData;
+
 
 	//Choose who has Memory access at this point in time: GPU or CPU
 	//Simply check MSb from STAT mode. Also check to see if LCD is ON
@@ -66,7 +72,7 @@ module mmu
 	assign wAddr =  iCpuAddr;
 	assign wVmemReadAddr = ( wCPU_GPU_Sel ) ? iGpuAddr[12:0] : iCpuAddr[12:0];
 	assign oGPU_RegData = iCpuData;
-  assign oGpuVmemReadData = wReadVmem;
+  assign oGpuVmemReadData = (iGpuAddr[15:8] == 8'hfe) ?  wOAMData : wReadVmem;
 
 	bios BIOS
 	(
@@ -75,21 +81,34 @@ module mmu
 		.oData( wBiosData  )
 	);
 
-	wire [3:0] wMemSel_H, wMemSel_L;
-	wire [7:0] wReadCartridgeBank0, wReadVmem, wReadData_L;
 
 
 
 //TODO: This has to go into SRAM!!!
+//VRAMR 8000-9FFF
+//TODO: I think the depth shall be 4096
 RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(8192) ) VMEM
 (
  .Clock( iClock ),
- .iWriteEnable( wWeVRam       ),
+ .iWriteEnable(  wWeVRam              ),
  .iReadAddress0( wVmemReadAddr[12:0]  ),
- .iWriteAddress( wAddr[12:0]  ),
- .iDataIn(       iCpuData        ),
- .oDataOut0( wReadVmem        )
+ .iWriteAddress( wAddr[12:0]          ),
+ .iDataIn(       iCpuData             ),
+ .oDataOut0(     wReadVmem            )
 );
+
+
+//Sprite OAM RAM 0xFE00 - 0xFE9F
+RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(8), .MEM_SIZE(160) ) OAM
+(
+ .Clock( iClock ),
+ .iWriteEnable(  wWeVRam              ),		//Since this is DMA, this has to change
+ .iReadAddress0( wVmemReadAddr[7:0]  ),
+ .iWriteAddress( wAddr[7:0]          ),
+ .iDataIn(       iCpuData             ),
+ .oDataOut0(     wOAMData             )
+);
+
 
 //A high-speed area of 128 bytes of RAM.
 //Will use FPGA internal mem since most of the interaction between
@@ -104,9 +123,26 @@ RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(7), .MEM_SIZE(128) ) ZERO_P
  .oDataOut0( wZeroPageDataOut )
 );
 
+RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(8191) ) WORK_RAM
+(
+ .Clock( iClock ),
+ .iWriteEnable( wWeWorkRam   ),
+ .iReadAddress0( wAddr[12:0]   ),
+ .iWriteAddress( wAddr[12:0]   ),
+ .iDataIn(       iCpuData        ),
+ .oDataOut0( wWorkRamDataOut )
+);
+
 assign oGpu_RegSelect = wAddr[3:0];
 
 ///  READ .///
+
+`ifdef LY_OVERRIDE_PATH
+wire [7:0] wGPU_LY;
+
+ly_override lyover((iCpuReadRequest == 1'b1 && wAddr == 16'hff44) ,wGPU_LY);
+
+`endif
 MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_LCD_REGISTERS
 (
 	.Sel( wAddr[3:0]),
@@ -114,7 +150,11 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_LCD_REGISTERS
 	.I1( iGPU_STAT            ),
 	.I2( iGPU_SCY             ),
 	.I3( iGPU_SCX             ),
+`ifdef LY_OVERRIDE_PATH
+	.I4( wGPU_LY              ),
+`else
 	.I4( iGPU_LY              ),
+`endif
 	.I5( iGPU_LYC             ),
 	.I6( iGPU_DMA             ),
 	.I7( iGPU_BGP             ),
@@ -128,6 +168,8 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_LCD_REGISTERS
 	.I15( 8'b0                ),
 	.O( wLCDRegisters )
 );
+
+
 
 MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_REGISTERS
 (
@@ -144,14 +186,28 @@ MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_REGISTERS
 );
 
 
+MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_BUTTON
+(
+	.Sel( wAddr[3:0]),
+	.I0( iButtonRegister            ),   //FF00 P1 register
+	.I1(8'b0  ),
+	.I2(8'b0  ),
+	.I3(8'b0  ),
+	.I4(8'b0  ),
+	.I5(8'b0  ),
+	.I6(8'b0  ),
+	.I7(8'b0  ),
+	.O( wJoyPadAndTimers  )
+);
+
 
 MUXFULLPARALELL_2SEL_GENERIC # (8) MUX_MEMREAD_IO_ZERPAGE_INTERRUPTS
 (
 	.Sel( wAddr[7:6]),
 	.I0( wIORegisters     ),    //FF00-FF7F     wAddr[7:6] = 00
 	.I1( wIORegisters     ),    //FF00-FF7F     wAddr[7:6] = 01
-	.I2( wZeroPageDataOut ),	//FF80-FFFF     wAddr[7:6] = 10
-	.I3( wZeroPageDataOut ),	//FF80-FFFF     wAddr[7:6] = 11
+	.I2( wZeroPageDataOut ),	  //FF80-FFFF     wAddr[7:6] = 10
+	.I3( wZeroPageDataOut ),	  //FF80-FFFF     wAddr[7:6] = 11
 	.O(  wZIOData )
 
 );
@@ -167,11 +223,10 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_L
 	.I8(8'b0), .I9(8'b0),
 	.I10(8'b0), .I11(8'b0),
 	.I12(8'b0), .I13(8'b0),
-	.I14(8'b0),
-	//OAM
-	//.I14(ADDR_OAM),
+	//OAM.
+	.I14( wOAMData),		//Address 0xFE_00, ie. 14
 	//Zeropage RAM, I/O, interrupts
-	.I15( wZIOData ), //wZeroPageDataOut),
+	.I15( wZIOData ), //Address 0xFF_00, ie. 15
 
 	.O( wReadData_L )
 );
@@ -189,9 +244,11 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_H
 	.I8(wReadVmem), .I9(wReadVmem),
 
 	//External RAM
-	.I10(8'b0), .I11(8'b0),
+	.I10(8'b0), .I11(8'b0),      //A000 - BFFF
 	// Work RAM and Echo
-	.I12( 8'b0), .I13(8'b0), .I14(8'b0),
+	.I12( wWorkRamDataOut     ),//wReadCartridgeBank0 ), //C000 - DFFF
+	.I13( wWorkRamDataOut     ), //C000 - DFFF
+	.I14(wReadCartridgeBank0),
 	//Extended Regions
 	.I15( wReadData_L ),
 
@@ -202,7 +259,8 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_H
 assign wWeZeroPage = ( iCpuWe && wAddr[15:12] == 4'hf && wAddr[11:8] == 4'hf && (wAddr[7:6] == 2'h2 || wAddr[7:6] == 2'h3) ) ? 1'b1 : 1'b0 ;
 assign wWeVRam     = ( iCpuWe && (wAddr[15:12] == 4'h8 || wAddr[15:12] == 4'h9 ) ) ? 1'b1 : 1'b0;
 assign oGpu_RegWe  = ( iCpuWe && wAddr[15:4] == 12'hff4 ) ? 1'b1 : 1'b0;
-
+//Working RAM C000 - DFFF
+assign wWeWorkRam  = ( iCpuWe && wAddr[15:13] == 3'h6 ) ? 1'b1 : 1'b0;
 
 
 
@@ -226,6 +284,30 @@ dummy_cartridge DummyCartridgeBank0
 endmodule
 `ifndef REAL_CARTRIDGE_DATA
 
+`ifdef CARTRIGDE_DUMP_PATH
+module dummy_cartridge
+(
+  input wire [15:0] iAddr,
+	output reg [7:0] oData
+);
+
+reg [7:0] mem[65534:0];
+
+always @ (iAddr)
+begin
+	 #(2*`CLOCK_CYCLE) oData = mem[iAddr];
+end
+
+initial
+begin
+	$readmemh(
+		`CARTRIGDE_DUMP_PATH, mem);
+
+end
+
+endmodule
+
+`else
 module dummy_cartridge
 (
   input wire [15:0] iAddr,
@@ -240,7 +322,7 @@ begin
 	16'h101: oData = 8'hc3;
 	16'h102: oData = 8'h50;
 	16'h103: oData = 8'h01;
-	16'h104: oData = 8'hce;	//Start of LOGO
+	16'h104: oData = 8'hce; //Start of LOGO
 	16'h105: oData = 8'hed;
 	16'h106: oData = 8'h66;
 	16'h107: oData = 8'h66;
@@ -304,4 +386,38 @@ end//always
 endmodule
 
 
+`endif //CARTRIGDE_DUMP_PATH
+
+`endif //REAL_CARTRIDGE_DATA
+
+
+`ifdef LY_OVERRIDE_PATH
+module ly_override
+(
+	input wire iEnable,
+	output reg [7:0] oData
+);
+
+reg [7:0] mem[65534:0];
+reg [31:0] count;
+
+
+
+always @ (posedge iEnable)
+begin
+//	 $display("Reading mem[%d] = %h",count, mem[count]);
+	 #(2*`CLOCK_CYCLE) oData = mem[count];
+	 count = count + 1;
+
+end
+
+initial
+begin
+  count = 0;
+	$readmemh(
+		`LY_OVERRIDE_PATH, mem);
+
+end
+
+endmodule
 `endif
