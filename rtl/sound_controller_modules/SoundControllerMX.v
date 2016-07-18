@@ -36,8 +36,10 @@ module SoundCtrlMX //parameters
     input wire [7:0] iNR51,   	// Enable channel 1/2/3/4 in Left/Right.
 
     output reg [4:0] 	oSO1, 	// Left channel.
-    output reg [4:0] 	oSO2 	 // Right channel.
+    output reg [4:0] 	oSO2, 	 // Right channel.
 
+    output wire [1:0]	oChSel,
+    output wire			oChClk
   );
 
 reg [7:0] rNR50, rNR51;
@@ -97,5 +99,7 @@ always @ (*) begin
 
 end
 
+assign oChSel = rSer_sel;
+assign oChClk = rSer_clk;
 
 endmodule	

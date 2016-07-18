@@ -35,7 +35,8 @@ module SoundCtrlChannel2 //parameters
     input wire [7:0] iNR23,
     input wire [7:0] iNR24,            
 
-    output reg [4:0]	oOut 
+    output reg [4:0]	oOut, 
+    output wire oOnFlag    
   );
 
 	reg [5:0] rLength;
@@ -138,4 +139,6 @@ module SoundCtrlChannel2 //parameters
 			end
 		end
 	end
+
+assign oOnFlag = rLengthComplete;	
 endmodule	

@@ -34,7 +34,8 @@ module SoundCtrlChannel4 //parameters
     input wire [7:0] iNR43,
     input wire [7:0] iNR44,            
 
-    output reg [4:0]  oOut 
+    output reg [4:0]  oOut,
+    output wire oOnFlag    
   );
 
 
@@ -188,6 +189,8 @@ module SoundCtrlChannel4 //parameters
       end
     end
   end
+
+  assign oOnFlag = rLengthComplete;
 endmodule 
 
 // misc modules.

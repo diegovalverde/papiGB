@@ -35,7 +35,8 @@ module SoundCtrlChannel3 //parameters
     input wire [7:0] iNR33,
     input wire [7:0] iNR34,
 
-    output reg [4:0]	oOut 
+    output reg [4:0]	oOut, 
+    output wire oOnFlag
   );
 
 
@@ -57,7 +58,6 @@ module SoundCtrlChannel3 //parameters
 
  	reg [4:0] rWaveRamIndex;
 	reg rWaveRamHnL;
-
 
 	reg [7:0] iWaveRam [0:31]; // Wave samples Ram 64 samples of 4 bits
 
@@ -241,4 +241,7 @@ module SoundCtrlChannel3 //parameters
 			2'd3: rStepScaled = rStep >> 2;
 		endcase
 	end
+
+assign oOnFlag = rLengthComplete;
+
 endmodule	
