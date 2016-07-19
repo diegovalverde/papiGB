@@ -29,6 +29,7 @@ module timers
  input wire [7:0] iOpcode,
  input wire iTick,
  input wire iIsCb,
+ input wire iIsBranch,
  output wire oInterrupt0x50
 
 );
@@ -38,7 +39,8 @@ wire wBaseClockDivider[7:0];
 
 
 
-    wire [47:0] wClockIncrementRow, wClockIncrementRowCB, wClockIncrementRowBasic;
+    wire [47:0] wClockIncrementRow, wClockIncrementRowCB;
+    wire [47:0] wClockIncrementRowBasic,wClockIncrementRowBranch,wClockIncrementRow_Pre;
     wire [2:0]  wClockIncrement;
 
 
@@ -64,8 +66,8 @@ wire wBaseClockDivider[7:0];
         .O(wClockIncrementRowBasic)
     );
 
-
-    assign wClockIncrementRow = (iIsCb) ? wClockIncrementRowCB : wClockIncrementRowBasic;
+    assign wClockIncrementRow_Pre = (iIsBranch) ? wClockIncrementRowBranch : wClockIncrementRowBasic;
+    assign wClockIncrementRow = (iIsCb) ? wClockIncrementRowCB : wClockIncrementRow_Pre;
 
 
     MUXFULLPARALELL_4SEL_GENERIC #(3) MUX_CLOCK_STEP_2
@@ -115,6 +117,29 @@ wire wBaseClockDivider[7:0];
         .O(wClockIncrementRowCB)
 
     );
+
+MUXFULLPARALELL_4SEL_GENERIC #(48) MUX_CLOCK_STEP_1_BRANCHES
+(
+    .Sel(iOpcode[7:4]),
+    .I0({3'd1, 3'd3, 3'd2, 3'd2, 3'd1, 3'd1, 3'd2, 3'd1, 3'd5, 3'd2, 3'd2, 3'd2, 3'd1, 3'd1, 3'd2, 3'd1}),
+    .I1({3'd1, 3'd3, 3'd2, 3'd2, 3'd1, 3'd1, 3'd2, 3'd1, 3'd3, 3'd2, 3'd2, 3'd2, 3'd1, 3'd1, 3'd2, 3'd1}),
+    .I2({3'd3, 3'd3, 3'd2, 3'd2, 3'd1, 3'd1, 3'd2, 3'd1, 3'd3, 3'd2, 3'd2, 3'd2, 3'd1, 3'd1, 3'd2, 3'd1}),
+    .I3({3'd3, 3'd3, 3'd2, 3'd2, 3'd3, 3'd3, 3'd3, 3'd1, 3'd3, 3'd2, 3'd2, 3'd2, 3'd1, 3'd1, 3'd2, 3'd1}),
+    .I4({3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd2, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd2, 3'd1}),
+    .I5({3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd2, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd2, 3'd1}),
+    .I6({3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd2, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd2, 3'd1}),
+    .I7({3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd2, 3'd1, 3'd2, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd2, 3'd1}),
+    .I8({3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd2, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd2, 3'd1}),
+    .I9({3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd2, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd2, 3'd1}),
+    .I10({3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd2, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd2, 3'd1}),
+    .I11({3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd2, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd1, 3'd2, 3'd1}),
+    .I12({3'd5, 3'd3, 3'd4, 3'd4, 3'd6, 3'd4, 3'd2, 3'd4, 3'd5, 3'd4, 3'd4, 3'd0, 3'd6, 3'd6, 3'd2, 3'd4}),
+    .I13({3'd5, 3'd3, 3'd4, 3'd0, 3'd6, 3'd4, 3'd2, 3'd4, 3'd5, 3'd4, 3'd4, 3'd0, 3'd6, 3'd0, 3'd2, 3'd4}),
+    .I14({3'd3, 3'd3, 3'd2, 3'd0, 3'd0, 3'd4, 3'd2, 3'd4, 3'd4, 3'd1, 3'd4, 3'd0, 3'd0, 3'd0, 3'd2, 3'd4}),
+    .I15({3'd3, 3'd3, 3'd2, 3'd1, 3'd0, 3'd4, 3'd2, 3'd4, 3'd3, 3'd2, 3'd4, 3'd1, 3'd0, 3'd0, 3'd2, 3'd4}),
+    .O(wClockIncrementRowBranch)
+
+);
 
 wire [7:0] wDiv,wTima;
 assign wTima =  8'b0;  //TODO Fix this!

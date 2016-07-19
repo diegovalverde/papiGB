@@ -63,6 +63,7 @@ timers TIMERS
  .iReset( iReset    ),
  .iOpcode( iMCUData  ),
  .iIsCb(  wCBFlow ),
+ .iIsBranch( rOverWritePc ),
  .iTick( rResetFlow | wCBFlow )
  //output wire oInterrupt0x50
 
