@@ -29,12 +29,12 @@ module timers
  input wire [7:0] iOpcode,
  input wire iTick,
  input wire iIsCb,
- input wire iIsBranch,
- output wire oInterrupt0x50
+  output wire oInterrupt0x50
 
 );
 
 wire wBaseClock;
+reg  rIsBranch;
 wire wBaseClockDivider[7:0];
 
 
@@ -66,7 +66,18 @@ wire wBaseClockDivider[7:0];
         .O(wClockIncrementRowBasic)
     );
 
-    assign wClockIncrementRow_Pre = (iIsBranch) ? wClockIncrementRowBranch : wClockIncrementRowBasic;
+    always @ (*)
+    begin
+      case (iOpcode)
+        8'h20,8'h28,8'h30,8'h38,8'hc0,8'hc2,8'hc4,8'hc8,
+        8'hca,8'hcc,8'hd0,8'hd2,8'hd4,8'hd8,8'hda,8'hdc:
+          rIsBranch = 1'b1;
+        default:
+          rIsBranch = 1'b0;
+      endcase
+    end
+
+    assign wClockIncrementRow_Pre = (rIsBranch) ? wClockIncrementRowBranch : wClockIncrementRowBasic;
     assign wClockIncrementRow = (iIsCb) ? wClockIncrementRowCB : wClockIncrementRow_Pre;
 
 

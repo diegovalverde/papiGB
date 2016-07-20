@@ -47,12 +47,14 @@ wire [2:0]  wUopRegReadAddr0, wUopRegReadAddr1, rUopRegWriteAddr;
 wire [7:0]  wB,wC,wD, wE, wH,wL,wA, wSpL, wSpH, wFlags, wUopSrcRegData0;
 wire [7:0]  wSHR_RegData, wUopSrcRegData1, wNextUopFlowIdx;
 wire [3:0]  wInterruptRequestBitMap, wInterruptRequestBitMaps_pre;
-wire        wInterruptsEnabled;
+wire        wInterruptsEnabled, wTimerTick;
 reg         rSetiWe,rSetiVal; // set FF_INTENABLE
 reg         rClearIntLatch; // clean FF_INTSIGNAL
+reg         rLatchInsn;
 reg         rResetFlow,rFlowEnable, rRegWe, rSetMCOAddr, rOverWritePc, rCarry, rMcuReadRequest;
 reg [4:0]   rRegSelect;
 reg [7:0]   rZ80Result, rWriteSelect;
+wire [7:0]  wCurrentZ80Insn;
 reg [15:0]  rUopDstRegData;
 
 
@@ -61,10 +63,9 @@ timers TIMERS
 (
  .iClock( iClock    ),
  .iReset( iReset    ),
- .iOpcode( iMCUData  ),
+ .iOpcode( wCurrentZ80Insn  ),
  .iIsCb(  wCBFlow ),
- .iIsBranch( rOverWritePc ),
- .iTick( rResetFlow | wCBFlow )
+ .iTick( wTimerTick | wCBFlow )
  //output wire oInterrupt0x50
 
 );
@@ -116,6 +117,10 @@ assign wJcbDetected    = ( rFlowEnable & wuCmd == `jcb ) ? 1'b1 : 1'b0;
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 4 )FF_INTSIGNAL( iClock, iReset | rClearIntLatch, 4'b0 , iInterruptRequests, wInterruptRequestBitMaps_pre );
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FF_INTENABLE( iClock, iReset, rFlowEnable & rSetiWe, rSetiVal, wInterruptsEnabled );
+
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_Z80_INSN( iClock, iReset, rLatchInsn, iMCUData, wCurrentZ80Insn );
+
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FF_TIMER_TICK( iClock, iReset, 1'b1, rLatchInsn, wTimerTick );
 
 //Disregard interrupts if interrupts are disabled
 assign wInterruptRequestBitMap = ( wInterruptsEnabled  == 1'b1) ? wInterruptRequestBitMaps_pre : 4'b0;
@@ -212,6 +217,7 @@ always @( * )
   begin
     rResetFlow = 1'b0;
     rFlowEnable = 1'b0;
+    rLatchInsn  = 1'b0;
 
     rNextState = `DZCPU_START_FLOW;
   end
@@ -220,6 +226,7 @@ always @( * )
   begin
      rResetFlow  = 1'b1;
      rFlowEnable = 1'b0;
+     rLatchInsn  = 1'b1;
 
      if (iReset)
        rNextState = `DZCPU_AFTER_RESET;
@@ -231,6 +238,7 @@ always @( * )
   begin
     rResetFlow = 1'b0;
     rFlowEnable = 1'b1;
+    rLatchInsn  = 1'b0;
 
     if (wEof)
       rNextState = `DZCPU_END_FLOW;
@@ -242,14 +250,16 @@ always @( * )
   begin
     rResetFlow = 1'b0;
     rFlowEnable = 1'b0;
+    rLatchInsn  = 1'b0;
 
     rNextState = `DZCPU_START_FLOW;
   end
   //----------------------------------------
   default:
   begin
-   rResetFlow = 1'b0;
+    rResetFlow = 1'b0;
     rFlowEnable = 1'b0;
+    rLatchInsn  = 1'b0;
 
     rNextState = `DZCPU_AFTER_RESET;
   end
