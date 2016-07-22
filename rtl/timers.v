@@ -22,13 +22,21 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1303'd1, USA.
 //
 ////////////////////////////////////////////////////////////////////////////////////
+
+`define TIMER_AFTER_RESET   0
+`define TIMER_WAIT_FOR_TICK 1
+`define TIMER_INC           2
+`define TIMER_INC_BTAKEN    3
+
+
 module timers
 (
  input wire iClock,
  input wire iReset,
  input wire [7:0] iOpcode,
- input wire iTick,
+ input wire iEof,
  input wire iIsCb,
+ input wire iBranchTaken,
   output wire oInterrupt0x50
 
 );
@@ -77,7 +85,7 @@ wire wBaseClockDivider[7:0];
       endcase
     end
 
-    assign wClockIncrementRow_Pre = (rIsBranch) ? wClockIncrementRowBranch : wClockIncrementRowBasic;
+    assign wClockIncrementRow_Pre = (rTimerSel == 1'b1) ? wClockIncrementRowBranch : wClockIncrementRowBasic;
     assign wClockIncrementRow = (iIsCb) ? wClockIncrementRowCB : wClockIncrementRow_Pre;
 
 
@@ -154,6 +162,7 @@ MUXFULLPARALELL_4SEL_GENERIC #(48) MUX_CLOCK_STEP_1_BRANCHES
 
 wire [7:0] wDiv,wTima;
 assign wTima =  8'b0;  //TODO Fix this!
+reg rTimerSel, rIncTimer;
 
 assign wDiv = (rMTime << 2);
 
@@ -169,20 +178,98 @@ assign wDiv = (rMTime << 2);
       end
       else
       begin
-        if (iTick)
+        if (rIncTimer)
           {rIncrementBTime,rMTime} = rMTime + {4'b0,wClockIncrement[2:0]};
+
+
       end
    end //always
 
 
-    UPCOUNTER_POSEDGE # (8) BCLOCK
-   (
-   .Clock( iClock ),
-   .Reset( iReset ),
-   .Initial( 8'b0 ),
-   .Enable( iTick & rIncrementBTime ),
-   .Q( wBClock )
-   );
+   //--------------------------------------------------------
+   // Current State Logic //
+   reg [7:0]    rCurrentState,rNextState;
+
+   always @(posedge iClock )
+   begin
+        if( iReset!=1 )
+           rCurrentState <= rNextState;
+      else
+           rCurrentState <= `TIMER_AFTER_RESET;
+   end
+   //--------------------------------------------------------
+
+   always @( * )
+    begin
+     case (rCurrentState)
+     //----------------------------------------
+     `TIMER_AFTER_RESET:
+     begin
+       rTimerSel   = 1'b0;
+       rIncTimer   = 1'b0;
+
+       rNextState = `TIMER_WAIT_FOR_TICK;
+     end
+     //----------------------------------------
+     `TIMER_WAIT_FOR_TICK:
+     begin
+     rTimerSel   = 1'b0;
+     rIncTimer   = 1'b0;
+
+       if (rIsBranch & iBranchTaken)
+          rNextState = `TIMER_INC_BTAKEN;
+      else if (iEof)
+          rNextState = `TIMER_INC;
+      else
+          rNextState = `TIMER_WAIT_FOR_TICK;
+     end
+     //----------------------------------------
+     `TIMER_INC:
+     begin
+        rTimerSel   = 1'b0;
+        rIncTimer   = 1'b1;
+
+       rNextState = `TIMER_WAIT_FOR_TICK;
+     end
+     //----------------------------------------
+     `TIMER_INC_BTAKEN:
+     begin
+        rTimerSel   = 1'b1;
+        rIncTimer   = 1'b1;
+
+       rNextState = `TIMER_WAIT_FOR_TICK;
+     end
+     //----------------------------------------
+     default:
+     begin
+         rTimerSel   = 1'b0;
+         rIncTimer   = 1'b0;
+
+         rNextState = `TIMER_AFTER_RESET;
+     end
+     //----------------------------------------
+     endcase
+  end //always
+
+/*
+
+  WAIT_FOR_TICK:
+      if (rIsBranch & iBranchTaken)
+         NextStat = IncrementBranch
+      else if (iEof)
+         NextStat = IncrementNoBranch
+      else
+         NextState = WAIT_FOR_TICK
+
+  IncrementBranch:
+           rTimeSel = BRANCH
+           NextState =  WAIT_FOR_TICK
+
+  IncrementNoBranch:
+            rTimeSel = NO_BRANCH
+            NextState =  WAIT_FOR_TICK
+*/
+
 
 
 

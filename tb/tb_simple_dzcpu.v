@@ -461,7 +461,7 @@ begin
       uut.DZCPU.TIMERS.wTima);
     end
 
-    if (uut.DZCPU.TIMERS.iTick)
+    if (uut.DZCPU.TIMERS.rIncTimer)
       begin
       $fwrite(trace," deltaC: %04d\n",
       (uut.DZCPU.TIMERS.wClockIncrement*4 ));
