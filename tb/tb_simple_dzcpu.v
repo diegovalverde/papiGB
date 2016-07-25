@@ -262,7 +262,7 @@ $readmemh(
     $dumpfile("tb_simple_dzcpu.vcd");
     $dumpvars(0,tb_simple_dzcpu);
     $fwrite(log,"Simulation started at time %dns\n", $time);
-
+$dumpoff;
     rSimulationDone = 0;
     iClock = 0;
     iReset = 0;
@@ -477,6 +477,10 @@ end
 
     //if (uut.DZCPU.wPc == 16'h204)//16'h0fc // || uut.GPU.oLY == 8'hff)  //This instructrion finishes copying the little (R)
       //rSimulationDone = 1;
+`ifdef START_DUMP_INSN
+if (InstCount > `START_DUMP_INSN)
+    $dumpon;
+`endif
 
 
     if (uut.DZCPU.rCurrentState == `DZCPU_START_FLOW)
