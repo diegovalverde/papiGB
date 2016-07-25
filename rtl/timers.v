@@ -27,6 +27,8 @@
 `define TIMER_WAIT_FOR_TICK 1
 `define TIMER_INC           2
 `define TIMER_INC_BTAKEN    3
+`define TIMER_INC_BTAKEN_NOT_EOF 4
+`define TIMER_WAIT_EOF           5
 
 
 module timers
@@ -35,13 +37,12 @@ module timers
  input wire iReset,
  input wire [7:0] iOpcode,
  input wire iEof,
- input wire iIsCb,
  input wire iBranchTaken,
   output wire oInterrupt0x50
 
 );
 
-wire wBaseClock;
+wire wBaseClock, wIsCb;
 reg  rIsBranch;
 wire wBaseClockDivider[7:0];
 
@@ -85,8 +86,10 @@ wire wBaseClockDivider[7:0];
       endcase
     end
 
+
+    assign wIsCb = (iOpcode == 8'hCB) ? 1'b1 : 1'b0;
     assign wClockIncrementRow_Pre = (rTimerSel == 1'b1) ? wClockIncrementRowBranch : wClockIncrementRowBasic;
-    assign wClockIncrementRow = (iIsCb) ? wClockIncrementRowCB : wClockIncrementRow_Pre;
+    assign wClockIncrementRow = (wIsCb) ? wClockIncrementRowCB : wClockIncrementRow_Pre;
 
 
     MUXFULLPARALELL_4SEL_GENERIC #(3) MUX_CLOCK_STEP_2
@@ -216,8 +219,10 @@ assign wDiv = (rMTime << 2);
      rTimerSel   = 1'b0;
      rIncTimer   = 1'b0;
 
-       if (rIsBranch & iBranchTaken)
+       if (rIsBranch & iBranchTaken & iEof)
           rNextState = `TIMER_INC_BTAKEN;
+      else if (rIsBranch & iBranchTaken & ~iEof)
+          rNextState = `TIMER_INC_BTAKEN_NOT_EOF;
       else if (iEof)
           rNextState = `TIMER_INC;
       else
@@ -238,6 +243,29 @@ assign wDiv = (rMTime << 2);
         rIncTimer   = 1'b1;
 
        rNextState = `TIMER_WAIT_FOR_TICK;
+     end
+     //----------------------------------------
+     `TIMER_INC_BTAKEN_NOT_EOF:
+     begin
+        rTimerSel   = 1'b1;
+        rIncTimer   = 1'b1;
+
+        if (iEof)
+          rNextState = `TIMER_WAIT_FOR_TICK;
+        else
+          rNextState = `TIMER_WAIT_EOF;
+
+     end
+     //----------------------------------------
+     `TIMER_WAIT_EOF:
+     begin
+        rTimerSel   = 1'b1;
+        rIncTimer   = 1'b0;
+
+        if (iEof)
+            rNextState = `TIMER_WAIT_FOR_TICK;
+        else
+            rNextState = `TIMER_WAIT_EOF;
      end
      //----------------------------------------
      default:

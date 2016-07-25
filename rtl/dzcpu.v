@@ -64,7 +64,6 @@ timers TIMERS
  .iClock( iClock    ),
  .iReset( iReset    ),
  .iOpcode( wCurrentZ80Insn  ),
- .iIsCb(  wCBFlow ),
  .iBranchTaken( rOverWritePc ),
  .iEof( wEof & rFlowEnable  )
  //output wire oInterrupt0x50
