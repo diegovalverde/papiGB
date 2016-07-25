@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.58 (w)1999-2014 BSI
-[*] Wed Jul 20 05:24:12 2016
+[*] Mon Jul 25 17:57:46 2016
 [*]
 [dumpfile] "/home/diego/workspace/projects/papiGB/sim/tb_simple_dzcpu.vcd"
-[dumpfile_mtime] "Wed Jul 20 05:05:50 2016"
-[dumpfile_size] 3810320
+[dumpfile_mtime] "Mon Jul 25 04:30:30 2016"
+[dumpfile_size] 155560
 [savefile] "/home/diego/workspace/projects/papiGB/sim/signals/tb_simple_dzcpu.gtkw"
-[timestart] 426600
+[timestart] 2345605000
 [size] 1366 744
 [pos] -1 -1
-*-16.813875 705000 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-17.674738 2346085000 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb_simple_dzcpu.
 [treeopen] tb_simple_dzcpu.uut.
 [treeopen] tb_simple_dzcpu.uut.DZCPU.
@@ -27,23 +27,35 @@ tb_simple_dzcpu.uut.iReset
 -Timer
 @28
 tb_simple_dzcpu.uut.DZCPU.TIMERS.iReset
-@22
+@23
 tb_simple_dzcpu.uut.DZCPU.TIMERS.iOpcode[7:0]
+@28
+tb_simple_dzcpu.uut.DZCPU.TIMERS.iEof
+tb_simple_dzcpu.uut.DZCPU.TIMERS.iBranchTaken
+tb_simple_dzcpu.uut.DZCPU.TIMERS.rIsBranch
+@2024
+^1 /home/diego/workspace/projects/papiGB/sim/signals/timer_states
+tb_simple_dzcpu.uut.DZCPU.TIMERS.rCurrentState[7:0]
+@28
+tb_simple_dzcpu.uut.DZCPU.TIMERS.rIncTimer
+tb_simple_dzcpu.uut.DZCPU.TIMERS.rTimerSel
+@24
+tb_simple_dzcpu.uut.DZCPU.TIMERS.wClockIncrement[2:0]
+tb_simple_dzcpu.uut.DZCPU.TIMERS.wDiv[7:0]
+tb_simple_dzcpu.uut.DZCPU.TIMERS.rMTime[7:0]
+@22
 tb_simple_dzcpu.uut.DZCPU.TIMERS.wClockIncrementRow[47:0]
-@29
-tb_simple_dzcpu.uut.DZCPU.TIMERS.iTick
 @24
 tb_simple_dzcpu.uut.DZCPU.TIMERS.wClockIncrement[2:0]
 tb_simple_dzcpu.uut.DZCPU.TIMERS.wDiv[7:0]
 @22
 tb_simple_dzcpu.uut.DZCPU.TIMERS.wClockIncrementRowBranch[47:0]
-@28
-tb_simple_dzcpu.uut.DZCPU.TIMERS.iIsBranch
 @1000200
 -Timer
 @28
 tb_simple_dzcpu.uut.DZCPU.wTimerTick
-@24
+@2024
+^2 /home/diego/workspace/projects/papiGB/sim/signals/dzcpu_states
 tb_simple_dzcpu.uut.DZCPU.rCurrentState[7:0]
 @22
 tb_simple_dzcpu.uut.DZCPU.iMCUData[7:0]
@@ -56,7 +68,7 @@ tb_simple_dzcpu.uut.DZCPU.wPc[15:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.wJcbDetected
 @2024
-^1 /home/diego/workspace/projects/papiGB/sim/signals/dzcpu_uop_cmd
+^3 /home/diego/workspace/projects/papiGB/sim/signals/dzcpu_uop_cmd
 tb_simple_dzcpu.uut.DZCPU.wuCmd[4:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.wIPC
@@ -86,7 +98,7 @@ tb_simple_dzcpu.uut.DZCPU.rUopDstRegData[15:0]
 @200
 -Registers
 @2024
-^2 /home/diego/workspace/projects/papiGB/sim/signals/dzcpu_reg_select
+^4 /home/diego/workspace/projects/papiGB/sim/signals/dzcpu_reg_select
 tb_simple_dzcpu.uut.DZCPU.wUopSrc[15:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.rRegWe
@@ -121,7 +133,7 @@ tb_simple_dzcpu.uut.DZCPU.wX16[15:0]
 @800200
 -MMU
 @2024
-^3 /home/diego/workspace/projects/papiGB/sim/signals/mmu_cpu_gpu_sel
+^5 /home/diego/workspace/projects/papiGB/sim/signals/mmu_cpu_gpu_sel
 tb_simple_dzcpu.uut.MMU.wCPU_GPU_Sel
 @28
 tb_simple_dzcpu.uut.MMU.iCpuReadRequest
