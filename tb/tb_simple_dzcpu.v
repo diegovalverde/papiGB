@@ -262,7 +262,9 @@ $readmemh(
     $dumpfile("tb_simple_dzcpu.vcd");
     $dumpvars(0,tb_simple_dzcpu);
     $fwrite(log,"Simulation started at time %dns\n", $time);
-$dumpoff;
+`ifdef START_DUMP_INSN
+	$dumpoff;
+`endif
     rSimulationDone = 0;
     iClock = 0;
     iReset = 0;
@@ -451,14 +453,16 @@ begin
   if (uut.DZCPU.rCurrentState == `DZCPU_START_FLOW)
     begin
 
-      $fwrite(trace,"pc: %04x opcode: %x sp: %x HL: %04x AF: %04x BC: %04x DE: %04x div: %04d tima: %04d",
+      $fwrite(trace,"pc: %04x opcode: %x sp: %x HL: %04x AF: %04x BC: %04x DE: %04x div: %04d tima: %04d div: %04d",
       uut.DZCPU.wPc, uut.DZCPU.iMCUData, {uut.DZCPU.wSpH,uut.DZCPU.wSpL},
       {uut.DZCPU.wH,uut.DZCPU.wL},
       {uut.DZCPU.wA,uut.DZCPU.wFlags},
       {uut.DZCPU.wB,uut.DZCPU.wC},
       {uut.DZCPU.wD,uut.DZCPU.wE},
       uut.DZCPU.TIMERS.wDiv,
-      uut.DZCPU.TIMERS.wTima);
+      uut.DZCPU.TIMERS.wTima,
+      uut.DZCPU.TIMERS.oDiv
+      );
     end
 
     if (uut.DZCPU.TIMERS.rIncTimer)
