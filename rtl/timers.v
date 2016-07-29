@@ -31,6 +31,10 @@
 `define TIMER_WAIT_EOF           5
 
 
+`define DIV_OF_WAIT 0
+`define DIV_OF_INC  1
+
+
 module timers
 (
  input wire iClock,
@@ -38,13 +42,25 @@ module timers
  input wire [7:0] iOpcode,
  input wire iEof,
  input wire iBranchTaken,
+ output wire [7:0] oDiv,
   output wire oInterrupt0x50
 
 );
 
-wire wBaseClock, wIsCb;
-reg  rIsBranch;
+
+wire wBaseClock, wIsCb,  wDivOverflow;
+reg  rIsBranch, rIncDiv;
 wire wBaseClockDivider[7:0];
+
+
+ UPCOUNTER_POSEDGE # (8) DIV
+(
+.Clock(iClock),
+.Reset(iReset),
+.Initial(8'd211),
+.Enable( rIncDiv ),
+.Q( oDiv )
+);
 
 
 
@@ -167,7 +183,7 @@ wire [7:0] wDiv,wTima;
 assign wTima =  8'b0;  //TODO Fix this!
 reg rTimerSel, rIncTimer;
 
-assign wDiv = (rMTime << 2);
+assign {wDivOverflow,wDiv} = (rMTime << 2);
 
   reg  [7:0]  rMTime;
   reg         rIncrementBTime;
@@ -298,7 +314,53 @@ assign wDiv = (rMTime << 2);
             NextState =  WAIT_FOR_TICK
 */
 
+//--------------------------------------------------------
+// Current State Logic //
+reg [2:0]    rCurrentState_Of,rNextState_Of;
 
+always @(posedge iClock )
+begin
+     if( iReset!=1 )
+        rCurrentState_Of <= rNextState_Of;
+   else
+        rCurrentState_Of <= `TIMER_AFTER_RESET;
+end
+//--------------------------------------------------------
 
+always @( * )
+ begin
+  case (rCurrentState_Of)
+  //----------------------------------------
+  `DIV_OF_WAIT:
+  begin
+
+    rIncDiv   = 1'b0;
+
+    if (wDiv[7])
+        rNextState_Of = `DIV_OF_INC;
+    else
+        rNextState_Of = `DIV_OF_WAIT;
+
+  end
+  //----------------------------------------
+  `DIV_OF_INC:
+  begin
+      rIncDiv   = ~wDiv[7];
+
+      if (~wDiv[7])
+        rNextState_Of = `DIV_OF_WAIT;
+      else
+        rNextState_Of = `DIV_OF_INC;
+  end
+  //---------------------------------------
+  default:
+  begin
+      rIncDiv   = 1'b0;
+
+      rNextState_Of = `DIV_OF_WAIT;
+  end
+  //--------------------------------------
+  endcase
+end //always
 
 endmodule
