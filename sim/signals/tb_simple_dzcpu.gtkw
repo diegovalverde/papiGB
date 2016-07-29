@@ -1,15 +1,15 @@
 [*]
-[*] GTKWave Analyzer v3.3.58 (w)1999-2014 BSI
-[*] Mon Jul 25 17:57:46 2016
+[*] GTKWave Analyzer v3.3.66 (w)1999-2015 BSI
+[*] Fri Jul 29 03:26:29 2016
 [*]
 [dumpfile] "/home/diego/workspace/projects/papiGB/sim/tb_simple_dzcpu.vcd"
-[dumpfile_mtime] "Mon Jul 25 04:30:30 2016"
-[dumpfile_size] 155560
+[dumpfile_mtime] "Fri Jul 29 03:24:29 2016"
+[dumpfile_size] 2854190
 [savefile] "/home/diego/workspace/projects/papiGB/sim/signals/tb_simple_dzcpu.gtkw"
-[timestart] 2345605000
+[timestart] 1803900
 [size] 1366 744
 [pos] -1 -1
-*-17.674738 2346085000 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-16.674738 1975000 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb_simple_dzcpu.
 [treeopen] tb_simple_dzcpu.uut.
 [treeopen] tb_simple_dzcpu.uut.DZCPU.
@@ -27,7 +27,7 @@ tb_simple_dzcpu.uut.iReset
 -Timer
 @28
 tb_simple_dzcpu.uut.DZCPU.TIMERS.iReset
-@23
+@22
 tb_simple_dzcpu.uut.DZCPU.TIMERS.iOpcode[7:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.TIMERS.iEof
@@ -39,8 +39,15 @@ tb_simple_dzcpu.uut.DZCPU.TIMERS.rCurrentState[7:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.TIMERS.rIncTimer
 tb_simple_dzcpu.uut.DZCPU.TIMERS.rTimerSel
+@29
+tb_simple_dzcpu.uut.DZCPU.TIMERS.wDivOverflow
+@28
+tb_simple_dzcpu.uut.DZCPU.TIMERS.wDivOverflow_Latched
 @24
 tb_simple_dzcpu.uut.DZCPU.TIMERS.wClockIncrement[2:0]
+@22
+tb_simple_dzcpu.uut.DZCPU.TIMERS.oDiv[7:0]
+@24
 tb_simple_dzcpu.uut.DZCPU.TIMERS.wDiv[7:0]
 tb_simple_dzcpu.uut.DZCPU.TIMERS.rMTime[7:0]
 @22
