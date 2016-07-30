@@ -42,14 +42,29 @@ module timers
  input wire [7:0] iOpcode,
  input wire iEof,
  input wire iBranchTaken,
+
+ input wire        iMcuWe,
+ input wire [3:0]  iMcuRegSelect, //control register select comes from cpu
+ input wire [7:0]  iMcuWriteData, //what does the cpu want to write
+
+
  output wire [7:0] oDiv,         //0xFF04
  output wire [7:0] oTima,        //0xFF05
  output wire [7:0] oModulo,      //0xFF06
  output wire [7:0] oTac,         //0xFF07
 
+
+
+
  output wire oInterrupt0x50
 
 );
+
+
+wire [7:0] wMcuRegWriteSelect;
+assign wMcuRegWriteSelect = (1 << iMcuRegSelect);
+
+
 ////////////////////////////////////////////////
 //
 // Register 0xFF04:  Divider  Counts up at a fixed 16384Hz;
@@ -110,14 +125,17 @@ assign oModulo = rModulo;
 //   2    Running    1 to run timer, 0 to stop
 //   3-7  Unused
 ///////////////////////////////////////////////
-reg[7:0] rTac;
-assign oTac = rTac;
 wire [7:0] wSpeed;
+
+
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_TAC
+( iClock, iReset,iMcuWe & iMcuRegSelect[7] , iMcuWriteData, oTac );
+
 
 
 MUXFULLPARALELL_2SEL_GENERIC # ( 8 ) MUX_SPEED
  (
- .Sel( rTac[1:0] ),
+ .Sel( oTac[1:0] ),
  .I0(  8'd1024   ),
  .I1(  8'd16     ),
  .I2(  8'd64     ),
