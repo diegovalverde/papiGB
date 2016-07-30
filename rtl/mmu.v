@@ -74,14 +74,113 @@ module mmu
 	assign oGPU_RegData = iCpuData;
   assign oGpuVmemReadData = (iGpuAddr[15:8] == 8'hfe) ?  wOAMData : wReadVmem;
 
-	bios BIOS
+
+
+  ///////////////////////////////////////////////////////////////
+	//
+	// The MMU is essentially a cascade of Multiplexers
+	// MUX_MEMREAD_H is the final Multiplexer to output the
+	// oCpuData port
+  //
+	// Address Range: 0000 - FFFF
+	//
+	///////////////////////////////////////////////////////////////
+
+	MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_H
 	(
-		.iClock( iClock ),
-		.iAddr( iCpuAddr[7:0] ),
-		.oData( wBiosData  )
+		.Sel( wAddr[15:12] ),
+		//0000 - 7FFF : ROM Bank 0
+		.I0(wReadCartridgeBank0), .I1(wReadCartridgeBank0),
+		.I2(wReadCartridgeBank0), .I3(wReadCartridgeBank0),
+		.I4(wReadCartridgeBank0), .I5(wReadCartridgeBank0),
+		.I6(wReadCartridgeBank0), .I7(wReadCartridgeBank0),
+
+		//8000 - 9FFF: VIDEO RAM
+		.I8(wReadVmem), .I9(wReadVmem),
+
+		//A000 - BFFF: External RAM
+		.I10(8'b0), .I11(8'b0),      //A000 - BFFF
+
+		//C000 - EFFF:  Work RAM and Echo
+		.I12( wWorkRamDataOut     ), //C000 - CFFF
+		.I13( wWorkRamDataOut     ), //D000 - DFFF
+		.I14(wReadCartridgeBank0  ), //E000 - EFFF
+
+		//F000 - FFFF: Extended Regions
+		.I15( wReadData_L ),
+
+		.O( oCpuData )
+	);
+
+	///////////////////////////////////////////////////////////////
+	//
+	// MUX: MUX_MEMREAD_L Contains extended regions
+	//
+	// Address Range: F000 - FFFF
+	//
+	///////////////////////////////////////////////////////////////
+
+
+	MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_L
+	(
+		.Sel( wAddr[11:8] ),
+		//ECHO
+		.I0(8'b0), .I1(8'b0),   //F000 - F1FF
+		.I2(8'b0), .I3(8'b0),   //F200 - F3FF
+		.I4(8'b0), .I5(8'b0),   //F400 - F5FF
+		.I6(8'b0), .I7(8'b0),   //F600 - F7FF
+		.I8(8'b0), .I9(8'b0),   //F800 - F9FF
+		.I10(8'b0), .I11(8'b0), //FA00 - FBFF
+		.I12(8'b0), .I13(8'b0), //FC00 - FDFF
+		//OAM.
+		.I14( wOAMData),		    //FE00 - FEFF
+
+		//Zeropage RAM, I/O, interrupts
+		.I15( wZIOData ), //FF00 - FFFF
+
+		.O( wReadData_L )
 	);
 
 
+	///////////////////////////////////////////////////////////////
+	//
+	// MUX: ZEROPAGE, INTERRUPTS, IO DATA
+	//
+	// Address Range: FF00 - FFFF
+	//
+	///////////////////////////////////////////////////////////////
+	MUXFULLPARALELL_2SEL_GENERIC # (8) MUX_MEMREAD_IO_ZERPAGE_INTERRUPTS
+	(
+		.Sel( wAddr[7:6]),
+		.I0( wIORegisters     ),    //FF00-FF7F     wAddr[7:6] = 00
+		.I1( wIORegisters     ),    //FF00-FF7F     wAddr[7:6] = 01
+		.I2( wZeroPageDataOut ),	  //FF80-FFFF     wAddr[7:6] = 10
+		.I3( wZeroPageDataOut ),	  //FF80-FFFF     wAddr[7:6] = 11
+		.O(  wZIOData )
+
+	);
+
+
+	///////////////////////////////////////////////////////////////
+	//
+	// MUX: INTERRUPTS, IO DATA
+	//
+	// Address Range: FF00 - FFFF
+	//
+	///////////////////////////////////////////////////////////////
+	MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_REGISTERS
+	(
+		.Sel( wAddr[6:4]),                    //FF00-FF7F
+		.I0( wJoyPadAndTimers            ),   //F-0     wAddr[6:4] = 000
+		.I1( wSoundRegisters_Group0      ),   //1F-F    wAddr[6:4] = 001
+		.I2( wSoundRegisters_Group1      ),   //2F-20   wAddr[6:4] = 010
+		.I3( wSoundRegisters_WavePattern ),   //3F-30   wAddr[6:4] = 011
+		.I4( wLCDRegisters               ),   //4F-40   wAddr[6:4] = 100
+		.I5( 8'b0                        ),
+		.I6( 8'b0                        ),
+		.I7( 8'b0                        ),
+		.O( wIORegisters )
+	);
 
 
 //TODO: This has to go into SRAM!!!
@@ -171,19 +270,6 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_LCD_REGISTERS
 
 
 
-MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_REGISTERS
-(
-	.Sel( wAddr[6:4]),                    //FF00-FF7F
-	.I0( wJoyPadAndTimers            ),   //F-0     wAddr[6:4] = 000
-	.I1( wSoundRegisters_Group0      ),   //1F-F    wAddr[6:4] = 001
-	.I2( wSoundRegisters_Group1      ),   //2F-20   wAddr[6:4] = 010
-	.I3( wSoundRegisters_WavePattern ),   //3F-30   wAddr[6:4] = 011
-	.I4( wLCDRegisters               ),   //4F-40   wAddr[6:4] = 100
-	.I5( 8'b0                        ),
-	.I6( 8'b0                        ),
-	.I7( 8'b0                        ),
-	.O( wIORegisters )
-);
 
 
 MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_BUTTON
@@ -201,59 +287,14 @@ MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_BUTTON
 );
 
 
-MUXFULLPARALELL_2SEL_GENERIC # (8) MUX_MEMREAD_IO_ZERPAGE_INTERRUPTS
-(
-	.Sel( wAddr[7:6]),
-	.I0( wIORegisters     ),    //FF00-FF7F     wAddr[7:6] = 00
-	.I1( wIORegisters     ),    //FF00-FF7F     wAddr[7:6] = 01
-	.I2( wZeroPageDataOut ),	  //FF80-FFFF     wAddr[7:6] = 10
-	.I3( wZeroPageDataOut ),	  //FF80-FFFF     wAddr[7:6] = 11
-	.O(  wZIOData )
 
-);
 
-MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_L
-(
-	.Sel( wAddr[11:8] ),
-	//ECHO
-	.I0(8'b0), .I1(8'b0),
-	.I2(8'b0), .I3(8'b0),
-	.I4(8'b0), .I5(8'b0),
-	.I6(8'b0), .I7(8'b0),
-	.I8(8'b0), .I9(8'b0),
-	.I10(8'b0), .I11(8'b0),
-	.I12(8'b0), .I13(8'b0),
-	//OAM.
-	.I14( wOAMData),		//Address 0xFE_00, ie. 14
-	//Zeropage RAM, I/O, interrupts
-	.I15( wZIOData ), //Address 0xFF_00, ie. 15
-
-	.O( wReadData_L )
-);
-
-MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_H
-(
-	.Sel( wAddr[15:12] ),
-	//ROM Bank 0
-	.I0(wReadCartridgeBank0), .I1(wReadCartridgeBank0),
-	.I2(wReadCartridgeBank0), .I3(wReadCartridgeBank0),
-	.I4(wReadCartridgeBank0), .I5(wReadCartridgeBank0),
-	.I6(wReadCartridgeBank0), .I7(wReadCartridgeBank0),
-
-	//VIDEO RAM
-	.I8(wReadVmem), .I9(wReadVmem),
-
-	//External RAM
-	.I10(8'b0), .I11(8'b0),      //A000 - BFFF
-	// Work RAM and Echo
-	.I12( wWorkRamDataOut     ),//wReadCartridgeBank0 ), //C000 - DFFF
-	.I13( wWorkRamDataOut     ), //C000 - DFFF
-	.I14(wReadCartridgeBank0),
-	//Extended Regions
-	.I15( wReadData_L ),
-
-	.O( oCpuData )
-);
+	bios BIOS
+	(
+		.iClock( iClock ),
+		.iAddr( iCpuAddr[7:0] ),
+		.oData( wBiosData  )
+	);
 
 //ZeroPage FF80 - FFFF
 assign wWeZeroPage = ( iCpuWe && wAddr[15:12] == 4'hf && wAddr[11:8] == 4'hf && (wAddr[7:6] == 2'h2 || wAddr[7:6] == 2'h3) ) ? 1'b1 : 1'b0 ;
