@@ -52,7 +52,7 @@ module timers
 );
 ////////////////////////////////////////////////
 //
-// Register 0xFF04:	Divider	Counts up at a fixed 16384Hz;
+// Register 0xFF04:  Divider  Counts up at a fixed 16384Hz;
 // reset to 0 whenever written to
 //
 ////////////////////////////////////////////////
@@ -69,7 +69,7 @@ module timers
 
 ////////////////////////////////////////////////
 //
-// Register 0xFF05: Counter (Tima)	Counts up at the specified rate
+// Register 0xFF05: Counter (Tima)  Counts up at the specified rate
 // Triggers INT 0x50 when going 255->0
 //
 ////////////////////////////////////////////////
@@ -91,7 +91,7 @@ assign wTimaInitialvalue = (iReset) ? 8'b0 : oModulo ;
 
 ////////////////////////////////////////////////
 //
-// Register 0xFF06:	Modulo	When Tima overflows to 0,
+// Register 0xFF06:  Modulo  When Tima overflows to 0,
 // it's reset to start at Modulo
 //
 ////////////////////////////////////////////////
@@ -102,20 +102,20 @@ assign oModulo = rModulo;
 ////////////////////////////////////////////////
 ///
 ///  Register 0xFF07: Timer control (rTac)
-//   Bits	Function	Details
-//   0-1	Speed	    00: 4096Hz
+//   Bits  Function  Details
+//   0-1  Speed      00: 4096Hz
 //                  01: 262144Hz
 //                  10: 65536Hz
 //                  11: 16384Hz
-//   2	  Running	  1 to run timer, 0 to stop
-//   3-7	Unused
+//   2    Running    1 to run timer, 0 to stop
+//   3-7  Unused
 ///////////////////////////////////////////////
 reg[7:0] rTac;
 assign oTac = rTac;
 wire [7:0] wSpeed;
 
 
-MUXFULLPARALELL_2SEL_GENERIC # ( 8 ) MUX_EOF
+MUXFULLPARALELL_2SEL_GENERIC # ( 8 ) MUX_SPEED
  (
  .Sel( rTac[1:0] ),
  .I0(  8'd1024   ),
@@ -364,24 +364,6 @@ assign {wDivOverflow,wDiv} = (rMTime << 2);
      endcase
   end //always
 
-/*
-
-  WAIT_FOR_TICK:
-      if (rIsBranch & iBranchTaken)
-         NextStat = IncrementBranch
-      else if (iEof)
-         NextStat = IncrementNoBranch
-      else
-         NextState = WAIT_FOR_TICK
-
-  IncrementBranch:
-           rTimeSel = BRANCH
-           NextState =  WAIT_FOR_TICK
-
-  IncrementNoBranch:
-            rTimeSel = NO_BRANCH
-            NextState =  WAIT_FOR_TICK
-*/
 
 //--------------------------------------------------------
 // Current State Logic //
