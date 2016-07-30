@@ -42,12 +42,30 @@ module timers
  input wire [7:0] iOpcode,
  input wire iEof,
  input wire iBranchTaken,
+ output wire [7:0] oDiv,         //0xFF04
  output wire [7:0] oTima,        //0xFF05
+ output wire [7:0] oModulo,      //0xFF06
  output wire [7:0] oTac,         //0xFF07
- output wire [7:0] oDiv,
+
  output wire oInterrupt0x50
 
 );
+////////////////////////////////////////////////
+//
+// Register 0xFF04:	Divider	Counts up at a fixed 16384Hz;
+// reset to 0 whenever written to
+//
+////////////////////////////////////////////////
+
+ UPCOUNTER_POSEDGE # (8) DIV
+(
+.Clock(iClock),
+.Reset(iReset),
+.Initial(8'd211),
+.Enable( rIncDiv ),
+.Q( oDiv )
+);
+
 
 ////////////////////////////////////////////////
 //
@@ -78,7 +96,8 @@ assign wTimaInitialvalue = (iReset) ? 8'b0 : oModulo ;
 //
 ////////////////////////////////////////////////
 
-reg [7:0] oModulo;
+reg [7:0] rModulo;
+assign oModulo = rModulo;
 
 ////////////////////////////////////////////////
 ///
@@ -111,15 +130,6 @@ wire wBaseClock, wIsCb,  wDivOverflow;
 reg  rIsBranch, rIncDiv;
 wire wBaseClockDivider[7:0];
 
-
- UPCOUNTER_POSEDGE # (8) DIV
-(
-.Clock(iClock),
-.Reset(iReset),
-.Initial(8'd211),
-.Enable( rIncDiv ),
-.Q( oDiv )
-);
 
 
 
