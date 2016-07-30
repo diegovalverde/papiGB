@@ -149,29 +149,33 @@ module mmu
 	// Address Range: FF00 - FFFF
 	//
 	///////////////////////////////////////////////////////////////
+	wire [7:0] wHighMemory;
+
 	MUXFULLPARALELL_2SEL_GENERIC # (8) MUX_MEMREAD_IO_ZERPAGE_INTERRUPTS
 	(
 		.Sel( wAddr[7:6]),
-		.I0( wIORegisters     ),    //FF00-FF7F     wAddr[7:6] = 00
-		.I1( wIORegisters     ),    //FF00-FF7F     wAddr[7:6] = 01
-		.I2( wZeroPageDataOut ),	  //FF80-FFFF     wAddr[7:6] = 10
-		.I3( wZeroPageDataOut ),	  //FF80-FFFF     wAddr[7:6] = 11
+		.I0( wIORegisters     ),    //FF00-FF3F
+		.I1( wIORegisters     ),    //FF40-FF7F
+		.I2( wZeroPageDataOut ),	  //FF80-FFBF
+		.I3( wHighMemory      ),	  //FFC0-FFFF
 		.O(  wZIOData )
 
 	);
 
+  assign wHighMemory =
+	( wAddr == 16'hffff ) ? rInterruptEnableRegister : wZeroPageDataOut;
 
 	///////////////////////////////////////////////////////////////
 	//
 	// MUX: INTERRUPTS, IO DATA
 	//
-	// Address Range: FF00 - FFFF
+	// Address Range: FF00 - FF7F
 	//
 	///////////////////////////////////////////////////////////////
 	MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_REGISTERS
 	(
-		.Sel( wAddr[6:4]),                    //FF00-FF7F
-		.I0( wJoyPadAndTimers            ),   //F-0     wAddr[6:4] = 000
+		.Sel( wAddr[6:4]),
+		.I0( wJoyPadAndTimers            ),   //FF00-FF0     wAddr[6:4] = 000
 		.I1( wSoundRegisters_Group0      ),   //1F-F    wAddr[6:4] = 001
 		.I2( wSoundRegisters_Group1      ),   //2F-20   wAddr[6:4] = 010
 		.I3( wSoundRegisters_WavePattern ),   //3F-30   wAddr[6:4] = 011
@@ -183,9 +187,27 @@ module mmu
 	);
 
 
-//TODO: This has to go into SRAM!!!
-//VRAMR 8000-9FFF
-//TODO: I think the depth shall be 4096
+
+////////////////////////////////////////////////
+//
+// Register 0xFFFF:  IE. Interrupt Enable register
+// reset to 0 whenever written to
+//
+//  Bit 0: V-Blank  Interrupt Enable  (INT 40h)  (1=Enable)
+//  Bit 1: LCD STAT Interrupt Enable  (INT 48h)  (1=Enable)
+//  Bit 2: Timer    Interrupt Enable  (INT 50h)  (1=Enable)
+//  Bit 3: Serial   Interrupt Enable  (INT 58h)  (1=Enable)
+//  Bit 4: Joypad   Interrupt Enable  (INT 60h)  (1=Enable)
+////////////////////////////////////////////////
+
+reg [7:0] rInterruptEnableRegister;
+
+
+////////////////////////////////////////////////
+//
+// 8000-9FFF   8KB Video RAM (VRAM) (switchable bank 0-1 in CGB Mode)
+//
+////////////////////////////////////////////////
 RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(8192) ) VMEM
 (
  .Clock( iClock ),
@@ -196,22 +218,30 @@ RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(8192) ) VMEM
  .oDataOut0(     wReadVmem            )
 );
 
-
-//Sprite OAM RAM 0xFE00 - 0xFE9F
+////////////////////////////////////////////////
+//
+// Sprite OAM RAM 0xFE00 - 0xFE9F
+//
+////////////////////////////////////////////////
 RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(8), .MEM_SIZE(160) ) OAM
 (
  .Clock( iClock ),
  .iWriteEnable(  wWeVRam              ),		//Since this is DMA, this has to change
- .iReadAddress0( wVmemReadAddr[7:0]  ),
- .iWriteAddress( wAddr[7:0]          ),
+ .iReadAddress0( wVmemReadAddr[7:0]   ),
+ .iWriteAddress( wAddr[7:0]           ),
  .iDataIn(       iCpuData             ),
  .oDataOut0(     wOAMData             )
 );
 
-
-//A high-speed area of 128 bytes of RAM.
-//Will use FPGA internal mem since most of the interaction between
-//the program and the GameBoy hardware occurs through use of this page of memory.
+////////////////////////////////////////////////
+//
+// ZERO PAGE
+//
+// A high-speed area of 128 bytes of RAM.
+// Will use FPGA internal mem since most of the interaction between
+// the program and the GameBoy hardware occurs through use of this page of memory.
+//
+////////////////////////////////////////////////
 RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(7), .MEM_SIZE(128) ) ZERO_PAGE
 (
  .Clock( iClock ),
