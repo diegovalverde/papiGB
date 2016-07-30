@@ -453,7 +453,7 @@ begin
   if (uut.DZCPU.rCurrentState == `DZCPU_START_FLOW)
     begin
 
-      $fwrite(trace,"pc: %04x opcode: %x sp: %x HL: %04x AF: %04x BC: %04x DE: %04x div: %04d tima: %04d div: %04d",
+      $fwrite(trace,"pc: %04x opcode: %x sp: %x HL: %04x AF: %04x BC: %04x DE: %04x div: %04d tima: %04d div: %04d tac: %04x ie: %04x if: %04x",
       uut.DZCPU.wPc, uut.DZCPU.iMCUData, {uut.DZCPU.wSpH,uut.DZCPU.wSpL},
       {uut.DZCPU.wH,uut.DZCPU.wL},
       {uut.DZCPU.wA,uut.DZCPU.wFlags},
@@ -461,7 +461,10 @@ begin
       {uut.DZCPU.wD,uut.DZCPU.wE},
       uut.DZCPU.TIMERS.wDiv,
       uut.DZCPU.TIMERS.wTima,
-      uut.DZCPU.TIMERS.oDiv
+      uut.DZCPU.TIMERS.oDiv,
+      uut.DZCPU.TIMERS.oTac,
+      uut.MMU.rInterruptEnableRegister,
+      0
       );
     end
 
