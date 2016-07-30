@@ -42,10 +42,69 @@ module timers
  input wire [7:0] iOpcode,
  input wire iEof,
  input wire iBranchTaken,
+ output wire [7:0] oTima,        //0xFF05
+ output wire [7:0] oTac,         //0xFF07
  output wire [7:0] oDiv,
-  output wire oInterrupt0x50
+ output wire oInterrupt0x50
 
 );
+
+////////////////////////////////////////////////
+//
+// Register 0xFF05: Counter (Tima)	Counts up at the specified rate
+// Triggers INT 0x50 when going 255->0
+//
+////////////////////////////////////////////////
+reg       rIncTima;             //Set to indicate Tima is to be incremented by 1
+assign    oInterrupt0x50 = ( oTima == 8'd255 && rIncTima ) ? 1'b1 : 1'b0;
+wire [7:0] wTimaInitialvalue;
+assign wTimaInitialvalue = (iReset) ? 8'b0 : oModulo ;
+
+
+ UPCOUNTER_POSEDGE # (8) TIMA
+(
+.Clock(    iClock                   ),
+.Reset(    iReset | oInterrupt0x50  ),
+.Initial(  wTimaInitialvalue        ),
+.Enable(   rIncTima                 ),
+.Q(        oTima                    )
+);
+
+
+////////////////////////////////////////////////
+//
+// Register 0xFF06:	Modulo	When Tima overflows to 0,
+// it's reset to start at Modulo
+//
+////////////////////////////////////////////////
+
+reg [7:0] oModulo;
+
+////////////////////////////////////////////////
+///
+///  Register 0xFF07: Timer control (rTac)
+//   Bits	Function	Details
+//   0-1	Speed	    00: 4096Hz
+//                  01: 262144Hz
+//                  10: 65536Hz
+//                  11: 16384Hz
+//   2	  Running	  1 to run timer, 0 to stop
+//   3-7	Unused
+///////////////////////////////////////////////
+reg[7:0] rTac;
+assign oTac = rTac;
+wire [7:0] wSpeed;
+
+
+MUXFULLPARALELL_2SEL_GENERIC # ( 8 ) MUX_EOF
+ (
+ .Sel( rTac[1:0] ),
+ .I0(  8'd1024   ),
+ .I1(  8'd16     ),
+ .I2(  8'd64     ),
+ .I3(  8'd256    ),
+ .O(   wSpeed    )
+ );
 
 
 wire wBaseClock, wIsCb,  wDivOverflow;
