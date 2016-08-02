@@ -163,7 +163,7 @@ module mmu
 	);
 
   assign wHighMemory =
-	( wAddr == 16'hffff ) ? rInterruptEnableRegister : wZeroPageDataOut;
+	( wAddr == 16'hffff ) ? wInterruptEnableRegister : wZeroPageDataOut;
 
 	///////////////////////////////////////////////////////////////
 	//
@@ -200,7 +200,12 @@ module mmu
 //  Bit 4: Joypad   Interrupt Enable  (INT 60h)  (1=Enable)
 ////////////////////////////////////////////////
 
-reg [7:0] rInterruptEnableRegister;
+wire wWeInterrutpRegister;
+wire [7:0] wInterruptEnableRegister;
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_INT(
+	iClock, iReset ,  wWeInterrutpRegister , iCpuData, wInterruptEnableRegister );
+
+
 
 
 ////////////////////////////////////////////////
@@ -332,7 +337,7 @@ assign wWeVRam     = ( iCpuWe && (wAddr[15:12] == 4'h8 || wAddr[15:12] == 4'h9 )
 assign oGpu_RegWe  = ( iCpuWe && wAddr[15:4] == 12'hff4 ) ? 1'b1 : 1'b0;
 //Working RAM C000 - DFFF
 assign wWeWorkRam  = ( iCpuWe && wAddr[15:13] == 3'h6 ) ? 1'b1 : 1'b0;
-
+assign wWeInterrutpRegister = ( iCpuWe & &wAddr) ? 1'b1 : 1'b0;
 
 
 assign wInBios           = (wAddr & 16'hff00) ? 1'b0 : 1'b1; //0x000 - 0x0100, also remember to use 0xff50, this unmaps bios ROM

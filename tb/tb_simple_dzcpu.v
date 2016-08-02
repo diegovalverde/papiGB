@@ -463,7 +463,7 @@ begin
       uut.DZCPU.TIMERS.wTima,
       uut.DZCPU.TIMERS.oDiv,
       uut.DZCPU.TIMERS.oTac,
-      uut.MMU.rInterruptEnableRegister,
+      uut.MMU.wInterruptEnableRegister,
       0
       );
     end
