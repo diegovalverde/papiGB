@@ -277,6 +277,10 @@ $readmemh(
     #10
     iReset = 0;
 
+    `ifdef REG_IF
+       uut.MMU.FF_IF.Q = `REG_IF;
+    `endif
+
     `ifdef REG_A
         uut.DZCPU.FFA.Q = `REG_A;
     `endif
@@ -464,7 +468,7 @@ begin
       uut.DZCPU.TIMERS.oDiv,
       uut.DZCPU.TIMERS.oTac,
       uut.MMU.wInterruptEnableRegister,
-      0
+      uut.MMU.wInterruptFlag
       );
     end
 
