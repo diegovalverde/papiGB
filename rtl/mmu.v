@@ -39,6 +39,9 @@ module mmu
 	output wire       oGpu_RegWe,
 	output wire [7:0] oGPU_RegData,
 
+	//Interrupts
+	input wire [7:0] iInterruptRequest,
+
 	//IO Registers
 	input wire [7:0]  iGPU_LCDC,
 	input wire [7:0]  iGPU_STAT,
@@ -202,11 +205,22 @@ module mmu
 
 wire wWeInterrutpRegister;
 wire [7:0] wInterruptEnableRegister;
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_INT(
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_IE(
 	iClock, iReset ,  wWeInterrutpRegister , iCpuData, wInterruptEnableRegister );
 
-
-
+////////////////////////////////////////////////
+//
+// Register 0xFF0F: IF. Interrupt Flag
+//	Bit 0: V-Blank  Interrupt Request (INT 40h)  (1=Request)
+//  Bit 1: LCD STAT Interrupt Request (INT 48h)  (1=Request)
+//  Bit 2: Timer    Interrupt Request (INT 50h)  (1=Request)
+//  Bit 3: Serial   Interrupt Request (INT 58h)  (1=Request)
+//  Bit 4: Joypad   Interrupt Request (INT 60h)  (1=Request)
+////////////////////////////////////////////////
+wire[7:0]  wInterruptFlag;
+wire wWeInterruptFlag;
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_IF(
+	iClock, iReset ,  wWeInterruptFlag , iInterruptRequest, wInterruptFlag );
 
 ////////////////////////////////////////////////
 //
