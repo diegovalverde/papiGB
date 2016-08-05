@@ -129,7 +129,7 @@ wire [7:0] wSpeed;
 
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_TAC
-( iClock, iReset,iMcuWe & iMcuRegSelect[7] , iMcuWriteData, oTac );
+( iClock, iReset,iMcuWe & wMcuRegWriteSelect[7] , iMcuWriteData, oTac );
 
 
 

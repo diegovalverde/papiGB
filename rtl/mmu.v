@@ -36,7 +36,7 @@ module mmu
 	input wire        iGpuReadRequest,
 	input wire [15:0] iGpuAddr,
 	output wire [3:0] oRegSelect,
-	output wire       oGpu_RegWe,
+	output wire [2:0] oRegWe,
 	output wire [7:0] oRegData,
 
 	//Interrupts
@@ -348,7 +348,8 @@ MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_BUTTON
 //ZeroPage FF80 - FFFF
 assign wWeZeroPage = ( iCpuWe && wAddr[15:12] == 4'hf && wAddr[11:8] == 4'hf && (wAddr[7:6] == 2'h2 || wAddr[7:6] == 2'h3) ) ? 1'b1 : 1'b0 ;
 assign wWeVRam     = ( iCpuWe && (wAddr[15:12] == 4'h8 || wAddr[15:12] == 4'h9 ) ) ? 1'b1 : 1'b0;
-assign oGpu_RegWe  = ( iCpuWe && wAddr[15:4] == 12'hff4 ) ? 1'b1 : 1'b0;
+assign oRegWe[0]  = ( iCpuWe && wAddr[15:4] == 12'hff4 ) ? 1'b1 : 1'b0;  //GPU
+assign oRegWe[1]  = ( iCpuWe && wAddr[15:4] == 12'hff0 ) ? 1'b1 : 1'b0;  //TIMER
 //Working RAM C000 - DFFF
 assign wWeWorkRam  = ( iCpuWe && wAddr[15:13] == 3'h6 ) ? 1'b1 : 1'b0;
 assign wWeInterrutpRegister = ( iCpuWe & &wAddr) ? 1'b1 : 1'b0;

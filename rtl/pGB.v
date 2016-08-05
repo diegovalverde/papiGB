@@ -68,8 +68,9 @@ wire[7:0] wGPU_2_MCU_WX, wMMU_RegData, wMMU_2_GPU_VmemReadData;
 wire[7:0] wButtonRegister;
 wire[7:0] wCurrentZ80Insn;
 wire[15:0] wGpuAddr;
+wire [2:0] wMMU_RegWe;
 wire[3:0] wMMU_RegSelect, wMCU_2_TIMER_RegSelect;
-wire wGpu_RegWe, wGPU_2_MCU_ReadRequest, wMCU_2_TIMER_We;
+wire wGPU_2_MCU_ReadRequest, wMCU_2_TIMER_We;
 wire wIOInterruptTrigger, wdZCPU_Eof, wdZCPU_BranchTaken;
 
 
@@ -97,7 +98,7 @@ timers TIMERS
  .iOpcode( wCurrentZ80Insn  ),
  .iBranchTaken( wdZCPU_BranchTaken ),
  .iEof( wdZCPU_Eof  ),
- .iMcuWe( wMCU_2_TIMER_We ),
+ .iMcuWe( wMMU_RegWe[1] ),
  .iMcuRegSelect( wMMU_RegSelect ),
  .iMcuWriteData( wMMU_RegData )
 
@@ -136,7 +137,7 @@ mmu MMU
 	.iGpuAddr( wGPU_2_MCU_Addr  ),
 	.oRegData( wMMU_RegData     ),
 	.oRegSelect( wMMU_RegSelect ),
-	.oGpu_RegWe( wGpu_RegWe     ),
+	.oRegWe( wMMU_RegWe     ),
 
 	.iGPU_LCDC( wGPU_2_MCU_LCDC ),
 	.iGPU_STAT( wGPU_2_MCU_STAT ),
@@ -250,7 +251,7 @@ gpu GPU
   .iMcuRegSelect( wMMU_RegSelect),
   .iMcuWriteData( wMMU_RegData ),
 	.iMcuReadData(  wMMU_2_GPU_VmemReadData ),
-  .iMcuWe( wGpu_RegWe ),
+  .iMcuWe( wMMU_RegWe[0] ),
   .oSTAT( wGPU_2_MCU_STAT ),
   .oLCDC( wGPU_2_MCU_LCDC ),
   .oSCY(  wGPU_2_MCU_SCY  ),
