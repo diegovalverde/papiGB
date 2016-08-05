@@ -1,19 +1,18 @@
 [*]
 [*] GTKWave Analyzer v3.3.66 (w)1999-2015 BSI
-[*] Fri Jul 29 03:26:29 2016
+[*] Fri Aug  5 04:55:56 2016
 [*]
 [dumpfile] "/home/diego/workspace/projects/papiGB/sim/tb_simple_dzcpu.vcd"
-[dumpfile_mtime] "Fri Jul 29 03:24:29 2016"
-[dumpfile_size] 2854190
+[dumpfile_mtime] "Fri Aug  5 04:49:29 2016"
+[dumpfile_size] 208515
 [savefile] "/home/diego/workspace/projects/papiGB/sim/signals/tb_simple_dzcpu.gtkw"
-[timestart] 1803900
+[timestart] 985795000
 [size] 1366 744
 [pos] -1 -1
-*-16.674738 1975000 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-17.674738 985975000 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb_simple_dzcpu.
 [treeopen] tb_simple_dzcpu.uut.
-[treeopen] tb_simple_dzcpu.uut.DZCPU.
-[sst_width] 260
+[sst_width] 256
 [signals_width] 418
 [sst_expanded] 1
 [sst_vpaned_height] 211
@@ -23,42 +22,17 @@ tb_simple_dzcpu.uut.iReset
 @200
 -dzCPU
 @800200
--dzCPU
--Timer
+-TIMERS
 @28
-tb_simple_dzcpu.uut.DZCPU.TIMERS.iReset
+tb_simple_dzcpu.uut.TIMERS.iMcuWe
 @22
-tb_simple_dzcpu.uut.DZCPU.TIMERS.iOpcode[7:0]
-@28
-tb_simple_dzcpu.uut.DZCPU.TIMERS.iEof
-tb_simple_dzcpu.uut.DZCPU.TIMERS.iBranchTaken
-tb_simple_dzcpu.uut.DZCPU.TIMERS.rIsBranch
-@2024
-^1 /home/diego/workspace/projects/papiGB/sim/signals/timer_states
-tb_simple_dzcpu.uut.DZCPU.TIMERS.rCurrentState[7:0]
-@28
-tb_simple_dzcpu.uut.DZCPU.TIMERS.rIncTimer
-tb_simple_dzcpu.uut.DZCPU.TIMERS.rTimerSel
-@29
-tb_simple_dzcpu.uut.DZCPU.TIMERS.wDivOverflow
-@28
-tb_simple_dzcpu.uut.DZCPU.TIMERS.wDivOverflow_Latched
-@24
-tb_simple_dzcpu.uut.DZCPU.TIMERS.wClockIncrement[2:0]
-@22
-tb_simple_dzcpu.uut.DZCPU.TIMERS.oDiv[7:0]
-@24
-tb_simple_dzcpu.uut.DZCPU.TIMERS.wDiv[7:0]
-tb_simple_dzcpu.uut.DZCPU.TIMERS.rMTime[7:0]
-@22
-tb_simple_dzcpu.uut.DZCPU.TIMERS.wClockIncrementRow[47:0]
-@24
-tb_simple_dzcpu.uut.DZCPU.TIMERS.wClockIncrement[2:0]
-tb_simple_dzcpu.uut.DZCPU.TIMERS.wDiv[7:0]
-@22
-tb_simple_dzcpu.uut.DZCPU.TIMERS.wClockIncrementRowBranch[47:0]
+tb_simple_dzcpu.uut.TIMERS.iMcuWriteData[7:0]
+@23
+tb_simple_dzcpu.uut.TIMERS.iMcuRegSelect[3:0]
 @1000200
--Timer
+-TIMERS
+@800200
+-dzCPU
 @28
 tb_simple_dzcpu.uut.DZCPU.wTimerTick
 @2024
