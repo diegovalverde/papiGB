@@ -64,12 +64,13 @@ wire[7:0] wGPU_2_MCU_BGP;
 wire[7:0] wGPU_2_MCU_OBP0;
 wire[7:0] wGPU_2_MCU_OBP1;
 wire[7:0] wGPU_2_MCU_WY;
-wire[7:0] wGPU_2_MCU_WX, wGPU_RegData, wMMU_2_GPU_VmemReadData;
+wire[7:0] wGPU_2_MCU_WX, wMMU_RegData, wMMU_2_GPU_VmemReadData;
 wire[7:0] wButtonRegister;
+wire[7:0] wCurrentZ80Insn;
 wire[15:0] wGpuAddr;
-wire[3:0] wGpu_RegSelect;
-wire wGpu_RegWe, wGPU_2_MCU_ReadRequest;
-wire wIOInterruptTrigger;
+wire[3:0] wMMU_RegSelect, wMCU_2_TIMER_RegSelect;
+wire wGpu_RegWe, wGPU_2_MCU_ReadRequest, wMCU_2_TIMER_We;
+wire wIOInterruptTrigger, wdZCPU_Eof, wdZCPU_BranchTaken;
 
 
 dzcpu  DZCPU
@@ -80,7 +81,28 @@ dzcpu  DZCPU
 	.oMCUAddr( wdZCPU_2_MMU_Addr      ),
 	.oMCUwe( wdZCPU_2_MMU_We ),
 	.oMCUData( wdZCPU_2_MMU_WriteData ),
-	.oMcuReadRequest( wdZCPU_2_MMU_ReadRequest )
+	.oMcuReadRequest( wdZCPU_2_MMU_ReadRequest ),
+	.oCurrentZ80Insn( wCurrentZ80Insn ),
+	.oEof( wdZCPU_Eof ),
+	.oBranchTaken( wdZCPU_BranchTaken )
+);
+
+
+
+
+timers TIMERS
+(
+ .iClock( iClock    ),
+ .iReset( iReset    ),
+ .iOpcode( wCurrentZ80Insn  ),
+ .iBranchTaken( wdZCPU_BranchTaken ),
+ .iEof( wdZCPU_Eof  ),
+ .iMcuWe( wMCU_2_TIMER_We ),
+ .iMcuRegSelect( wMMU_RegSelect ),
+ .iMcuWriteData( wMMU_RegData )
+
+ //output wire oInterrupt0x50
+
 );
 
 assign wButtonRegister[7:6] = 2'b0;
@@ -111,10 +133,10 @@ mmu MMU
 
   //GPU
 	.oGpuVmemReadData( wMMU_2_GPU_VmemReadData ),
-	.iGpuAddr( wGPU_2_MCU_Addr      ),
-	.oGPU_RegData( wGPU_RegData     ),
-	.oGpu_RegSelect( wGpu_RegSelect ),
-	.oGpu_RegWe( wGpu_RegWe         ),
+	.iGpuAddr( wGPU_2_MCU_Addr  ),
+	.oRegData( wMMU_RegData     ),
+	.oRegSelect( wMMU_RegSelect ),
+	.oGpu_RegWe( wGpu_RegWe     ),
 
 	.iGPU_LCDC( wGPU_2_MCU_LCDC ),
 	.iGPU_STAT( wGPU_2_MCU_STAT ),
@@ -225,8 +247,8 @@ gpu GPU
 `endif
   .oMcuAddr( wGPU_2_MCU_Addr ),
 	.oMcuReadRequest( wGPU_2_MCU_ReadRequest ),
-  .iMcuRegSelect( wGpu_RegSelect),
-  .iMcuWriteData( wGPU_RegData ),
+  .iMcuRegSelect( wMMU_RegSelect),
+  .iMcuWriteData( wMMU_RegData ),
 	.iMcuReadData(  wMMU_2_GPU_VmemReadData ),
   .iMcuWe( wGpu_RegWe ),
   .oSTAT( wGPU_2_MCU_STAT ),

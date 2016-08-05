@@ -35,9 +35,9 @@ module mmu
 	output wire [7:0] oGpuVmemReadData,
 	input wire        iGpuReadRequest,
 	input wire [15:0] iGpuAddr,
-	output wire [3:0] oGpu_RegSelect,
+	output wire [3:0] oRegSelect,
 	output wire       oGpu_RegWe,
-	output wire [7:0] oGPU_RegData,
+	output wire [7:0] oRegData,
 
 	//Interrupts
 	input wire [7:0] iInterruptRequest,
@@ -74,7 +74,7 @@ module mmu
 	assign wCPU_GPU_Sel = ( iGPU_LCDC[7] & iGPU_STAT[1]  ) ? 1'b1 : 1'b0 ;
 	assign wAddr =  iCpuAddr;
 	assign wVmemReadAddr = ( wCPU_GPU_Sel ) ? iGpuAddr[12:0] : iCpuAddr[12:0];
-	assign oGPU_RegData = iCpuData;
+	assign oRegData = iCpuData;
   assign oGpuVmemReadData = (iGpuAddr[15:8] == 8'hfe) ?  wOAMData : wReadVmem;
 
 
@@ -281,7 +281,7 @@ RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(8191) ) WORK
  .oDataOut0( wWorkRamDataOut )
 );
 
-assign oGpu_RegSelect = wAddr[3:0];
+assign oRegSelect = wAddr[3:0];
 
 ///  READ .///
 

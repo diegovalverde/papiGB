@@ -33,7 +33,10 @@ module dzcpu
   output wire [15:0] oMCUAddr,
   output wire         oMcuReadRequest,
   input wire  [3:0]  iInterruptRequests,
-  output reg         oMCUwe
+  output reg         oMCUwe,
+  output wire [7:0]  oCurrentZ80Insn,
+  output wire        oEof,
+  output wire        oBranchTaken
 
 );
 wire[15:0]  wPc, wRegData, wUopSrc, wX16, wY16, wZ16, wInitialPc, wInterruptVectorAddress, wXY16 ;
@@ -54,26 +57,14 @@ reg         rLatchInsn;
 reg         rResetFlow,rFlowEnable, rRegWe, rSetMCOAddr, rOverWritePc, rCarry, rMcuReadRequest;
 reg [4:0]   rRegSelect;
 reg [7:0]   rZ80Result, rWriteSelect;
-wire [7:0]  wCurrentZ80Insn;
 reg [15:0]  rUopDstRegData;
 
 
-
-timers TIMERS
-(
- .iClock( iClock    ),
- .iReset( iReset    ),
- .iOpcode( wCurrentZ80Insn  ),
- .iBranchTaken( rOverWritePc ),
- .iEof( wEof & rFlowEnable  )
- //output wire oInterrupt0x50
-
-);
-
+assign oBranchTaken = rOverWritePc;
 assign wUopSrc = wUop[4:0];
 assign wIPC    = wUop[13];    //Increment Macro Insn program counter
 assign wuCmd   = wUop[9:5];
-
+assign oEof    = wEof & rFlowEnable;
 
 MUXFULLPARALELL_3SEL_GENERIC # ( 1'b1 ) MUX_EOF
  (
@@ -118,7 +109,7 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 4 )FF_INTSIGNAL( iClock, iReset | rClearIntLatc
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FF_INTENABLE( iClock, iReset, rFlowEnable & rSetiWe, rSetiVal, wInterruptsEnabled );
 
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_Z80_INSN( iClock, iReset, rLatchInsn, iMCUData, wCurrentZ80Insn );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_Z80_INSN( iClock, iReset, rLatchInsn, iMCUData, oCurrentZ80Insn );
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FF_TIMER_TICK( iClock, iReset, 1'b1, rLatchInsn, wTimerTick );
 

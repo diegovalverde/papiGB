@@ -278,7 +278,7 @@ $readmemh(
     iReset = 0;
 
     `ifdef REG_TAC
-      uut.DZCPU.TIMERS.FF_TAC.Q = `REG_TAC;
+      uut.TIMERS.FF_TAC.Q = `REG_TAC;
     `endif
 
     `ifdef REG_IF
@@ -335,7 +335,7 @@ $readmemh(
     `endif
 
     `ifdef REG_DIFF
-       uut.DZCPU.TIMERS.rMTime = `REG_DIFF;
+       uut.TIMERS.rMTime = `REG_DIFF;
     `endif
 
 
@@ -467,19 +467,19 @@ begin
       {uut.DZCPU.wA,uut.DZCPU.wFlags},
       {uut.DZCPU.wB,uut.DZCPU.wC},
       {uut.DZCPU.wD,uut.DZCPU.wE},
-      uut.DZCPU.TIMERS.wDiv,
-      uut.DZCPU.TIMERS.wTima,
-      uut.DZCPU.TIMERS.oDiv,
-      uut.DZCPU.TIMERS.oTac,
+      uut.TIMERS.wDiv,
+      uut.TIMERS.wTima,
+      uut.TIMERS.oDiv,
+      uut.TIMERS.oTac,
       uut.MMU.wInterruptEnableRegister,
       uut.MMU.wInterruptFlag
       );
     end
 
-    if (uut.DZCPU.TIMERS.rIncTimer)
+    if (uut.TIMERS.rIncTimer)
       begin
       $fwrite(trace," deltaC: %04d\n",
-      (uut.DZCPU.TIMERS.wClockIncrement*4 ));
+      (uut.TIMERS.wClockIncrement*4 ));
       end
 end
 `endif
