@@ -277,6 +277,10 @@ $readmemh(
     #10
     iReset = 0;
 
+    `ifdef REG_TAC
+      uut.DZCPU.TIMERS.FF_TAC.Q = `REG_TAC;
+    `endif
+
     `ifdef REG_IF
        uut.MMU.FF_IF.Q = `REG_IF;
     `endif
