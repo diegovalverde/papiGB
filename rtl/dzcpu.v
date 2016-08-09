@@ -105,7 +105,7 @@ assign wJcbDetected    = ( rFlowEnable & wuCmd == `jcb ) ? 1'b1 : 1'b0;
 
 
 //Hold the int signal while we wait for current flow to finish
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 4 )FF_INTSIGNAL( iClock, iReset | rClearIntLatch, 4'b0 , iInterruptRequests, wInterruptRequestBitMaps_pre );
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 4 )FF_INTSIGNAL( iClock, iReset | rClearIntLatch, 1'b1 , iInterruptRequests, wInterruptRequestBitMaps_pre );
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 )FF_INTENABLE( iClock, iReset, rFlowEnable & rSetiWe, rSetiVal, wInterruptsEnabled );
 
