@@ -282,7 +282,7 @@ $readmemh(
     `endif
 
     `ifdef REG_IF
-       uut.MMU.FF_IF.Q = `REG_IF;
+       uut.INTERRUPTS.FF_IF.Q = `REG_IF;
     `endif
 
     `ifdef REG_A
@@ -471,8 +471,8 @@ begin
       uut.TIMERS.wTima,
       uut.TIMERS.oDiv,
       uut.TIMERS.oTac,
-      uut.MMU.wInterruptEnableRegister,
-      uut.MMU.wInterruptFlag
+      uut.MMU.iInterruptEnable,
+      uut.MMU.iInterruptFlag
       );
     end
 

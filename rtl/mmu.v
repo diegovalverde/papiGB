@@ -35,6 +35,8 @@ module mmu
 	output wire [7:0] oGpuVmemReadData,
 	input wire        iGpuReadRequest,
 	input wire [15:0] iGpuAddr,
+
+	//Special Function Registers in other modules
 	output wire [3:0] oRegSelect,
 	output wire [2:0] oRegWe,
 	output wire [7:0] oRegData,
@@ -55,6 +57,9 @@ module mmu
 	input wire [7:0]  iGPU_OBP1,
 	input wire [7:0]  iGPU_WY,
 	input wire [7:0]  iGPU_WX,
+
+	input wire [7:0]  iInterruptEnable,
+	input wire [7:0]  iInterruptFlag,
 
 	//IO
 	input wire [7:0] iButtonRegister
@@ -166,7 +171,7 @@ module mmu
 	);
 
   assign wHighMemory =
-	( wAddr == 16'hffff ) ? wInterruptEnableRegister : wZeroPageDataOut;
+	( wAddr == 16'hffff ) ? iInterruptEnable : wZeroPageDataOut;
 
 	///////////////////////////////////////////////////////////////
 	//
@@ -190,37 +195,6 @@ module mmu
 	);
 
 
-
-////////////////////////////////////////////////
-//
-// Register 0xFFFF:  IE. Interrupt Enable register
-// reset to 0 whenever written to
-//
-//  Bit 0: V-Blank  Interrupt Enable  (INT 40h)  (1=Enable)
-//  Bit 1: LCD STAT Interrupt Enable  (INT 48h)  (1=Enable)
-//  Bit 2: Timer    Interrupt Enable  (INT 50h)  (1=Enable)
-//  Bit 3: Serial   Interrupt Enable  (INT 58h)  (1=Enable)
-//  Bit 4: Joypad   Interrupt Enable  (INT 60h)  (1=Enable)
-////////////////////////////////////////////////
-
-wire wWeInterrutpRegister;
-wire [7:0] wInterruptEnableRegister;
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_IE(
-	iClock, iReset ,  wWeInterrutpRegister , iCpuData, wInterruptEnableRegister );
-
-////////////////////////////////////////////////
-//
-// Register 0xFF0F: IF. Interrupt Flag
-//	Bit 0: V-Blank  Interrupt Request (INT 40h)  (1=Request)
-//  Bit 1: LCD STAT Interrupt Request (INT 48h)  (1=Request)
-//  Bit 2: Timer    Interrupt Request (INT 50h)  (1=Request)
-//  Bit 3: Serial   Interrupt Request (INT 58h)  (1=Request)
-//  Bit 4: Joypad   Interrupt Request (INT 60h)  (1=Request)
-////////////////////////////////////////////////
-wire[7:0]  wInterruptFlag;
-wire wWeInterruptFlag;
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_IF(
-	iClock, iReset ,  wWeInterruptFlag , iInterruptRequest, wInterruptFlag );
 
 ////////////////////////////////////////////////
 //
@@ -281,7 +255,9 @@ RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(8191) ) WORK
  .oDataOut0( wWorkRamDataOut )
 );
 
-assign oRegSelect = wAddr[3:0];
+//both addresses FFFF and FF0F yield to interrupts, this is why we
+//remap FFFF to 0000
+assign oRegSelect = ( &iCpuAddr ) ? 4'b0 : wAddr[3:0];
 
 ///  READ .///
 
@@ -321,17 +297,25 @@ MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_LCD_REGISTERS
 
 
 
-MUXFULLPARALELL_3SEL_GENERIC # (8) MUX_MEMREAD_IO_BUTTON
+MUXFULLPARALELL_4SEL_GENERIC # (8) MUX_MEMREAD_IO_BUTTON
 (
 	.Sel( wAddr[3:0]),
 	.I0( iButtonRegister            ),   //FF00 P1 register
-	.I1(8'b0  ),
-	.I2(8'b0  ),
-	.I3(8'b0  ),
-	.I4(8'b0  ),
-	.I5(8'b0  ),
-	.I6(8'b0  ),
-	.I7(8'b0  ),
+	.I1(8'b0  ), //FF01
+	.I2(8'b0  ), //FF02
+	.I3(8'b0  ), //FF03
+	.I4(8'b0  ), //FF04
+	.I5(8'b0  ), //FF05
+	.I6(8'b0  ), //FF06
+	.I7(8'b0  ), //FF07
+	.I8(8'b0  ), //FF08
+	.I9(8'b0  ), //FF09
+	.I10(8'b0  ), //FF0A
+ 	.I11(8'b0  ), //FF0B
+	.I12(8'b0  ), //FF0C
+	.I13(8'b0  ), //FF0D
+	.I14(8'b0  ), //FF0E
+	.I15(iInterruptFlag  ), //FF0F
 	.O( wJoyPadAndTimers  )
 );
 
@@ -350,9 +334,9 @@ assign wWeZeroPage = ( iCpuWe && wAddr[15:12] == 4'hf && wAddr[11:8] == 4'hf && 
 assign wWeVRam     = ( iCpuWe && (wAddr[15:12] == 4'h8 || wAddr[15:12] == 4'h9 ) ) ? 1'b1 : 1'b0;
 assign oRegWe[0]  = ( iCpuWe && wAddr[15:4] == 12'hff4 ) ? 1'b1 : 1'b0;  //GPU
 assign oRegWe[1]  = ( iCpuWe && wAddr[15:4] == 12'hff0 ) ? 1'b1 : 1'b0;  //TIMER
+assign oRegWe[2]  = ( iCpuWe & (&wAddr | wAddr == 16'hff0f) ) ? 1'b1 : 1'b0;  //INTERRUPT
 //Working RAM C000 - DFFF
 assign wWeWorkRam  = ( iCpuWe && wAddr[15:13] == 3'h6 ) ? 1'b1 : 1'b0;
-assign wWeInterrutpRegister = ( iCpuWe & &wAddr) ? 1'b1 : 1'b0;
 
 
 assign wInBios           = (wAddr & 16'hff00) ? 1'b0 : 1'b1; //0x000 - 0x0100, also remember to use 0xff50, this unmaps bios ROM

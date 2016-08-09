@@ -72,6 +72,7 @@ wire [2:0] wMMU_RegWe;
 wire[3:0] wMMU_RegSelect, wMCU_2_TIMER_RegSelect;
 wire wGPU_2_MCU_ReadRequest, wMCU_2_TIMER_We;
 wire wIOInterruptTrigger, wdZCPU_Eof, wdZCPU_BranchTaken;
+wire [7:0] wInterruptRequest,wInt_2_MMU_InterruptFlag, wInt_2_MMU_IntEnable;
 
 
 dzcpu  DZCPU
@@ -85,11 +86,27 @@ dzcpu  DZCPU
 	.oMcuReadRequest( wdZCPU_2_MMU_ReadRequest ),
 	.oCurrentZ80Insn( wCurrentZ80Insn ),
 	.oEof( wdZCPU_Eof ),
+	.iInterruptRequests( wInterruptRequest ),
 	.oBranchTaken( wdZCPU_BranchTaken )
 );
 
 
+interrupt_controller INTERRUPTS
+(
+	.iClock(iClock ),
+	.iReset( iReset ),
 
+	 .iMcuWe( wMMU_RegWe[2] ),
+	 .iMcuRegSelect(wMMU_RegSelect ), //control register select comes from cpu
+	 .iMcuWriteData( wMMU_RegData  ), //what does the cpu want to write
+
+	 .oInterruptEnableRegister( wInt_2_MMU_IntEnable ),
+	 .oInterruptFlag( wInt_2_MMU_InterruptFlag),
+
+
+	.iInterruptRequest( 8'b0 ),
+	.oInterruptResquestPending( wInterruptRequest )
+);
 
 timers TIMERS
 (
@@ -151,6 +168,9 @@ mmu MMU
 	.iGPU_OBP1( wGPU_2_MCU_OBP1 ),
 	.iGPU_WY(   wGPU_2_MCU_WY   ),
 	.iGPU_WX(   wGPU_2_MCU_WX   ),
+
+	.iInterruptEnable( wInt_2_MMU_IntEnable ),
+	.iInterruptFlag(   wInt_2_MMU_InterruptFlag ),
 
 	//IO
 	.iButtonRegister( wButtonRegister )
