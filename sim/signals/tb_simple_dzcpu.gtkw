@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.66 (w)1999-2015 BSI
-[*] Fri Aug  5 04:55:56 2016
+[*] Tue Aug  9 04:34:45 2016
 [*]
 [dumpfile] "/home/diego/workspace/projects/papiGB/sim/tb_simple_dzcpu.vcd"
-[dumpfile_mtime] "Fri Aug  5 04:49:29 2016"
-[dumpfile_size] 208515
+[dumpfile_mtime] "Tue Aug  9 04:23:10 2016"
+[dumpfile_size] 164043
 [savefile] "/home/diego/workspace/projects/papiGB/sim/signals/tb_simple_dzcpu.gtkw"
-[timestart] 985795000
+[timestart] 1047565000
 [size] 1366 744
 [pos] -1 -1
-*-17.674738 985975000 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-17.674738 1047565000 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb_simple_dzcpu.
 [treeopen] tb_simple_dzcpu.uut.
 [sst_width] 256
@@ -27,16 +27,26 @@ tb_simple_dzcpu.uut.iReset
 tb_simple_dzcpu.uut.TIMERS.iMcuWe
 @22
 tb_simple_dzcpu.uut.TIMERS.iMcuWriteData[7:0]
-@23
 tb_simple_dzcpu.uut.TIMERS.iMcuRegSelect[3:0]
 @1000200
 -TIMERS
+@800200
+-INTERRUPT
+@28
+tb_simple_dzcpu.uut.INTERRUPTS.iClock
+@29
+tb_simple_dzcpu.uut.INTERRUPTS.iMcuWe
+@22
+tb_simple_dzcpu.uut.INTERRUPTS.iMcuRegSelect[3:0]
+tb_simple_dzcpu.uut.INTERRUPTS.iMcuWriteData[7:0]
+@1000200
+-INTERRUPT
 @800200
 -dzCPU
 @28
 tb_simple_dzcpu.uut.DZCPU.wTimerTick
 @2024
-^2 /home/diego/workspace/projects/papiGB/sim/signals/dzcpu_states
+^1 /home/diego/workspace/projects/papiGB/sim/signals/dzcpu_states
 tb_simple_dzcpu.uut.DZCPU.rCurrentState[7:0]
 @22
 tb_simple_dzcpu.uut.DZCPU.iMCUData[7:0]
@@ -49,7 +59,7 @@ tb_simple_dzcpu.uut.DZCPU.wPc[15:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.wJcbDetected
 @2024
-^3 /home/diego/workspace/projects/papiGB/sim/signals/dzcpu_uop_cmd
+^2 /home/diego/workspace/projects/papiGB/sim/signals/dzcpu_uop_cmd
 tb_simple_dzcpu.uut.DZCPU.wuCmd[4:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.wIPC
@@ -79,7 +89,7 @@ tb_simple_dzcpu.uut.DZCPU.rUopDstRegData[15:0]
 @200
 -Registers
 @2024
-^4 /home/diego/workspace/projects/papiGB/sim/signals/dzcpu_reg_select
+^3 /home/diego/workspace/projects/papiGB/sim/signals/dzcpu_reg_select
 tb_simple_dzcpu.uut.DZCPU.wUopSrc[15:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.rRegWe
@@ -114,7 +124,7 @@ tb_simple_dzcpu.uut.DZCPU.wX16[15:0]
 @800200
 -MMU
 @2024
-^5 /home/diego/workspace/projects/papiGB/sim/signals/mmu_cpu_gpu_sel
+^4 /home/diego/workspace/projects/papiGB/sim/signals/mmu_cpu_gpu_sel
 tb_simple_dzcpu.uut.MMU.wCPU_GPU_Sel
 @28
 tb_simple_dzcpu.uut.MMU.iCpuReadRequest
