@@ -901,7 +901,11 @@ begin
 			518: oUop = { `op,  `smw,    `pch };	//MEM[sp] = pc[7:0]
 			519: oUop = { `op,  `dec16,  `sp  };
 			520: oUop = { `op , `smw,    `pc  };	//MEM[sp+1] = pc[15:8]
-			521: oUop = { `eof , `jint,    `null  };
+			//Clean iflags 0xff0f
+			521: oUop = { `op,   `xorx16, `x16 };
+			522: oUop = { `op , `sma,    `int_flags  };
+			523: oUop = { `op , `smw,    `x16  };
+			524: oUop = { `eof , `jint,    `null  };
 
 
 	default:

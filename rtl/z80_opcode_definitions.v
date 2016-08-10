@@ -741,6 +741,7 @@
 `define carry 5'd24
 `define y8    5'd25
 `define xy16  5'd26
+`define int_flags 5'd27
 
 `define DZCPU_AFTER_RESET 0
 `define DZCPU_START_FLOW  1
