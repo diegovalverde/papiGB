@@ -1,17 +1,18 @@
 [*]
 [*] GTKWave Analyzer v3.3.66 (w)1999-2015 BSI
-[*] Tue Aug  9 04:34:45 2016
+[*] Wed Aug 10 03:38:47 2016
 [*]
 [dumpfile] "/home/diego/workspace/projects/papiGB/sim/tb_simple_dzcpu.vcd"
-[dumpfile_mtime] "Tue Aug  9 04:23:10 2016"
-[dumpfile_size] 164043
+[dumpfile_mtime] "Wed Aug 10 03:07:41 2016"
+[dumpfile_size] 169493
 [savefile] "/home/diego/workspace/projects/papiGB/sim/signals/tb_simple_dzcpu.gtkw"
-[timestart] 1047565000
+[timestart] 12063102900
 [size] 1366 744
 [pos] -1 -1
-*-17.674738 1047565000 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-15.674738 12063265000 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb_simple_dzcpu.
 [treeopen] tb_simple_dzcpu.uut.
+[treeopen] tb_simple_dzcpu.uut.DZCPU.
 [sst_width] 256
 [signals_width] 418
 [sst_expanded] 1
@@ -34,15 +35,46 @@ tb_simple_dzcpu.uut.TIMERS.iMcuRegSelect[3:0]
 -INTERRUPT
 @28
 tb_simple_dzcpu.uut.INTERRUPTS.iClock
-@29
 tb_simple_dzcpu.uut.INTERRUPTS.iMcuWe
 @22
 tb_simple_dzcpu.uut.INTERRUPTS.iMcuRegSelect[3:0]
 tb_simple_dzcpu.uut.INTERRUPTS.iMcuWriteData[7:0]
+tb_simple_dzcpu.uut.INTERRUPTS.oInterruptResquestPending[7:0]
 @1000200
 -INTERRUPT
+@24
+tb_simple_dzcpu.uut.DZCPU.ulut.iMop[7:0]
+@22
+tb_simple_dzcpu.uut.DZCPU.ulut.oUopFlowIdx[9:0]
+@24
+tb_simple_dzcpu.uut.DZCPU.urom.iAddr[9:0]
+@22
+tb_simple_dzcpu.uut.DZCPU.urom.oUop[14:0]
 @800200
 -dzCPU
+@c00022
+tb_simple_dzcpu.uut.DZCPU.iInterruptRequests[3:0]
+@28
+(0)tb_simple_dzcpu.uut.DZCPU.iInterruptRequests[3:0]
+(1)tb_simple_dzcpu.uut.DZCPU.iInterruptRequests[3:0]
+(2)tb_simple_dzcpu.uut.DZCPU.iInterruptRequests[3:0]
+(3)tb_simple_dzcpu.uut.DZCPU.iInterruptRequests[3:0]
+@1401200
+-group_end
+@23
+tb_simple_dzcpu.uut.DZCPU.wNextFlow[9:0]
+@28
+tb_simple_dzcpu.uut.DZCPU.wInterruptRoutineJumpDetected
+@24
+tb_simple_dzcpu.uut.DZCPU.wuOpFlowIdx[9:0]
+@22
+tb_simple_dzcpu.uut.DZCPU.wInterruptRequestBitMaps_pre[3:0]
+tb_simple_dzcpu.uut.DZCPU.wInterruptRequestBitMap[3:0]
+tb_simple_dzcpu.uut.DZCPU.wInterruptVectorAddress[15:0]
+@24
+tb_simple_dzcpu.uut.DZCPU.wIsCBFlow
+@22
+tb_simple_dzcpu.uut.DZCPU.wuOpFlowIdx[9:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.wTimerTick
 @2024
