@@ -751,7 +751,7 @@
 
 
 //this is offset interruption microflow
-`define FLOW_ID_INTERRUPT   9'd247
+`define FLOW_ID_INTERRUPT   10'd516
 
 `define INT_ADDR_VBLANK 					     16'h40
 `define INT_ADDR_LCD_STATUS_TRIGGER		 16'h48

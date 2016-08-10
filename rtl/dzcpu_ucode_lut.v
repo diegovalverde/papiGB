@@ -895,45 +895,15 @@ begin
 			513: oUop = { `op, `sx16r, `sp  };
 			514: oUop = { `update_flags,`addx16, `idata  };
 			515: oUop = { `inc_eof,`srx16, `hl   };
+//FLOW_ID_INTERRUPT
+			516: oUop = { `op, `dec16,  `sp  };
+			517: oUop = { `op,  `sma,    `sp  };
+			518: oUop = { `op,  `smw,    `pch };	//MEM[sp] = pc[7:0]
+			519: oUop = { `op,  `dec16,  `sp  };
+			520: oUop = { `op , `smw,    `pc  };	//MEM[sp+1] = pc[15:8]
+			521: oUop = { `eof , `jint,    `null  };
 
 
-//FLOW_ID_INT_VBLANK
-/*
-        163: oUop = { `op, `ceti, `null};  //Disable interruption
-        164: oUop = { `inc, `dec16,  `sp  };
-        165: oUop = { `inc, `sx16r,  `hl  };
-        166: oUop = { `op , `srm,    `l   }; //l = MEM[pc] = literal
-        167: oUop = { `inc, `srm,    `h   }; //l = MEM[pc] = literal
-        168: oUop = { `op,  `sma,    `sp  };
-        169: oUop = { `op,  `smw,    `pch }; //MEM[sp] = pc[7:0]
-        170: oUop = { `op,  `dec16,  `sp  };
-        171: oUop = { `op , `smw,    `pc  }; //MEM[sp+1] = pc[15:8]
-        172: oUop = { `op , `sx16l,    8'h40  };
-        173: oUop = { `op, `srx16,  `pc  };
-        174: oUop = { `inc ,`sma,   `pc   };
-		*/
-
-
-	/*
-	//RETI
-
-	inc sma shadow_addr_reg
-	op  smw
-	op  inc16 x16
-	op  smw b
-	op  inc16 x16
-	op  smw c
-	op  inc16 x16
-	op  smw e
-	op  inc16 x16
-	op  smw h
-	op  inc16 x16
-	op  smw l
-	op  inc16 x16
-	op  smw spl
-	op  inc16 x16
-	op  smw sph
-	*/
 	default:
 		oUop = {`op, `nop, `null };
 	endcase

@@ -100,7 +100,8 @@ dzcpu_ucode_cblut ucblut
 
 wire wJcbDetected, wInterruptRoutineJumpDetected;
 
-assign wInterruptRoutineJumpDetected = ( rFlowEnable & wuCmd == `jint ) ? 1'b1 : 1'b0;
+//If at leaast 1 bit from iInterruptRequests is set, then we have an interrupt
+assign wInterruptRoutineJumpDetected = |iInterruptRequests;
 assign wJcbDetected    = ( rFlowEnable & wuCmd == `jcb ) ? 1'b1 : 1'b0;
 
 
