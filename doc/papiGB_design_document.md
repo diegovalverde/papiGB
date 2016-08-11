@@ -19,8 +19,9 @@ Why writing RTL  design from scratch?
 ------------------------------------------------------
 In a word: **because it is lots of fun** <i class="icon-smile"></i>!
 
-Besides, nothing compared to the bragging right of playing your favorite game and knowing that deep inside you understand every single signal, and clock, every multiplexer and Flip Flop such allowing Mario to make that next jump!
+Besides, nothing compared to the bragging right of playing your favorite game and knowing that deep inside you understand every single signal, and clock, every multiplexer and Flip Flop such allowing Samus to make that next jump!
 
+![enter image description here](https://i.kinja-img.com/gawker-media/image/upload/s--Xg20nBOw--/c_fit,fl_progressive,q_80,w_636/18j155mo6qfwspng.png)
 
 Submitting issues and getting help
 -------------------------------------------------
@@ -52,6 +53,20 @@ Project directory structure
 - <i class="icon-folder-open"></i> scripts/ :
 - <i class="icon-folder-open"></i> tests/ :
  - <i class="icon-folder-open"></i> /asm/ :
+
+Running a simulation
+------------------------------
+
+In order to run a simulation the **Makefile** under the sim folder is used.
+
+####Using the **Makefile** SIMFLAGS
+
+The **Makefile** SIMFLAGS allows you to set the values of many flags in order to change the behavior of the simulation. the -DSIMFLAGS consists of a string which the make command passes to the icarus RTL simulator. 
+For example, the following make invocation will set the CPU register B=0 at the beginning of the simulation:
+> $ make SIMFLAGS=" -DREG_B=0"
+
+
+- -R
 
 The CPU: **dzCPU!**
 ---------------------------
