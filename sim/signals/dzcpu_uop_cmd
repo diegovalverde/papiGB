@@ -14,3 +14,15 @@
 13 srx8
 14 shl
 15 subx16
+16  srx16
+17  seti
+18  cibit
+19  ceti
+20  jint
+21  anda
+22  xorx16
+23  rrot
+24  xora
+25  addx16c
+26  addx16u
+27  shr       
