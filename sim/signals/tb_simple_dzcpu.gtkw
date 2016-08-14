@@ -1,18 +1,17 @@
 [*]
 [*] GTKWave Analyzer v3.3.66 (w)1999-2015 BSI
-[*] Wed Aug 10 03:38:47 2016
+[*] Sun Aug 14 20:42:43 2016
 [*]
 [dumpfile] "/home/diego/workspace/projects/papiGB/sim/tb_simple_dzcpu.vcd"
-[dumpfile_mtime] "Wed Aug 10 03:07:41 2016"
-[dumpfile_size] 169493
+[dumpfile_mtime] "Sun Aug 14 20:35:24 2016"
+[dumpfile_size] 361001
 [savefile] "/home/diego/workspace/projects/papiGB/sim/signals/tb_simple_dzcpu.gtkw"
-[timestart] 12063102900
+[timestart] 990454400
 [size] 1366 744
 [pos] -1 -1
-*-15.674738 12063265000 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-15.674738 990540500 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb_simple_dzcpu.
 [treeopen] tb_simple_dzcpu.uut.
-[treeopen] tb_simple_dzcpu.uut.DZCPU.
 [sst_width] 256
 [signals_width] 418
 [sst_expanded] 1
@@ -52,6 +51,8 @@ tb_simple_dzcpu.uut.DZCPU.urom.iAddr[9:0]
 tb_simple_dzcpu.uut.DZCPU.urom.oUop[14:0]
 @800200
 -dzCPU
+@200
+-interrupts
 @c00022
 tb_simple_dzcpu.uut.DZCPU.iInterruptRequests[3:0]
 @28
@@ -61,10 +62,13 @@ tb_simple_dzcpu.uut.DZCPU.iInterruptRequests[3:0]
 (3)tb_simple_dzcpu.uut.DZCPU.iInterruptRequests[3:0]
 @1401200
 -group_end
-@23
-tb_simple_dzcpu.uut.DZCPU.wNextFlow[9:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.wInterruptRoutineJumpDetected
+@22
+tb_simple_dzcpu.uut.DZCPU.wPc[15:0]
+tb_simple_dzcpu.uut.DZCPU.oMCUAddr[15:0]
+tb_simple_dzcpu.uut.DZCPU.iMCUData[7:0]
+tb_simple_dzcpu.uut.DZCPU.wNextFlow[9:0]
 @24
 tb_simple_dzcpu.uut.DZCPU.wuOpFlowIdx[9:0]
 @22
@@ -73,6 +77,8 @@ tb_simple_dzcpu.uut.DZCPU.wInterruptRequestBitMap[3:0]
 tb_simple_dzcpu.uut.DZCPU.wInterruptVectorAddress[15:0]
 @24
 tb_simple_dzcpu.uut.DZCPU.wIsCBFlow
+@200
+-cpu
 @22
 tb_simple_dzcpu.uut.DZCPU.wuOpFlowIdx[9:0]
 @28
@@ -87,6 +93,7 @@ tb_simple_dzcpu.uut.DZCPU.oMCUData[7:0]
 tb_simple_dzcpu.uut.DZCPU.oMCUwe
 @22
 tb_simple_dzcpu.uut.DZCPU.oMCUAddr[15:0]
+@23
 tb_simple_dzcpu.uut.DZCPU.wPc[15:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.wJcbDetected
@@ -155,6 +162,10 @@ tb_simple_dzcpu.uut.DZCPU.wX16[15:0]
 -dzCPU
 @800200
 -MMU
+@22
+tb_simple_dzcpu.uut.MMU.iInterruptRequest[7:0]
+tb_simple_dzcpu.uut.MMU.iInterruptFlag[7:0]
+tb_simple_dzcpu.uut.MMU.iInterruptEnable[7:0]
 @2024
 ^4 /home/diego/workspace/projects/papiGB/sim/signals/mmu_cpu_gpu_sel
 tb_simple_dzcpu.uut.MMU.wCPU_GPU_Sel
@@ -163,6 +174,13 @@ tb_simple_dzcpu.uut.MMU.iCpuReadRequest
 tb_simple_dzcpu.uut.MMU.iGpuReadRequest
 @22
 tb_simple_dzcpu.uut.MMU.iCpuAddr[15:0]
+tb_simple_dzcpu.uut.MMU.wRegMapBootStapRom[7:0]
+tb_simple_dzcpu.uut.MMU.wReadCartridgeBank0[7:0]
+tb_simple_dzcpu.uut.MMU.wCartridgeDataBank0[7:0]
+@28
+tb_simple_dzcpu.uut.MMU.wInBios
+@22
+tb_simple_dzcpu.uut.MMU.oCpuData[7:0]
 tb_simple_dzcpu.uut.MMU.iGpuAddr[15:0]
 tb_simple_dzcpu.uut.MMU.oGpuVmemReadData[7:0]
 tb_simple_dzcpu.uut.MMU.wVmemReadAddr[15:0]
