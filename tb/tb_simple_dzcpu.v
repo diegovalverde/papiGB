@@ -276,6 +276,9 @@ $readmemh(
     iReset = 1;
     #10
     iReset = 0;
+    `ifdef SKIP_BIOS
+      uut.MMU.FF_0x50.Q = 8'b1;
+    `endif
 
     `ifdef REG_TAC
       uut.TIMERS.FF_TAC.Q = `REG_TAC;
@@ -515,7 +518,7 @@ if (InstCount > `START_DUMP_INSN)
       29: $fwrite(log,"=== LDIOCA === %h \n", uut.DZCPU.iMCUData );
       32: $fwrite(log,"=== INCr_c === %h \n", uut.DZCPU.iMCUData );
       33: $fwrite(log,"=== LDHLmr_a === %h \n", uut.DZCPU.iMCUData );
-      36: $fwrite(log,"=== LDIOnA  === %h \n", uut.DZCPU.iMCUData );
+      526: $fwrite(log,"=== LDIOnA  === %h \n", uut.DZCPU.iMCUData );
       43: $fwrite(log,"=== LDDEnn  === %h \n", uut.DZCPU.iMCUData );
       94: $fwrite(log,"=== LDADEm  === %h \n", uut.DZCPU.iMCUData );
       49: $fwrite(log,"=== CALLnn === %h \n", uut.DZCPU.iMCUData );
@@ -537,7 +540,7 @@ if (InstCount > `START_DUMP_INSN)
       115: $fwrite(log,"=== JRn  === %h \n", uut.DZCPU.iMCUData );
       161: $fwrite(log,"=== INCr_b  === %h \n", uut.DZCPU.iMCUData );
       121: $fwrite(log,"=== LDrn_e  === %h \n", uut.DZCPU.iMCUData );
-      124: $fwrite(log,"=== LDAIOn  === %h \n", uut.DZCPU.iMCUData );
+      534: $fwrite(log,"=== LDAIOn  === %h \n", uut.DZCPU.iMCUData );
       312: $fwrite(log,"=== INCr_h  === %h \n", uut.DZCPU.iMCUData );
       132: $fwrite(log,"=== SUBr_b  === %h \n", uut.DZCPU.iMCUData );
       135: $fwrite(log,"=== DECr_d  === %h \n", uut.DZCPU.iMCUData );
