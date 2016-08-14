@@ -48,7 +48,7 @@ begin
 	`LDIOCA: oUopFlowIdx = 10'd29;
 	`INCr_c: oUopFlowIdx = 10'd32;
 	`LDHLmr_a: oUopFlowIdx = 10'd33;
-	`LDIOnA: oUopFlowIdx = 10'd36;
+	`LDIOnA: oUopFlowIdx = 10'd526;
 	`LDDEnn: oUopFlowIdx = 10'd43;
 	`LDADEm: oUopFlowIdx = 10'd94;
 	`CALLnn: oUopFlowIdx = 10'd49;
@@ -70,7 +70,7 @@ begin
 	`JRn:    oUopFlowIdx = 10'd115;
 	`INCr_b: oUopFlowIdx = 10'd161;
 	`LDrn_e: oUopFlowIdx = 10'd121;
-	`LDAIOn: oUopFlowIdx = 10'd124;
+	`LDAIOn: oUopFlowIdx = 10'd534;
 	`INCr_h: oUopFlowIdx = 10'd312;
 	`SUBr_b: oUopFlowIdx = 10'd132;
 	`DECr_d: oUopFlowIdx = 10'd135;
@@ -256,7 +256,7 @@ begin
 		28: oUop = {`eof, `srm,  `a };
 	//LDIOCA
 		29: oUop = {`op, `sma, `io_c };
-		30: oUop = {`op, `smw, `a };
+		30: oUop = {`op, `smw, `a }; //I am missing a NOP
 		31: oUop = {`inc_eof, `sma, `pc };
 	//INCr_c
 		32: oUop = {`inc_eof_fu, `inc16, `c };
@@ -264,11 +264,11 @@ begin
 		33: oUop = {`inc, `sma, `hl  };
 		34: oUop = {`op, `smw, `a    };
 		35: oUop = {`eof, `sma, `pc  };
-	//LDIOnA
+	//Unused
 		36: oUop = { `inc, `sma, `pc  };
 		37: oUop = { `op ,`sx8r, `c   };
 		38: oUop = { `op ,`srm, `c    };
-		39: oUop = { `op, `sma, `io_c };
+		39: oUop = { `op, `sma, `io_c }; //I am missing a NOP
 		40: oUop = { `op, `smw, `a    };
 		41: oUop = { `inc, `srx8, `c  };
 		42: oUop = { `eof, `sma, `pc  };
@@ -379,7 +379,7 @@ begin
 		121: oUop = {`inc, `sma, `pc     };
 		122: oUop = { `inc,  `nop, `null };
 		123: oUop = {`eof, `srm,  `e     };
-//LDAIOn
+//UNUSED
 		124: oUop = { `inc, `sx8r, `c    };
 		125: oUop = { `op,  `nop,  `null };
 		126: oUop = { `op,  `srm,  `c    };
@@ -905,7 +905,26 @@ begin
 			521: oUop = { `op,   `xorx16, `x16 };
 			522: oUop = { `op , `sma,    `int_flags  };
 			523: oUop = { `op , `smw,    `x16  };
-			524: oUop = { `eof , `jint,    `null  };
+			524: oUop = { `op , `jint,    `null  };
+			525: oUop = { `eof , `sma,    `pc  };
+	//LDIOnA
+			526: oUop = { `inc, `sma, `pc  };
+			527: oUop = { `op ,`sx8r, `c   };
+			528: oUop = { `op ,`srm, `c    };
+			529: oUop = { `op, `sma, `io_c }; //I am missing a NOP
+			530: oUop = { `op,`nop, `null  };
+			531: oUop = { `op, `smw, `a    };
+			532: oUop = { `inc, `srx8, `c  };
+			533: oUop = { `eof, `sma, `pc  };
+	//LDAIOn
+			534: oUop = { `inc, `sx8r, `c    };
+			535: oUop = { `op,  `nop,  `null };
+			536: oUop = { `op,  `srm,  `c    };
+			537: oUop = { `op,   `sma, `io_c };
+			538: oUop = { `op,`nop, `null  };
+			539: oUop = { `op,   `srm,  `a   };
+			540: oUop = { `op,   `srx8, `c   };
+			541: oUop = { `inc_eof, `sma, `pc };
 
 
 	default:
