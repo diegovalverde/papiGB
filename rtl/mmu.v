@@ -245,6 +245,21 @@ RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(7), .MEM_SIZE(128) ) ZERO_P
  .oDataOut0( wZeroPageDataOut )
 );
 
+
+////////////////////////////////////////////////
+//
+// Register 0xFF50: Unmaps BIOS ROM
+//
+////////////////////////////////////////////////
+
+wire wWe0x50Reg;
+wire [7:0] wRegMapBootStapRom;
+assign wWe0x50Reg = (iCpuWe && iCpuAddr == 4'hff50) ? 1'b1: 1'b0;
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_0x50(
+	iClock, iReset  , wWe0x50Reg, iCpuData, wRegMapBootStapRom );
+
+
+
 RAM_SINGLE_READ_PORT # ( .DATA_WIDTH(8), .ADDR_WIDTH(13), .MEM_SIZE(8191) ) WORK_RAM
 (
  .Clock( iClock ),
@@ -345,7 +360,7 @@ assign wInCartridgeBank0 = (wAddr & 16'hc000) ? 1'b0 : 1'b1; //0x100 - 0x3fff
 `ifndef REAL_CARTRIDGE_DATA
 wire [7:0] wCartridgeDataBank0;
 
-assign wReadCartridgeBank0 = (wInBios) ? wBiosData : wCartridgeDataBank0;
+assign wReadCartridgeBank0 = (wInBios & ~wRegMapBootStapRom[0] ) ? wBiosData : wCartridgeDataBank0;
 
 
 
