@@ -64,7 +64,7 @@ assign oBranchTaken = rOverWritePc;
 assign wUopSrc = wUop[4:0];
 assign wIPC    = wUop[13];    //Increment Macro Insn program counter
 assign wuCmd   = wUop[9:5];
-assign oEof    = wEof & rFlowEnable;
+assign oEof    = wEof & rFlowEnable & ~wInterruptRoutineJumpDetected;
 
 MUXFULLPARALELL_3SEL_GENERIC # ( 1'b1 ) MUX_EOF
  (

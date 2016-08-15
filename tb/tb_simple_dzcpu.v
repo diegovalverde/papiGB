@@ -461,7 +461,7 @@ end //always
 always @ ( posedge iClock )
 begin
   wait(iReset != 1);
-  if (uut.DZCPU.rCurrentState == `DZCPU_START_FLOW)
+  if (uut.DZCPU.rCurrentState == `DZCPU_START_FLOW & ~uut.DZCPU.wInterruptRoutineJumpDetected)
     begin
 
       $fwrite(trace,"pc: %04x opcode: %x sp: %x HL: %04x AF: %04x BC: %04x DE: %04x div: %04d tima: %04d div: %04d tac: %04x ie: %04x if: %04x",
