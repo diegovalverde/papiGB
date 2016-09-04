@@ -144,7 +144,8 @@ MUXFULLPARALELL_2SEL_GENERIC # ( 8 ) MUX_SPEED
  );
 
 
-wire wBaseClock, wIsCb,  wDivOverflow;
+wire wBaseClock, wIsCb;
+wire [1:0] wDivOverflow;
 reg  rIsBranch, rIncDiv;
 wire wBaseClockDivider[7:0];
 
