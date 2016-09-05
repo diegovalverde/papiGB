@@ -390,8 +390,16 @@ assign {wDivOverflow,wDiv} = (rMTime << 2);
 //--------------------------------------------------------
 // Current State Logic //
 reg [2:0]    rCurrentState_Of,rNextState_Of;
+reg [8:0]    rDivNextToOverflow;
 
-always @(posedge iClock )
+always @( posedge rIncTimer or wClockIncrement)
+begin
+     if (rIncTimer)
+        rDivNextToOverflow = wDiv + (wClockIncrement << 2);
+end
+//--------------------------------------------------------
+
+always @( posedge iClock )
 begin
      if( iReset!=1 )
         rCurrentState_Of <= rNextState_Of;
@@ -400,14 +408,14 @@ begin
 end
 //--------------------------------------------------------
 
-always @( * )
+always @( negedge iClock ) //*
  begin
   case (rCurrentState_Of)
   //----------------------------------------
   `DIV_OF_WAIT:
   begin
 
-    rIncDiv   = 1'b0;
+    rIncDiv     = 1'b0;
 
     if (wDiv[7])
         rNextState_Of = `DIV_OF_INC;
@@ -418,9 +426,9 @@ always @( * )
   //----------------------------------------
   `DIV_OF_INC:
   begin
-      rIncDiv   = ~wDiv[7];
+      rIncDiv     = rDivNextToOverflow[8];//~wDiv[7];
 
-      if (~wDiv[7])
+      if (rIncTimer)//~wDiv[7]
         rNextState_Of = `DIV_OF_WAIT;
       else
         rNextState_Of = `DIV_OF_INC;
@@ -428,7 +436,7 @@ always @( * )
   //---------------------------------------
   default:
   begin
-      rIncDiv   = 1'b0;
+      rIncDiv      = 1'b0;
 
       rNextState_Of = `DIV_OF_WAIT;
   end
