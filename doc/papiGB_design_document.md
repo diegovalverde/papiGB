@@ -10,8 +10,7 @@ papiGB project is hosted on github, this document has been created using StackEd
 
 ----------
 
-### Table of contents
-
+## Table of contents
 
 [TOC]
 
@@ -28,11 +27,11 @@ Submitting issues and getting help
 
 Installing the project
 ------------------------------
-#### Project dependencies and recommended tool chain
+### Project dependencies and recommended tool chain
 
-####Cloning the repository
+### Cloning the repository
 
-####Running your first simulation and checking results
+### Running your first simulation and checking results
 
 
 > **Note:**
@@ -54,12 +53,46 @@ Project directory structure
 - <i class="icon-folder-open"></i> tests/ :
  - <i class="icon-folder-open"></i> /asm/ :
 
+Simulation Flags
+------------------------
+It's possible to customize a simulation through the simulation flag, these are described below.
+
+Flag | Description
+---- | -----------
+STOP\_AFTER\_FIRST\_FRAME | When this flag is ON the CPU raises the flag `rSimulationDone` for stop the simulation after the first frame is completed.
+ENABLE\_CPU\_LOG | When this flag is ON generates a log file named "pgb\_cpu.log" that records CPU's state at the beginning of a new flow.
+ENABLE\_GPU\_LOG | When this flag is ON generates a log file named "pgb\_gpu.log" that records GPU's state when it is activated.
+ENABLE\_SOUND\_TRACE | When this flag is ON generates a dump file named "pgb\_sound\_trace.dump" 
+VMEM\_DUMP\_PATH | Loads into the Video Memory the file indicated.
+OAM\_DUMP\_PATH | Loads into the OAM Memory the file indicated.
+START\_DUMP\_INSN | Indicates the first instruction that is recorded in the file pgb\_cpu.log.
+SKIP\_BIOS | When this flag is ON the CPU skips bios's data and starts reading cartridge's data.
+REG\_TAC | Sets an initial value on register TAC.
+REG\_IF | Sets an initial value on register IF.
+REG\_A | Sets an initial value on register A.
+REG\_F | Sets an initial value on register F.
+REG\_B | Sets an initial value on register B.
+REG\_C | Sets an initial value on register C.
+REG\_H | Sets an initial value on register H.
+REG\_L | Sets an initial value on register L.
+REG\_D | Sets an initial value on register D.
+REG\_E | Sets an initial value on register E.
+REG\_SPL | Sets an initial value on the low part of register SP.
+REG\_SPH | Sets an initial value on the high part of register SP.
+REG\_LCDC | Sets an initial value on register LCDC.
+REG\_BGP | Sets an initial value on register BGP.
+REG\_DIFF | Sets an initial value for a parameter of register DIV.
+DISABLE\_CPU | When this flag is ON the CPU is disabled and the GPU is forced to start.
+SIMULATION\_TIME\_OUT | The simulation stops after the time indicated.
+CPU\_TRACE\_WORK\_MEMORY | When this flag is ON records the memory used in pgb\_cpu.log.
+-------- | --------------
+
 Running a simulation
 ------------------------------
 
 In order to run a simulation the **Makefile** under the sim folder is used.
 
-####Using the **Makefile** SIMFLAGS
+### Using the **Makefile** SIMFLAGS
 
 The **Makefile** SIMFLAGS allows you to set the values of many flags in order to change the behavior of the simulation. the -DSIMFLAGS consists of a string which the make command passes to the icarus RTL simulator. 
 For example, the following make invocation will set the CPU register B=0 at the beginning of the simulation:
