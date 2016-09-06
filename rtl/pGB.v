@@ -71,7 +71,7 @@ wire[15:0] wGpuAddr;
 wire [2:0] wMMU_RegWe;
 wire[3:0] wMMU_RegSelect, wMCU_2_TIMER_RegSelect;
 wire wGPU_2_MCU_ReadRequest, wMCU_2_TIMER_We;
-wire wIOInterruptTrigger, wdZCPU_Eof, wdZCPU_BranchTaken;
+wire wIOInterruptTrigger, wdZCPU_Eof, wdZCPU_BranchTaken, wDZCPU_2_Timer_IntDetected;
 wire [7:0] wInterruptRequest,wInt_2_MMU_InterruptFlag, wInt_2_MMU_IntEnable;
 
 
@@ -87,6 +87,7 @@ dzcpu  DZCPU
 	.oCurrentZ80Insn( wCurrentZ80Insn ),
 	.oEof( wdZCPU_Eof ),
 	.iInterruptRequests( wInterruptRequest ),
+	.oInterruptJump( wDZCPU_2_Timer_IntDetected ),
 	.oBranchTaken( wdZCPU_BranchTaken )
 );
 
@@ -117,6 +118,7 @@ timers TIMERS
  .iEof( wdZCPU_Eof  ),
  .iMcuWe( wMMU_RegWe[1] ),
  .iMcuRegSelect( wMMU_RegSelect ),
+ .iInterrupt( wDZCPU_2_Timer_IntDetected ),
  .iMcuWriteData( wMMU_RegData )
 
  //output wire oInterrupt0x50

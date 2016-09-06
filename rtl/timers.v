@@ -30,7 +30,6 @@
 `define TIMER_INC_BTAKEN_NOT_EOF 4
 `define TIMER_WAIT_EOF           5
 
-
 `define DIV_OF_WAIT 0
 `define DIV_OF_INC  1
 
@@ -42,6 +41,7 @@ module timers
  input wire [7:0] iOpcode,
  input wire iEof,
  input wire iBranchTaken,
+ input wire iInterrupt,
 
  input wire        iMcuWe,
  input wire [3:0]  iMcuRegSelect, //control register select comes from cpu
@@ -152,7 +152,7 @@ wire wBaseClockDivider[7:0];
 
 
     wire [47:0] wClockIncrementRow, wClockIncrementRowCB;
-    wire [47:0] wClockIncrementRowBasic,wClockIncrementRowBranch,wClockIncrementRow_Pre;
+    wire [47:0] wClockIncrementRowBasic,wClockIncrementRowBranch,wClockIncrementRow_Pre, wClockIncrementRow_Pre_Pre;
     wire [2:0]  wClockIncrement;
 
 
@@ -193,6 +193,7 @@ wire wBaseClockDivider[7:0];
     assign wIsCb = (iOpcode == 8'hCB) ? 1'b1 : 1'b0;
     assign wClockIncrementRow_Pre = (rTimerSel == 1'b1) ? wClockIncrementRowBranch : wClockIncrementRowBasic;
     assign wClockIncrementRow = (wIsCb) ? wClockIncrementRowCB : wClockIncrementRow_Pre;
+
 
 
     MUXFULLPARALELL_4SEL_GENERIC #(3) MUX_CLOCK_STEP_2
@@ -267,7 +268,8 @@ MUXFULLPARALELL_4SEL_GENERIC #(48) MUX_CLOCK_STEP_1_BRANCHES
 );
 
 
-
+wire[7:0] wDelta;
+assign wDelta = (iInterrupt) ? wClockIncrement + 8'd20 : wClockIncrement;
 
 wire [7:0] wDiv,wTima;
 assign wTima =  8'b0;  //TODO Fix this!
@@ -287,8 +289,8 @@ assign {wDivOverflow,wDiv} = (rMTime << 2);
       end
       else
       begin
-        if (rIncTimer)
-          {rIncrementBTime,rMTime} = rMTime + {4'b0,wClockIncrement[2:0]};
+        if (rIncTimer )
+          {rIncrementBTime,rMTime} = rMTime + {4'b0,wDelta[3:0]};
 
 
       end
@@ -325,7 +327,9 @@ assign {wDivOverflow,wDiv} = (rMTime << 2);
      rTimerSel   = 1'b0;
      rIncTimer   = 1'b0;
 
-       if (rIsBranch & iBranchTaken & iEof)
+      if ( iInterrupt )
+          rNextState = `TIMER_INC_BTAKEN;
+      else if (rIsBranch & iBranchTaken & iEof)
           rNextState = `TIMER_INC_BTAKEN;
       else if (rIsBranch & iBranchTaken & ~iEof)
           rNextState = `TIMER_INC_BTAKEN_NOT_EOF;
@@ -348,10 +352,13 @@ assign {wDivOverflow,wDiv} = (rMTime << 2);
         rTimerSel   = 1'b1;
         rIncTimer   = 1'b1;
 
-       rNextState = `TIMER_WAIT_FOR_TICK;
+      if (~iInterrupt)
+        rNextState = `TIMER_WAIT_FOR_TICK;
+      else
+        rNextState = `TIMER_WAIT_EOF;
      end
      //----------------------------------------
-     `TIMER_INC_BTAKEN_NOT_EOF:
+   `TIMER_INC_BTAKEN_NOT_EOF:
      begin
         rTimerSel   = 1'b1;
         rIncTimer   = 1'b1;

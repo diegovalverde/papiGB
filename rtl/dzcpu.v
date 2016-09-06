@@ -36,6 +36,7 @@ module dzcpu
   output reg         oMCUwe,
   output wire [7:0]  oCurrentZ80Insn,
   output wire        oEof,
+  output wire        oInterruptJump,
   output wire        oBranchTaken
 
 );
@@ -59,8 +60,8 @@ reg [4:0]   rRegSelect;
 reg [7:0]   rZ80Result, rWriteSelect;
 reg [15:0]  rUopDstRegData;
 
-
-assign oBranchTaken = rOverWritePc;
+assign oInterruptJump = wInterruptRoutineJumpDetected;
+assign oBranchTaken = rOverWritePc | wInterruptRoutineJumpDetected;
 assign wUopSrc = wUop[4:0];
 assign wIPC    = wUop[13];    //Increment Macro Insn program counter
 assign wuCmd   = wUop[9:5];
