@@ -33,6 +33,11 @@
 `define DIV_OF_WAIT 0
 `define DIV_OF_INC  1
 
+`define INITIAL_STATE_INT   0
+`define WAIT_FOR_INTERRUPT  1
+`define INT_ACTIVATED       2
+`define ENABLE_INT_OFFSET   3
+
 
 module timers
 (
@@ -269,8 +274,74 @@ MUXFULLPARALELL_4SEL_GENERIC #(48) MUX_CLOCK_STEP_1_BRANCHES
 );
 
 
-wire[7:0] wDelta;
-assign wDelta = (iInterrupt) ? wClockIncrement + 8'd20 : wClockIncrement;
+//---------------------------------------------------------------
+// Time offset when an interrupt occurs
+reg rInterruptOffset;
+reg [1:0] rCurrentState_Int, rNextState_Int;
+
+always @(posedge iClock)
+begin
+    if (iReset != 1)
+        rCurrentState_Int <= rNextState_Int;
+    else
+        rCurrentState_Int <= `INITIAL_STATE_INT;
+end
+//------------------------------------------------
+
+always @( * )
+begin
+    case (rCurrentState_Int)
+    //--------------------------
+    `INITIAL_STATE_INT:
+    begin
+        rInterruptOffset  = 1'b0;
+
+        rNextState_Int    = `WAIT_FOR_INTERRUPT;
+    end
+    //-------------------------------
+    `WAIT_FOR_INTERRUPT:
+    begin
+        rInterruptOffset  = 1'b0;
+
+        if (iInterrupt)
+            rNextState_Int = `INT_ACTIVATED;
+        else
+            rNextState_Int = `WAIT_FOR_INTERRUPT;
+    end
+    //--------------------------------
+    `INT_ACTIVATED:
+    begin
+        rInterruptOffset = 1'b0;
+
+        if (~iInterrupt)
+            rNextState_Int = `ENABLE_INT_OFFSET;
+        else
+            rNextState_Int = `INT_ACTIVATED;
+    end
+    //--------------------------------
+    `ENABLE_INT_OFFSET:
+    begin
+        rInterruptOffset = 1'b1;
+
+        if (rIncTimer)
+            rNextState_Int = `WAIT_FOR_INTERRUPT;
+        else
+            rNextState_Int = `ENABLE_INT_OFFSET;
+    end
+    //---------------------------------
+    default:
+    begin
+        rInterruptOffset = 1'b0;
+
+        rNextState_Int = `WAIT_FOR_INTERRUPT;
+    end
+    //--------------------------------------------------
+    endcase
+end //always
+
+
+wire  [7:0] wDelta;
+assign wDelta = (rInterruptOffset) ? wClockIncrement + 8'd5 : wClockIncrement;
 
 wire [7:0] wDiv,wTima;
 assign wTima =  8'b0;  //TODO Fix this!
@@ -317,16 +388,16 @@ assign {wDivOverflow,wDiv} = (rMTime << 2);
      //----------------------------------------
      `TIMER_AFTER_RESET:
      begin
-       rTimerSel   = 1'b0;
-       rIncTimer   = 1'b0;
+       rTimerSel    = 1'b0;
+       rIncTimer    = 1'b0;
 
        rNextState = `TIMER_WAIT_FOR_TICK;
      end
      //----------------------------------------
      `TIMER_WAIT_FOR_TICK:
      begin
-     rTimerSel   = 1'b0;
-     rIncTimer   = 1'b0;
+     rTimerSel    = 1'b0;
+     rIncTimer    = 1'b0;
 
       if ( iInterrupt )
           rNextState = `TIMER_INC_BTAKEN;
@@ -363,7 +434,6 @@ assign {wDivOverflow,wDiv} = (rMTime << 2);
      begin
         rTimerSel   = 1'b1;
         rIncTimer   = 1'b1;
-
         if (iEof)
           rNextState = `TIMER_WAIT_FOR_TICK;
         else
@@ -384,8 +454,8 @@ assign {wDivOverflow,wDiv} = (rMTime << 2);
      //----------------------------------------
      default:
      begin
-         rTimerSel   = 1'b0;
-         rIncTimer   = 1'b0;
+         rTimerSel    = 1'b0;
+         rIncTimer    = 1'b0;
 
          rNextState = `TIMER_AFTER_RESET;
      end
