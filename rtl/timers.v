@@ -30,9 +30,6 @@
 `define TIMER_INC_BTAKEN_NOT_EOF 4
 `define TIMER_WAIT_EOF           5
 
-`define DIV_OF_WAIT 0
-`define DIV_OF_INC  1
-
 `define INITIAL_STATE_INT   0
 `define WAIT_FOR_INTERRUPT  1
 `define INT_ACTIVATED       2
@@ -82,7 +79,7 @@ assign wMcuRegWriteSelect = (1 << iMcuRegSelect);
 .Clock(iClock),
 .Reset(iReset),
 .Initial(8'd211),
-.Enable( rIncDiv ),
+.Enable( wIncDiv ),
 .Q( oDiv )
 );
 
@@ -151,7 +148,7 @@ MUXFULLPARALELL_2SEL_GENERIC # ( 8 ) MUX_SPEED
 
 wire wBaseClock, wIsCb;
 wire [1:0] wDivOverflow;
-reg  rIsBranch, rIncDiv;
+reg  rIsBranch;
 wire wBaseClockDivider[7:0];
 
 
@@ -465,60 +462,17 @@ assign {wDivOverflow,wDiv} = (rMTime << 2);
 
 
 //--------------------------------------------------------
-// Current State Logic //
-reg [2:0]    rCurrentState_Of,rNextState_Of;
-reg [8:0]    rDivNextToOverflow;
+// Clock Increment Logic for wDIV overflow//
+reg [8:0] rDivNextToOverflow;
+wire wIncDiv;
 
-always @( posedge rIncTimer or wClockIncrement)
+assign wIncDiv = rDivNextToOverflow[8] & rIncTimer;
+
+//-----------------------------------------------------------
+always @(negedge iClock)
 begin
-     if (rIncTimer)
+    if (rIncTimer)
         rDivNextToOverflow = wDiv + (wClockIncrement << 2);
 end
-//--------------------------------------------------------
-
-always @( posedge iClock )
-begin
-     if( iReset!=1 )
-        rCurrentState_Of <= rNextState_Of;
-   else
-        rCurrentState_Of <= `TIMER_AFTER_RESET;
-end
-//--------------------------------------------------------
-
-always @( negedge iClock ) //*
- begin
-  case (rCurrentState_Of)
-  //----------------------------------------
-  `DIV_OF_WAIT:
-  begin
-
-    rIncDiv     = 1'b0;
-
-    if (wDiv[7])
-        rNextState_Of = `DIV_OF_INC;
-    else
-        rNextState_Of = `DIV_OF_WAIT;
-
-  end
-  //----------------------------------------
-  `DIV_OF_INC:
-  begin
-      rIncDiv     = rDivNextToOverflow[8];//~wDiv[7];
-
-      if (rIncTimer)//~wDiv[7]
-        rNextState_Of = `DIV_OF_WAIT;
-      else
-        rNextState_Of = `DIV_OF_INC;
-  end
-  //---------------------------------------
-  default:
-  begin
-      rIncDiv      = 1'b0;
-
-      rNextState_Of = `DIV_OF_WAIT;
-  end
-  //--------------------------------------
-  endcase
-end //always
 
 endmodule
