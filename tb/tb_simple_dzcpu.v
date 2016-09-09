@@ -482,7 +482,7 @@ begin
     if (uut.TIMERS.rIncTimer)
       begin
       $fwrite(trace," deltaC: %04d\n",
-      (uut.TIMERS.wClockIncrement*4 ));
+      (uut.TIMERS.wDelta*4 ));
       end
 end
 `endif
