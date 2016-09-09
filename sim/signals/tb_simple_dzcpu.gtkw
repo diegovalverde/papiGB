@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.66 (w)1999-2015 BSI
-[*] Sun Aug 14 20:42:43 2016
+[*] Sun Aug 21 04:24:36 2016
 [*]
 [dumpfile] "/home/diego/workspace/projects/papiGB/sim/tb_simple_dzcpu.vcd"
-[dumpfile_mtime] "Sun Aug 14 20:35:24 2016"
-[dumpfile_size] 361001
+[dumpfile_mtime] "Sun Aug 21 01:21:13 2016"
+[dumpfile_size] 265149706
 [savefile] "/home/diego/workspace/projects/papiGB/sim/signals/tb_simple_dzcpu.gtkw"
-[timestart] 990454400
+[timestart] 12098558900
 [size] 1366 744
 [pos] -1 -1
-*-15.674738 990540500 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-15.674738 12098645000 111600 1875031400 1876195000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb_simple_dzcpu.
 [treeopen] tb_simple_dzcpu.uut.
 [sst_width] 256
@@ -23,14 +23,27 @@ tb_simple_dzcpu.uut.iReset
 -dzCPU
 @800200
 -TIMERS
+@25
+tb_simple_dzcpu.uut.TIMERS.rMTime[7:0]
 @28
 tb_simple_dzcpu.uut.TIMERS.iMcuWe
+tb_simple_dzcpu.uut.TIMERS.iBranchTaken
+tb_simple_dzcpu.uut.TIMERS.iInterrupt
+tb_simple_dzcpu.uut.TIMERS.iEof
 @22
+tb_simple_dzcpu.uut.TIMERS.iOpcode[7:0]
+@24
+tb_simple_dzcpu.uut.TIMERS.wClockIncrement[2:0]
+@28
+tb_simple_dzcpu.uut.TIMERS.rIncTimer
+@22
+[color] 2
+tb_simple_dzcpu.uut.TIMERS.rCurrentState[7:0]
 tb_simple_dzcpu.uut.TIMERS.iMcuWriteData[7:0]
 tb_simple_dzcpu.uut.TIMERS.iMcuRegSelect[3:0]
 @1000200
 -TIMERS
-@800200
+@c00200
 -INTERRUPT
 @28
 tb_simple_dzcpu.uut.INTERRUPTS.iClock
@@ -39,16 +52,8 @@ tb_simple_dzcpu.uut.INTERRUPTS.iMcuWe
 tb_simple_dzcpu.uut.INTERRUPTS.iMcuRegSelect[3:0]
 tb_simple_dzcpu.uut.INTERRUPTS.iMcuWriteData[7:0]
 tb_simple_dzcpu.uut.INTERRUPTS.oInterruptResquestPending[7:0]
-@1000200
+@1401200
 -INTERRUPT
-@24
-tb_simple_dzcpu.uut.DZCPU.ulut.iMop[7:0]
-@22
-tb_simple_dzcpu.uut.DZCPU.ulut.oUopFlowIdx[9:0]
-@24
-tb_simple_dzcpu.uut.DZCPU.urom.iAddr[9:0]
-@22
-tb_simple_dzcpu.uut.DZCPU.urom.oUop[14:0]
 @800200
 -dzCPU
 @200
@@ -93,7 +98,6 @@ tb_simple_dzcpu.uut.DZCPU.oMCUData[7:0]
 tb_simple_dzcpu.uut.DZCPU.oMCUwe
 @22
 tb_simple_dzcpu.uut.DZCPU.oMCUAddr[15:0]
-@23
 tb_simple_dzcpu.uut.DZCPU.wPc[15:0]
 @28
 tb_simple_dzcpu.uut.DZCPU.wJcbDetected
