@@ -635,6 +635,7 @@ if (InstCount > `START_DUMP_INSN)
       173:  $fwrite(log,"=== JPHL  === %h \n", uut.DZCPU.iMCUData );
       511:  $fwrite(log,"=== EI  === %h \n", uut.DZCPU.iMCUData );
       354:  $fwrite(log,"=== JPNZnn  === %h \n", uut.DZCPU.iMCUData );
+      542:  $fwrite(log,"=== JPZnn  === %h \n", uut.DZCPU.iMCUData );
       512: $fwrite(log,"=== LDHLSPn  === %h \n", uut.DZCPU.iMCUData );
       516: $fwrite(log,"=== DISPATCH_INTERRUPT  === %h \n", uut.DZCPU.iMCUData );
       default:
