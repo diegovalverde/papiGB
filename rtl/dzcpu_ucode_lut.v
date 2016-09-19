@@ -165,6 +165,7 @@ begin
 	`JPHL:     oUopFlowIdx = 10'd173;
 	`EI:       oUopFlowIdx = 10'd511;
 	`JPNZnn:   oUopFlowIdx = 10'd354;
+	`JPZnn:		 oUopFlowIdx = 10'd542;
 	`LDHLSPn:  oUopFlowIdx = 10'd512;
 	default:
 			 oUopFlowIdx = 10'd278;
@@ -925,7 +926,12 @@ begin
 			539: oUop = { `op,   `srm,  `a   };
 			540: oUop = { `op,   `srx8, `c   };
 			541: oUop = { `inc_eof, `sma, `pc };
-
+	//JPZnn
+			542: oUop = { `inc,  `nop,  `null  };
+			543: oUop = { `inc,  `nop,  `null  };
+			544: oUop = { `op , `srm,    `y8   }; //l = MEM[pc] = literal
+			545: oUop = { `inc_eof_nz, `srm, `x8 }; //l = MEM[pc] = literal
+			546: oUop = { `eof , `spc,  `xy16  };
 
 	default:
 		oUop = {`op, `nop, `null };
