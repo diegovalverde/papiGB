@@ -48,7 +48,7 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_IE(
 wire wWeInterruptFlag;
 assign wWeInterruptFlag = (iMcuWe & iMcuRegSelect == 4'hf) ? 1'b1: 1'b0;
 FFD_POSEDGE_SYNCRONOUS_RESET_INIT # ( 8 )FF_IF(
-	iClock, iReset | wWeInterruptFlag ,  &iInterruptRequest , iMcuWriteData, iInterruptRequest, oInterruptFlag );
+	iClock, iReset | wWeInterruptFlag ,  |iInterruptRequest , iMcuWriteData, iInterruptRequest, oInterruptFlag );
 
 
 wire [7:0] wPendingInterrupts;

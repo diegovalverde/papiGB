@@ -73,7 +73,7 @@ wire[3:0] wMMU_RegSelect, wMCU_2_TIMER_RegSelect;
 wire wGPU_2_MCU_ReadRequest, wMCU_2_TIMER_We;
 wire wIOInterruptTrigger, wdZCPU_Eof, wdZCPU_BranchTaken, wDZCPU_2_Timer_IntDetected;
 wire [7:0] wInterruptRequest,wInt_2_MMU_InterruptFlag, wInt_2_MMU_IntEnable;
-
+wire wInterrupt0x50;
 
 dzcpu  DZCPU
 (
@@ -105,7 +105,7 @@ interrupt_controller INTERRUPTS
 	 .oInterruptFlag( wInt_2_MMU_InterruptFlag),
 
 
-	.iInterruptRequest( 8'b0 ),
+	.iInterruptRequest( {5'b0, wInterrupt0x50, 2'b0} ),
 	.oInterruptResquestPending( wInterruptRequest )
 );
 
@@ -119,9 +119,10 @@ timers TIMERS
  .iMcuWe( wMMU_RegWe[1] ),
  .iMcuRegSelect( wMMU_RegSelect ),
  .iInterrupt( wDZCPU_2_Timer_IntDetected ),
- .iMcuWriteData( wMMU_RegData )
+ .iMcuWriteData( wMMU_RegData ),
 
  //output wire oInterrupt0x50
+ .oInterrupt0x50( wInterrupt0x50 )
 
 );
 
