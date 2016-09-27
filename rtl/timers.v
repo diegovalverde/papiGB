@@ -90,8 +90,8 @@ assign wMcuRegWriteSelect = (1 << iMcuRegSelect);
 // Triggers INT 0x50 when going 255->0
 //
 ////////////////////////////////////////////////
-reg       rIncTima;             //Set to indicate Tima is to be incremented by 1
-assign    oInterrupt0x50 = ( oTima == 8'd255 && rIncTima ) ? 1'b1 : 1'b0;
+wire      wIncTima;     //Set to indicate Tima is to be incremented by 1
+assign    oInterrupt0x50 = ( oTima == 8'd255 && wIncTima ) ? 1'b1 : 1'b0;
 wire [7:0] wTimaInitialvalue;
 assign wTimaInitialvalue = (iReset) ? 8'b0 : oModulo ;
 
@@ -101,7 +101,7 @@ assign wTimaInitialvalue = (iReset) ? 8'b0 : oModulo ;
 .Clock(    iClock                   ),
 .Reset(    iReset | oInterrupt0x50  ),
 .Initial(  wTimaInitialvalue        ),
-.Enable(   rIncTima                 ),
+.Enable(   wIncTima                 ),
 .Q(        oTima                    )
 );
 
@@ -127,7 +127,7 @@ assign oModulo = rModulo;
 //   2    Running    1 to run timer, 0 to stop
 //   3-7  Unused
 ///////////////////////////////////////////////
-wire [7:0] wSpeed;
+wire [9:0] wSpeed, wTimaFreq;
 
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_TAC
@@ -135,15 +135,29 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_TAC
 
 
 
-MUXFULLPARALELL_2SEL_GENERIC # ( 8 ) MUX_SPEED
+MUXFULLPARALELL_2SEL_GENERIC # ( 10 ) MUX_SPEED
  (
  .Sel( oTac[1:0] ),
- .I0(  8'd1024   ),
- .I1(  8'd16     ),
- .I2(  8'd64     ),
- .I3(  8'd256    ),
- .O(   wSpeed    )
+ .I0(  10'd1023  ), //1024 - 1
+ .I1(  10'd15    ), //16   - 1
+ .I2(  10'd63    ), //64   - 1
+ .I3(  10'd255   ), //256  - 1
+ .O(    wSpeed   )
  );
+
+
+UPCOUNTER_POSEDGE # (10) TIMA_FREQ
+ (
+ .Clock(      iClock       ),
+ .Reset( iReset | wIncTima ),
+ .Initial(      10'b0      ),
+ .Enable(     oTac[2]      ),
+ .Q(       wTimaFreq       )
+ );
+
+
+assign wIncTima =  (wTimaFreq == wSpeed) ? 1'b1 : 1'b0;
+
 
 
 wire wBaseClock, wIsCb;
@@ -341,7 +355,7 @@ wire  [7:0] wDelta;
 assign wDelta = (rInterruptOffset) ? wClockIncrement + 8'd5 : wClockIncrement;
 
 wire [7:0] wDiv,wTima;
-assign wTima =  8'b0;  //TODO Fix this!
+assign wTima = oTima;
 reg rTimerSel, rIncTimer;
 
 assign {wDivOverflow,wDiv} = (rMTime << 2);
