@@ -59,6 +59,8 @@ reg         rResetFlow,rFlowEnable, rRegWe, rSetMCOAddr, rOverWritePc, rCarry, r
 reg [4:0]   rRegSelect;
 reg [7:0]   rZ80Result, rWriteSelect;
 reg [15:0]  rUopDstRegData;
+reg         rHalt;  //Flag to stop microflow
+wire        wContFlow; //Flag to continue microflow
 
 assign oInterruptJump = wInterruptRoutineJumpDetected;
 assign oBranchTaken = rOverWritePc | wInterruptRoutineJumpDetected;
@@ -66,6 +68,7 @@ assign wUopSrc = wUop[4:0];
 assign wIPC    = wUop[13];    //Increment Macro Insn program counter
 assign wuCmd   = wUop[9:5];
 assign oEof    = wEof & rFlowEnable & ~wInterruptRoutineJumpDetected;
+assign wContFlow = rHalt | |iInterruptRequests;
 
 MUXFULLPARALELL_3SEL_GENERIC # ( 1'b1 ) MUX_EOF
  (
@@ -127,7 +130,7 @@ UPCOUNTER_POSEDGE # (10) UPC
   .Clock(   iClock                             ),
   .Reset(   iReset | rResetFlow | wJcbDetected ),
   .Initial( wNextFlow                          ),
-  .Enable(  rFlowEnable                        ),
+  .Enable(  rFlowEnable & wContFlow            ),
   .Q(       wuPc                               )
 );
 
@@ -412,7 +415,9 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
+
     `sma:
     begin
       oMCUwe              = 1'b0;
@@ -426,6 +431,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `srm:
@@ -441,6 +447,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `smw:
@@ -456,6 +463,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `dec16:
@@ -471,6 +479,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `inc16:
@@ -486,6 +495,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `xorx16:
@@ -501,6 +511,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `subx16:
@@ -516,8 +527,8 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
-
 
     `xora:
     begin
@@ -532,6 +543,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `anda:
@@ -547,6 +559,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `addx16:
@@ -562,24 +575,24 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
-
+      rHalt               = 1'b1;
     end
 
-
-        `addx16u:
-        begin
-          oMCUwe              = 1'b0;
-          rRegSelect          = wUop[4:0];
-          rSetMCOAddr         = 1'b0;
-          rRegWe              = 1'b1;
-          rWriteSelect        = `x16;
-          {rCarry16,rUopDstRegData}      = wX16 + wRegData;
-          rOverWritePc        = 1'b0;
-          rMcuReadRequest     = 1'b0;
-          rSetiWe             = 1'b0;
-          rSetiVal            = 1'b0;
-          rClearIntLatch      = 1'b0;
-        end
+    `addx16u:
+    begin
+      oMCUwe              = 1'b0;
+      rRegSelect          = wUop[4:0];
+      rSetMCOAddr         = 1'b0;
+      rRegWe              = 1'b1;
+      rWriteSelect        = `x16;
+      {rCarry16,rUopDstRegData}      = wX16 + wRegData;
+      rOverWritePc        = 1'b0;
+      rMcuReadRequest     = 1'b0;
+      rSetiWe             = 1'b0;
+      rSetiVal            = 1'b0;
+      rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
+    end
 
     `addx16c:
     begin
@@ -594,6 +607,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `spc:
@@ -609,6 +623,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `jint:    //Jump to interrupt routine
@@ -624,6 +639,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b1;
+      rHalt               = 1'b1;
     end
 
     `jcb:  //Jump to extended Z80 flow (0xCB command)
@@ -639,6 +655,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `srx8:
@@ -654,6 +671,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `srx16:
@@ -669,7 +687,9 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
+
     `z801bop:
     begin
       oMCUwe              = 1'b0;
@@ -683,6 +703,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `shl:
@@ -698,6 +719,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `rrot:
@@ -713,6 +735,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `shr:
@@ -728,11 +751,11 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `bit:
     begin
-
       oMCUwe              = 1'b0;
       rRegSelect          = {1'b0,iMCUData[2:0]};
       rSetMCOAddr         = 1'b0;
@@ -744,6 +767,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `sx8r:
@@ -759,6 +783,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `sx16r:
@@ -774,6 +799,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
 
     `seti:
@@ -789,6 +815,7 @@ begin
         rSetiWe             = 1'b1;
         rSetiVal            = 1'b1;
         rClearIntLatch      = 1'b0;
+        rHalt               = 1'b1;
      end
 
     `ceti:  //Disable interruption
@@ -804,6 +831,7 @@ begin
         rSetiWe             = 1'b1;
         rSetiVal            = 1'b0;
         rClearIntLatch      = 1'b0;
+        rHalt               = 1'b1;
      end
 
      `cibit:
@@ -819,6 +847,23 @@ begin
         rSetiWe             = 1'b0;
         rSetiVal            = 1'b0;
         rClearIntLatch      = 1'b1;
+        rHalt               = 1'b1;
+     end
+
+     `hlt:
+     begin
+       oMCUwe              = 1'b0;
+       rRegSelect          = `null;
+       rSetMCOAddr         = 1'b0;
+       rRegWe              = 1'b0;
+       rWriteSelect        = wUopSrc[7:0];
+       {rCarry16,rUopDstRegData}      = 16'b0;
+       rOverWritePc        = 1'b0;
+       rMcuReadRequest     = 1'b0;
+       rSetiWe             = 1'b0;
+       rSetiVal            = 1'b0;
+       rClearIntLatch      = 1'b0;
+       rHalt               = 1'b0;
      end
 
     default:
@@ -834,6 +879,7 @@ begin
       rSetiWe             = 1'b0;
       rSetiVal            = 1'b0;
       rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
     end
   endcase
 end
