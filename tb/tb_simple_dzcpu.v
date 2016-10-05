@@ -752,6 +752,7 @@ if (InstCount > `START_DUMP_INSN)
       $fwrite(log,"%05dns [DZCPU] %d (%h) .",$time, uut.DZCPU.wuPc, uut.DZCPU.wuCmd);
       case (uut.DZCPU.wuCmd)
         `nop: $fwrite(log,"nop \n");
+        `hlt: $fwrite(log,"halt \n");
         `sma: $fwrite(log,"sma %h\n", uut.DZCPU.oMCUAddr);
         `srm:
         begin
