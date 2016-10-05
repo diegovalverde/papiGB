@@ -284,6 +284,10 @@ $readmemh(
       uut.TIMERS.FF_TAC.Q = `REG_TAC;
     `endif
 
+    `ifdef REG_TMA
+      uut.TIMERS.rModulo = `REG_TMA;
+    `endif
+
     `ifdef REG_IF
        uut.INTERRUPTS.FF_IF.Q = `REG_IF;
     `endif
