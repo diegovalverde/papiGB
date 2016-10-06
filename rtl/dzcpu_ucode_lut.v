@@ -167,6 +167,7 @@ begin
 	`JPNZnn:   oUopFlowIdx = 10'd354;
 	`JPZnn:		 oUopFlowIdx = 10'd542;
 	`LDHLSPn:  oUopFlowIdx = 10'd512;
+	`HALT:		 oUopFlowIdx = 10'd547;
 	default:
 			 oUopFlowIdx = 10'd278;
 	endcase
@@ -887,7 +888,7 @@ begin
 //EI
       511:
 		  begin
-	 			$display("%dns %h : INT ENABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",$time, iAddr);
+	 			//$display("%dns %h : INT ENABLE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",$time, iAddr);
 		 		oUop = { `inc_eof, `seti, `null };
 		  end
 
@@ -904,7 +905,7 @@ begin
 			520: oUop = { `op , `smw,    `pc  };	//MEM[sp+1] = pc[15:8]
 			//Clean iflags 0xff0f
 			521: oUop = { `op,   `xorx16, `x16 };
-			522: oUop = { `op , `sma,    `int_flags  };
+			522: oUop = { `op , `sma,    `int_flags_adr  };
 			523: oUop = { `op , `smw,    `x16  };
 			524: oUop = { `op , `jint,    `null  };
 			525: oUop = { `eof , `sma,    `pc  };
@@ -932,6 +933,9 @@ begin
 			544: oUop = { `op , `srm,    `y8   }; //l = MEM[pc] = literal
 			545: oUop = { `inc_eof_nz, `srm, `x8 }; //l = MEM[pc] = literal
 			546: oUop = { `eof , `spc,  `xy16  };
+	//HALT
+			547: oUop = { `op, `hlt,  `null };
+			548: oUop = { `inc_eof, `nop, `null };
 
 	default:
 		oUop = {`op, `nop, `null };
