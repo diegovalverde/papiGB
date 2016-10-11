@@ -256,6 +256,7 @@
 //  //  `define
 //  D0
   `define  RETNC 8'hd0
+  `define  RETC  8'hd8
   `define  POPDE 8'hD1
 //  //  `define  JPNCnn;
 //  //  `define  XX;
@@ -265,7 +266,6 @@
   `define  SUBn   8'hD6
 //  //  `define  RST10;
 //  //  `define
-//  //  `define  RETC;
 //  //  `define  RETI;
 //  //  `define  JPCnn;
 //  //  `define  XX;
