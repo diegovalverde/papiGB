@@ -267,7 +267,7 @@
 //  //  `define  RST10;
 //  //  `define
 //  //  `define  RETI;
-//  //  `define  JPCnn;
+  `define  JPCnn  8'hDA
 //  //  `define  XX;
 //  //  `define
 //  //  `define  CALLCnn;
