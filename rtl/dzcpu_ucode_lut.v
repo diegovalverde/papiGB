@@ -169,6 +169,7 @@ begin
 	`LDHLSPn:  oUopFlowIdx = 10'd512;
 	`HALT:		 oUopFlowIdx = 10'd547;
 	`RETC:		 oUopFlowIdx = 10'd549;
+	`JPCnn:		 oUopFlowIdx = 10'd559;
 	default:
 			 oUopFlowIdx = 10'd278;
 	endcase
@@ -948,6 +949,12 @@ begin
 			556: oUop = { `op,   `srx16,   `hl     };
 			557: oUop = { `op,   `inc16,   `sp     };
 			558: oUop = { `eof,  `sma,     `pc     };
+	//JPCnn
+			559: oUop = { `inc,   `nop,   `null  };
+			560: oUop = { `inc,   `nop,   `null  };
+			561: oUop = { `op ,   `srm,    `y8   }; //l = MEM[pc] = literal
+			562: oUop = { `inc_eof_nc, `srm, `x8 }; //l = MEM[pc] = literal
+			563: oUop = { `eof ,  `spc,   `xy16  };
 	default:
 		oUop = {`op, `nop, `null };
 	endcase
