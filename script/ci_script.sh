@@ -8,7 +8,7 @@ cd sim/
 
 #CALLNZnn
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_CALLNZnn.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_CALLNZnn.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 0210" pgb_cpu.log
 then
@@ -21,7 +21,7 @@ fi
 
 #JRNCn
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_JRNCn.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_JRNCn.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 8000" pgb_cpu.log
 then
@@ -34,7 +34,7 @@ fi
 
 #CPn
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_CPn.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_CPn.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 0050" pgb_cpu.log
 then
@@ -47,7 +47,7 @@ fi
 
 #ANDn2
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DREG_F=8\'hd0 -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDn2.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DREG_F=8\'hd0  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDn2.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 00a0" pgb_cpu.log
 then
@@ -59,7 +59,7 @@ fi
 
 #ANDr_a
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_a.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_a.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 2020" pgb_cpu.log
 then
@@ -71,7 +71,7 @@ fi
 
 #test_CB_SHL_b.dump_CB_SHL_b.dump
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_CB_SHL_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_CB_SHL_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 0710" pgb_cpu.log
 then
@@ -84,7 +84,7 @@ fi
 
 #test_CB_SHL_b.dump_CB_SHL_b.dump
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_CB_SHL_b_2.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_CB_SHL_b_2.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 7f10" pgb_cpu.log
 then
@@ -97,7 +97,7 @@ fi
 
 #ANDr_b
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 2820" pgb_cpu.log
 then
@@ -109,7 +109,7 @@ fi
 
 #ANDr_c
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_c.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_c.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 5220" pgb_cpu.log
 then
@@ -121,7 +121,7 @@ fi
 
 #ANDr_d
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_d.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_d.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 6720" pgb_cpu.log
 then
@@ -133,7 +133,7 @@ fi
 
 #ANDr_b
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_e.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_e.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 00a0" pgb_cpu.log
 then
@@ -145,7 +145,7 @@ fi
 
 #ANDr_h
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_h.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_h.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL a020" pgb_cpu.log
 then
@@ -157,7 +157,7 @@ fi
 
 #ANDr_l
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_l.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ANDr_l.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 2120" pgb_cpu.log
 then
@@ -170,7 +170,7 @@ fi
 
 #ADDn
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDn.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDn.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 00b0" pgb_cpu.log
 then
@@ -183,7 +183,7 @@ fi
 
 #ADDr_a
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDr_a.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDr_a.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 0400" pgb_cpu.log
 then
@@ -195,7 +195,7 @@ fi
 
 #ADDr_b
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 00b0" pgb_cpu.log
 then
@@ -207,7 +207,7 @@ fi
 
 #ADDr_d
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDr_d.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDr_d.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 1030" pgb_cpu.log
 then
@@ -219,7 +219,7 @@ fi
 
 #ADDr_d_2
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDr_d_2.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDr_d_2.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 0130" pgb_cpu.log
 then
@@ -233,7 +233,7 @@ fi
 
 #ADDr_h
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDr_h.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDr_h.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 2e20" pgb_cpu.log
 then
@@ -247,7 +247,7 @@ fi
 
 #ADDr_l
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDr_l.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDr_l.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 9020" pgb_cpu.log
 then
@@ -259,7 +259,7 @@ fi
 
 #ADDr_c
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDr_c.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDr_c.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 1420" pgb_cpu.log
 then
@@ -271,7 +271,7 @@ fi
 
 #ADDr_e
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDr_e.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ADDr_e.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 0090" pgb_cpu.log
 then
@@ -283,7 +283,7 @@ fi
 
 #SUBn
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_SUBAn.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_SUBAn.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 7870" pgb_cpu.log
 then
@@ -296,7 +296,7 @@ fi
 
 #SUBr_b
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_SUBr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_SUBr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL ff70" pgb_cpu.log
 then
@@ -309,7 +309,7 @@ fi
 
 #INCr_b
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_INCr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_INCr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 0100" pgb_cpu.log
 then
@@ -321,7 +321,7 @@ fi
 
 #DECBC
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_DECBC.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_DECBC.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL cafd" pgb_cpu.log
 then
@@ -334,7 +334,7 @@ fi
 
 #DECDE
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_DECDE.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_DECDE.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL cafd" pgb_cpu.log
 then
@@ -346,7 +346,7 @@ fi
 
 #DECHL
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_DECHL.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_DECHL.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL cafd" pgb_cpu.log
 then
@@ -358,7 +358,7 @@ fi
 
 #DECSP
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_DECSP.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_DECSP.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL caf9" pgb_cpu.log
 then
@@ -370,7 +370,7 @@ fi
 
 #INCBC
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_INCBC.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_INCBC.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL cafe" pgb_cpu.log
 then
@@ -382,7 +382,7 @@ fi
 
 #INCDE
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_INCDE.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_INCDE.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 0000" pgb_cpu.log
 then
@@ -394,7 +394,7 @@ fi
 
 #INCHL
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_INCHL.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_INCHL.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 0100" pgb_cpu.log
 then
@@ -406,7 +406,7 @@ fi
 
 #INCSP
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_INCSP.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_INCSP.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL ffff" pgb_cpu.log
 then
@@ -418,7 +418,7 @@ fi
 
 #ORr_a
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_a.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_a.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 8000" pgb_cpu.log
 then
@@ -430,7 +430,7 @@ fi
 
 #ORr_b
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL bb00" pgb_cpu.log
 then
@@ -442,7 +442,7 @@ fi
 
 #ORr_c
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_c.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_c.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL ff00" pgb_cpu.log
 then
@@ -454,7 +454,7 @@ fi
 
 #ORr_d
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_d.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_d.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 0080" pgb_cpu.log
 then
@@ -466,7 +466,7 @@ fi
 
 #ORr_e
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_e.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_e.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 1100" pgb_cpu.log
 then
@@ -479,7 +479,7 @@ fi
 
 #ORr_h
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_h.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_h.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL ef00" pgb_cpu.log
 then
@@ -491,7 +491,7 @@ fi
 
 #ORr_l
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_l.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORr_l.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 0080" pgb_cpu.log
 then
@@ -503,7 +503,7 @@ fi
 
 #test_RRc.dump
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_RRc.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_RRc.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL ff10" pgb_cpu.log
 then
@@ -516,7 +516,7 @@ fi
 
 #XORn
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORan.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORan.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 9200" pgb_cpu.log
 then
@@ -529,7 +529,7 @@ fi
 
 #XORr_a
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORr_a.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORr_a.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 0080" pgb_cpu.log
 then
@@ -541,7 +541,7 @@ fi
 
 #XORr_b
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 9300" pgb_cpu.log
 then
@@ -553,7 +553,7 @@ fi
 
 #XORr_c
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORr_c.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORr_c.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL bd00" pgb_cpu.log
 then
@@ -565,7 +565,7 @@ fi
 
 #XORr_d
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORr_d.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORr_d.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 0080" pgb_cpu.log
 then
@@ -577,7 +577,7 @@ fi
 
 #XORr_e
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORr_e.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORr_e.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 0100" pgb_cpu.log
 then
@@ -589,7 +589,7 @@ fi
 
 #XORr_h
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORr_h.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORr_h.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 4f00" pgb_cpu.log
 then
@@ -601,7 +601,7 @@ fi
 
 #XORr_d
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORr_l.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_XORr_l.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 0080" pgb_cpu.log
 then
@@ -613,7 +613,7 @@ fi
 
 #LDHLDA
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLDA.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLDA.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 1515" pgb_cpu.log
 then
@@ -625,7 +625,7 @@ fi
 
 #LDIOCA
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDIOCA.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDIOCA.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 8525" pgb_cpu.log
 then
@@ -637,7 +637,7 @@ fi
 
 #LDHLmr_a
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_a.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_a.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 9594" pgb_cpu.log
 then
@@ -649,7 +649,7 @@ fi
 
 #LDHLmr_b
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 504f" pgb_cpu.log
 then
@@ -661,7 +661,7 @@ fi
 
 #LDHLmr_c
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_c.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_c.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL f2f1" pgb_cpu.log
 then
@@ -673,7 +673,7 @@ fi
 
 #LDHLmr_d
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_d.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_d.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 1110" pgb_cpu.log
 then
@@ -685,7 +685,7 @@ fi
 
 #LDHLmr_e
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_e.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_e.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 2322" pgb_cpu.log
 then
@@ -697,7 +697,7 @@ fi
 
 #LDHLmr_h
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_h.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_h.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL ffff" pgb_cpu.log
 then
@@ -709,7 +709,7 @@ fi
 
 #LDHLmr_l
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_l.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDHLmr_l.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL fdfc" pgb_cpu.log
 then
@@ -721,7 +721,7 @@ fi
 
 #LDIOnA
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDIOnA.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDIOnA.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 3534" pgb_cpu.log
 then
@@ -733,7 +733,7 @@ fi
 
 #LDADEm
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDADEm.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDADEm.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 2000" pgb_cpu.log
 then
@@ -745,7 +745,7 @@ fi
 
 #LDABCm
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDABCm.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDABCm.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 5800" pgb_cpu.log
 then
@@ -757,7 +757,7 @@ fi
 
 #LDrHLm_a
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrHLm_a.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrHLm_a.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 6000" pgb_cpu.log
 then
@@ -769,7 +769,7 @@ fi
 
 #LDrHLm_b
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrHLm_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrHLm_b.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 4800" pgb_cpu.log
 then
@@ -781,7 +781,7 @@ fi
 
 #LDrHLm_c
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrHLm_c.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrHLm_c.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 0048" pgb_cpu.log
 then
@@ -793,7 +793,7 @@ fi
 
 #LDrHLm_d
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrHLm_d.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrHLm_d.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 8700" pgb_cpu.log
 then
@@ -805,7 +805,7 @@ fi
 
 #LDrHLm_e
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrHLm_e.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrHLm_e.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 0087" pgb_cpu.log
 then
@@ -818,7 +818,7 @@ fi
 
 #LDrHLm_l
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrHLm_l.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrHLm_l.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL ff37" pgb_cpu.log
 then
@@ -830,7 +830,7 @@ fi
 
 #LDrHLm_l
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrHLm_h.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrHLm_h.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 37fd" pgb_cpu.log
 then
@@ -842,7 +842,7 @@ fi
 
 #LDrr_ab
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ab.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ab.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 5500" pgb_cpu.log
 then
@@ -854,7 +854,7 @@ fi
 
 #LDrr_aa
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_aa.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_aa.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 1200" pgb_cpu.log
 then
@@ -866,7 +866,7 @@ fi
 
 #LDrr_ac
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ac.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ac.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 9000" pgb_cpu.log
 then
@@ -878,7 +878,7 @@ fi
 
 #LDrr_ad
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ad.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ad.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 1300" pgb_cpu.log
 then
@@ -890,7 +890,7 @@ fi
 
 #LDrr_ae
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ae.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ae.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 3300" pgb_cpu.log
 then
@@ -902,7 +902,7 @@ fi
 
 #LDrr_ah
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ah.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ah.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 7700" pgb_cpu.log
 then
@@ -914,7 +914,7 @@ fi
 
 #LDrr_al
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_al.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_al.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 2600" pgb_cpu.log
 then
@@ -926,7 +926,7 @@ fi
 
 #LDrr_bb
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_bb.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_bb.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 9745" pgb_cpu.log
 then
@@ -938,7 +938,7 @@ fi
 
 #LDrr_bc
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_bc.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_bc.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 9595" pgb_cpu.log
 then
@@ -950,7 +950,7 @@ fi
 
 #LDrr_bd
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_bd.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_bd.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 4097" pgb_cpu.log
 then
@@ -962,7 +962,7 @@ fi
 
 #LDrr_be
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_be.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_be.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 3597" pgb_cpu.log
 then
@@ -974,7 +974,7 @@ fi
 
 #LDrr_bh
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_bh.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_bh.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 1797" pgb_cpu.log
 then
@@ -986,7 +986,7 @@ fi
 
 #LDrr_bl
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_bl.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_bl.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 6597" pgb_cpu.log
 then
@@ -998,7 +998,7 @@ fi
 
 #LDrr_ba
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ba.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ba.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 1597" pgb_cpu.log
 then
@@ -1010,7 +1010,7 @@ fi
 
 #LDrr_cb
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_cb.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_cb.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 8888" pgb_cpu.log
 then
@@ -1022,7 +1022,7 @@ fi
 
 #LDrr_cc
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_cc.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_cc.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 1587" pgb_cpu.log
 then
@@ -1034,7 +1034,7 @@ fi
 
 #LDrr_cd
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_cd.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_cd.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 8871" pgb_cpu.log
 then
@@ -1047,7 +1047,7 @@ fi
 
 #LDrr_ce
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ce.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ce.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 3671" pgb_cpu.log
 then
@@ -1059,7 +1059,7 @@ fi
 
 #LDrr_ch
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ch.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ch.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 3652" pgb_cpu.log
 then
@@ -1071,7 +1071,7 @@ fi
 
 #LDrr_cl
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_cl.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_cl.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 3612" pgb_cpu.log
 then
@@ -1083,7 +1083,7 @@ fi
 
 #LDrr_ca
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ca.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ca.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 3615" pgb_cpu.log
 then
@@ -1095,7 +1095,7 @@ fi
 
 #LDrr_de
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_de.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_de.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 3434" pgb_cpu.log
 then
@@ -1107,7 +1107,7 @@ fi
 
 #LDrr_db
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_db.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_db.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 1182" pgb_cpu.log
 then
@@ -1119,7 +1119,7 @@ fi
 
 #LDrr_dc
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_dc.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_dc.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 4734" pgb_cpu.log
 then
@@ -1131,7 +1131,7 @@ fi
 
 #LDrr_dd
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_dd.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_dd.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 5234" pgb_cpu.log
 then
@@ -1143,7 +1143,7 @@ fi
 
 #LDrr_dh
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_dh.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_dh.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 3334" pgb_cpu.log
 then
@@ -1155,7 +1155,7 @@ fi
 
 #LDrr_dl
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_dl.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_dl.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 6634" pgb_cpu.log
 then
@@ -1167,7 +1167,7 @@ fi
 
 #LDrr_da
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_da.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_da.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 1513" pgb_cpu.log
 then
@@ -1179,7 +1179,7 @@ fi
 
 #LDrr_la
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_la.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_la.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 2115" pgb_cpu.log
 then
@@ -1191,7 +1191,7 @@ fi
 
 #LDrr_lb
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_lb.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_lb.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 6460" pgb_cpu.log
 then
@@ -1203,7 +1203,7 @@ fi
 
 #LDrr_lc
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_lc.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_lc.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 6470" pgb_cpu.log
 then
@@ -1215,7 +1215,7 @@ fi
 
 #LDrr_ld
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ld.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ld.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 6480" pgb_cpu.log
 then
@@ -1227,7 +1227,7 @@ fi
 
 #LDrr_le
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_le.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_le.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 6485" pgb_cpu.log
 then
@@ -1239,7 +1239,7 @@ fi
 
 #LDrr_lh
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_lh.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_lh.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 6464" pgb_cpu.log
 then
@@ -1251,7 +1251,7 @@ fi
 
 #LDrr_ll
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ll.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ll.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 7902" pgb_cpu.log
 then
@@ -1263,7 +1263,7 @@ fi
 
 #LDrr_eb
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_eb.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_eb.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 3647" pgb_cpu.log
 then
@@ -1275,7 +1275,7 @@ fi
 
 #LDrr_ec
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ec.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ec.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 3689" pgb_cpu.log
 then
@@ -1287,7 +1287,7 @@ fi
 
 #LDrr_ed
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ed.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ed.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 8989" pgb_cpu.log
 then
@@ -1300,7 +1300,7 @@ fi
 
 #LDrr_ee
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ee.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ee.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 3634" pgb_cpu.log
 then
@@ -1312,7 +1312,7 @@ fi
 
 #LDrr_eh
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_eh.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_eh.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 3677" pgb_cpu.log
 then
@@ -1324,7 +1324,7 @@ fi
 
 #LDrr_el
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_el.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_el.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 3608" pgb_cpu.log
 then
@@ -1336,7 +1336,7 @@ fi
 
 #LDrr_ea
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ea.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDrr_ea.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 36aa" pgb_cpu.log
 then
@@ -1348,7 +1348,7 @@ fi
 
 #JPZnn
 make clean >/dev/null 2>&1
-make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_JPZnn.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG  -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_JPZnn.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
 
 if grep -q "TEST_RET_VAL 00a0" pgb_cpu.log
 then
