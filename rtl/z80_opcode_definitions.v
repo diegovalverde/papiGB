@@ -141,7 +141,7 @@
   `define  LDHLmr_e 8'h73
   `define  LDHLmr_h 8'h74
   `define  LDHLmr_l 8'h75
-//  `define  HALT;
+  `define  HALT     8'h76
   `define  LDHLmr_a 8'h77
   `define  LDrr_ab 8'h78
   `define  LDrr_ac 8'h79
@@ -709,6 +709,7 @@
 `define addx16c 5'h1a
 `define addx16u   5'h1b
 `define shr       5'h1c
+`define hlt       5'h1d
 
 `define null 5'h0
 
@@ -741,7 +742,7 @@
 `define carry 5'd24
 `define y8    5'd25
 `define xy16  5'd26
-`define int_flags 5'd27
+`define int_flags_adr 5'd27
 
 `define DZCPU_AFTER_RESET 0
 `define DZCPU_START_FLOW  1

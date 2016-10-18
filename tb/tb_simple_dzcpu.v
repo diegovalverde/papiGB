@@ -284,6 +284,10 @@ $readmemh(
       uut.TIMERS.FF_TAC.Q = `REG_TAC;
     `endif
 
+    `ifdef REG_TMA
+      uut.TIMERS.rModulo = `REG_TMA;
+    `endif
+
     `ifdef REG_IF
        uut.INTERRUPTS.FF_IF.Q = `REG_IF;
     `endif
@@ -638,6 +642,7 @@ if (InstCount > `START_DUMP_INSN)
       542:  $fwrite(log,"=== JPZnn  === %h \n", uut.DZCPU.iMCUData );
       512: $fwrite(log,"=== LDHLSPn  === %h \n", uut.DZCPU.iMCUData );
       516: $fwrite(log,"=== DISPATCH_INTERRUPT  === %h \n", uut.DZCPU.iMCUData );
+      547: $fwrite(log,"=== HALT  === %h \n", uut.DZCPU.iMCUData );
       default:
           case (uut.DZCPU.iMCUData)
               `LDrr_aa: $fwrite(log,"=== LDrr_aa  === %h \n", uut.DZCPU.iMCUData );
@@ -747,6 +752,7 @@ if (InstCount > `START_DUMP_INSN)
       $fwrite(log,"%05dns [DZCPU] %d (%h) .",$time, uut.DZCPU.wuPc, uut.DZCPU.wuCmd);
       case (uut.DZCPU.wuCmd)
         `nop: $fwrite(log,"nop \n");
+        `hlt: $fwrite(log,"halt \n");
         `sma: $fwrite(log,"sma %h\n", uut.DZCPU.oMCUAddr);
         `srm:
         begin
