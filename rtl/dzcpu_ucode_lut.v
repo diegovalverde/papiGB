@@ -168,6 +168,8 @@ begin
 	`JPZnn:		 oUopFlowIdx = 10'd542;
 	`LDHLSPn:  oUopFlowIdx = 10'd512;
 	`HALT:		 oUopFlowIdx = 10'd547;
+	`RETC:		 oUopFlowIdx = 10'd549;
+	`JPCnn:		 oUopFlowIdx = 10'd559;
 	default:
 			 oUopFlowIdx = 10'd278;
 	endcase
@@ -936,7 +938,23 @@ begin
 	//HALT
 			547: oUop = { `op, `hlt,  `null };
 			548: oUop = { `inc_eof, `nop, `null };
-
+	//RETC
+			549: oUop = { `inc_eof_nc, `nop, `null };
+			550: oUop = { `op,   `sma,     `sp     };
+			551: oUop = { `op,   `sx16r,   `hl     };
+			552: oUop = { `op,   `inc16,   `sp     };
+			553: oUop = { `op,   `srm,     `l      };
+			554: oUop = { `op,   `srm,     `h      };
+			555: oUop = { `op,   `spc,     `hl     };
+			556: oUop = { `op,   `srx16,   `hl     };
+			557: oUop = { `op,   `inc16,   `sp     };
+			558: oUop = { `eof,  `sma,     `pc     };
+	//JPCnn
+			559: oUop = { `inc,   `nop,   `null  };
+			560: oUop = { `inc,   `nop,   `null  };
+			561: oUop = { `op ,   `srm,    `y8   }; //l = MEM[pc] = literal
+			562: oUop = { `inc_eof_nc, `srm, `x8 }; //l = MEM[pc] = literal
+			563: oUop = { `eof ,  `spc,   `xy16  };
 	default:
 		oUop = {`op, `nop, `null };
 	endcase
