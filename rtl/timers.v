@@ -152,12 +152,12 @@ MUXFULLPARALELL_2SEL_GENERIC # ( 6 ) MUX_SPEED
  .Clock(                 iClock                     ),
  .Reset(               iReset | wIncTima            ),
  .Initial(                6'b0                      ),
- .Enable(                   oTac[2]                 ),
+ .Enable(           oTac[2] & wIncDivAux            ),
  .Q(                   wTimaFreq                    )
  );
 
 
-assign wIncTima =  (wTimaFreq == wSpeed) ? 1'b1 : 1'b0;
+assign wIncTima =  ((wTimaFreq == wSpeed) & wIncDivAux) ? 1'b1 : 1'b0;
 
 
 
@@ -357,9 +357,13 @@ assign wDelta = (rInterruptOffset) ? wClockIncrement + 8'd5 : wClockIncrement;
 
 wire [7:0] wDiv,wTima;
 assign wTima = oTima;
+
+wire [3:0] wDivAux;
+wire [1:0] wDivAuxOF;
 reg rTimerSel, rIncTimer;
 
 assign {wDivOverflow,wDiv} = (rMTime << 2);
+assign {wDivAuxOF,wDivAux} = (rMTime[3:0] << 2);
 
   reg  [7:0]  rMTime;
   reg         rIncrementBTime;
@@ -478,16 +482,19 @@ assign {wDivOverflow,wDiv} = (rMTime << 2);
 
 //--------------------------------------------------------
 // Clock Increment Logic for wDIV overflow//
-reg [8:0] rDivNextToOverflow;
-wire wIncDiv;
+reg  [8:0] rDivNextToOverflow;
+reg  [5:0] rDivAuxNextToOF;
+wire wIncDiv, wIncDivAux;
 
 assign wIncDiv = rDivNextToOverflow[8] & rIncTimer;
+assign wIncDivAux = rIncTimer & (rDivAuxNextToOF[5] | rDivAuxNextToOF[4]);
 
 //-----------------------------------------------------------
 always @(negedge iClock)
 begin
     if (rIncTimer)
         rDivNextToOverflow = wDiv + (wClockIncrement << 2);
+        rDivAuxNextToOF    = wDivAux + (wClockIncrement << 2);
 end
 
 endmodule
