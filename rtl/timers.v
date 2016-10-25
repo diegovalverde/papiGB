@@ -552,10 +552,22 @@ assign {wDivAuxOF,wDivAux} = (rResetDivAux) ? 6'b0 : (rMTime[3:0] << 2);
 // Clock Increment Logic for wDIV overflow//
 reg  [8:0] rDivNextToOverflow;
 reg  [5:0] rDivAuxNextToOF;
-wire wIncDiv, wIncDivAux;
+wire [5:0] wPreviousValue;
+wire wIncDiv, wIncDivAux, wDivAuxChanged;
 
-assign wIncDiv = rDivNextToOverflow[8] & rIncTimer;
-assign wIncDivAux = rIncTimer & (rDivAuxNextToOF[5] | rDivAuxNextToOF[4]);
+assign wIncDiv          = rDivNextToOverflow[8] & rIncTimer;
+assign wDivAuxChanged   = (wPreviousValue == rDivAuxNextToOF) ? 1'b0 : 1'b1;
+assign wIncDivAux = wDivAuxChanged & (rDivAuxNextToOF[5] | rDivAuxNextToOF[4]);
+
+
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 6 )FF_DIV_AUX
+(
+.Clock(   iClock    ),
+.Reset(   iReset    ),
+.Enable( rIncTimer  ),
+.D( rDivAuxNextToOF ),
+.Q( wPreviousValue  )
+);
 
 //-----------------------------------------------------------
 always @(negedge iClock)
