@@ -127,7 +127,8 @@ assign oModulo = rModulo;
 //   2    Running    1 to run timer, 0 to stop
 //   3-7  Unused
 ///////////////////////////////////////////////
-wire [9:0] wSpeed, wTimaFreq;
+wire [9:0] wSpeed;
+wire [5:0] wTimaFreq;
 
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_TAC
@@ -146,13 +147,14 @@ MUXFULLPARALELL_2SEL_GENERIC # ( 10 ) MUX_SPEED
  );
 
 
-UPCOUNTER_POSEDGE # (10) TIMA_FREQ
+ //Suma a una frecuencia de 262144 Hz
+  UPCOUNTER_POSEDGE # (6) DIV_AUX
  (
- .Clock(      iClock       ),
- .Reset( iReset | wIncTima ),
- .Initial(      10'b0      ),
- .Enable(     oTac[2]      ),
- .Q(       wTimaFreq       )
+ .Clock(                 iClock                     ),
+ .Reset(               iReset | wIncTima            ),
+ .Initial(                6'b0                      ),
+ .Enable(                   oTac[2]                 ),
+ .Q(                   wTimaFreq                    )
  );
 
 
