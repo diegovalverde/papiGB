@@ -553,11 +553,16 @@ assign {wDivAuxOF,wDivAux} = (rResetDivAux) ? 6'b0 : (rMTime[3:0] << 2);
 reg  [8:0] rDivNextToOverflow;
 reg  [5:0] rDivAuxNextToOF;
 wire [5:0] wPreviousValue;
-wire wIncDiv, wIncDivAux, wDivAuxChanged;
+wire [8:0] wDivAuxCounter;
+wire [4:0] wDivCounter;
+wire wIncDiv, wIncDivAux, wDivAuxChanged, wIncDivInHalt, wIncDivAuxInHalt;
 
-assign wIncDiv          = rDivNextToOverflow[8] & rIncTimer;
+
+assign wIncDiv          = rDivNextToOverflow[8] & (rIncTimer | wIncDivInHalt);
 assign wDivAuxChanged   = (wPreviousValue == rDivAuxNextToOF) ? 1'b0 : 1'b1;
 assign wIncDivAux = wDivAuxChanged & (rDivAuxNextToOF[5] | rDivAuxNextToOF[4]);
+assign wIncDivInHalt    = (wDivCounter == 5'd23) ? 1'b1 : 1'b0;
+assign wIncDivAuxInHalt = (wDivAuxCounter == 9'd380) ? 1'b1 : 1'b0;
 
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 6 )FF_DIV_AUX
@@ -568,6 +573,25 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 6 )FF_DIV_AUX
 .D( rDivAuxNextToOF ),
 .Q( wPreviousValue  )
 );
+
+UPCOUNTER_POSEDGE # (9) DIV_AUX_IN_HALT
+(
+.Clock(         iClock            ),
+.Reset( iReset | wIncDivAuxInHalt ),
+.Initial(         9'b0            ),
+.Enable(    iOpcode == 8'h76      ),
+.Q(       wDivAuxCounter          )
+);
+
+UPCOUNTER_POSEDGE # (5) DIV_IN_HALT
+(
+.Clock(        iClock          ),
+.Reset( iReset | wIncDivInHalt ),
+.Initial(        5'b0          ),
+.Enable(   iOpcode == 8'h76    ),
+.Q(          wDivCounter       )
+);
+
 
 //-----------------------------------------------------------
 always @(negedge iClock)
