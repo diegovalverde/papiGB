@@ -35,6 +35,11 @@
 `define INT_ACTIVATED       2
 `define ENABLE_INT_OFFSET   3
 
+`define INITIAL_STATE_TIMA  0
+`define WAIT_FOR_TAC_2      1
+`define TAC_2_ACTIVATED     2
+`define WAIT_FOR_TAC_2_OFF  3
+
 
 module timers
 (
@@ -76,11 +81,11 @@ assign wMcuRegWriteSelect = (1 << iMcuRegSelect);
 
  UPCOUNTER_POSEDGE # (8) DIV
 (
-.Clock(iClock),
-.Reset(iReset),
-.Initial(8'd211),
+.Clock(  iClock  ),
+.Reset(  iReset  ),
+.Initial( 8'd211 ),
 .Enable( wIncDiv ),
-.Q( oDiv )
+.Q(     oDiv     )
 );
 
 
@@ -127,44 +132,45 @@ assign oModulo = rModulo;
 //   2    Running    1 to run timer, 0 to stop
 //   3-7  Unused
 ///////////////////////////////////////////////
-wire [9:0] wSpeed, wTimaFreq;
+wire [5:0] wSpeed, wTimaFreq;
 
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_TAC
-( iClock, iReset,iMcuWe & wMcuRegWriteSelect[7] , iMcuWriteData, oTac );
+(
+.Clock(           iClock              ),
+.Reset(           iReset              ),
+.Enable(iMcuWe & wMcuRegWriteSelect[7]),
+.D(           iMcuWriteData           ),
+.Q(               oTac                )
+);
 
-
-
-MUXFULLPARALELL_2SEL_GENERIC # ( 10 ) MUX_SPEED
+MUXFULLPARALELL_2SEL_GENERIC # ( 6 ) MUX_SPEED
  (
  .Sel( oTac[1:0] ),
- .I0(  10'd1023  ), //1024 - 1
- .I1(  10'd15    ), //16   - 1
- .I2(  10'd63    ), //64   - 1
- .I3(  10'd255   ), //256  - 1
+ .I0(   6'd63    ), // 4096 Hz   = 262144 Hz / 64
+ .I1(   6'd0     ), // 262144 Hz = 262144 Hz / 1
+ .I2(   6'd3     ), // 65536 Hz  = 262144 Hz / 4
+ .I3(   6'd15    ), // 16384 Hz  = 262144 Hz / 16
  .O(    wSpeed   )
  );
 
+//Suma a una frecuencia de 262144 Hz
+ UPCOUNTER_POSEDGE # (6) DIV_AUX
+(
+.Clock(                 iClock                     ),
+.Reset(               iReset | wIncTima            ),
+.Initial(                6'b0                      ),
+.Enable( oTac[2] & (wIncDivAux | wIncDivAuxInHalt) ),
+.Q(                   wTimaFreq                    )
+);
 
-UPCOUNTER_POSEDGE # (10) TIMA_FREQ
- (
- .Clock(      iClock       ),
- .Reset( iReset | wIncTima ),
- .Initial(      10'b0      ),
- .Enable(     oTac[2]      ),
- .Q(       wTimaFreq       )
- );
+assign wIncTima =  ((wTimaFreq == wSpeed) &
+                   (wIncDivAux | wIncDivAuxInHalt)) ? 1'b1 : 1'b0;
 
 
-assign wIncTima =  (wTimaFreq == wSpeed) ? 1'b1 : 1'b0;
-
-
-
-wire wBaseClock, wIsCb;
+wire wIsCb;
 wire [1:0] wDivOverflow;
 reg  rIsBranch;
-wire wBaseClockDivider[7:0];
-
 
 
 
@@ -334,7 +340,7 @@ begin
     begin
         rInterruptOffset = 1'b1;
 
-        if (rIncTimer)
+        if (rIncTimer | wIncDivInHalt)
             rNextState_Int = `WAIT_FOR_INTERRUPT;
         else
             rNextState_Int = `ENABLE_INT_OFFSET;
@@ -351,31 +357,95 @@ begin
 end //always
 
 
+//---------------------------------------------------------------
+// Reset wDivAux when oTac[2] gets up
+reg rResetDivAux;
+reg [1:0] rCurrentState_TIMA, rNextState_TIMA;
+
+always @(posedge iClock)
+begin
+    if (iReset != 1)
+        rCurrentState_TIMA <= rNextState_TIMA;
+    else
+        rCurrentState_TIMA <= `INITIAL_STATE_TIMA;
+end
+//------------------------------------------------
+
+always @( * )
+begin
+    case (rCurrentState_TIMA)
+    //--------------------------
+    `INITIAL_STATE_TIMA:
+    begin
+        rResetDivAux    = 1'b0;
+
+        rNextState_TIMA = `WAIT_FOR_TAC_2;
+    end
+    //-------------------------------
+    `WAIT_FOR_TAC_2:
+    begin
+        rResetDivAux    = 1'b0;
+
+        if (oTac[2])
+            rNextState_TIMA = `TAC_2_ACTIVATED;
+        else
+            rNextState_TIMA = `WAIT_FOR_TAC_2;
+    end
+    //--------------------------------
+    `TAC_2_ACTIVATED:
+    begin
+        rResetDivAux    = 1'b1;
+
+        rNextState_TIMA = `WAIT_FOR_TAC_2_OFF;
+    end
+    //--------------------------------
+    `WAIT_FOR_TAC_2_OFF:
+    begin
+        rResetDivAux    = 1'b0;
+
+        if (~oTac[2])
+            rNextState_TIMA = `WAIT_FOR_TAC_2;
+        else
+            rNextState_Int = `WAIT_FOR_TAC_2_OFF;
+    end
+    //---------------------------------
+    default:
+    begin
+        rResetDivAux    = 1'b0;
+
+        rNextState_TIMA = `WAIT_FOR_TAC_2;
+    end
+    //--------------------------------------------------
+    endcase
+end //always
+
+
 wire  [7:0] wDelta;
 assign wDelta = (rInterruptOffset) ? wClockIncrement + 8'd5 : wClockIncrement;
 
 wire [7:0] wDiv,wTima;
 assign wTima = oTima;
+
+wire [3:0] wDivAux;
+wire [1:0] wDivAuxOF;
 reg rTimerSel, rIncTimer;
 
 assign {wDivOverflow,wDiv} = (rMTime << 2);
+assign {wDivAuxOF,wDivAux} = (rResetDivAux) ? 6'b0 : (rMTime[3:0] << 2);
 
   reg  [7:0]  rMTime;
   reg         rIncrementBTime;
-  wire [7:0]  wBClock; //Base clock
 
    always @ (posedge iClock)
    begin
       if (iReset)
       begin
-        rMTime = 8'b0;
+        rMTime    = 8'b0;
       end
       else
       begin
-        if (rIncTimer )
+        if (rIncTimer | wIncDivInHalt)
           {rIncrementBTime,rMTime} = rMTime + {4'b0,wDelta[3:0]};
-
-
       end
    end //always
 
@@ -476,17 +546,59 @@ assign {wDivOverflow,wDiv} = (rMTime << 2);
 
 
 //--------------------------------------------------------
-// Clock Increment Logic for wDIV overflow//
-reg [8:0] rDivNextToOverflow;
-wire wIncDiv;
+// Clock Increment Logic for wDIV overflow and wDivAux overflow//
+reg  [8:0] rDivNextToOverflow;
+reg  [5:0] rDivAuxNextToOF;
+wire [5:0] wPreviousValue;
+wire [8:0] wDivAuxCounter;
+wire [4:0] wDivCounter;
+wire wIncDiv, wIncDivAux, wDivAuxChanged, wIncDivInHalt, wIncDivAuxInHalt;
 
-assign wIncDiv = rDivNextToOverflow[8] & rIncTimer;
+
+assign wIncDiv          = rDivNextToOverflow[8] & (rIncTimer | wIncDivInHalt);
+assign wDivAuxChanged   = (wPreviousValue == rDivAuxNextToOF) ? 1'b0 : 1'b1;
+assign wIncDivAux = wDivAuxChanged & (rDivAuxNextToOF[5] | rDivAuxNextToOF[4]);
+assign wIncDivInHalt    = (wDivCounter == 5'd23) ? 1'b1 : 1'b0;
+assign wIncDivAuxInHalt = (wDivAuxCounter == 9'd380) ? 1'b1 : 1'b0;
+
+
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 6 )FF_DIV_AUX
+(
+.Clock(   iClock    ),
+.Reset(   iReset    ),
+.Enable( rIncTimer  ),
+.D( rDivAuxNextToOF ),
+.Q( wPreviousValue  )
+);
+
+UPCOUNTER_POSEDGE # (9) DIV_AUX_IN_HALT
+(
+.Clock(         iClock            ),
+.Reset( iReset | wIncDivAuxInHalt ),
+.Initial(         9'b0            ),
+.Enable(    iOpcode == 8'h76      ),
+.Q(       wDivAuxCounter          )
+);
+
+UPCOUNTER_POSEDGE # (5) DIV_IN_HALT
+(
+.Clock(        iClock          ),
+.Reset( iReset | wIncDivInHalt ),
+.Initial(        5'b0          ),
+.Enable(   iOpcode == 8'h76    ),
+.Q(          wDivCounter       )
+);
+
 
 //-----------------------------------------------------------
 always @(negedge iClock)
 begin
-    if (rIncTimer)
+    if (rIncTimer | wIncDivInHalt)
+    begin
         rDivNextToOverflow = wDiv + (wClockIncrement << 2);
+        rDivAuxNextToOF    = wDivAux + (wClockIncrement << 2);
+    end
 end
+
 
 endmodule
