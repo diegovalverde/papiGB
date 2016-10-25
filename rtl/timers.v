@@ -127,8 +127,7 @@ assign oModulo = rModulo;
 //   2    Running    1 to run timer, 0 to stop
 //   3-7  Unused
 ///////////////////////////////////////////////
-wire [9:0] wSpeed;
-wire [5:0] wTimaFreq;
+wire [5:0] wSpeed, wTimaFreq;
 
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_TAC
@@ -136,13 +135,13 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 )FF_TAC
 
 
 
-MUXFULLPARALELL_2SEL_GENERIC # ( 10 ) MUX_SPEED
+MUXFULLPARALELL_2SEL_GENERIC # ( 6 ) MUX_SPEED
  (
  .Sel( oTac[1:0] ),
- .I0(  10'd1023  ), //1024 - 1
- .I1(  10'd15    ), //16   - 1
- .I2(  10'd63    ), //64   - 1
- .I3(  10'd255   ), //256  - 1
+ .I0(   6'd63    ), // 4096 Hz   = 262144 Hz / 64
+ .I1(   6'd0     ), // 262144 Hz = 262144 Hz / 1
+ .I2(   6'd3     ), // 65536 Hz  = 262144 Hz / 4
+ .I3(   6'd15    ), // 16384 Hz  = 262144 Hz / 16
  .O(    wSpeed   )
  );
 
