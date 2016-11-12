@@ -170,6 +170,7 @@ begin
 	`HALT:		 oUopFlowIdx = 10'd547;
 	`RETC:		 oUopFlowIdx = 10'd549;
 	`JPCnn:		 oUopFlowIdx = 10'd559;
+	`INCHLm:	 oUopFlowIdx = 10'd564;
 	default:
 			 oUopFlowIdx = 10'd278;
 	endcase
@@ -745,7 +746,7 @@ begin
 		399: oUop = {`op,  `srm,   `l  };
 		400: oUop = {`inc_eof,  `sma,   `pc };
 //RETNZ
-		401: oUop = { `inc_eof_nz,  `nop, `null };
+		401: oUop = { `inc_eof_z,  `nop, `null };
 		402: oUop = {`op ,`sma,  `sp   };
 		403: oUop = {`op, `sx16r,  `hl };
 		404: oUop = {`op, `inc16, `sp  };
@@ -955,6 +956,13 @@ begin
 			561: oUop = { `op ,   `srm,    `y8   }; //l = MEM[pc] = literal
 			562: oUop = { `inc_eof_nc, `srm, `x8 }; //l = MEM[pc] = literal
 			563: oUop = { `eof ,  `spc,   `xy16  };
+	//INCHLm
+			564: oUop = { `op  , `sma  ,  `hl     }; //control to hl
+			565: oUop = { `op  , `nop,   `null    }; //control to hl
+			566: oUop = { `op  , `srm  ,  `x8     }; //recuperar cont. de memoria(hl)
+			567: oUop = { `op  , `inc16,  `x8     };
+			568: oUop = { `inc  , `smw  ,  `x8     };
+			569: oUop = { `eof , `sma  ,  `pc     };//control to pc
 	default:
 		oUop = {`op, `nop, `null };
 	endcase
