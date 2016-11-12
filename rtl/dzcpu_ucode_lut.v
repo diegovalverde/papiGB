@@ -746,7 +746,7 @@ begin
 		399: oUop = {`op,  `srm,   `l  };
 		400: oUop = {`inc_eof,  `sma,   `pc };
 //RETNZ
-		401: oUop = { `inc_eof_nz,  `nop, `null };
+		401: oUop = { `inc_eof_z,  `nop, `null };
 		402: oUop = {`op ,`sma,  `sp   };
 		403: oUop = {`op, `sx16r,  `hl };
 		404: oUop = {`op, `inc16, `sp  };
