@@ -511,6 +511,22 @@ if (InstCount > `START_DUMP_INSN)
       Pc = uut.DZCPU.wPc;
 
       $fwrite(log,"InsnCount: %d\n ", InstCount);
+
+
+      `ifdef PRINT_STACK
+            $fwrite(log, "=== WORK MEMORY C000 - DFFFF ===\n");
+            $fwrite(log,"%02h: ",16'hcff0);
+            for (i = 16'hff0; i <  16'h100f; i = i + 1)
+            begin
+                $fwrite(log,"%02h ", uut.MMU.WORK_RAM.Ram[i]);
+                if ((i+1) % 16 == 0)
+                    $fwrite(log,"\n %h: ", (16'hc000+i));
+
+            end
+            $fwrite(log,"\n");
+      `endif
+
+
       case (uut.DZCPU.wuOpFlowIdx)
       1:  $fwrite(log,"=== LDSPnn === %h \n", uut.DZCPU.iMCUData );
       5:  $fwrite(log,"=== LDHLnn === %h \n", uut.DZCPU.iMCUData );
@@ -646,6 +662,7 @@ if (InstCount > `START_DUMP_INSN)
       549: $fwrite(log,"=== RETC  === %h \n", uut.DZCPU.iMCUData );
       559: $fwrite(log,"=== JPCnn  === %h \n", uut.DZCPU.iMCUData );
       564: $fwrite(log,"=== INCHLm  === %h \n", uut.DZCPU.iMCUData );
+      570: $fwrite(log,"=== RETI  === %h \n", uut.DZCPU.iMCUData );
       default:
           case (uut.DZCPU.iMCUData)
               `LDrr_aa: $fwrite(log,"=== LDrr_aa  === %h \n", uut.DZCPU.iMCUData );
@@ -731,6 +748,8 @@ if (InstCount > `START_DUMP_INSN)
       InstCount = InstCount + 64'b1;
 
 
+
+
       `ifdef STOP_AFTER_INSN_COUNT
         if (InstCount >= `STOP_AFTER_INSN_COUNT)
         begin
@@ -740,6 +759,9 @@ if (InstCount > `START_DUMP_INSN)
         end
       `endif
     end
+
+
+
 
 
     if (uut.MMU.iGpuReadRequest)

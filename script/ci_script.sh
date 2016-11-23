@@ -6,6 +6,22 @@
 
 cd sim/
 
+#RETI
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DREG_F=8\'hB0 -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_RETI.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 71ce" pgb_cpu.log
+then
+	echo "Test test_RETI.dump passed"
+else
+	echo "Test test_RETI.dump failed"
+	exit 1
+fi
+
+
+
+
+
 
 #INCHLm
 make clean >/dev/null 2>&1

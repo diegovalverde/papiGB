@@ -266,7 +266,7 @@
   `define  SUBn   8'hD6
 //  //  `define  RST10;
 //  //  `define
-//  //  `define  RETI;
+  `define  RETI   8'hD9
   `define  JPCnn  8'hDA
 //  //  `define  XX;
 //  //  `define

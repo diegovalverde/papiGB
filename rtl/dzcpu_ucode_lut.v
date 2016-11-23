@@ -171,6 +171,7 @@ begin
 	`RETC:		 oUopFlowIdx = 10'd549;
 	`JPCnn:		 oUopFlowIdx = 10'd559;
 	`INCHLm:	 oUopFlowIdx = 10'd564;
+	`RETI:		 oUopFlowIdx = 10'd570;
 	default:
 			 oUopFlowIdx = 10'd278;
 	endcase
@@ -901,7 +902,7 @@ begin
 			514: oUop = { `update_flags,`addx16, `idata  };
 			515: oUop = { `inc_eof,`srx16, `hl   };
 //FLOW_ID_INTERRUPT
-			516: oUop = { `op, `dec16,  `sp  };
+			516: oUop = { `inc, `dec16,  `sp  };
 			517: oUop = { `op,  `sma,    `sp  };
 			518: oUop = { `op,  `smw,    `pch };	//MEM[sp] = pc[7:0]
 			519: oUop = { `op,  `dec16,  `sp  };
@@ -963,6 +964,20 @@ begin
 			567: oUop = { `op  , `inc16,  `x8     };
 			568: oUop = { `inc  , `smw  ,  `x8     };
 			569: oUop = { `eof , `sma  ,  `pc     };//control to pc
+	//RETI
+			570: oUop = { `op,   `sma,     `sp     };//control to sp
+			571: oUop = { `op,   `sx16r,   `hl     };//backup hl
+			572: oUop = { `op,   `inc16,   `sp     };//pop
+			573: oUop = { `op,   `srm,     `l      };//load sp to l
+			574: oUop = { `op,   `srm,     `h      };//load sp+1 to h
+			575: oUop = { `op,   `spc,     `hl     };//load (hl) to pc
+			576: oUop = { `op,   `srx16,   `hl     };//
+			577: oUop = { `op,   `inc16,   `sp     };//pop
+			578: oUop = { `op,  `sma,     `pc      };//control to pc
+			579: oUop = { `eof,   `seti,    `null	 };//enable interrupt
+
+
+
 	default:
 		oUop = {`op, `nop, `null };
 	endcase
