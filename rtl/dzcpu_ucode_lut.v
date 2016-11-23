@@ -902,7 +902,7 @@ begin
 			514: oUop = { `update_flags,`addx16, `idata  };
 			515: oUop = { `inc_eof,`srx16, `hl   };
 //FLOW_ID_INTERRUPT
-			516: oUop = { `op, `dec16,  `sp  };
+			516: oUop = { `inc, `dec16,  `sp  };
 			517: oUop = { `op,  `sma,    `sp  };
 			518: oUop = { `op,  `smw,    `pch };	//MEM[sp] = pc[7:0]
 			519: oUop = { `op,  `dec16,  `sp  };
