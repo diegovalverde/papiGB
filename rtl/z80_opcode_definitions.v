@@ -70,7 +70,7 @@
 //  `define  SCF;
 
 //  `define  JRCn;
-//  `define  ADDHLSP;
+  `define  ADDHLSP 8'h39
 //  `define  LDAHLD;
   `define  DECSP  8'h3b
   `define  INCr_a 8'h3c
