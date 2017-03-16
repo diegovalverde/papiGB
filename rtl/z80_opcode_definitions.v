@@ -11,7 +11,7 @@
 //  `define  RLCA;
 
 //  `define  LDmmSP;
-//  `define  ADDHLBC;
+  `define  ADDHLBC 8'h09
   `define  LDABCm 8'ha
   `define  DECBC 8'hb
 

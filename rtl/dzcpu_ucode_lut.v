@@ -173,6 +173,7 @@ begin
 	`INCHLm:	 oUopFlowIdx = 10'd564;
 	`RETI:		 oUopFlowIdx = 10'd570;
   `ADDHLSP:	 oUopFlowIdx = 10'd580;
+	`ADDHLBC:	 oUopFlowIdx = 10'd583;
 	default:
 			 oUopFlowIdx = 10'd278;
 	endcase
@@ -980,7 +981,10 @@ begin
 			580:  oUop = { `inc,  `sx16r,   `hl   };
 			581:  oUop = { `update_flags,  `addx16,   `sp   };
 			582:  oUop = { `eof,  `srx16,   `hl   };
-
+	//ADDHLBC
+			583:  oUop = { `inc,  `sx16r,   `hl   };
+			584:  oUop = { `update_flags,  `addx16,   `bc   };
+			585:  oUop = { `eof,  `srx16,   `hl   };
 
 	default:
 		oUop = {`op, `nop, `null };
