@@ -172,6 +172,8 @@ begin
 	`JPCnn:		 oUopFlowIdx = 10'd559;
 	`INCHLm:	 oUopFlowIdx = 10'd564;
 	`RETI:		 oUopFlowIdx = 10'd570;
+  `ADDHLSP:	 oUopFlowIdx = 10'd580;
+	`ADDHLBC:	 oUopFlowIdx = 10'd583;
 	default:
 			 oUopFlowIdx = 10'd278;
 	endcase
@@ -975,8 +977,14 @@ begin
 			577: oUop = { `op,   `inc16,   `sp     };//pop
 			578: oUop = { `op,  `sma,     `pc      };//control to pc
 			579: oUop = { `eof,   `seti,    `null	 };//enable interrupt
-
-
+	//ADDHLSP
+			580:  oUop = { `inc,  `sx16r,   `hl   };
+			581:  oUop = { `update_flags,  `addx16,   `sp   };
+			582:  oUop = { `eof,  `srx16,   `hl   };
+	//ADDHLBC
+			583:  oUop = { `inc,  `sx16r,   `hl   };
+			584:  oUop = { `update_flags,  `addx16,   `bc   };
+			585:  oUop = { `eof,  `srx16,   `hl   };
 
 	default:
 		oUop = {`op, `nop, `null };
