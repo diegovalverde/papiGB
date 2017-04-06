@@ -174,6 +174,7 @@ begin
 	`RETI:		 oUopFlowIdx = 10'd570;
   `ADDHLSP:	 oUopFlowIdx = 10'd580;
 	`ADDHLBC:	 oUopFlowIdx = 10'd583;
+	`RLCA:     oUopFlowIdx = 10'd586;
 	default:
 			 oUopFlowIdx = 10'd278;
 	endcase
@@ -985,6 +986,8 @@ begin
 			583:  oUop = { `inc,  `sx16r,   `hl   };
 			584:  oUop = { `update_flags,  `addx16,   `bc   };
 			585:  oUop = { `eof,  `srx16,   `hl   };
+	//RLCA
+			586:  oUop = { `inc_eof_fu, `shlnc,  `null  };
 
 	default:
 		oUop = {`op, `nop, `null };
