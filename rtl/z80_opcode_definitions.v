@@ -8,7 +8,7 @@
   `define  INCr_b 8'h4
   `define  DECr_b 8'h5
   `define  LDrn_b 8'h6
-//  `define  RLCA;
+  `define  RLCA   8'h7
 
 //  `define  LDmmSP;
   `define  ADDHLBC 8'h09

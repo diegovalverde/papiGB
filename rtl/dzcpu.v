@@ -287,7 +287,7 @@ reg [1:0] rFlagsZ, rFlagsN, rFlagsH, rFlagsC;
 wire wFlagsWe;
 wire wCarry, wCarry12, wHalfCarry_Inc, wHalfCarry_Add, wHalfCarry_Sub, wHalfCarry_Dec, wCpnHalf, wHalfCarry_AddC;
 wire [7:0] wFlagsUpdate;
-reg rCarry16;
+reg rCarry16, rCarry8;
 
 wire [3:0] wNibble_Add, wNibble_Sub;
 
@@ -1027,6 +1027,13 @@ begin
        rFlagsC              = {1'b1,wA[7]};
     end
 
+    {1'b0,`RLCA}:
+      begin
+         rFlagsZ              = {1'b0,1'b0};
+         rFlagsN              = {1'b0,1'b0};
+         rFlagsH              = {1'b1,1'b0};  //H is reset
+         rFlagsC              = {1'b1,rCarry16};
+      end
 
     {1'b0,`RRA}:
     begin
