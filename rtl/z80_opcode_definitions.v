@@ -711,6 +711,7 @@
 `define shr       5'h1c
 `define hlt       5'h1d
 `define shl8      5'h1e
+`define addx16c_ext 5'h1f
 
 `define null 5'h0
 
