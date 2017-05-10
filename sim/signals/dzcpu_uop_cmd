@@ -25,4 +25,6 @@
 24  xora
 25  addx16c
 26  addx16u
-27  shr       
+27  shr  
+30  shl8 
+31  addx16c_ext     
