@@ -665,6 +665,7 @@ if (InstCount > `START_DUMP_INSN)
       570: $fwrite(log,"=== RETI  === %h \n", uut.DZCPU.iMCUData );
       580: $fwrite(log,"=== ADDHLSP  === %h \n", uut.DZCPU.iMCUData );
       583: $fwrite(log,"=== ADDHLBC  === %h \n", uut.DZCPU.iMCUData );
+      586: $fwrite(log,"=== RLCA  === %h \n", uut.DZCPU.iMCUData );
       default:
           case (uut.DZCPU.iMCUData)
               `LDrr_aa: $fwrite(log,"=== LDrr_aa  === %h \n", uut.DZCPU.iMCUData );
@@ -812,7 +813,8 @@ if (InstCount > `START_DUMP_INSN)
         `xora:   $fwrite(log,"xora %h\n", uut.DZCPU.wRegData);
         `addx16c: $fwrite(log,"addx16rc %h + %h + %h = %h\n", uut.DZCPU.wX16, uut.DZCPU.wRegData,uut.DZCPU.wCarry, uut.DZCPU.rUopDstRegData);
         `shr: $fwrite(log,"shr %h >> 1 + %h\n", uut.DZCPU.wRegData, uut.DZCPU.wFlags[`flag_c] );
-
+        `shl8: $fwrite(log, "shl8  \n");
+        `addx16c_ext: $fwrite(log, "addx16c_ext  \n");
         `z801bop:
         begin
           case (uut.DZCPU.iMCUData[7:3])

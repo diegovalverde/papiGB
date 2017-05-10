@@ -287,7 +287,7 @@ reg [1:0] rFlagsZ, rFlagsN, rFlagsH, rFlagsC;
 wire wFlagsWe;
 wire wCarry, wCarry12, wHalfCarry_Inc, wHalfCarry_Add, wHalfCarry_Sub, wHalfCarry_Dec, wCpnHalf, wHalfCarry_AddC;
 wire [7:0] wFlagsUpdate;
-reg rCarry16;
+reg rCarry16, rCarry8;
 
 wire [3:0] wNibble_Add, wNibble_Sub;
 
@@ -722,6 +722,38 @@ begin
       rHalt               = 1'b1;
     end
 
+    `shl8:
+    begin
+      oMCUwe              = 1'b0;
+      rRegSelect          = {1'b0,iMCUData[2:0]};
+      rSetMCOAddr         = 1'b0;
+      rRegWe              = 1'b1;
+      rWriteSelect        = {5'b0,iMCUData[2:0]};
+      {rCarry8,rUopDstRegData[7:0]}      = (wRegData << 1);
+      rOverWritePc        = 1'b0;
+      rMcuReadRequest     = 1'b0;
+      rSetiWe             = 1'b0;
+      rSetiVal            = 1'b0;
+      rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
+    end
+
+    `addx16c_ext:
+    begin
+      oMCUwe              = 1'b0;
+      rRegSelect          = {1'b0,iMCUData[2:0]};
+      rSetMCOAddr         = 1'b0;
+      rRegWe              = 1'b1;
+      rWriteSelect        = {5'b0,iMCUData[2:0]};
+      {rCarry16,rUopDstRegData}      = {rCarry8, wX16 + wRegData + rCarry8};
+      rOverWritePc        = 1'b0;
+      rMcuReadRequest     = 1'b0;
+      rSetiWe             = 1'b0;
+      rSetiVal            = 1'b0;
+      rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
+    end
+
     `rrot:
     begin
       oMCUwe              = 1'b0;
@@ -995,6 +1027,13 @@ begin
        rFlagsC              = {1'b1,wA[7]};
     end
 
+    {1'b0,`RLCA}:
+      begin
+         rFlagsZ              = {1'b0,1'b0};
+         rFlagsN              = {1'b0,1'b0};
+         rFlagsH              = {1'b1,1'b0};  //H is reset
+         rFlagsC              = {1'b1,rCarry16};
+      end
 
     {1'b0,`RRA}:
     begin
