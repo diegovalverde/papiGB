@@ -176,6 +176,7 @@ begin
 	`ADDHLBC:	 oUopFlowIdx = 10'd583;
 	`RLCA:     oUopFlowIdx = 10'd586;
 	`LDmmSP:   oUopFlowIdx = 10'd589;
+	`LDSPHL:   oUopFlowIdx = 10'd601;
 	default:
 			 oUopFlowIdx = 10'd278;
 	endcase
@@ -1006,7 +1007,10 @@ begin
 			598: oUop = {`op,  `srx16, `hl };
 			599: oUop = {`op  , `nop,   `null};
 			600: oUop = {`eof,  `nop, `null };
-
+	//LDSPHL
+			601:  oUop = {`inc, `sx16r,  `hl };
+			602:  oUop = { `eof, `srx16,   `sp  };
+			
 	default:
 		oUop = {`op, `nop, `null };
 	endcase

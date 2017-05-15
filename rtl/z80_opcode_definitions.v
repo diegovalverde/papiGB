@@ -306,6 +306,7 @@
 
 `define  LDHLSPn  8'hf8 //TODO: Need more room to implement this guy....
 //  //  `define  XX;
+`define  LDSPHL 8'hF9
 `define  LDAmm 8'hFA
 `define  EI    8'hFB
 `define  CPn 8'hFE
