@@ -701,6 +701,7 @@ if (InstCount > `START_DUMP_INSN)
               `LDrr_ad: $fwrite(log,"=== LDrr_ad === %h \n", uut.DZCPU.iMCUData );
               `LDrr_ae: $fwrite(log,"=== LDrr_ae === %h \n", uut.DZCPU.iMCUData );
               `LDrr_ha: $fwrite(log,"=== LDrr_ha  === %h \n", uut.DZCPU.iMCUData );
+              `LDrr_hd: $fwrite(log,"=== LDrr_hd  === %h \n", uut.DZCPU.iMCUData );
               `LDrr_da: $fwrite(log,"=== LDrr_da  === %h \n", uut.DZCPU.iMCUData );
               `LDrr_ea: $fwrite(log,"=== LDrr_ea  === %h \n", uut.DZCPU.iMCUData );
               `LDrr_ca: $fwrite(log,"=== LDrr_ca  === %h \n", uut.DZCPU.iMCUData );
