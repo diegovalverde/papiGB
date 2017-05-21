@@ -546,6 +546,22 @@ begin
       rHalt               = 1'b1;
     end
 
+    `ora:
+    begin
+      oMCUwe              = 1'b0;
+      rRegSelect          = wUop[4:0];
+      rSetMCOAddr         = 1'b0;
+      rRegWe              = 1'b1;
+      rWriteSelect        = `a;
+      {rCarry16,rUopDstRegData}      = {8'b0,wA} | {8'b0,wRegData[7:0]};
+      rOverWritePc        = 1'b0;
+      rMcuReadRequest     = 1'b0;
+      rSetiWe             = 1'b0;
+      rSetiVal            = 1'b0;
+      rClearIntLatch      = 1'b0;
+      rHalt               = 1'b1;
+    end
+
     `anda:
     begin
       oMCUwe              = 1'b0;

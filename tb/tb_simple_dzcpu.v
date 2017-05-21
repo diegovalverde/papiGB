@@ -666,6 +666,10 @@ if (InstCount > `START_DUMP_INSN)
       580: $fwrite(log,"=== ADDHLSP  === %h \n", uut.DZCPU.iMCUData );
       583: $fwrite(log,"=== ADDHLBC  === %h \n", uut.DZCPU.iMCUData );
       586: $fwrite(log,"=== RLCA  === %h \n", uut.DZCPU.iMCUData );
+      589: $fwrite(log,"=== LDmmSP  === %h \n", uut.DZCPU.iMCUData );
+      601: $fwrite(log,"=== LDSPHL  === %h \n", uut.DZCPU.iMCUData );
+      603: $fwrite(log,"=== ORn  === %h \n", uut.DZCPU.iMCUData );
+
       default:
           case (uut.DZCPU.iMCUData)
               `LDrr_aa: $fwrite(log,"=== LDrr_aa  === %h \n", uut.DZCPU.iMCUData );
@@ -699,6 +703,7 @@ if (InstCount > `START_DUMP_INSN)
               `LDrr_ad: $fwrite(log,"=== LDrr_ad === %h \n", uut.DZCPU.iMCUData );
               `LDrr_ae: $fwrite(log,"=== LDrr_ae === %h \n", uut.DZCPU.iMCUData );
               `LDrr_ha: $fwrite(log,"=== LDrr_ha  === %h \n", uut.DZCPU.iMCUData );
+              `LDrr_hd: $fwrite(log,"=== LDrr_hd  === %h \n", uut.DZCPU.iMCUData );
               `LDrr_da: $fwrite(log,"=== LDrr_da  === %h \n", uut.DZCPU.iMCUData );
               `LDrr_ea: $fwrite(log,"=== LDrr_ea  === %h \n", uut.DZCPU.iMCUData );
               `LDrr_ca: $fwrite(log,"=== LDrr_ca  === %h \n", uut.DZCPU.iMCUData );
@@ -725,7 +730,6 @@ if (InstCount > `START_DUMP_INSN)
 							`ORr_e: $fwrite(log,"=== ORr_e  === %h \n", uut.DZCPU.iMCUData );
 							`ORr_h: $fwrite(log,"=== ORr_h  === %h \n", uut.DZCPU.iMCUData );
 							`ORr_l: $fwrite(log,"=== ORr_l  === %h \n", uut.DZCPU.iMCUData );
-							//`ORn: $fwrite(log,"=== ORn  === %h \n", uut.DZCPU.iMCUData );
 							`ANDr_b: $fwrite(log,"=== ANDr_b  === %h \n", uut.DZCPU.iMCUData );
 							`ANDr_c: $fwrite(log,"=== ANDr_c  === %h \n", uut.DZCPU.iMCUData );
 							`ANDr_a: $fwrite(log,"=== ANDr_a  === %h \n", uut.DZCPU.iMCUData );
@@ -808,6 +812,7 @@ if (InstCount > `START_DUMP_INSN)
         `jint: $fwrite(log,"jint %h\n", uut.DZCPU.wRegData);
         `seti: $fwrite(log,"set %h\n", uut.DZCPU.wRegData);
         `anda: $fwrite(log,"anda %h\n", uut.DZCPU.wRegData);
+        `ora: $fwrite(log,"ora %h\n", uut.DZCPU.wRegData);
         `xorx16: $fwrite(log,"xorx16 %h\n", uut.DZCPU.wRegData);
         `rrot:   $fwrite(log,"rrot %h\n", uut.DZCPU.wRegData);
         `xora:   $fwrite(log,"xora %h\n", uut.DZCPU.wRegData);
