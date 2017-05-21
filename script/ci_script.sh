@@ -18,6 +18,18 @@ else
 	exit 1
 fi
 
+#ORn
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORn.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000 -DREG_F=0" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 1500" pgb_cpu.log
+then
+	echo "Test test_ORn.dump passed"
+else
+	echo "Test test_ORn.dump failed"
+	exit 1
+fi
+
 #LDSPHL
 make clean >/dev/null 2>&1
 make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_LDSPHL.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000 -DREG_F=0" >/dev/null 2>&1

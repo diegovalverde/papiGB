@@ -290,18 +290,18 @@
   `define  LDmmA  8'hEA
 //  //  `define  XX;
 //  //  `define  XX;
-   `define  XORn 8'hee
+  `define  XORn   8'hee
 //  //  `define  RST28;
 //  //  `define
 //  F0
   `define  LDAIOn 8'hf0
   `define  POPAF  8'hf1
 //  //  `define  LDAIOC;
-  `define  DI 8'hF3
+  `define  DI     8'hF3
 
 //  //  `define  XX;
-`define  PUSHAF  8'hF5
-//  //  `define  ORn;
+  `define  PUSHAF 8'hF5
+  `define  ORn    8'hf6 
 //  //  `define  RST30;
 
 `define  LDHLSPn  8'hf8 //TODO: Need more room to implement this guy....
@@ -703,6 +703,7 @@
 `define ceti	   5'h13
 `define jint     5'h14
 `define anda     5'h15
+`define ora      5'h16
 `define xorx16   5'h17
 `define rrot     5'h18
 `define xora     5'h19

@@ -177,6 +177,7 @@ begin
 	`RLCA:     oUopFlowIdx = 10'd586;
 	`LDmmSP:   oUopFlowIdx = 10'd589;
 	`LDSPHL:   oUopFlowIdx = 10'd601;
+	`ORn:   oUopFlowIdx = 10'd603;
 	default:
 			 oUopFlowIdx = 10'd278;
 	endcase
@@ -1010,7 +1011,13 @@ begin
 	//LDSPHL
 			601:  oUop = {`inc, `sx16r,  `hl };
 			602:  oUop = { `eof, `srx16,   `sp  };
-			
+
+	//ORn
+			603: oUop = { `inc, `sma,  `pc };
+			604: oUop = { `op, `nop , `null };
+			605: oUop = { `update_flags ,`ora,    `idata  };
+			606: oUop = { `inc_eof ,`nop,    `null  };
+
 	default:
 		oUop = {`op, `nop, `null };
 	endcase
