@@ -177,7 +177,7 @@ begin
 	`RLCA:     oUopFlowIdx = 10'd586;
 	`LDmmSP:   oUopFlowIdx = 10'd589;
 	`LDSPHL:   oUopFlowIdx = 10'd601;
-	`ORn:   oUopFlowIdx = 10'd603;
+	`ORn:      oUopFlowIdx = 10'd603;
 	default:
 			 oUopFlowIdx = 10'd278;
 	endcase
