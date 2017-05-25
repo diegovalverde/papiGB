@@ -669,6 +669,7 @@ if (InstCount > `START_DUMP_INSN)
       589: $fwrite(log,"=== LDmmSP  === %h \n", uut.DZCPU.iMCUData );
       601: $fwrite(log,"=== LDSPHL  === %h \n", uut.DZCPU.iMCUData );
       603: $fwrite(log,"=== ORn  === %h \n", uut.DZCPU.iMCUData );
+      607: $fwrite(log,"=== RLCn === %h \n", uut.DZCPU.iMCUData );
 
       default:
           case (uut.DZCPU.iMCUData)
@@ -716,6 +717,15 @@ if (InstCount > `START_DUMP_INSN)
               `LDrr_dd: $fwrite(log,"=== LDrr_dd  === %h \n", uut.DZCPU.iMCUData );
               `LDrr_dh: $fwrite(log,"=== LDrr_dh  === %h \n", uut.DZCPU.iMCUData );
               `LDrr_dl: $fwrite(log,"=== LDrr_dl  === %h \n", uut.DZCPU.iMCUData );
+
+              `LDrr_ha: $fwrite(log,"=== LDrr_ha === %h \n", uut.DZCPU.iMCUData );
+              `LDrr_hb: $fwrite(log,"=== LDrr_hb === %h \n", uut.DZCPU.iMCUData );
+              `LDrr_hc: $fwrite(log,"=== LDrr_hc === %h \n", uut.DZCPU.iMCUData );
+              `LDrr_hd: $fwrite(log,"=== LDrr_hd === %h \n", uut.DZCPU.iMCUData );
+              `LDrr_he: $fwrite(log,"=== LDrr_he === %h \n", uut.DZCPU.iMCUData );
+              `LDrr_hl: $fwrite(log,"=== LDrr_hl === %h \n", uut.DZCPU.iMCUData );
+              `LDrr_hh: $fwrite(log,"=== LDrr_hh === %h \n", uut.DZCPU.iMCUData );
+
               `XORr_a: $fwrite(log,"=== XORr_a  === %h \n", uut.DZCPU.iMCUData );
               `XORr_b: $fwrite(log,"=== XORr_b  === %h \n", uut.DZCPU.iMCUData );
               `XORr_c: $fwrite(log,"=== XORr_c  === %h \n", uut.DZCPU.iMCUData );

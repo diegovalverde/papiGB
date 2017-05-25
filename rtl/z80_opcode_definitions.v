@@ -120,7 +120,7 @@
   `define  LDrr_hd 8'h62
   `define  LDrr_he 8'h63
 
-//  `define  LDrr_hh;
+  `define  LDrr_hh 8'h64
   `define  LDrr_hl 8'h65
   `define  LDrHLm_h 8'h66
   `define  LDrr_ha 8'h67
@@ -301,7 +301,7 @@
 
 //  //  `define  XX;
   `define  PUSHAF 8'hF5
-  `define  ORn    8'hf6 
+  `define  ORn    8'hf6
 //  //  `define  RST30;
 
 `define  LDHLSPn  8'hf8 //TODO: Need more room to implement this guy....
