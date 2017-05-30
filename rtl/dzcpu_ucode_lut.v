@@ -739,7 +739,7 @@ begin
 //ORHL
 		387: oUop = {`op ,`sma,  `hl   };
 		388: oUop = {`op,  `nop,   `null };
-		389: oUop = {`update_flags,   `xora,   `idata  };
+		389: oUop = {`update_flags,   `ora,   `idata  };
 		390: oUop = { `inc_eof ,`sma,  `pc   };
 //DECHLm
 		391: oUop = {`op ,`sma,  `hl   };
