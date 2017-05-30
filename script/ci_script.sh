@@ -42,6 +42,29 @@ else
 	exit 1
 fi
 
+#JRCn
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_JRCn.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000 -DREG_F=0" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL 0f10" pgb_cpu.log
+then
+	echo "Test test_JRCn.dump passed"
+else
+	echo "Test test_JRCn.dump failed"
+	exit 1
+fi
+
+#ORHL
+make clean >/dev/null 2>&1
+make SIMFLAGS="-DENABLE_CPU_LOG -DLOAD_CARTRIDGE_FROM_FILE -DCARTRIGDE_DUMP_PATH='\"../tests/asm/test_ORHL.dump\"' -DSKIP_BIOS -DSIMULATION_TIME_OUT=1000 -DREG_F=0" >/dev/null 2>&1
+
+if grep -q "TEST_RET_VAL ff00" pgb_cpu.log
+then
+	echo "Test test_ORHL.dump passed"
+else
+	echo "Test test_ORHL.dump failed"
+	exit 1
+fi
 
 #RETI
 make clean >/dev/null 2>&1

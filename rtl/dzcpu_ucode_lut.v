@@ -178,6 +178,7 @@ begin
 	`LDmmSP:   oUopFlowIdx = 10'd589;
 	`LDSPHL:   oUopFlowIdx = 10'd601;
 	`ORn:      oUopFlowIdx = 10'd603;
+	`JRCn:		 oUopFlowIdx = 10'd607;
 	default:
 			 oUopFlowIdx = 10'd278;
 	endcase
@@ -738,7 +739,7 @@ begin
 //ORHL
 		387: oUop = {`op ,`sma,  `hl   };
 		388: oUop = {`op,  `nop,   `null };
-		389: oUop = {`update_flags,   `xora,   `idata  };
+		389: oUop = {`update_flags,   `ora,   `idata  };
 		390: oUop = { `inc_eof ,`sma,  `pc   };
 //DECHLm
 		391: oUop = {`op ,`sma,  `hl   };
@@ -1017,6 +1018,13 @@ begin
 			604: oUop = { `op, `nop , `null };
 			605: oUop = { `update_flags ,`ora,    `idata  };
 			606: oUop = { `inc_eof ,`nop,    `null  };
+	//JRCn
+			607: oUop = { `inc, `sma, `pc   };
+			608: oUop = { `op,  `nop, `null };
+			609: oUop = { `inc_eof_nc, `srm, `x8 }; 	//If not c return else x8 = MEM[pc]
+			610: oUop = { `op,  `sx16r, `pc };  		//x16 = pc
+			611: oUop = { `op,`addx16, `x8  };       //x16 = x16 + sign_extend{8'b0,x8}
+			612: oUop = { `eof, `spc, `x16  };  		//pc = x16
 
 	default:
 		oUop = {`op, `nop, `null };
