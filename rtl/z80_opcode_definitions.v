@@ -68,7 +68,7 @@
   `define  LDHLmn 8'h36
 //  `define  SCF;
 
-//  `define  JRCn;
+  `define  JRCn 8'h38
   `define  ADDHLSP 8'h39
 //  `define  LDAHLD;
   `define  DECSP  8'h3b
