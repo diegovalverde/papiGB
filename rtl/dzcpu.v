@@ -37,7 +37,8 @@ module dzcpu
   output wire [7:0]  oCurrentZ80Insn,
   output wire        oEof,
   output wire        oInterruptJump,
-  output wire        oBranchTaken
+  output wire        oBranchTaken,
+  input wire         iJoypad
 
 );
 wire[15:0]  wPc, wRegData, wUopSrc, wX16, wY16, wZ16, wInitialPc, wInterruptVectorAddress, wXY16 ;
