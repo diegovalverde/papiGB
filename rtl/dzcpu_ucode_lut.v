@@ -179,6 +179,7 @@ begin
 	`LDSPHL:   oUopFlowIdx = 10'd601;
 	`ORn:      oUopFlowIdx = 10'd603;
 	`JRCn:		 oUopFlowIdx = 10'd607;
+	`STOP:		 oUopFlowIdx = 10'd613;
 	default:
 			 oUopFlowIdx = 10'd278;
 	endcase
@@ -1025,6 +1026,10 @@ begin
 			610: oUop = { `op,  `sx16r, `pc };  		//x16 = pc
 			611: oUop = { `op,`addx16, `x8  };       //x16 = x16 + sign_extend{8'b0,x8}
 			612: oUop = { `eof, `spc, `x16  };  		//pc = x16
+	//STOP
+			613: oUop = { `inc, `hlt,  `null };
+			614: oUop = { `op, `nop,  `null };
+			615: oUop = { `inc_eof, `nop, `null };
 
 	default:
 		oUop = {`op, `nop, `null };

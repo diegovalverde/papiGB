@@ -20,7 +20,7 @@
 //  `define  RRCA;
 
 //  10
-//  `define  DJNZn;
+  `define  STOP 8'h10
   `define  LDDEnn 8'h11
   `define  LDDEmA 8'h12
   `define  INCDE 8'h13

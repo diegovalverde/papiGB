@@ -88,7 +88,8 @@ dzcpu  DZCPU
 	.oEof( wdZCPU_Eof ),
 	.iInterruptRequests( wInterruptRequest ),
 	.oInterruptJump( wDZCPU_2_Timer_IntDetected ),
-	.oBranchTaken( wdZCPU_BranchTaken )
+	.oBranchTaken( wdZCPU_BranchTaken ),
+	.iJoypad(wButtonRegister[5:0])
 );
 
 
