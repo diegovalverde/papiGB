@@ -505,6 +505,13 @@ if (InstCount > `START_DUMP_INSN)
 `endif
 
 
+`ifdef PRESS_A_KEY_AFTER
+  if (InstCount == `PRESS_A_KEY_AFTER)
+  begin
+    uut.IO.FFD2_iP.Q = 6'b111110;
+  end
+`endif
+
     if (uut.DZCPU.rCurrentState == `DZCPU_START_FLOW)
     begin
 
