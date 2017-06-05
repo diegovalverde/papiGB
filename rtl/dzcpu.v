@@ -38,7 +38,7 @@ module dzcpu
   output wire        oEof,
   output wire        oInterruptJump,
   output wire        oBranchTaken,
-  input wire         iJoypad
+  input wire [5:0]   iJoypad
 
 );
 wire[15:0]  wPc, wRegData, wUopSrc, wX16, wY16, wZ16, wInitialPc, wInterruptVectorAddress, wXY16 ;
@@ -61,7 +61,8 @@ reg [4:0]   rRegSelect;
 reg [7:0]   rZ80Result, rWriteSelect;
 reg [15:0]  rUopDstRegData;
 reg         rHalt;  //Flag to stop microflow
-wire        wContFlow; //Flag to continue microflow
+wire        wStopCondition;
+//wire        wContFlow; //Flag to continue microflow //remplaced this line because halt = stop
 
 assign oInterruptJump = wInterruptRoutineJumpDetected;
 assign oBranchTaken = rOverWritePc | wInterruptRoutineJumpDetected;
@@ -69,7 +70,8 @@ assign wUopSrc = wUop[4:0];
 assign wIPC    = wUop[13];    //Increment Macro Insn program counter
 assign wuCmd   = wUop[9:5];
 assign oEof    = wEof & rFlowEnable & ~wInterruptRoutineJumpDetected;
-assign wContFlow = rHalt | |iInterruptRequests;
+assign wStopCondition = (rHalt == 1'b0 && iJoypad == 6'b111111 && |iInterruptRequests == 1'b0)? 1'b0 : 1'b1;
+//assign wContFlow = rHalt | |iInterruptRequests;  //remplaced this line because halt = stop
 
 MUXFULLPARALELL_3SEL_GENERIC # ( 1'b1 ) MUX_EOF
  (
@@ -131,7 +133,7 @@ UPCOUNTER_POSEDGE # (10) UPC
   .Clock(   iClock                             ),
   .Reset(   iReset | rResetFlow | wJcbDetected ),
   .Initial( wNextFlow                          ),
-  .Enable(  rFlowEnable & wContFlow            ),
+  .Enable(  rFlowEnable /*& wContFlow */& wStopCondition ),
   .Q(       wuPc                               )
 );
 
