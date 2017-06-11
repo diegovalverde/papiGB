@@ -21,7 +21,18 @@ wire [5:0] wMuxAresult;
 wire [5:0] wMuxBresult;
 
 reg [5:0] rP;
-assign oP = rP;
+`ifdef PRESS_A_KEY_AFTER
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 6 ) FFD_oHack
+(
+  .Clock(Clock),
+  .Reset(Reset),
+  .Enable(1'b1),
+  .D(6'b111101),
+  .Q(oP)
+);
+`else
+  assign oP = rP;
+`endif
 
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 6 ) FFD_oP
 (

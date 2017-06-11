@@ -508,7 +508,7 @@ if (InstCount > `START_DUMP_INSN)
 `ifdef PRESS_A_KEY_AFTER
   if (InstCount == `PRESS_A_KEY_AFTER)
   begin
-    uut.IO.FFD2_iP.Q = 6'b111110;
+    uut.IO.FFD_oHack.Q = 6'b111110;
   end
 `endif
 
