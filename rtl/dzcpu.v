@@ -1083,7 +1083,7 @@ begin
 
 
     {1'b0,`ORr_a}, {1'b0,`ORr_b}, {1'b0,`ORr_d},{1'b0,`ORr_c},
-    {1'b0,`ORr_e}, {1'b0,`ORr_h}, {1'b0,`ORr_l},{1'b0,`XORn},{1'b0,`ORHL},
+    {1'b0,`ORr_e}, {1'b0,`ORr_h}, {1'b0,`ORr_l},{1'b0,`ORn},{1'b0,`XORn},{1'b0,`ORHL},
     {1'b0,`XORr_a},{1'b0,`XORr_b},{1'b0,`XORr_d},{1'b0,`XORr_c},
     {1'b0,`XORr_e},{1'b0,`XORr_h},{1'b0,`XORr_l},{1'b0,`XORHL}:
     begin

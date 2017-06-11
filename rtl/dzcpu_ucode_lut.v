@@ -180,6 +180,8 @@ begin
 	`ORn:      oUopFlowIdx = 10'd603;
 	`JRCn:		 oUopFlowIdx = 10'd607;
 	`STOP:		 oUopFlowIdx = 10'd613;
+	`SBCn:		 oUopFlowIdx = 10'd616;
+
 	default:
 			 oUopFlowIdx = 10'd278;
 	endcase
@@ -1030,6 +1032,12 @@ begin
 			613: oUop = { `inc, `hlt,  `null };
 			614: oUop = { `op, `nop,  `null };
 			615: oUop = { `inc_eof, `nop, `null };
+	//SBCn
+			616: oUop = { `op, `sx16r, `a  };
+			617: oUop = { `inc, `sma, `pc  };
+			618: oUop = { `op, `subx16, `carry };
+			619: oUop = { `update_flags, `subx16, `idata};
+			620: oUop = { `inc_eof, `srx16, `a  };
 
 	default:
 		oUop = {`op, `nop, `null };

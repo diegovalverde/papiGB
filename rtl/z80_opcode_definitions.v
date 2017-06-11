@@ -271,7 +271,7 @@
 //  //  `define
 //  //  `define  CALLCnn;
 //  //  `define  XX;
-//  //  `define  SBCn;
+  `define  SBCn 8'hDE
 //  //  `define  RST18;
 //  //  `define
 
