@@ -181,6 +181,7 @@ begin
 	`JRCn:		 oUopFlowIdx = 10'd607;
 	`STOP:		 oUopFlowIdx = 10'd613;
 	`SBCn:		 oUopFlowIdx = 10'd616;
+	`LDAIOC:   oUopFlowIdx = 10'd621;
 
 	default:
 			 oUopFlowIdx = 10'd278;
@@ -1038,6 +1039,11 @@ begin
 			618: oUop = { `op, `subx16, `carry };
 			619: oUop = { `update_flags, `subx16, `idata};
 			620: oUop = { `inc_eof, `srx16, `a  };
+	//LDAIOC
+			621: oUop = {`op, `sma,  `io_c };
+			622: oUop = {`op, `nop,  `null };
+			623: oUop = {`op, `srm,  `a };
+			624: oUop = {`inc_eof, `sma, `pc };
 
 	default:
 		oUop = {`op, `nop, `null };
