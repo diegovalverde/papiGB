@@ -1043,7 +1043,7 @@ begin
 			621: oUop = {`op, `sma,  `io_c };
 			622: oUop = {`op, `nop,  `null };
 			623: oUop = {`op, `srm,  `a };
-			624: oUop = {`inc_eof, `sma, `pc };
+			624: oUop = {`inc_eof, `sma, `pc }; 
 
 	default:
 		oUop = {`op, `nop, `null };
