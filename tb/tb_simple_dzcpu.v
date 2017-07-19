@@ -679,7 +679,7 @@ if (InstCount > `START_DUMP_INSN)
       607: $fwrite(log,"=== JRCn === %h \n", uut.DZCPU.iMCUData );
       613: $fwrite(log,"=== STOP === %h \n", uut.DZCPU.iMCUData );
       616: $fwrite(log,"=== SBCn === %h \n", uut.DZCPU.iMCUData );
-
+      621: $fwrite(log,"=== LDAIOC  === %h \n", uut.DZCPU.iMCUData );
       default:
           case (uut.DZCPU.iMCUData)
               `LDrr_aa: $fwrite(log,"=== LDrr_aa  === %h \n", uut.DZCPU.iMCUData );
